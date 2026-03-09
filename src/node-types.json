@@ -3583,7 +3583,7 @@
       },
       "class": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": ".",
@@ -3665,6 +3665,16 @@
           }
         ]
       },
+      "interfaces": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "interfaces",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -3672,15 +3682,29 @@
           {
             "type": "extension_type_name",
             "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
           }
         ]
       },
       "representation": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "extension_type_representation",
+            "named": true
+          }
+        ]
+      },
+      "type_parameters": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_parameters",
             "named": true
           }
         ]
@@ -7833,7 +7857,18 @@
   {
     "type": "library_name",
     "named": true,
-    "fields": {},
+    "fields": {
+      "uri": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "uri",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -15260,6 +15295,10 @@
   },
   {
     "type": "async*",
+    "named": false
+  },
+  {
+    "type": "augment",
     "named": false
   },
   {
