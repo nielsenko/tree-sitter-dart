@@ -15,9 +15,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (switch_statement
@@ -27,7 +27,7 @@ void main() {
           (switch_statement_case
             (variable_pattern
               (type_identifier)
-              (identifier))
+              name: (identifier))
             (relational_expression
               (identifier)
               (relational_operator)
@@ -40,7 +40,6 @@ void main() {
                     (identifier))))))
           (switch_statement_default
             (break_statement)))))))
-
 ================================================================================
 Pattern variable declaration
 ================================================================================
@@ -53,9 +52,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (local_variable_declaration
@@ -70,7 +69,6 @@ void main() {
               (decimal_integer_literal))
             (record_field
               (decimal_integer_literal))))))))
-
 ================================================================================
 If-case statement
 ================================================================================
@@ -85,9 +83,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (if_statement
@@ -95,7 +93,7 @@ void main() {
         (list_pattern
           (variable_pattern
             (type_identifier)
-            (identifier))
+            name: (identifier))
           (rest_pattern))
         consequence: (block
           (expression_statement
@@ -104,7 +102,6 @@ void main() {
               (argument_part
                 (arguments
                   (identifier))))))))))
-
 ================================================================================
 Switch expression
 ================================================================================
@@ -120,9 +117,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (local_variable_declaration
@@ -134,7 +131,7 @@ void main() {
             body: (switch_expression_case
               (variable_pattern
                 (type_identifier)
-                (identifier))
+                name: (identifier))
               (identifier)
               (selector
                 (unconditional_assignable_selector

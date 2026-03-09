@@ -10,9 +10,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (if_statement
@@ -22,7 +22,6 @@ void main() {
           (selector
             (argument_part
               (arguments))))))))
-
 ================================================================================
 If-else statement
 ================================================================================
@@ -39,9 +38,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (if_statement
@@ -58,7 +57,6 @@ void main() {
             (selector
               (argument_part
                 (arguments)))))))))
-
 ================================================================================
 For loop
 ================================================================================
@@ -73,9 +71,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (for_statement
@@ -97,7 +95,6 @@ void main() {
               (argument_part
                 (arguments
                   (identifier))))))))))
-
 ================================================================================
 For-in loop
 ================================================================================
@@ -112,9 +109,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (for_statement
@@ -127,7 +124,6 @@ void main() {
               (argument_part
                 (arguments
                   (identifier))))))))))
-
 ================================================================================
 While loop
 ================================================================================
@@ -142,9 +138,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (while_statement
@@ -152,7 +148,6 @@ void main() {
           (true))
         body: (block
           (break_statement))))))
-
 ================================================================================
 Do-while loop
 ================================================================================
@@ -167,9 +162,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (do_statement
@@ -183,7 +178,6 @@ void main() {
             (identifier)
             (relational_operator)
             (decimal_integer_literal)))))))
-
 ================================================================================
 Try-catch-finally
 ================================================================================
@@ -204,9 +198,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (try_statement
@@ -218,7 +212,7 @@ void main() {
                 (arguments)))))
         (type_identifier)
         (catch_clause
-          (identifier))
+          exception: (identifier))
         (block
           (expression_statement
             (identifier)
@@ -227,8 +221,8 @@ void main() {
                 (arguments
                   (identifier))))))
         (catch_clause
-          (identifier)
-          (identifier))
+          exception: (identifier)
+          stack_trace: (identifier))
         (block
           (expression_statement
             (identifier)
@@ -243,7 +237,6 @@ void main() {
               (selector
                 (argument_part
                   (arguments))))))))))
-
 ================================================================================
 Return statement
 ================================================================================
@@ -256,14 +249,13 @@ int foo() {
 
 (source_file
   (function_signature
-    (type_identifier)
+    return_type: (type_identifier)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (return_statement
         (decimal_integer_literal)))))
-
 ================================================================================
 Assert statement
 ================================================================================
@@ -276,9 +268,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (assert_statement
@@ -289,7 +281,6 @@ void main() {
             (decimal_integer_literal))
           (string_literal
             (template_chars_single_single)))))))
-
 ================================================================================
 Empty statement
 ================================================================================
@@ -303,9 +294,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
