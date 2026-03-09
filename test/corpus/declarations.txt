@@ -10,6 +10,7 @@ class Foo {}
   (class_definition
     name: (identifier)
     body: (class_body)))
+
 ================================================================================
 Class with extends and implements
 ================================================================================
@@ -26,6 +27,7 @@ class Dog extends Animal implements Barker {}
     interfaces: (interfaces
       (type_identifier))
     body: (class_body)))
+
 ================================================================================
 Class with mixins
 ================================================================================
@@ -43,6 +45,7 @@ class Cat extends Animal with Walker, Purrer {}
         (type_identifier)
         (type_identifier)))
     body: (class_body)))
+
 ================================================================================
 Sealed class
 ================================================================================
@@ -55,6 +58,7 @@ sealed class Shape {}
   (class_definition
     name: (identifier)
     body: (class_body)))
+
 ================================================================================
 Abstract base class
 ================================================================================
@@ -67,6 +71,7 @@ abstract base class Vehicle {}
   (class_definition
     name: (identifier)
     body: (class_body)))
+
 ================================================================================
 Interface class
 ================================================================================
@@ -79,6 +84,7 @@ interface class Drawable {}
   (class_definition
     name: (identifier)
     body: (class_body)))
+
 ================================================================================
 Mixin declaration
 ================================================================================
@@ -101,6 +107,7 @@ mixin Flyable on Animal {
           parameters: (formal_parameter_list)))
       (function_body
         (block)))))
+
 ================================================================================
 Extension declaration
 ================================================================================
@@ -122,6 +129,7 @@ extension StringExt on String {
           name: (identifier)))
       (function_body
         (identifier)))))
+
 ================================================================================
 Extension type
 ================================================================================
@@ -139,6 +147,7 @@ extension type Meters(double value) implements double {}
       name: (identifier))
     (type_identifier)
     body: (class_body)))
+
 ================================================================================
 Enum declaration
 ================================================================================
@@ -157,6 +166,7 @@ enum Color { red, green, blue }
         name: (identifier))
       (enum_constant
         name: (identifier)))))
+
 ================================================================================
 Enhanced enum
 ================================================================================
@@ -197,6 +207,7 @@ enum Planet {
             (formal_parameter
               (constructor_param
                 (identifier)))))))))
+
 ================================================================================
 Typedef
 ================================================================================
@@ -211,6 +222,7 @@ typedef IntList = List<int>;
     (type_identifier)
     (type_arguments
       (type_identifier))))
+
 ================================================================================
 Top-level variable declarations
 ================================================================================
@@ -235,6 +247,7 @@ const pi = 3.14;
     (static_final_declaration
       name: (identifier)
       value: (decimal_floating_point_literal))))
+
 ================================================================================
 Import declarations
 ================================================================================
@@ -271,6 +284,7 @@ import 'bar.dart' show Baz, Qux;
         (combinator
           (identifier)
           (identifier))))))
+
 ================================================================================
 Export declaration
 ================================================================================
@@ -286,6 +300,7 @@ export 'src/foo.dart';
         (uri
           (string_literal
             (template_chars_single_single)))))))
+
 ================================================================================
 Part directive
 ================================================================================
@@ -299,6 +314,7 @@ part 'src/detail.dart';
     uri: (uri
       (string_literal
         (template_chars_single_single)))))
+
 ================================================================================
 Library name
 ================================================================================
@@ -312,6 +328,7 @@ library my.app;
     (dotted_identifier_list
       (identifier)
       (identifier))))
+
 ================================================================================
 Built-in identifiers as field names
 ================================================================================
@@ -346,6 +363,7 @@ class Foo {
           (initialized_identifier
             name: (identifier)
             value: (true)))))))
+
 ================================================================================
 Chained assignment in constructor initializer
 ================================================================================
@@ -377,6 +395,7 @@ class Foo {
                 right: (selector
                   (argument_part
                     (arguments)))))))))))
+
 ================================================================================
 Record return type with annotation
 ================================================================================
@@ -406,6 +425,7 @@ class Foo {
         (block
           (return_statement
             (null_literal)))))))
+
 ================================================================================
 Extension type with primary constructor
 ================================================================================
@@ -428,6 +448,43 @@ extension type JSArray<T extends JSAny?>._(JSArrayRepType _jsArray) implements J
       name: (identifier))
     (type_identifier)
     body: (class_body)))
+
+================================================================================
+Type variance modifiers
+================================================================================
+
+class Covariant<out T> {}
+class Contravariant<in T> {}
+class Invariant<inout K, inout V> {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        variance: (variance_modifier)
+        name: (type_identifier)))
+    body: (class_body))
+  (class_definition
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        variance: (variance_modifier)
+        name: (type_identifier)))
+    body: (class_body))
+  (class_definition
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        variance: (variance_modifier)
+        name: (type_identifier))
+      (type_parameter
+        variance: (variance_modifier)
+        name: (type_identifier)))
+    body: (class_body)))
+
 ================================================================================
 Native method body
 ================================================================================
@@ -456,6 +513,7 @@ class Foo {
           parameters: (formal_parameter_list)))
       (function_body
         (native)))))
+
 ================================================================================
 External final declaration
 ================================================================================
@@ -468,6 +526,7 @@ external final int x;
   (type_identifier)
   (identifier_list
     (identifier)))
+
 ================================================================================
 Non-null assertion
 ================================================================================
