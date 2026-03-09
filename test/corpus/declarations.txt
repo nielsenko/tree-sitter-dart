@@ -1,0 +1,330 @@
+================================================================================
+Simple class
+================================================================================
+
+class Foo {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (identifier)
+    body: (class_body)))
+
+================================================================================
+Class with extends and implements
+================================================================================
+
+class Dog extends Animal implements Barker {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (identifier)
+    superclass: (superclass
+      (type_identifier))
+    interfaces: (interfaces
+      (type_identifier))
+    body: (class_body)))
+
+================================================================================
+Class with mixins
+================================================================================
+
+class Cat extends Animal with Walker, Purrer {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (identifier)
+    superclass: (superclass
+      (type_identifier)
+      (mixins
+        (type_identifier)
+        (type_identifier)))
+    body: (class_body)))
+
+================================================================================
+Sealed class
+================================================================================
+
+sealed class Shape {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (identifier)
+    body: (class_body)))
+
+================================================================================
+Abstract base class
+================================================================================
+
+abstract base class Vehicle {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (identifier)
+    body: (class_body)))
+
+================================================================================
+Interface class
+================================================================================
+
+interface class Drawable {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (identifier)
+    body: (class_body)))
+
+================================================================================
+Mixin declaration
+================================================================================
+
+mixin Flyable on Animal {
+  void fly() {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (mixin_declaration
+    (identifier)
+    (type_identifier)
+    (class_body
+      (method_signature
+        (function_signature
+          (void_type)
+          name: (identifier)
+          (formal_parameter_list)))
+      (function_body
+        (block)))))
+
+================================================================================
+Extension declaration
+================================================================================
+
+extension StringExt on String {
+  bool get isBlank => isEmpty;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_declaration
+    name: (identifier)
+    class: (type_identifier)
+    body: (extension_body
+      (method_signature
+        (getter_signature
+          (type_identifier)
+          name: (identifier)))
+      (function_body
+        (identifier)))))
+
+================================================================================
+Extension type
+================================================================================
+
+extension type Meters(double value) implements double {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_type_declaration
+    name: (extension_type_name
+      (identifier))
+    representation: (extension_type_representation
+      type: (type_identifier)
+      name: (identifier))
+    (type_identifier)
+    body: (class_body)))
+
+================================================================================
+Enum declaration
+================================================================================
+
+enum Color { red, green, blue }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enum_declaration
+    name: (identifier)
+    body: (enum_body
+      (enum_constant
+        name: (identifier))
+      (enum_constant
+        name: (identifier))
+      (enum_constant
+        name: (identifier)))))
+
+================================================================================
+Enhanced enum
+================================================================================
+
+enum Planet {
+  mercury(3.7),
+  earth(9.8);
+
+  final double gravity;
+  const Planet(this.gravity);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enum_declaration
+    name: (identifier)
+    body: (enum_body
+      (enum_constant
+        name: (identifier)
+        (argument_part
+          (arguments
+            (decimal_floating_point_literal))))
+      (enum_constant
+        name: (identifier)
+        (argument_part
+          (arguments
+            (decimal_floating_point_literal))))
+      (declaration
+        (type_identifier)
+        (initialized_identifier_list
+          (initialized_identifier
+            (identifier))))
+      (declaration
+        (constant_constructor_signature
+          (identifier)
+          (formal_parameter_list
+            (formal_parameter
+              (constructor_param
+                (identifier)))))))))
+
+================================================================================
+Typedef
+================================================================================
+
+typedef IntList = List<int>;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (type_identifier)
+    (type_identifier)
+    (type_arguments
+      (type_identifier))))
+
+================================================================================
+Top-level variable declarations
+================================================================================
+
+final x = 42;
+var y = 'hello';
+const pi = 3.14;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (static_final_declaration_list
+    (static_final_declaration
+      (identifier)
+      (decimal_integer_literal)))
+  (initialized_identifier_list
+    (initialized_identifier
+      (identifier)
+      (string_literal
+        (template_chars_single_single))))
+  (static_final_declaration_list
+    (static_final_declaration
+      (identifier)
+      (decimal_floating_point_literal))))
+
+================================================================================
+Import declarations
+================================================================================
+
+import 'dart:core';
+import 'package:foo/foo.dart' as foo;
+import 'bar.dart' show Baz, Qux;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import_or_export
+    (library_import
+      (import_specification
+        (configurable_uri
+          (uri
+            (string_literal
+              (template_chars_single_single)))))))
+  (import_or_export
+    (library_import
+      (import_specification
+        (configurable_uri
+          (uri
+            (string_literal
+              (template_chars_single_single))))
+        (identifier))))
+  (import_or_export
+    (library_import
+      (import_specification
+        (configurable_uri
+          (uri
+            (string_literal
+              (template_chars_single_single))))
+        (combinator
+          (identifier)
+          (identifier))))))
+
+================================================================================
+Export declaration
+================================================================================
+
+export 'src/foo.dart';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import_or_export
+    (library_export
+      (configurable_uri
+        (uri
+          (string_literal
+            (template_chars_single_single)))))))
+
+================================================================================
+Part directive
+================================================================================
+
+part 'src/detail.dart';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_directive
+    (uri
+      (string_literal
+        (template_chars_single_single)))))
+
+================================================================================
+Library name
+================================================================================
+
+library my.app;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (library_name
+    (dotted_identifier_list
+      (identifier)
+      (identifier))))

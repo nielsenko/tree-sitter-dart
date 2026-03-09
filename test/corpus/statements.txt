@@ -1,0 +1,291 @@
+================================================================================
+If statement
+================================================================================
+
+void main() {
+  if (x) a();
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (if_statement
+        (identifier)
+        consequence: (expression_statement
+          (identifier)
+          (selector
+            (argument_part
+              (arguments))))))))
+
+================================================================================
+If-else statement
+================================================================================
+
+void main() {
+  if (x) {
+    a();
+  } else {
+    b();
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (if_statement
+        (identifier)
+        consequence: (block
+          (expression_statement
+            (identifier)
+            (selector
+              (argument_part
+                (arguments)))))
+        alternative: (block
+          (expression_statement
+            (identifier)
+            (selector
+              (argument_part
+                (arguments)))))))))
+
+================================================================================
+For loop
+================================================================================
+
+void main() {
+  for (var i = 0; i < 10; i++) {
+    print(i);
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (for_statement
+        init: (local_variable_declaration
+          (initialized_variable_definition
+            name: (identifier)
+            value: (decimal_integer_literal)))
+        condition: (relational_expression
+          (identifier)
+          (relational_operator)
+          (decimal_integer_literal))
+        update: (postfix_expression
+          (assignable_expression
+            (identifier)))
+        body: (block
+          (expression_statement
+            (identifier)
+            (selector
+              (argument_part
+                (arguments
+                  (identifier))))))))))
+
+================================================================================
+For-in loop
+================================================================================
+
+void main() {
+  for (var x in list) {
+    print(x);
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (for_statement
+        name: (identifier)
+        value: (identifier)
+        body: (block
+          (expression_statement
+            (identifier)
+            (selector
+              (argument_part
+                (arguments
+                  (identifier))))))))))
+
+================================================================================
+While loop
+================================================================================
+
+void main() {
+  while (true) {
+    break;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (while_statement
+        condition: (parenthesized_expression
+          (true))
+        body: (block
+          (break_statement))))))
+
+================================================================================
+Do-while loop
+================================================================================
+
+void main() {
+  do {
+    x++;
+  } while (x < 10);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (do_statement
+        body: (block
+          (expression_statement
+            (postfix_expression
+              (assignable_expression
+                (identifier)))))
+        condition: (parenthesized_expression
+          (relational_expression
+            (identifier)
+            (relational_operator)
+            (decimal_integer_literal)))))))
+
+================================================================================
+Try-catch-finally
+================================================================================
+
+void main() {
+  try {
+    foo();
+  } on FormatException catch (e) {
+    print(e);
+  } catch (e, s) {
+    print(s);
+  } finally {
+    cleanup();
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (try_statement
+        body: (block
+          (expression_statement
+            (identifier)
+            (selector
+              (argument_part
+                (arguments)))))
+        (type_identifier)
+        (catch_clause
+          (identifier))
+        (block
+          (expression_statement
+            (identifier)
+            (selector
+              (argument_part
+                (arguments
+                  (identifier))))))
+        (catch_clause
+          (identifier)
+          (identifier))
+        (block
+          (expression_statement
+            (identifier)
+            (selector
+              (argument_part
+                (arguments
+                  (identifier))))))
+        (finally_clause
+          (block
+            (expression_statement
+              (identifier)
+              (selector
+                (argument_part
+                  (arguments))))))))))
+
+================================================================================
+Return statement
+================================================================================
+
+int foo() {
+  return 42;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (type_identifier)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (return_statement
+        (decimal_integer_literal)))))
+
+================================================================================
+Assert statement
+================================================================================
+
+void main() {
+  assert(x > 0, 'must be positive');
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (assert_statement
+        (assertion
+          (relational_expression
+            (identifier)
+            (relational_operator)
+            (decimal_integer_literal))
+          (string_literal
+            (template_chars_single_single)))))))
