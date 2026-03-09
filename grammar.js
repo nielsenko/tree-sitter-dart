@@ -205,6 +205,7 @@ module.exports = grammar({
     [$.factory_constructor_signature, $._built_in_identifier],
     [$.assignable_expression, $._simple_formal_parameter],
     [$.unconditional_assignable_selector, $.super_formal_parameter],
+    [$._annotation_with_args, $._annotation_no_args],
   ],
 
   rules: {
@@ -352,21 +353,26 @@ module.exports = grammar({
     // Metadata / Annotations (Phase 9)
     // ========================================================================
 
-    _metadata: ($) => prec.right(repeat1($.annotation)),
+    _metadata: ($) => repeat1($._annotation),
 
-    annotation: ($) =>
-      prec.right(
-        seq(
-          "@",
-          field("name", choice($.identifier, $.qualified)),
-          optional(
-            choice(
-              seq($.type_arguments, $.arguments),
-              $.arguments,
-            ),
-          ),
-        ),
+    _annotation: ($) =>
+      choice(
+        alias($._annotation_with_args, $.annotation),
+        alias($._annotation_no_args, $.annotation),
       ),
+
+    _annotation_with_args: ($) =>
+      prec.dynamic(-1, seq(
+        "@",
+        field("name", choice($.identifier, $.qualified)),
+        choice(
+          seq($.type_arguments, $.arguments),
+          $.arguments,
+        ),
+      )),
+
+    _annotation_no_args: ($) =>
+      prec.dynamic(1, seq("@", field("name", choice($.identifier, $.qualified)))),
 
     qualified: ($) =>
       choice(
@@ -1324,7 +1330,10 @@ module.exports = grammar({
         $.expression_statement,
         $.assert_statement,
         $.labeled_statement,
+        $.empty_statement,
       ),
+
+    empty_statement: (_) => ";",
 
     block: ($) => seq("{", repeat($._statement), "}"),
 
@@ -1698,8 +1707,7 @@ module.exports = grammar({
         optional(seq("this", ".")),
         $.identifier,
         "=",
-        $._real_expression,
-        repeat($.cascade_section),
+        $._expression,
       ),
 
     // --- Operators ---

@@ -363,3 +363,65 @@ class Foo {
           (initialized_identifier
             (identifier)
             (true)))))))
+
+================================================================================
+Chained assignment in constructor initializer
+================================================================================
+
+class Foo {
+  Foo() : a = b.c = d();
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (identifier)
+    body: (class_body
+      (declaration
+        (constructor_signature
+          name: (identifier)
+          parameters: (formal_parameter_list))
+        (initializers
+          (initializer_list_entry
+            (field_initializer
+              (identifier)
+              (assignment_expression
+                left: (assignable_expression
+                  (identifier)
+                  (unconditional_assignable_selector
+                    (identifier)))
+                right: (identifier)
+                right: (selector
+                  (argument_part
+                    (arguments)))))))))))
+
+================================================================================
+Record return type with annotation
+================================================================================
+
+class Foo {
+  @override
+  (int, int?)? get range { return null; }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (identifier)
+    body: (class_body
+      (annotation
+        name: (identifier))
+      (method_signature
+        (getter_signature
+          (record_type
+            (record_type_field
+              (type_identifier))
+            (record_type_field
+              (type_identifier)))
+          name: (identifier)))
+      (function_body
+        (block
+          (return_statement
+            (null_literal)))))))
