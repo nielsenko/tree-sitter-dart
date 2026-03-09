@@ -6095,6 +6095,11 @@
     }
   },
   {
+    "type": "identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "identifier_list",
     "named": true,
     "fields": {},
@@ -13478,6 +13483,11 @@
     }
   },
   {
+    "type": "type_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "type_parameter",
     "named": true,
     "fields": {},
@@ -14696,10 +14706,6 @@
     "named": false
   },
   {
-    "type": "identifier",
-    "named": true
-  },
-  {
     "type": "identifier_dollar_escaped",
     "named": true
   },
@@ -14858,10 +14864,6 @@
   {
     "type": "type",
     "named": false
-  },
-  {
-    "type": "type_identifier",
-    "named": true
   },
   {
     "type": "typedef",

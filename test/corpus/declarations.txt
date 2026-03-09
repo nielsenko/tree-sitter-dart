@@ -328,3 +328,38 @@ library my.app;
     (dotted_identifier_list
       (identifier)
       (identifier))))
+
+================================================================================
+Built-in identifiers as field names
+================================================================================
+
+class Foo {
+  int type = 0;
+  String get = '';
+  bool set = true;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (identifier)
+    body: (class_body
+      (declaration
+        (type_identifier)
+        (initialized_identifier_list
+          (initialized_identifier
+            (identifier)
+            (decimal_integer_literal))))
+      (declaration
+        (type_identifier)
+        (initialized_identifier_list
+          (initialized_identifier
+            (identifier)
+            (string_literal))))
+      (declaration
+        (type_identifier)
+        (initialized_identifier_list
+          (initialized_identifier
+            (identifier)
+            (true)))))))

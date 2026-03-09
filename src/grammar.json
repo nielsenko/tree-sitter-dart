@@ -1,7 +1,7 @@
 {
   "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "dart",
-  "word": "identifier",
+  "word": "_name",
   "rules": {
     "source_file": {
       "type": "SEQ",
@@ -3784,8 +3784,12 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "PREC_DYNAMIC",
+          "value": 1,
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         }
       ]
     },
@@ -7202,31 +7206,8 @@
       ]
     },
     "_function_name": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "get"
-          },
-          "named": true,
-          "value": "identifier"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "set"
-          },
-          "named": true,
-          "value": "identifier"
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "identifier"
     },
     "getter_signature": {
       "type": "SEQ",
@@ -11058,9 +11039,139 @@
         }
       ]
     },
-    "identifier": {
+    "_name": {
       "type": "PATTERN",
       "value": "[a-zA-Z_$][\\w$]*"
+    },
+    "_built_in_identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "abstract"
+        },
+        {
+          "type": "STRING",
+          "value": "as"
+        },
+        {
+          "type": "STRING",
+          "value": "covariant"
+        },
+        {
+          "type": "STRING",
+          "value": "deferred"
+        },
+        {
+          "type": "STRING",
+          "value": "export"
+        },
+        {
+          "type": "STRING",
+          "value": "external"
+        },
+        {
+          "type": "STRING",
+          "value": "factory"
+        },
+        {
+          "type": "STRING",
+          "value": "get"
+        },
+        {
+          "type": "STRING",
+          "value": "implements"
+        },
+        {
+          "type": "STRING",
+          "value": "import"
+        },
+        {
+          "type": "STRING",
+          "value": "interface"
+        },
+        {
+          "type": "STRING",
+          "value": "late"
+        },
+        {
+          "type": "STRING",
+          "value": "library"
+        },
+        {
+          "type": "STRING",
+          "value": "mixin"
+        },
+        {
+          "type": "STRING",
+          "value": "operator"
+        },
+        {
+          "type": "STRING",
+          "value": "part"
+        },
+        {
+          "type": "STRING",
+          "value": "required"
+        },
+        {
+          "type": "STRING",
+          "value": "set"
+        },
+        {
+          "type": "STRING",
+          "value": "show"
+        },
+        {
+          "type": "STRING",
+          "value": "static"
+        },
+        {
+          "type": "STRING",
+          "value": "typedef"
+        },
+        {
+          "type": "STRING",
+          "value": "hide"
+        },
+        {
+          "type": "STRING",
+          "value": "on"
+        },
+        {
+          "type": "STRING",
+          "value": "sealed"
+        },
+        {
+          "type": "STRING",
+          "value": "when"
+        },
+        {
+          "type": "STRING",
+          "value": "base"
+        },
+        {
+          "type": "STRING",
+          "value": "inline"
+        },
+        {
+          "type": "STRING",
+          "value": "type"
+        }
+      ]
+    },
+    "identifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_built_in_identifier"
+        }
+      ]
     },
     "comment": {
       "type": "CHOICE",
@@ -11118,8 +11229,18 @@
       "_primary"
     ],
     [
+      "_type_name",
+      "_primary",
+      "_function_name"
+    ],
+    [
       "_primary",
       "_simple_formal_parameter"
+    ],
+    [
+      "_primary",
+      "_simple_formal_parameter",
+      "constant_pattern"
     ],
     [
       "declaration",
@@ -11193,19 +11314,6 @@
       "_type_name"
     ],
     [
-      "_type_name",
-      "_simple_formal_parameter"
-    ],
-    [
-      "_type_name",
-      "_function_formal_parameter"
-    ],
-    [
-      "_type_name",
-      "_primary",
-      "assignable_expression"
-    ],
-    [
       "_normal_formal_parameters"
     ],
     [
@@ -11270,10 +11378,6 @@
       "pattern_variable_declaration"
     ],
     [
-      "super_formal_parameter",
-      "unconditional_assignable_selector"
-    ],
-    [
       "set_or_map_literal",
       "map_pattern"
     ],
@@ -11282,28 +11386,8 @@
       "list_pattern"
     ],
     [
-      "constant_pattern",
-      "_type_name"
-    ],
-    [
       "_primary",
       "constant_pattern"
-    ],
-    [
-      "_primary",
-      "constant_pattern",
-      "_type_name"
-    ],
-    [
-      "_primary",
-      "constant_pattern",
-      "_simple_formal_parameter"
-    ],
-    [
-      "_primary",
-      "constant_pattern",
-      "_type_name",
-      "_simple_formal_parameter"
     ],
     [
       "_literal",
@@ -11343,10 +11427,6 @@
       "_primary"
     ],
     [
-      "_simple_formal_parameter",
-      "assignable_expression"
-    ],
-    [
       "declaration",
       "external"
     ],
@@ -11375,22 +11455,183 @@
       "switch_statement_case"
     ],
     [
-      "_primary",
       "_type_name",
       "_function_formal_parameter"
+    ],
+    [
+      "_type_name",
+      "constant_pattern"
+    ],
+    [
+      "_type_name",
+      "_simple_formal_parameter"
+    ],
+    [
+      "_top_level_definition",
+      "_built_in_identifier"
+    ],
+    [
+      "type_alias",
+      "_built_in_identifier"
+    ],
+    [
+      "function_signature",
+      "getter_signature",
+      "_var_or_type"
+    ],
+    [
+      "function_signature",
+      "setter_signature",
+      "_var_or_type"
+    ],
+    [
+      "_final_const_var_or_type",
+      "_built_in_identifier"
+    ],
+    [
+      "_declared_identifier",
+      "_built_in_identifier"
+    ],
+    [
+      "external",
+      "_built_in_identifier"
+    ],
+    [
+      "declaration",
+      "_built_in_identifier"
+    ],
+    [
+      "method_signature",
+      "declaration",
+      "_built_in_identifier"
+    ],
+    [
+      "operator_signature",
+      "_built_in_identifier"
+    ],
+    [
+      "function_signature",
+      "_var_or_type",
+      "operator_signature"
+    ],
+    [
+      "_function_formal_parameter",
+      "_declared_identifier",
+      "_built_in_identifier"
+    ],
+    [
+      "try_statement"
+    ],
+    [
+      "_default_named_parameter",
+      "_built_in_identifier"
+    ],
+    [
+      "library_name",
+      "_built_in_identifier"
+    ],
+    [
+      "getter_signature",
+      "_built_in_identifier"
+    ],
+    [
+      "setter_signature",
+      "_built_in_identifier"
+    ],
+    [
+      "_class_modifiers",
+      "_mixin_class_modifiers",
+      "_built_in_identifier"
+    ],
+    [
+      "_class_modifiers",
+      "_built_in_identifier"
+    ],
+    [
+      "_mixin_class_modifiers",
+      "_built_in_identifier"
+    ],
+    [
+      "_mixin_class_modifiers",
+      "mixin_declaration",
+      "_built_in_identifier"
+    ],
+    [
+      "mixin_declaration",
+      "_built_in_identifier"
     ],
     [
       "_type_name",
       "_function_name"
     ],
     [
-      "_type_name",
-      "_function_name",
-      "_primary"
+      "extension_declaration",
+      "_built_in_identifier"
+    ],
+    [
+      "extension_type_declaration",
+      "_built_in_identifier"
+    ],
+    [
+      "_function_formal_parameter",
+      "_simple_formal_parameter",
+      "_declared_identifier",
+      "_built_in_identifier"
+    ],
+    [
+      "_named_parameter_type",
+      "_built_in_identifier"
+    ],
+    [
+      "declaration",
+      "external",
+      "_built_in_identifier"
+    ],
+    [
+      "factory_constructor_signature",
+      "redirecting_factory_constructor_signature",
+      "_built_in_identifier"
     ],
     [
       "_function_name",
       "constructor_signature"
+    ],
+    [
+      "_type_name",
+      "_primary",
+      "constant_pattern"
+    ],
+    [
+      "_type_name",
+      "_primary",
+      "_function_formal_parameter"
+    ],
+    [
+      "_type_name",
+      "_primary",
+      "_simple_formal_parameter",
+      "constant_pattern"
+    ],
+    [
+      "_type_name",
+      "assignable_expression",
+      "_primary"
+    ],
+    [
+      "_external_and_static",
+      "_built_in_identifier"
+    ],
+    [
+      "factory_constructor_signature",
+      "_built_in_identifier"
+    ],
+    [
+      "assignable_expression",
+      "_simple_formal_parameter"
+    ],
+    [
+      "unconditional_assignable_selector",
+      "super_formal_parameter"
     ]
   ],
   "precedences": [],

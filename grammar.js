@@ -60,7 +60,7 @@ module.exports = grammar({
 
   extras: ($) => [/\s/, $.comment],
 
-  word: ($) => $.identifier,
+  word: ($) => $._name,
 
   supertypes: ($) => [$._statement, $._literal, $._declaration],
 
@@ -69,9 +69,10 @@ module.exports = grammar({
     // [$.type_arguments, $.relational_expression], -- unnecessary
     // Identifier could be type_identifier or expression
     [$._type_name, $._primary],
+    [$._type_name, $._primary, $._function_name],
     // [$._type_name, $._primary, $.function_signature], -- covered by _function_name conflicts
-    // Simple formal param vs primary expression
     [$._primary, $._simple_formal_parameter],
+    [$._primary, $._simple_formal_parameter, $.constant_pattern],
     // Constructor signature shares prefix with function_signature
     // [$.constructor_signature, $._formal_parameter_part], -- covered by _function_name conflicts
     // Declaration ambiguity with external/static
@@ -99,11 +100,11 @@ module.exports = grammar({
     [$._cascade_subsection],
     // Type name ambiguities
     [$._type_name],
-    [$._type_name, $._simple_formal_parameter],
-    [$._type_name, $._function_formal_parameter],
+    // [$._type_name, $._simple_formal_parameter], -- subsumed
+    // [$._type_name, $._function_formal_parameter], -- subsumed
     // [$._type_name, $.function_signature], -- covered by _function_name conflicts
     // [$._type_name, $.assignable_expression], -- unnecessary
-    [$._type_name, $._primary, $.assignable_expression],
+    // [$._type_name, $._primary, $.assignable_expression], -- subsumed
     // Parameter ambiguities
     [$._normal_formal_parameters],
     [$._normal_formal_parameter],
@@ -123,15 +124,15 @@ module.exports = grammar({
     [$.pattern_variable_declaration, $._var_or_type],
     [$._final_const_var_or_type, $.pattern_variable_declaration],
     // Super formal parameter
-    [$.super_formal_parameter, $.unconditional_assignable_selector],
+    // [$.super_formal_parameter, $.unconditional_assignable_selector], -- subsumed
     // Pattern ambiguities
     [$.set_or_map_literal, $.map_pattern],
     [$.list_literal, $.list_pattern],
-    [$.constant_pattern, $._type_name],
+    // [$.constant_pattern, $._type_name], -- subsumed
     [$._primary, $.constant_pattern],
-    [$._primary, $.constant_pattern, $._type_name],
-    [$._primary, $.constant_pattern, $._simple_formal_parameter],
-    [$._primary, $.constant_pattern, $._type_name, $._simple_formal_parameter],
+    // [$._primary, $.constant_pattern, $._type_name], -- subsumed
+    // [$._primary, $.constant_pattern, $._simple_formal_parameter], -- subsumed
+    // [$._primary, $.constant_pattern, $._type_name, $._simple_formal_parameter], -- subsumed
     [$._literal, $.constant_pattern],
     [$.prefix_operator, $.constant_pattern],
     [$._pattern_field, $.label],
@@ -143,8 +144,7 @@ module.exports = grammar({
     // Postfix expression vs primary (constructor_invocation)
     [$.postfix_expression, $._primary],
     [$.assignable_expression, $.postfix_expression, $._primary],
-    // Simple formal param vs assignable expression
-    [$._simple_formal_parameter, $.assignable_expression],
+    // [$._simple_formal_parameter, $.assignable_expression], -- unnecessary
     // Declaration external
     [$.declaration, $.external],
     // Type arguments vs type parameters vs relational
@@ -160,10 +160,51 @@ module.exports = grammar({
     // Switch statement case
     [$.switch_statement_case],
     // Primary + function_formal_parameter + type_name
-    [$._primary, $._type_name, $._function_formal_parameter],
+    [$._type_name, $._function_formal_parameter],
+    [$._type_name, $.constant_pattern],
+    [$._type_name, $._simple_formal_parameter],
+    // [$._type_name, $._function_name], -- subsumed
+    // [$._type_name, $._function_name, $._primary], -- subsumed
+    // [$._function_name, $.constructor_signature], -- subsumed
+    // Built-in identifier conflicts
+    [$._top_level_definition, $._built_in_identifier],
+    [$.type_alias, $._built_in_identifier],
+    [$.function_signature, $.getter_signature, $._var_or_type],
+    [$.function_signature, $.setter_signature, $._var_or_type],
+    [$._final_const_var_or_type, $._built_in_identifier],
+    [$._declared_identifier, $._built_in_identifier],
+    [$.external, $._built_in_identifier],
+    [$.declaration, $._built_in_identifier],
+    [$.method_signature, $.declaration, $._built_in_identifier],
+    [$.operator_signature, $._built_in_identifier],
+    [$.function_signature, $._var_or_type, $.operator_signature],
+    [$._function_formal_parameter, $._declared_identifier, $._built_in_identifier],
+    [$.try_statement],
+    [$._default_named_parameter, $._built_in_identifier],
+    [$.library_name, $._built_in_identifier],
+    [$.getter_signature, $._built_in_identifier],
+    [$.setter_signature, $._built_in_identifier],
+    [$._class_modifiers, $._mixin_class_modifiers, $._built_in_identifier],
+    [$._class_modifiers, $._built_in_identifier],
+    [$._mixin_class_modifiers, $._built_in_identifier],
+    [$._mixin_class_modifiers, $.mixin_declaration, $._built_in_identifier],
+    [$.mixin_declaration, $._built_in_identifier],
     [$._type_name, $._function_name],
-    [$._type_name, $._function_name, $._primary],
+    [$.extension_declaration, $._built_in_identifier],
+    [$.extension_type_declaration, $._built_in_identifier],
+    [$._function_formal_parameter, $._simple_formal_parameter, $._declared_identifier, $._built_in_identifier],
+    [$._named_parameter_type, $._built_in_identifier],
+    [$.declaration, $.external, $._built_in_identifier],
+    [$.factory_constructor_signature, $.redirecting_factory_constructor_signature, $._built_in_identifier],
     [$._function_name, $.constructor_signature],
+    [$._type_name, $._primary, $.constant_pattern],
+    [$._type_name, $._primary, $._function_formal_parameter],
+    [$._type_name, $._primary, $._simple_formal_parameter, $.constant_pattern],
+    [$._type_name, $.assignable_expression, $._primary],
+    [$._external_and_static, $._built_in_identifier],
+    [$.factory_constructor_signature, $._built_in_identifier],
+    [$.assignable_expression, $._simple_formal_parameter],
+    [$.unconditional_assignable_selector, $.super_formal_parameter],
   ],
 
   rules: {
@@ -858,7 +899,7 @@ module.exports = grammar({
         seq($._primary, $._assignable_selector_part),
         seq("super", $.unconditional_assignable_selector),
         seq($.constructor_invocation, $._assignable_selector_part),
-        $.identifier,
+        prec.dynamic(1, $.identifier),
       ),
 
     _assignable_selector_part: ($) =>
@@ -1481,9 +1522,8 @@ module.exports = grammar({
         $._formal_parameter_part,
       ),
 
-    // Built-in identifiers like get/set can be used as function/method names
-    _function_name: ($) =>
-      choice($.identifier, alias("get", $.identifier), alias("set", $.identifier)),
+    // All built-in identifiers can be used as function/method names
+    _function_name: ($) => $.identifier,
 
     getter_signature: ($) =>
       seq(optional($._type), "get", field("name", $.identifier)),
@@ -2034,7 +2074,24 @@ module.exports = grammar({
 
     label: ($) => seq($.identifier, ":"),
 
-    identifier: (_) => /[a-zA-Z_$][\w$]*/,
+    // The raw regex for word-like tokens - used as the `word` rule
+    _name: (_) => /[a-zA-Z_$][\w$]*/,
+
+    // Dart built-in identifiers (category 2) and context keywords (category 3)
+    _built_in_identifier: (_) =>
+      choice(
+        // Category 2: built-in identifiers
+        "abstract", "as", "covariant", "deferred",
+        "export", "external", "factory", "get", "implements",
+        "import", "interface", "late", "library", "mixin",
+        "operator", "part", "required", "set", "show",
+        "static", "typedef",
+        // Category 3: context keywords
+        "hide", "on", "sealed", "when", "base", "inline", "type",
+      ),
+
+    // The "super-identifier" - accepts both regular names and contextual keywords
+    identifier: ($) => choice($._name, $._built_in_identifier),
 
     // ========================================================================
     // Comments
