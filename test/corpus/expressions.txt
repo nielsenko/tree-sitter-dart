@@ -368,3 +368,107 @@ void main() {
           (argument_part
             (arguments
               (decimal_integer_literal))))))))
+
+================================================================================
+Built-in identifiers as assignable expressions
+================================================================================
+
+void f() {
+  type = 1;
+  get = 2;
+  show = 3;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (expression_statement
+        (assignment_expression
+          left: (assignable_expression
+            (identifier))
+          right: (decimal_integer_literal)))
+      (expression_statement
+        (assignment_expression
+          left: (assignable_expression
+            (identifier))
+          right: (decimal_integer_literal)))
+      (expression_statement
+        (assignment_expression
+          left: (assignable_expression
+            (identifier))
+          right: (decimal_integer_literal))))))
+
+================================================================================
+Built-in identifiers as named arguments
+================================================================================
+
+void f() {
+  foo(type: 42);
+  bar(show: true);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (expression_statement
+        (identifier)
+        (selector
+          (argument_part
+            (arguments
+              (named_argument
+                (label
+                  (identifier))
+                (decimal_integer_literal))))))
+      (expression_statement
+        (identifier)
+        (selector
+          (argument_part
+            (arguments
+              (named_argument
+                (label
+                  (identifier))
+                (true)))))))))
+
+================================================================================
+Built-in identifiers as member access
+================================================================================
+
+void f() {
+  obj.type = 1;
+  this.get = 2;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (expression_statement
+        (assignment_expression
+          left: (assignable_expression
+            (identifier)
+            (unconditional_assignable_selector
+              (identifier)))
+          right: (decimal_integer_literal)))
+      (expression_statement
+        (assignment_expression
+          left: (assignable_expression
+            (unconditional_assignable_selector
+              (identifier)))
+          right: (decimal_integer_literal))))))
