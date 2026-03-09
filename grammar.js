@@ -69,12 +69,11 @@ module.exports = grammar({
     // [$.type_arguments, $.relational_expression], -- unnecessary
     // Identifier could be type_identifier or expression
     [$._type_name, $._primary],
-    // Function signature type vs var declaration
-    [$._type_name, $._primary, $.function_signature],
+    // [$._type_name, $._primary, $.function_signature], -- covered by _function_name conflicts
     // Simple formal param vs primary expression
     [$._primary, $._simple_formal_parameter],
     // Constructor signature shares prefix with function_signature
-    [$.constructor_signature, $._formal_parameter_part],
+    // [$.constructor_signature, $._formal_parameter_part], -- covered by _function_name conflicts
     // Declaration ambiguity with external/static
     [$.declaration, $._external_and_static],
     // Type ambiguities
@@ -102,7 +101,7 @@ module.exports = grammar({
     [$._type_name],
     [$._type_name, $._simple_formal_parameter],
     [$._type_name, $._function_formal_parameter],
-    [$._type_name, $.function_signature],
+    // [$._type_name, $.function_signature], -- covered by _function_name conflicts
     // [$._type_name, $.assignable_expression], -- unnecessary
     [$._type_name, $._primary, $.assignable_expression],
     // Parameter ambiguities
@@ -162,6 +161,9 @@ module.exports = grammar({
     [$.switch_statement_case],
     // Primary + function_formal_parameter + type_name
     [$._primary, $._type_name, $._function_formal_parameter],
+    [$._type_name, $._function_name],
+    [$._type_name, $._function_name, $._primary],
+    [$._function_name, $.constructor_signature],
   ],
 
   rules: {
@@ -216,6 +218,13 @@ module.exports = grammar({
           optional("late"),
           $._var_or_type,
           $.initialized_identifier_list,
+          ";",
+        ),
+        seq(
+          optional($._metadata),
+          "external",
+          optional($._type),
+          $.identifier_list,
           ";",
         ),
       ),
@@ -729,12 +738,19 @@ module.exports = grammar({
         $._expression,
         $.pair,
         $.spread_element,
+        $.null_aware_element,
         $.if_element,
         $.for_element,
       ),
 
+    null_aware_element: ($) => seq("?", $._expression),
+
     pair: ($) =>
-      seq(field("key", $._expression), ":", field("value", $._expression)),
+      seq(
+        field("key", $._expression),
+        ":",
+        field("value", choice($._expression, $.null_aware_element)),
+      ),
 
     spread_element: ($) => seq(choice("...", "...?"), $._expression),
 
@@ -977,12 +993,13 @@ module.exports = grammar({
       prec.left(
         PREC.MULTIPLICATIVE,
         choice(
-          seq($._unary_expression, $._multiplicative_operator, $._unary_expression),
-          seq("super", repeat1(seq($._multiplicative_operator, $._unary_expression))),
+          seq(
+            $._unary_expression,
+            repeat1(seq(choice("*", "/", "%", "~/"), $._unary_expression)),
+          ),
+          seq("super", repeat1(seq(choice("*", "/", "%", "~/"), $._unary_expression))),
         ),
       ),
-
-    _multiplicative_operator: (_) => choice("*", "/", "%", "~/"),
 
     // --- Unary ---
 
@@ -1460,9 +1477,13 @@ module.exports = grammar({
     function_signature: ($) =>
       seq(
         optional($._type),
-        field("name", $.identifier),
+        field("name", $._function_name),
         $._formal_parameter_part,
       ),
+
+    // Built-in identifiers like get/set can be used as function/method names
+    _function_name: ($) =>
+      choice($.identifier, alias("get", $.identifier), alias("set", $.identifier)),
 
     getter_signature: ($) =>
       seq(optional($._type), "get", field("name", $.identifier)),
@@ -1653,7 +1674,7 @@ module.exports = grammar({
 
     binary_operator: ($) =>
       choice(
-        $._multiplicative_operator,
+        choice("*", "/", "%", "~/"),
         $._additive_operator,
         $._shift_operator,
         $.relational_operator,
@@ -1807,7 +1828,11 @@ module.exports = grammar({
       ),
 
     extension_type_name: ($) =>
-      seq($.identifier, optional($.type_parameters)),
+      seq(
+        $.identifier,
+        optional(seq(".", $.identifier)),
+        optional($.type_parameters),
+      ),
 
     extension_type_representation: ($) =>
       seq("(", field("type", $._type), field("name", $.identifier), ")"),
@@ -1941,6 +1966,8 @@ module.exports = grammar({
         seq("const", optional($.type_arguments), "[", commaSep1TrailingComma($._element), "]"),
         seq("const", optional($.type_arguments), "{", commaSep1TrailingComma($._element), "}"),
         seq("const", "(", $._expression, ")"),
+        // Dot shorthand (Dart 3.6+): .enumValue in patterns
+        seq(".", $.identifier),
       ),
 
     variable_pattern: ($) => seq($._final_var_or_type, $.identifier),
@@ -1976,7 +2003,7 @@ module.exports = grammar({
         $._type_name,
         optional($.type_arguments),
         "(",
-        commaSep1TrailingComma($._pattern_field),
+        commaSepTrailingComma($._pattern_field),
         ")",
       ),
 
