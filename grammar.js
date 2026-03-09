@@ -95,9 +95,9 @@ module.exports = grammar({
     [$.assignable_expression, $._postfix_expression],
     [$._primary, $.assignable_expression],
     [$._assignable_selector_part, $._postfix_expression],
-    [$._assignable_selector_part, $.selector],
+    // [$._assignable_selector_part, $.selector], -- unnecessary
     [$._primary, $.labeled_statement],
-    [$._cascade_subsection],
+    // [$._cascade_subsection], -- removed, cascade now uses selector directly
     // Type name ambiguities
     [$._type_name],
     // [$._type_name, $._simple_formal_parameter], -- subsumed
@@ -265,6 +265,7 @@ module.exports = grammar({
         seq(
           optional($._metadata),
           "external",
+          optional("final"),
           optional($._type),
           $.identifier_list,
           ";",
@@ -1061,13 +1062,16 @@ module.exports = grammar({
         PREC.UNARY_PREFIX,
         choice(
           seq($.prefix_operator, $._unary_expression),
+          seq($.negate_operator, $._unary_expression),
           $.await_expression,
           seq(choice("-", "~"), "super"),
           seq(choice("++", "--"), $.assignable_expression),
         ),
       ),
 
-    prefix_operator: (_) => choice("-", "!", "~"),
+    prefix_operator: (_) => choice("-", "~"),
+
+    negate_operator: (_) => "!",
 
     await_expression: ($) => seq("await", $._unary_expression),
 
@@ -1091,6 +1095,7 @@ module.exports = grammar({
 
     selector: ($) =>
       prec.right(
+        PREC.UNARY_POSTFIX,
         choice(
           "!",
           $._assignable_selector,
@@ -1128,8 +1133,7 @@ module.exports = grammar({
         seq(
           choice("..", "?.."),
           $.cascade_selector,
-          repeat($.argument_part),
-          repeat($._cascade_subsection),
+          repeat($.selector),
           optional(seq($._assignment_operator, $._expression_without_cascade)),
         ),
       ),
@@ -1139,9 +1143,6 @@ module.exports = grammar({
         seq(optional("?"), "[", $._expression, "]"),
         $.identifier,
       ),
-
-    _cascade_subsection: ($) =>
-      seq($._assignable_selector, repeat($.argument_part)),
 
     // --- Primary expressions ---
 
@@ -1544,7 +1545,10 @@ module.exports = grammar({
       choice(
         seq(optional("async"), "=>", $._expression, ";"),
         seq(optional(choice("async", "async*", "sync*")), $.block),
+        $.native,
       ),
+
+    native: ($) => seq("native", optional($.string_literal), ";"),
 
     // ========================================================================
     // Declarations and class members (Phase 7)
@@ -1653,7 +1657,7 @@ module.exports = grammar({
         seq("abstract", "covariant", "final", optional($._type), $.identifier_list),
         seq("abstract", "covariant", optional($._type), $.identifier_list),
         // External field declarations
-        seq($.external, optional($._type), $.identifier_list),
+        seq($.external, optional("final"), optional($._type), $.identifier_list),
       ),
 
     external: (_) => "external",
@@ -1878,8 +1882,8 @@ module.exports = grammar({
     extension_type_name: ($) =>
       seq(
         $.identifier,
-        optional(seq(".", $.identifier)),
         optional($.type_parameters),
+        optional(seq(".", $.identifier)),
       ),
 
     extension_type_representation: ($) =>
@@ -2095,7 +2099,7 @@ module.exports = grammar({
         "operator", "part", "required", "set", "show",
         "static", "typedef",
         // Category 3: context keywords
-        "hide", "on", "sealed", "when", "base", "inline", "type",
+        "hide", "native", "on", "sealed", "when", "base", "inline", "type",
       ),
 
     // The "super-identifier" - accepts both regular names and contextual keywords

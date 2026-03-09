@@ -406,3 +406,110 @@ class Foo {
         (block
           (return_statement
             (null_literal)))))))
+================================================================================
+Extension type with primary constructor
+================================================================================
+
+extension type JSArray<T extends JSAny?>._(JSArrayRepType _jsArray) implements JSObject {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_type_declaration
+    name: (extension_type_name
+      (identifier)
+      (type_parameters
+        (type_parameter
+          name: (type_identifier)
+          bound: (type_identifier)))
+      (identifier))
+    representation: (extension_type_representation
+      type: (type_identifier)
+      name: (identifier))
+    (type_identifier)
+    body: (class_body)))
+================================================================================
+Native method body
+================================================================================
+
+class Foo {
+  int get length native;
+  String bar() native;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (identifier)
+    body: (class_body
+      (method_signature
+        (getter_signature
+          return_type: (type_identifier)
+          name: (identifier)))
+      (function_body
+        (native))
+      (method_signature
+        (function_signature
+          return_type: (type_identifier)
+          name: (identifier)
+          parameters: (formal_parameter_list)))
+      (function_body
+        (native)))))
+================================================================================
+External final declaration
+================================================================================
+
+external final int x;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_identifier)
+  (identifier_list
+    (identifier)))
+================================================================================
+Non-null assertion
+================================================================================
+
+void f() {
+  var x = y!;
+  w!.foo();
+  x.._parent!.foo();
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    return_type: (void_type)
+    name: (identifier)
+    parameters: (formal_parameter_list))
+  (function_body
+    (block
+      (local_variable_declaration
+        (initialized_variable_definition
+          name: (identifier)
+          value: (identifier)
+          value: (selector)))
+      (expression_statement
+        (identifier)
+        (selector)
+        (selector
+          (unconditional_assignable_selector
+            (identifier)))
+        (selector
+          (argument_part
+            (arguments))))
+      (expression_statement
+        (identifier)
+        (cascade_section
+          (cascade_selector
+            (identifier))
+          (selector)
+          (selector
+            (unconditional_assignable_selector
+              (identifier)))
+          (selector
+            (argument_part
+              (arguments))))))))

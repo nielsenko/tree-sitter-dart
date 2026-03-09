@@ -1411,10 +1411,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
           "type": "assignment_expression",
           "named": true
         },
@@ -1432,10 +1428,6 @@
         },
         {
           "type": "cascade_selector",
-          "named": true
-        },
-        {
-          "type": "conditional_assignable_selector",
           "named": true
         },
         {
@@ -5880,6 +5872,10 @@
           "named": true
         },
         {
+          "type": "native",
+          "named": true
+        },
+        {
           "type": "new_expression",
           "named": true
         },
@@ -9086,6 +9082,26 @@
         }
       ]
     }
+  },
+  {
+    "type": "native",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "negate_operator",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "new_expression",
@@ -14402,6 +14418,10 @@
           "named": true
         },
         {
+          "type": "negate_operator",
+          "named": true
+        },
+        {
           "type": "new_expression",
           "named": true
         },
@@ -15389,6 +15409,10 @@
   },
   {
     "type": "mixin",
+    "named": false
+  },
+  {
+    "type": "native",
     "named": false
   },
   {
