@@ -10,7 +10,9 @@
         "dart"
       ],
       "injection-regex": "^dart$",
-      "class-name": "TreeSitterDart"
+      "class-name": "TreeSitterDart",
+      "highlights": "queries/highlights.scm",
+      "tags": "queries/tags.scm"
     }
   ],
   "metadata": {
