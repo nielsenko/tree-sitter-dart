@@ -97,8 +97,6 @@ module.exports = grammar({
     [$._assignable_selector_part, $._postfix_expression],
     [$._assignable_selector_part, $.selector],
     [$._primary, $.labeled_statement],
-    [$.equality_expression],
-    [$.relational_expression],
     [$._cascade_subsection],
     // Type name ambiguities
     [$._type_name],
@@ -146,9 +144,6 @@ module.exports = grammar({
     // Postfix expression vs primary (constructor_invocation)
     [$.postfix_expression, $._primary],
     [$.assignable_expression, $.postfix_expression, $._primary],
-    // Relational vs type cast/test
-    [$.relational_expression, $.type_cast_expression],
-    [$.relational_expression, $.type_test_expression],
     // Simple formal param vs assignable expression
     [$._simple_formal_parameter, $.assignable_expression],
     // Declaration external
@@ -886,7 +881,7 @@ module.exports = grammar({
     // --- Equality ---
 
     equality_expression: ($) =>
-      prec(
+      prec.left(
         PREC.EQUALITY,
         choice(
           seq($._real_expression, choice("==", "!="), $._real_expression),
@@ -897,7 +892,7 @@ module.exports = grammar({
     // --- Relational ---
 
     relational_expression: ($) =>
-      prec(
+      prec.left(
         PREC.RELATIONAL,
         choice(
           seq($._real_expression, $.relational_operator, $._real_expression),
@@ -974,7 +969,7 @@ module.exports = grammar({
         ),
       ),
 
-    _additive_operator: (_) => token(choice("+", "-")),
+    _additive_operator: (_) => choice("+", "-"),
 
     // --- Multiplicative ---
 

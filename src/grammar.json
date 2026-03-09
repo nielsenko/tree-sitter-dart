@@ -3847,7 +3847,7 @@
       }
     },
     "equality_expression": {
-      "type": "PREC",
+      "type": "PREC_LEFT",
       "value": 8,
       "content": {
         "type": "CHOICE",
@@ -3908,7 +3908,7 @@
       }
     },
     "relational_expression": {
-      "type": "PREC",
+      "type": "PREC_LEFT",
       "value": 9,
       "content": {
         "type": "CHOICE",
@@ -4325,20 +4325,17 @@
       }
     },
     "_additive_operator": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "+"
-          },
-          {
-            "type": "STRING",
-            "value": "-"
-          }
-        ]
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "+"
+        },
+        {
+          "type": "STRING",
+          "value": "-"
+        }
+      ]
     },
     "multiplicative_expression": {
       "type": "PREC_LEFT",
@@ -11025,12 +11022,6 @@
       "labeled_statement"
     ],
     [
-      "equality_expression"
-    ],
-    [
-      "relational_expression"
-    ],
-    [
       "_cascade_subsection"
     ],
     [
@@ -11189,14 +11180,6 @@
       "assignable_expression",
       "postfix_expression",
       "_primary"
-    ],
-    [
-      "relational_expression",
-      "type_cast_expression"
-    ],
-    [
-      "relational_expression",
-      "type_test_expression"
     ],
     [
       "_simple_formal_parameter",

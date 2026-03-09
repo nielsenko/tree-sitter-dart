@@ -1985,6 +1985,7 @@
   {
     "type": "comment",
     "named": true,
+    "extra": true,
     "fields": {},
     "children": {
       "multiple": false,
@@ -14209,6 +14210,10 @@
   },
   {
     "type": "*=",
+    "named": false
+  },
+  {
+    "type": "+",
     "named": false
   },
   {
