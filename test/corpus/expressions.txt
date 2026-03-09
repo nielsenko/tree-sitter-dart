@@ -24,9 +24,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -89,7 +89,6 @@ void main() {
         (if_null_expression
           (identifier)
           (identifier))))))
-
 ================================================================================
 Relational and equality expressions
 ================================================================================
@@ -107,9 +106,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -140,7 +139,6 @@ void main() {
         (equality_expression
           (identifier)
           (identifier))))))
-
 ================================================================================
 Ternary expression
 ================================================================================
@@ -153,9 +151,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -163,7 +161,6 @@ void main() {
           (identifier)
           consequence: (identifier)
           alternative: (identifier))))))
-
 ================================================================================
 Assignment expression
 ================================================================================
@@ -178,9 +175,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -198,7 +195,6 @@ void main() {
           left: (assignable_expression
             (identifier))
           right: (decimal_integer_literal))))))
-
 ================================================================================
 Type test and cast expressions
 ================================================================================
@@ -213,9 +209,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -235,7 +231,6 @@ void main() {
           (identifier)
           (type_cast
             (type_identifier)))))))
-
 ================================================================================
 Unary expressions
 ================================================================================
@@ -254,9 +249,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -287,7 +282,6 @@ void main() {
         (postfix_expression
           (assignable_expression
             (identifier)))))))
-
 ================================================================================
 Await expression
 ================================================================================
@@ -300,9 +294,9 @@ void main() async {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -312,7 +306,6 @@ void main() async {
             (selector
               (argument_part
                 (arguments)))))))))
-
 ================================================================================
 Throw expression
 ================================================================================
@@ -325,18 +318,17 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
         (throw_expression
-          (identifier)
-          (selector
+          value: (identifier)
+          value: (selector
             (argument_part
               (arguments))))))))
-
 ================================================================================
 Cascade expression
 ================================================================================
@@ -349,9 +341,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -368,7 +360,6 @@ void main() {
           (argument_part
             (arguments
               (decimal_integer_literal))))))))
-
 ================================================================================
 Built-in identifiers as assignable expressions
 ================================================================================
@@ -383,9 +374,9 @@ void f() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -403,7 +394,6 @@ void f() {
           left: (assignable_expression
             (identifier))
           right: (decimal_integer_literal))))))
-
 ================================================================================
 Built-in identifiers as named arguments
 ================================================================================
@@ -417,9 +407,9 @@ void f() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -440,7 +430,6 @@ void f() {
                 (label
                   (identifier))
                 (true)))))))))
-
 ================================================================================
 Built-in identifiers as member access
 ================================================================================
@@ -454,9 +443,9 @@ void f() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement

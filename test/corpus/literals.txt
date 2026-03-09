@@ -12,9 +12,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -23,7 +23,6 @@ void main() {
         (decimal_integer_literal))
       (expression_statement
         (decimal_integer_literal)))))
-
 ================================================================================
 Hexadecimal integer literals
 ================================================================================
@@ -38,9 +37,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -49,7 +48,6 @@ void main() {
         (hex_integer_literal))
       (expression_statement
         (hex_integer_literal)))))
-
 ================================================================================
 Floating point literals
 ================================================================================
@@ -65,9 +63,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -78,7 +76,6 @@ void main() {
         (decimal_floating_point_literal))
       (expression_statement
         (decimal_floating_point_literal)))))
-
 ================================================================================
 Boolean literals
 ================================================================================
@@ -92,16 +89,15 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
         (true))
       (expression_statement
         (false)))))
-
 ================================================================================
 Null literal
 ================================================================================
@@ -114,14 +110,13 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
         (null_literal)))))
-
 ================================================================================
 String literals
 ================================================================================
@@ -135,9 +130,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -146,7 +141,6 @@ void main() {
       (expression_statement
         (string_literal
           (template_chars_double_single))))))
-
 ================================================================================
 Symbol literals
 ================================================================================
@@ -160,9 +154,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -172,7 +166,6 @@ void main() {
         (symbol_literal
           (identifier)
           (identifier))))))
-
 ================================================================================
 List literal
 ================================================================================
@@ -187,9 +180,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement
@@ -205,7 +198,6 @@ void main() {
       (expression_statement
         (list_literal
           (decimal_integer_literal))))))
-
 ================================================================================
 Set or map literal
 ================================================================================
@@ -219,9 +211,9 @@ void main() {
 
 (source_file
   (function_signature
-    (void_type)
+    return_type: (void_type)
     name: (identifier)
-    (formal_parameter_list))
+    parameters: (formal_parameter_list))
   (function_body
     (block
       (expression_statement

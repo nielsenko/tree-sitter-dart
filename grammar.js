@@ -294,17 +294,17 @@ module.exports = grammar({
       choice(
         seq(
           "import",
-          $.configurable_uri,
-          optional(seq(optional("deferred"), "as", $.identifier)),
+          field("uri", $.configurable_uri),
+          optional(seq(optional("deferred"), "as", field("alias", $.identifier))),
           repeat($.combinator),
           ";",
         ),
         prec(1, seq(
           "import",
-          $.uri,
+          field("uri", $.uri),
           "deferred",
           "as",
-          $.identifier,
+          field("alias", $.identifier),
           repeat($.combinator),
           ";",
         )),
@@ -314,13 +314,13 @@ module.exports = grammar({
       seq(
         optional($._metadata),
         "export",
-        $.configurable_uri,
+        field("uri", $.configurable_uri),
         repeat($.combinator),
         ";",
       ),
 
     part_directive: ($) =>
-      seq(optional($._metadata), "part", $.uri, ";"),
+      seq(optional($._metadata), "part", field("uri", $.uri), ";"),
 
     part_of_directive: ($) =>
       seq(
@@ -471,7 +471,7 @@ module.exports = grammar({
     _named_parameter_type: ($) =>
       seq(optional($._metadata), optional("required"), $.typed_identifier),
 
-    typed_identifier: ($) => seq($._type, $.identifier),
+    typed_identifier: ($) => seq(field("type", $._type), field("name", $.identifier)),
 
     type_arguments: ($) =>
       seq("<", commaSep1($._type), ">"),
@@ -482,8 +482,8 @@ module.exports = grammar({
     type_parameter: ($) =>
       seq(
         optional($._metadata),
-        alias($.identifier, $.type_identifier),
-        optional(seq("extends", $._type_not_void)),
+        field("name", alias($.identifier, $.type_identifier)),
+        optional(seq("extends", field("bound", $._type_not_void))),
       ),
 
     record_type: ($) =>
@@ -509,7 +509,7 @@ module.exports = grammar({
       ),
 
     record_type_field: ($) =>
-      seq(optional($._metadata), $._type, optional($.identifier)),
+      seq(optional($._metadata), field("type", $._type), optional(field("name", $.identifier))),
 
     record_type_named_field: ($) =>
       seq(optional($._metadata), $.typed_identifier),
@@ -799,14 +799,14 @@ module.exports = grammar({
         field("value", choice($._expression, $.null_aware_element)),
       ),
 
-    spread_element: ($) => seq(choice("...", "...?"), $._expression),
+    spread_element: ($) => seq(choice("...", "...?"), field("value", $._expression)),
 
     if_element: ($) =>
       prec.right(
         seq(
           "if",
           "(",
-          $._expression,
+          field("condition", $._expression),
           optional(seq("case", $._guarded_pattern)),
           ")",
           field("consequence", $._element),
@@ -880,7 +880,7 @@ module.exports = grammar({
 
     // --- Throw ---
 
-    throw_expression: ($) => seq("throw", $._expression),
+    throw_expression: ($) => seq("throw", field("value", $._expression)),
 
     // --- Assignment ---
 
@@ -1176,16 +1176,16 @@ module.exports = grammar({
       ),
 
     new_expression: ($) =>
-      seq("new", $._type_not_void, optional(seq(".", $.identifier)), $.arguments),
+      seq("new", field("type", $._type_not_void), optional(seq(".", field("constructor", $.identifier))), field("arguments", $.arguments)),
 
     const_object_expression: ($) =>
-      seq("const", $._type_not_void, optional(seq(".", $.identifier)), $.arguments),
+      seq("const", field("type", $._type_not_void), optional(seq(".", field("constructor", $.identifier))), field("arguments", $.arguments)),
 
     constructor_invocation: ($) =>
       prec.right(
         choice(
-          seq($._type_name, $.type_arguments, ".", $.identifier, $.arguments),
-          seq($._type_name, ".", "new", $.arguments),
+          seq(field("type", $._type_name), $.type_arguments, ".", field("constructor", $.identifier), field("arguments", $.arguments)),
+          seq(field("type", $._type_name), ".", "new", field("arguments", $.arguments)),
         ),
       ),
 
@@ -1497,7 +1497,7 @@ module.exports = grammar({
       ),
 
     catch_clause: ($) =>
-      seq("catch", "(", $.identifier, optional(seq(",", $.identifier)), ")"),
+      seq("catch", "(", field("exception", $.identifier), optional(seq(",", field("stack_trace", $.identifier))), ")"),
 
     finally_clause: ($) => seq("finally", $.block),
 
@@ -1526,19 +1526,19 @@ module.exports = grammar({
 
     function_signature: ($) =>
       seq(
-        optional($._type),
+        optional(field("return_type", $._type)),
         field("name", $._function_name),
-        $._formal_parameter_part,
+        field("parameters", $._formal_parameter_part),
       ),
 
     // All built-in identifiers can be used as function/method names
     _function_name: ($) => $.identifier,
 
     getter_signature: ($) =>
-      seq(optional($._type), "get", field("name", $.identifier)),
+      seq(optional(field("return_type", $._type)), "get", field("name", $.identifier)),
 
     setter_signature: ($) =>
-      seq(optional($._type), "set", field("name", $.identifier), $._formal_parameter_part),
+      seq(optional(field("return_type", $._type)), "set", field("name", $.identifier), field("parameters", $._formal_parameter_part)),
 
     function_body: ($) =>
       choice(
@@ -1671,22 +1671,22 @@ module.exports = grammar({
     constant_constructor_signature: ($) =>
       seq(
         "const",
-        seq($.identifier, optional(seq(".", $._identifier_or_new))),
-        $.formal_parameter_list,
+        field("name", seq($.identifier, optional(seq(".", $._identifier_or_new)))),
+        field("parameters", $.formal_parameter_list),
       ),
 
     factory_constructor_signature: ($) =>
-      seq("factory", seq($.identifier, repeat(seq(".", $.identifier))), $.formal_parameter_list),
+      seq("factory", field("name", seq($.identifier, repeat(seq(".", $.identifier)))), field("parameters", $.formal_parameter_list)),
 
     redirecting_factory_constructor_signature: ($) =>
       seq(
         optional("const"),
         "factory",
-        seq($.identifier, repeat(seq(".", $.identifier))),
-        $.formal_parameter_list,
+        field("name", seq($.identifier, repeat(seq(".", $.identifier)))),
+        field("parameters", $.formal_parameter_list),
         "=",
-        $._type_not_void,
-        optional(seq(".", $.identifier)),
+        field("target", $._type_not_void),
+        optional(seq(".", field("target_constructor", $.identifier))),
       ),
 
     redirection: ($) =>
@@ -1705,19 +1705,19 @@ module.exports = grammar({
     field_initializer: ($) =>
       seq(
         optional(seq("this", ".")),
-        $.identifier,
+        field("name", $.identifier),
         "=",
-        $._expression,
+        field("value", $._expression),
       ),
 
     // --- Operators ---
 
     operator_signature: ($) =>
       seq(
-        optional($._type),
+        optional(field("return_type", $._type)),
         "operator",
-        choice("~", $.binary_operator, "[]", "[]="),
-        $.formal_parameter_list,
+        field("operator", choice("~", $.binary_operator, "[]", "[]=")),
+        field("parameters", $.formal_parameter_list),
       ),
 
     binary_operator: ($) =>
@@ -1738,13 +1738,13 @@ module.exports = grammar({
       commaSep1($.static_final_declaration),
 
     static_final_declaration: ($) =>
-      seq($.identifier, "=", $._expression),
+      seq(field("name", $.identifier), "=", field("value", $._expression)),
 
     initialized_identifier_list: ($) =>
       commaSep1($.initialized_identifier),
 
     initialized_identifier: ($) =>
-      seq($.identifier, optional(seq("=", $._expression))),
+      seq(field("name", $.identifier), optional(seq("=", field("value", $._expression)))),
 
     identifier_list: ($) => commaSep1($.identifier),
 
@@ -1802,7 +1802,7 @@ module.exports = grammar({
 
     superclass: ($) =>
       choice(
-        seq("extends", $._type_not_void, optional($.mixins)),
+        seq("extends", field("type", $._type_not_void), optional($.mixins)),
         $.mixins,
       ),
 
@@ -1829,11 +1829,11 @@ module.exports = grammar({
         optional($._metadata),
         optional("base"),
         "mixin",
-        $.identifier,
-        optional($.type_parameters),
+        field("name", $.identifier),
+        optional(field("type_parameters", $.type_parameters)),
         optional(seq("on", commaSep1($._type_not_void))),
-        optional($.interfaces),
-        $.class_body,
+        optional(field("interfaces", $.interfaces)),
+        field("body", $.class_body),
       ),
 
     // --- Extensions ---
@@ -1994,7 +1994,7 @@ module.exports = grammar({
         $.object_pattern,
       ),
 
-    cast_pattern: ($) => seq($._primary_pattern, "as", $._type),
+    cast_pattern: ($) => seq($._primary_pattern, "as", field("type", $._type)),
 
     null_check_pattern: ($) => seq($._primary_pattern, "?"),
 
@@ -2018,7 +2018,7 @@ module.exports = grammar({
         seq(".", $.identifier),
       ),
 
-    variable_pattern: ($) => seq($._final_var_or_type, $.identifier),
+    variable_pattern: ($) => seq($._final_var_or_type, field("name", $.identifier)),
 
     _parenthesized_pattern: ($) => seq("(", $._pattern, ")"),
 

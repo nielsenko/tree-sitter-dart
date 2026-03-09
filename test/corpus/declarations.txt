@@ -10,7 +10,6 @@ class Foo {}
   (class_definition
     name: (identifier)
     body: (class_body)))
-
 ================================================================================
 Class with extends and implements
 ================================================================================
@@ -23,11 +22,10 @@ class Dog extends Animal implements Barker {}
   (class_definition
     name: (identifier)
     superclass: (superclass
-      (type_identifier))
+      type: (type_identifier))
     interfaces: (interfaces
       (type_identifier))
     body: (class_body)))
-
 ================================================================================
 Class with mixins
 ================================================================================
@@ -40,12 +38,11 @@ class Cat extends Animal with Walker, Purrer {}
   (class_definition
     name: (identifier)
     superclass: (superclass
-      (type_identifier)
+      type: (type_identifier)
       (mixins
         (type_identifier)
         (type_identifier)))
     body: (class_body)))
-
 ================================================================================
 Sealed class
 ================================================================================
@@ -58,7 +55,6 @@ sealed class Shape {}
   (class_definition
     name: (identifier)
     body: (class_body)))
-
 ================================================================================
 Abstract base class
 ================================================================================
@@ -71,7 +67,6 @@ abstract base class Vehicle {}
   (class_definition
     name: (identifier)
     body: (class_body)))
-
 ================================================================================
 Interface class
 ================================================================================
@@ -84,7 +79,6 @@ interface class Drawable {}
   (class_definition
     name: (identifier)
     body: (class_body)))
-
 ================================================================================
 Mixin declaration
 ================================================================================
@@ -97,17 +91,16 @@ mixin Flyable on Animal {
 
 (source_file
   (mixin_declaration
-    (identifier)
+    name: (identifier)
     (type_identifier)
-    (class_body
+    body: (class_body
       (method_signature
         (function_signature
-          (void_type)
+          return_type: (void_type)
           name: (identifier)
-          (formal_parameter_list)))
+          parameters: (formal_parameter_list)))
       (function_body
         (block)))))
-
 ================================================================================
 Extension declaration
 ================================================================================
@@ -125,11 +118,10 @@ extension StringExt on String {
     body: (extension_body
       (method_signature
         (getter_signature
-          (type_identifier)
+          return_type: (type_identifier)
           name: (identifier)))
       (function_body
         (identifier)))))
-
 ================================================================================
 Extension type
 ================================================================================
@@ -147,7 +139,6 @@ extension type Meters(double value) implements double {}
       name: (identifier))
     (type_identifier)
     body: (class_body)))
-
 ================================================================================
 Enum declaration
 ================================================================================
@@ -166,7 +157,6 @@ enum Color { red, green, blue }
         name: (identifier))
       (enum_constant
         name: (identifier)))))
-
 ================================================================================
 Enhanced enum
 ================================================================================
@@ -199,15 +189,14 @@ enum Planet {
         (type_identifier)
         (initialized_identifier_list
           (initialized_identifier
-            (identifier))))
+            name: (identifier))))
       (declaration
         (constant_constructor_signature
-          (identifier)
-          (formal_parameter_list
+          name: (identifier)
+          parameters: (formal_parameter_list
             (formal_parameter
               (constructor_param
                 (identifier)))))))))
-
 ================================================================================
 Typedef
 ================================================================================
@@ -222,7 +211,6 @@ typedef IntList = List<int>;
     (type_identifier)
     (type_arguments
       (type_identifier))))
-
 ================================================================================
 Top-level variable declarations
 ================================================================================
@@ -236,18 +224,17 @@ const pi = 3.14;
 (source_file
   (static_final_declaration_list
     (static_final_declaration
-      (identifier)
-      (decimal_integer_literal)))
+      name: (identifier)
+      value: (decimal_integer_literal)))
   (initialized_identifier_list
     (initialized_identifier
-      (identifier)
-      (string_literal
+      name: (identifier)
+      value: (string_literal
         (template_chars_single_single))))
   (static_final_declaration_list
     (static_final_declaration
-      (identifier)
-      (decimal_floating_point_literal))))
-
+      name: (identifier)
+      value: (decimal_floating_point_literal))))
 ================================================================================
 Import declarations
 ================================================================================
@@ -262,29 +249,28 @@ import 'bar.dart' show Baz, Qux;
   (import_or_export
     (library_import
       (import_specification
-        (configurable_uri
+        uri: (configurable_uri
           (uri
             (string_literal
               (template_chars_single_single)))))))
   (import_or_export
     (library_import
       (import_specification
-        (configurable_uri
+        uri: (configurable_uri
           (uri
             (string_literal
               (template_chars_single_single))))
-        (identifier))))
+        alias: (identifier))))
   (import_or_export
     (library_import
       (import_specification
-        (configurable_uri
+        uri: (configurable_uri
           (uri
             (string_literal
               (template_chars_single_single))))
         (combinator
           (identifier)
           (identifier))))))
-
 ================================================================================
 Export declaration
 ================================================================================
@@ -296,11 +282,10 @@ export 'src/foo.dart';
 (source_file
   (import_or_export
     (library_export
-      (configurable_uri
+      uri: (configurable_uri
         (uri
           (string_literal
             (template_chars_single_single)))))))
-
 ================================================================================
 Part directive
 ================================================================================
@@ -311,10 +296,9 @@ part 'src/detail.dart';
 
 (source_file
   (part_directive
-    (uri
+    uri: (uri
       (string_literal
         (template_chars_single_single)))))
-
 ================================================================================
 Library name
 ================================================================================
@@ -328,7 +312,6 @@ library my.app;
     (dotted_identifier_list
       (identifier)
       (identifier))))
-
 ================================================================================
 Built-in identifiers as field names
 ================================================================================
@@ -349,21 +332,20 @@ class Foo {
         (type_identifier)
         (initialized_identifier_list
           (initialized_identifier
-            (identifier)
-            (decimal_integer_literal))))
+            name: (identifier)
+            value: (decimal_integer_literal))))
       (declaration
         (type_identifier)
         (initialized_identifier_list
           (initialized_identifier
-            (identifier)
-            (string_literal))))
+            name: (identifier)
+            value: (string_literal))))
       (declaration
         (type_identifier)
         (initialized_identifier_list
           (initialized_identifier
-            (identifier)
-            (true)))))))
-
+            name: (identifier)
+            value: (true)))))))
 ================================================================================
 Chained assignment in constructor initializer
 ================================================================================
@@ -385,8 +367,8 @@ class Foo {
         (initializers
           (initializer_list_entry
             (field_initializer
-              (identifier)
-              (assignment_expression
+              name: (identifier)
+              value: (assignment_expression
                 left: (assignable_expression
                   (identifier)
                   (unconditional_assignable_selector
@@ -395,7 +377,6 @@ class Foo {
                 right: (selector
                   (argument_part
                     (arguments)))))))))))
-
 ================================================================================
 Record return type with annotation
 ================================================================================
@@ -415,11 +396,11 @@ class Foo {
         name: (identifier))
       (method_signature
         (getter_signature
-          (record_type
+          return_type: (record_type
             (record_type_field
-              (type_identifier))
+              type: (type_identifier))
             (record_type_field
-              (type_identifier)))
+              type: (type_identifier)))
           name: (identifier)))
       (function_body
         (block
