@@ -1,0 +1,149 @@
+================================================================================
+Switch with pattern matching
+================================================================================
+
+void main() {
+  switch (obj) {
+    case int x when x > 0:
+      print(x);
+    default:
+      break;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (switch_statement
+        condition: (parenthesized_expression
+          (identifier))
+        body: (switch_block
+          (switch_statement_case
+            (variable_pattern
+              (type_identifier)
+              (identifier))
+            (relational_expression
+              (identifier)
+              (relational_operator)
+              (decimal_integer_literal))
+            (expression_statement
+              (identifier)
+              (selector
+                (argument_part
+                  (arguments
+                    (identifier))))))
+          (switch_statement_default
+            (break_statement)))))))
+
+================================================================================
+Pattern variable declaration
+================================================================================
+
+void main() {
+  var (a, b) = (1, 2);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (local_variable_declaration
+        (pattern_variable_declaration
+          (record_pattern
+            (constant_pattern
+              (identifier))
+            (constant_pattern
+              (identifier)))
+          (record_literal
+            (record_field
+              (decimal_integer_literal))
+            (record_field
+              (decimal_integer_literal))))))))
+
+================================================================================
+If-case statement
+================================================================================
+
+void main() {
+  if (obj case [int first, ...]) {
+    print(first);
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (if_statement
+        (identifier)
+        (list_pattern
+          (variable_pattern
+            (type_identifier)
+            (identifier))
+          (rest_pattern))
+        consequence: (block
+          (expression_statement
+            (identifier)
+            (selector
+              (argument_part
+                (arguments
+                  (identifier))))))))))
+
+================================================================================
+Switch expression
+================================================================================
+
+void main() {
+  var x = switch (obj) {
+    int n => n.toString(),
+    _ => 'other',
+  };
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    (void_type)
+    name: (identifier)
+    (formal_parameter_list))
+  (function_body
+    (block
+      (local_variable_declaration
+        (initialized_variable_definition
+          name: (identifier)
+          value: (switch_expression
+            condition: (parenthesized_expression
+              (identifier))
+            body: (switch_expression_case
+              (variable_pattern
+                (type_identifier)
+                (identifier))
+              (identifier)
+              (selector
+                (unconditional_assignable_selector
+                  (identifier)))
+              (selector
+                (argument_part
+                  (arguments))))
+            body: (switch_expression_case
+              (constant_pattern
+                (identifier))
+              (string_literal
+                (template_chars_single_single)))))))))
