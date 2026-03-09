@@ -104,6 +104,10 @@
         "named": true
       },
       {
+        "type": "empty_statement",
+        "named": true
+      },
+      {
         "type": "expression_statement",
         "named": true
       },
@@ -3059,6 +3063,11 @@
     }
   },
   {
+    "type": "empty_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "enum_body",
     "named": true,
     "fields": {},
@@ -3737,6 +3746,10 @@
           "named": true
         },
         {
+          "type": "assignment_expression",
+          "named": true
+        },
+        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -3805,6 +3818,10 @@
           "named": true
         },
         {
+          "type": "pattern_assignment",
+          "named": true
+        },
+        {
           "type": "postfix_expression",
           "named": true
         },
@@ -3826,6 +3843,10 @@
         },
         {
           "type": "switch_expression",
+          "named": true
+        },
+        {
+          "type": "throw_expression",
           "named": true
         },
         {
