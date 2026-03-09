@@ -486,6 +486,55 @@ class Invariant<inout K, inout V> {}
     body: (class_body)))
 
 ================================================================================
+Augmentation library and augment declarations
+================================================================================
+
+library augment 'main.dart';
+
+augment class A with M {
+  augment String get name => '$augmented!';
+}
+
+augment mixin M {
+  augment String get mixinX => '${augmented}b';
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (library_name
+    uri: (uri
+      (string_literal
+        (template_chars_single_single))))
+  (class_definition
+    name: (identifier)
+    superclass: (superclass
+      (mixins
+        (type_identifier)))
+    body: (class_body
+      (method_signature
+        (getter_signature
+          return_type: (type_identifier)
+          name: (identifier)))
+      (function_body
+        (string_literal
+          (template_substitution
+            (identifier_dollar_escaped))
+          (template_chars_single_single)))))
+  (mixin_declaration
+    name: (identifier)
+    body: (class_body
+      (method_signature
+        (getter_signature
+          return_type: (type_identifier)
+          name: (identifier)))
+      (function_body
+        (string_literal
+          (template_substitution
+            (identifier))
+          (template_chars_single_single))))))
+
+================================================================================
 Native method body
 ================================================================================
 

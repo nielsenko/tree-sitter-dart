@@ -168,6 +168,13 @@ module.exports = grammar({
     // [$._function_name, $.constructor_signature], -- subsumed
     // Built-in identifier conflicts
     [$._top_level_definition, $._built_in_identifier],
+    [$._top_level_definition, $.class_definition, $._built_in_identifier],
+    [$._top_level_definition, $.mixin_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.extension_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.extension_type_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.enum_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.class_definition, $.mixin_declaration, $._built_in_identifier],
+    [$._class_member_definition, $._built_in_identifier],
     [$.type_alias, $._built_in_identifier],
     [$.function_signature, $.getter_signature, $._var_or_type],
     [$.function_signature, $.setter_signature, $._var_or_type],
@@ -226,37 +233,42 @@ module.exports = grammar({
     _top_level_definition: ($) =>
       choice(
         $._declaration,
-        seq(optional($._metadata), $.function_signature, $.function_body),
-        seq(optional($._metadata), $.getter_signature, $.function_body),
-        seq(optional($._metadata), $.setter_signature, $.function_body),
+        seq(optional($._metadata), optional("augment"), $.function_signature, $.function_body),
+        seq(optional($._metadata), optional("augment"), $.getter_signature, $.function_body),
+        seq(optional($._metadata), optional("augment"), $.setter_signature, $.function_body),
         seq(
           optional($._metadata),
+          optional("augment"),
           optional("external"),
           $.function_signature,
           ";",
         ),
         seq(
           optional($._metadata),
+          optional("augment"),
           optional("external"),
           $.getter_signature,
           ";",
         ),
         seq(
           optional($._metadata),
+          optional("augment"),
           optional("external"),
           $.setter_signature,
           ";",
         ),
         seq(
           optional($._metadata),
+          optional("augment"),
           choice("final", "const"),
           optional($._type),
           $.static_final_declaration_list,
           ";",
         ),
-        seq(optional($._metadata), "late", "final", optional($._type), $.initialized_identifier_list, ";"),
+        seq(optional($._metadata), optional("augment"), "late", "final", optional($._type), $.initialized_identifier_list, ";"),
         seq(
           optional($._metadata),
+          optional("augment"),
           optional("late"),
           $._var_or_type,
           $.initialized_identifier_list,
@@ -264,6 +276,7 @@ module.exports = grammar({
         ),
         seq(
           optional($._metadata),
+          optional("augment"),
           "external",
           optional("final"),
           optional($._type),
@@ -279,11 +292,20 @@ module.exports = grammar({
     script_tag: (_) => seq("#!", /[^\n]*/, "\n"),
 
     library_name: ($) =>
-      seq(
-        optional($._metadata),
-        "library",
-        optional($.dotted_identifier_list),
-        ";",
+      choice(
+        seq(
+          optional($._metadata),
+          "library",
+          optional($.dotted_identifier_list),
+          ";",
+        ),
+        seq(
+          optional($._metadata),
+          "library",
+          "augment",
+          field("uri", $.uri),
+          ";",
+        ),
       ),
 
     import_or_export: ($) =>
@@ -1765,6 +1787,7 @@ module.exports = grammar({
       choice(
         seq(
           optional($._metadata),
+          optional("augment"),
           choice($._class_modifiers, $._mixin_class_modifiers),
           field("name", $.identifier),
           optional(field("type_parameters", $.type_parameters)),
@@ -1803,8 +1826,8 @@ module.exports = grammar({
 
     _class_member_definition: ($) =>
       choice(
-        seq($.declaration, ";"),
-        seq($.method_signature, $.function_body),
+        seq(optional("augment"), $.declaration, ";"),
+        seq(optional("augment"), $.method_signature, $.function_body),
       ),
 
     superclass: ($) =>
@@ -1834,6 +1857,7 @@ module.exports = grammar({
     mixin_declaration: ($) =>
       seq(
         optional($._metadata),
+        optional("augment"),
         optional("base"),
         "mixin",
         field("name", $.identifier),
@@ -1846,14 +1870,24 @@ module.exports = grammar({
     // --- Extensions ---
 
     extension_declaration: ($) =>
-      seq(
-        optional($._metadata),
-        "extension",
-        optional(field("name", $.identifier)),
-        optional(field("type_parameters", $.type_parameters)),
-        "on",
-        field("class", $._type),
-        field("body", $.extension_body),
+      choice(
+        seq(
+          optional($._metadata),
+          "extension",
+          optional(field("name", $.identifier)),
+          optional(field("type_parameters", $.type_parameters)),
+          "on",
+          field("class", $._type),
+          field("body", $.extension_body),
+        ),
+        seq(
+          optional($._metadata),
+          "augment",
+          "extension",
+          field("name", $.identifier),
+          optional(field("type_parameters", $.type_parameters)),
+          field("body", $.extension_body),
+        ),
       ),
 
     extension_body: ($) =>
@@ -1871,15 +1905,27 @@ module.exports = grammar({
     // --- Extension types (Dart 3.3) ---
 
     extension_type_declaration: ($) =>
-      seq(
-        optional($._metadata),
-        "extension",
-        "type",
-        optional("const"),
-        field("name", $.extension_type_name),
-        field("representation", $.extension_type_representation),
-        optional(seq("implements", commaSep1($._type))),
-        field("body", $.class_body),
+      choice(
+        seq(
+          optional($._metadata),
+          "extension",
+          "type",
+          optional("const"),
+          field("name", $.extension_type_name),
+          field("representation", $.extension_type_representation),
+          optional(seq("implements", commaSep1($._type))),
+          field("body", $.class_body),
+        ),
+        seq(
+          optional($._metadata),
+          "augment",
+          "extension",
+          "type",
+          field("name", $.identifier),
+          optional(field("type_parameters", $.type_parameters)),
+          optional(field("interfaces", $.interfaces)),
+          field("body", $.class_body),
+        ),
       ),
 
     extension_type_name: ($) =>
@@ -1897,6 +1943,7 @@ module.exports = grammar({
     enum_declaration: ($) =>
       seq(
         optional($._metadata),
+        optional("augment"),
         "enum",
         field("name", $.identifier),
         optional($.type_parameters),
@@ -2102,7 +2149,7 @@ module.exports = grammar({
         "operator", "part", "required", "set", "show",
         "static", "typedef",
         // Category 3: context keywords
-        "hide", "native", "on", "sealed", "when", "base", "inline", "type",
+        "hide", "native", "on", "sealed", "when", "base", "inline", "type", "augment",
       ),
 
     // The "super-identifier" - accepts both regular names and contextual keywords
