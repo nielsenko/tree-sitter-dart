@@ -151,8 +151,10 @@ module.exports = grammar({
     [$.type_arguments, $.relational_operator],
     // [$.relational_operator, $.type_parameters], -- unnecessary
     [$.type_arguments, $.relational_operator, $.type_parameters],
-    // Record literal vs record field
+    // Record literal vs record field / record type
     [$._record_literal_no_const, $.record_field],
+    [$.record_type, $._record_literal_no_const],
+    [$._record_literal_no_const, $.formal_parameter_list],
     // Block vs set_or_map literal
     [$.block, $.set_or_map_literal],
     // Primary + constructor_param
@@ -854,14 +856,17 @@ module.exports = grammar({
       seq(optional("const"), $._record_literal_no_const),
 
     _record_literal_no_const: ($) =>
-      seq(
-        "(",
-        choice(
-          seq($.label, $._expression),
-          seq($._expression, ","),
-          seq($.record_field, repeat1(seq(",", $.record_field)), optional(",")),
+      choice(
+        seq("(", ")"),
+        seq(
+          "(",
+          choice(
+            seq($.label, $._expression, optional(",")),
+            seq($._expression, ","),
+            seq($.record_field, repeat1(seq(",", $.record_field)), optional(",")),
+          ),
+          ")",
         ),
-        ")",
       ),
 
     record_field: ($) => seq(optional($.label), $._expression),
