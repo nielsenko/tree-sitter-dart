@@ -1,10 +1,24 @@
 # tree-sitter-dart
 
-A [tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammar for [Dart](https://dart.dev/),
-built from scratch using the official [Dart language specification](https://github.com/dart-lang/language/blob/main/specification/dartLangSpec.tex).
+A [tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammar for
+[Dart](https://dart.dev/), built from scratch using the official [Dart language
+specification](https://github.com/dart-lang/language/blob/main/specification/dartLangSpec.tex).
 
-Supports Dart through version 3.11, including records, patterns, class modifiers,
-extension types, null-aware elements, dot shorthands, and digit separators.
+Supports Dart through version 3.11, including records, patterns, class
+modifiers, extension types, null-aware elements, dot shorthands, and digit
+separators.
+
+### Correctness and performance
+
+The parser achieves 100% success on the official
+[dart-lang/language](https://github.com/dart-lang/language) corpus (4,135
+real-world files from pub.dev), parsing at ~2,000+ bytes/ms on mid-range
+hardware (2,4 GHz 8-Core Intel Core i9 - MacBook Pro):
+
+```
+Total parses: 4135; successful parses: 4135; failed parses: 0;
+success percentage: 100.00%; average speed: 2227 bytes/ms
+```
 
 ## Setup
 
@@ -36,6 +50,14 @@ npm start
 ```
 
 This builds a WASM version of the parser and opens the tree-sitter playground.
+
+## Queries
+
+The grammar ships with the following query files in `queries/`:
+
+- **`highlights.scm`** - Syntax highlighting (keywords, types, functions, literals, operators, etc.)
+- **`tags.scm`** - Symbol tagging for code navigation (classes, methods, constructors, functions, etc.)
+- **`locals.scm`** - Scope and variable resolution (scopes, definitions, references)
 
 ## Architecture
 
@@ -99,24 +121,24 @@ find path/to/dir -name '*.dart' -type f | xargs npx tree-sitter parse --quiet
 
 ### Reference material
 
-The `language/` directory is a git submodule of
-[dart-lang/language](https://github.com/dart-lang/language). It provides:
-
-- `language/specification/dartLangSpec.tex` - The formal Dart grammar
-- `language/accepted/` - Feature specifications for Dart 3.x additions
-- `language/working/` - In-progress feature specifications
-
-To initialize the submodule:
+The [dart-lang/language](https://github.com/dart-lang/language) repository is
+available as a git submodule. It is not checked out by default — to fetch it:
 
 ```sh
 git submodule update --init
 ```
 
+This provides:
+
+- `language/specification/dartLangSpec.tex` - The formal Dart grammar
+- `language/accepted/` - Feature specifications for Dart 3.x additions
+- `language/working/` - In-progress feature specifications
+
 ### Corpus testing
 
-The `language/` submodule includes tools for downloading large corpora of
-open-source Dart code from [pub.dev](https://pub.dev/) to test the parser
-against real-world code.
+Once the `language/` submodule is initialized (see above), it includes tools for
+downloading large corpora of open-source Dart code from
+[pub.dev](https://pub.dev/) to test the parser against real-world code.
 
 #### Download the corpus
 
@@ -148,3 +170,7 @@ To count failures:
 ```sh
 find language/tools/corpus -name '*.dart' -type f | xargs npx tree-sitter parse --quiet 2>&1 | grep -c ERROR
 ```
+
+## License
+
+[MIT](LICENSE)
