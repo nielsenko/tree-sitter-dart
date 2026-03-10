@@ -246,7 +246,8 @@ const pi = 3.14;
     (initialized_identifier
       name: (identifier)
       value: (string_literal
-        (template_chars_single_single))))
+        (string_literal_single_quotes
+          (template_chars_single_single)))))
   (static_final_declaration_list
     (static_final_declaration
       name: (identifier)
@@ -269,14 +270,16 @@ import 'bar.dart' show Baz, Qux;
         uri: (configurable_uri
           (uri
             (string_literal
-              (template_chars_single_single)))))))
+              (string_literal_single_quotes
+                (template_chars_single_single))))))))
   (import_or_export
     (library_import
       (import_specification
         uri: (configurable_uri
           (uri
             (string_literal
-              (template_chars_single_single))))
+              (string_literal_single_quotes
+                (template_chars_single_single)))))
         alias: (identifier))))
   (import_or_export
     (library_import
@@ -284,7 +287,8 @@ import 'bar.dart' show Baz, Qux;
         uri: (configurable_uri
           (uri
             (string_literal
-              (template_chars_single_single))))
+              (string_literal_single_quotes
+                (template_chars_single_single)))))
         (combinator
           (identifier)
           (identifier))))))
@@ -303,7 +307,8 @@ export 'src/foo.dart';
       uri: (configurable_uri
         (uri
           (string_literal
-            (template_chars_single_single)))))))
+            (string_literal_single_quotes
+              (template_chars_single_single))))))))
 
 ================================================================================
 Part directive
@@ -317,7 +322,8 @@ part 'src/detail.dart';
   (part_directive
     uri: (uri
       (string_literal
-        (template_chars_single_single)))))
+        (string_literal_single_quotes
+          (template_chars_single_single))))))
 
 ================================================================================
 Library name
@@ -362,7 +368,8 @@ class Foo {
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)
-              value: (string_literal)))))
+              value: (string_literal
+                (string_literal_single_quotes))))))
       (class_member
         (declaration
           (type_identifier)
@@ -411,6 +418,12 @@ Record return type with annotation
 class Foo {
   @override
   (int, int?)? get range { return null; }
+
+  @override
+  (String, int) get pair => ('text', 42);
+
+  @JsonKey(name: 'foo')
+  (String, int) get annotatedPair => ('text', 42);
 }
 
 --------------------------------------------------------------------------------
@@ -433,7 +446,53 @@ class Foo {
         (function_body
           (block
             (return_statement
-              (null_literal))))))))
+              (null_literal)))))
+      (annotation
+        name: (identifier))
+      (class_member
+        (method_signature
+          (getter_signature
+            return_type: (record_type
+              (record_type_field
+                type: (type_identifier))
+              (record_type_field
+                type: (type_identifier)))
+            name: (identifier)))
+        (function_body
+          (record_literal
+            (record_field
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single))))
+            (record_field
+              (decimal_integer_literal)))))
+      (annotation
+        name: (identifier)
+        (annotation_arguments
+          (annotation_open_paren)
+          (named_argument
+            (label
+              (identifier))
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single))))))
+      (class_member
+        (method_signature
+          (getter_signature
+            return_type: (record_type
+              (record_type_field
+                type: (type_identifier))
+              (record_type_field
+                type: (type_identifier)))
+            name: (identifier)))
+        (function_body
+          (record_literal
+            (record_field
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single))))
+            (record_field
+              (decimal_integer_literal))))))))
 
 ================================================================================
 Extension type with primary constructor
@@ -514,7 +573,8 @@ augment mixin M {
   (library_name
     uri: (uri
       (string_literal
-        (template_chars_single_single))))
+        (string_literal_single_quotes
+          (template_chars_single_single)))))
   (class_declaration
     name: (identifier)
     superclass: (superclass
@@ -528,9 +588,10 @@ augment mixin M {
             name: (identifier)))
         (function_body
           (string_literal
-            (template_substitution
-              (identifier_dollar_escaped))
-            (template_chars_single_single))))))
+            (string_literal_single_quotes
+              (template_substitution
+                (identifier_dollar_escaped))
+              (template_chars_single_single)))))))
   (mixin_declaration
     name: (identifier)
     body: (class_body
@@ -541,9 +602,10 @@ augment mixin M {
             name: (identifier)))
         (function_body
           (string_literal
-            (template_substitution
-              (identifier))
-            (template_chars_single_single)))))))
+            (string_literal_single_quotes
+              (template_substitution
+                (identifier))
+              (template_chars_single_single))))))))
 
 ================================================================================
 Native method body

@@ -2760,40 +2760,40 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_string_literal_double_quotes"
+            "name": "string_literal_double_quotes"
           },
           {
             "type": "SYMBOL",
-            "name": "_string_literal_single_quotes"
+            "name": "string_literal_single_quotes"
           },
           {
             "type": "SYMBOL",
-            "name": "_string_literal_double_quotes_multiple"
+            "name": "string_literal_double_quotes_multiple"
           },
           {
             "type": "SYMBOL",
-            "name": "_string_literal_single_quotes_multiple"
+            "name": "string_literal_single_quotes_multiple"
           },
           {
             "type": "SYMBOL",
-            "name": "_raw_string_literal_double_quotes"
+            "name": "raw_string_literal_double_quotes"
           },
           {
             "type": "SYMBOL",
-            "name": "_raw_string_literal_single_quotes"
+            "name": "raw_string_literal_single_quotes"
           },
           {
             "type": "SYMBOL",
-            "name": "_raw_string_literal_double_quotes_multiple"
+            "name": "raw_string_literal_double_quotes_multiple"
           },
           {
             "type": "SYMBOL",
-            "name": "_raw_string_literal_single_quotes_multiple"
+            "name": "raw_string_literal_single_quotes_multiple"
           }
         ]
       }
     },
-    "_string_literal_double_quotes": {
+    "string_literal_double_quotes": {
       "type": "SEQ",
       "members": [
         {
@@ -2834,7 +2834,7 @@
         }
       ]
     },
-    "_string_literal_single_quotes": {
+    "string_literal_single_quotes": {
       "type": "SEQ",
       "members": [
         {
@@ -2875,7 +2875,7 @@
         }
       ]
     },
-    "_string_literal_double_quotes_multiple": {
+    "string_literal_double_quotes_multiple": {
       "type": "PREC_LEFT",
       "value": 0,
       "content": {
@@ -2924,7 +2924,7 @@
         ]
       }
     },
-    "_string_literal_single_quotes_multiple": {
+    "string_literal_single_quotes_multiple": {
       "type": "PREC_LEFT",
       "value": 0,
       "content": {
@@ -2973,7 +2973,7 @@
         ]
       }
     },
-    "_raw_string_literal_double_quotes": {
+    "raw_string_literal_double_quotes": {
       "type": "SEQ",
       "members": [
         {
@@ -3018,7 +3018,7 @@
         }
       ]
     },
-    "_raw_string_literal_single_quotes": {
+    "raw_string_literal_single_quotes": {
       "type": "SEQ",
       "members": [
         {
@@ -3063,7 +3063,7 @@
         }
       ]
     },
-    "_raw_string_literal_double_quotes_multiple": {
+    "raw_string_literal_double_quotes_multiple": {
       "type": "PREC_LEFT",
       "value": 0,
       "content": {
@@ -3116,7 +3116,7 @@
         ]
       }
     },
-    "_raw_string_literal_single_quotes_multiple": {
+    "raw_string_literal_single_quotes_multiple": {
       "type": "PREC_LEFT",
       "value": 0,
       "content": {

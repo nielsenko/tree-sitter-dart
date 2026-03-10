@@ -597,18 +597,18 @@ module.exports = grammar({
     string_literal: ($) =>
       repeat1(
         choice(
-          $._string_literal_double_quotes,
-          $._string_literal_single_quotes,
-          $._string_literal_double_quotes_multiple,
-          $._string_literal_single_quotes_multiple,
-          $._raw_string_literal_double_quotes,
-          $._raw_string_literal_single_quotes,
-          $._raw_string_literal_double_quotes_multiple,
-          $._raw_string_literal_single_quotes_multiple,
+          $.string_literal_double_quotes,
+          $.string_literal_single_quotes,
+          $.string_literal_double_quotes_multiple,
+          $.string_literal_single_quotes_multiple,
+          $.raw_string_literal_double_quotes,
+          $.raw_string_literal_single_quotes,
+          $.raw_string_literal_double_quotes_multiple,
+          $.raw_string_literal_single_quotes_multiple,
         ),
       ),
 
-    _string_literal_double_quotes: ($) =>
+    string_literal_double_quotes: ($) =>
       seq(
         '"',
         repeat(
@@ -623,7 +623,7 @@ module.exports = grammar({
         '"',
       ),
 
-    _string_literal_single_quotes: ($) =>
+    string_literal_single_quotes: ($) =>
       seq(
         "'",
         repeat(
@@ -638,7 +638,7 @@ module.exports = grammar({
         "'",
       ),
 
-    _string_literal_double_quotes_multiple: ($) =>
+    string_literal_double_quotes_multiple: ($) =>
       prec.left(
         seq(
           '"""',
@@ -656,7 +656,7 @@ module.exports = grammar({
         ),
       ),
 
-    _string_literal_single_quotes_multiple: ($) =>
+    string_literal_single_quotes_multiple: ($) =>
       prec.left(
         seq(
           "'''",
@@ -674,7 +674,7 @@ module.exports = grammar({
         ),
       ),
 
-    _raw_string_literal_double_quotes: ($) =>
+    raw_string_literal_double_quotes: ($) =>
       seq(
         'r"',
         repeat(
@@ -690,7 +690,7 @@ module.exports = grammar({
         '"',
       ),
 
-    _raw_string_literal_single_quotes: ($) =>
+    raw_string_literal_single_quotes: ($) =>
       seq(
         "r'",
         repeat(
@@ -706,7 +706,7 @@ module.exports = grammar({
         "'",
       ),
 
-    _raw_string_literal_double_quotes_multiple: ($) =>
+    raw_string_literal_double_quotes_multiple: ($) =>
       prec.left(
         seq(
           'r"""',
@@ -725,7 +725,7 @@ module.exports = grammar({
         ),
       ),
 
-    _raw_string_literal_single_quotes_multiple: ($) =>
+    raw_string_literal_single_quotes_multiple: ($) =>
       prec.left(
         seq(
           "r'''",
