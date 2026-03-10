@@ -54,9 +54,25 @@
   (setter_signature
     name: (identifier) @name)) @definition.method
 
+; Operator methods
+(method_signature
+  (operator_signature)) @definition.method
+
 ; Constructors
 (constructor_signature
   name: (identifier) @name) @definition.method
+
+; Const constructors
+(constant_constructor_signature
+  (identifier) @name) @definition.method
+
+; Factory constructors
+(factory_constructor_signature
+  (identifier) @name) @definition.method
+
+; Redirecting factory constructors
+(redirecting_factory_constructor_signature
+  (identifier) @name) @definition.method
 
 ; Typedefs
 (type_alias

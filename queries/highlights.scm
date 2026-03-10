@@ -5,6 +5,8 @@
 ; ============================================================================
 
 (comment) @comment
+(block_comment) @comment.block
+(documentation_block_comment) @comment.block.documentation
 
 ; ============================================================================
 ; Literals
@@ -23,6 +25,7 @@
 (template_chars_double) @string
 (template_chars_single_single) @string
 (template_chars_double_single) @string
+(template_chars_raw_slash) @string
 (escape_sequence) @string.escape
 (template_substitution
   "$" @punctuation.special
@@ -43,10 +46,15 @@
 
 "Function" @type.builtin
 
+; Built-in types
+((type_identifier) @type.builtin
+  (#match? @type.builtin "^(int|double|num|String|bool|List|Set|Map|Runes|Symbol|Future|Stream|Iterable|Never|dynamic|Object)$"))
+
 ; ============================================================================
 ; Functions
 ; ============================================================================
 
+; Top-level functions
 (function_signature
   name: (identifier) @function)
 
@@ -56,6 +64,7 @@
 (setter_signature
   name: (identifier) @function)
 
+; Methods (inside class/mixin/extension bodies)
 (method_signature
   (function_signature
     name: (identifier) @function.method))
@@ -68,10 +77,16 @@
   (setter_signature
     name: (identifier) @function.method))
 
-; Function calls
-(selector
-  (argument_part
-    (arguments)))
+; Operator methods
+(operator_signature
+  "operator" @keyword)
+
+; Property access
+(unconditional_assignable_selector
+  (identifier) @property)
+
+(conditional_assignable_selector
+  (identifier) @property)
 
 ; ============================================================================
 ; Declarations
@@ -99,6 +114,7 @@
 (type_alias
   (type_identifier) @type.definition)
 
+; Constructors
 (constructor_signature
   name: (identifier) @constructor)
 
@@ -106,6 +122,9 @@
   (identifier) @constructor)
 
 (factory_constructor_signature
+  (identifier) @constructor)
+
+(redirecting_factory_constructor_signature
   (identifier) @constructor)
 
 ; ============================================================================
@@ -120,6 +139,11 @@
 
 (super_formal_parameter
   (identifier) @variable.parameter)
+
+; Named arguments
+(named_argument
+  (label
+    (identifier) @variable.parameter))
 
 ; ============================================================================
 ; Variables
@@ -148,6 +172,7 @@
 
 (relational_operator) @operator
 (prefix_operator) @operator
+(negate_operator) @operator
 (is_operator) @keyword.operator
 (binary_operator) @operator
 
@@ -200,6 +225,14 @@
 
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket
 
+(type_arguments
+  "<" @punctuation.bracket
+  ">" @punctuation.bracket)
+
+(type_parameters
+  "<" @punctuation.bracket
+  ">" @punctuation.bracket)
+
 ["," ";" ":" "." "?." "?."] @punctuation.delimiter
 
 "@" @punctuation.special
@@ -215,6 +248,7 @@
   "assert"
   "async"
   "async*"
+  "augment"
   "await"
   "base"
   "break"
@@ -249,6 +283,7 @@
   "late"
   "library"
   "mixin"
+  "native"
   "new"
   "on"
   "operator"
