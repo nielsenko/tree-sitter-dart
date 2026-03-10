@@ -56,6 +56,7 @@ module.exports = grammar({
     $.template_chars_raw_slash,
     $.block_comment,
     $.documentation_block_comment,
+    $.annotation_open_paren,
   ],
 
   extras: ($) => [/\s/, $.comment],
@@ -214,7 +215,6 @@ module.exports = grammar({
     [$.factory_constructor_signature, $._built_in_identifier],
     [$.assignable_expression, $._simple_formal_parameter],
     [$.unconditional_assignable_selector, $.super_formal_parameter],
-    [$._annotation_with_args, $._annotation_no_args],
   ],
 
   rules: {
@@ -387,17 +387,18 @@ module.exports = grammar({
       ),
 
     _annotation_with_args: ($) =>
-      prec.dynamic(-1, seq(
+      seq(
         "@",
         field("name", choice($.identifier, $.qualified)),
-        choice(
-          seq($.type_arguments, $.arguments),
-          $.arguments,
-        ),
-      )),
+        optional($.type_arguments),
+        $.annotation_arguments,
+      ),
+
+    annotation_arguments: ($) =>
+      seq($.annotation_open_paren, optional($._argument_list), ")"),
 
     _annotation_no_args: ($) =>
-      prec.dynamic(1, seq("@", field("name", choice($.identifier, $.qualified)))),
+      seq("@", field("name", choice($.identifier, $.qualified))),
 
     qualified: ($) =>
       choice(
