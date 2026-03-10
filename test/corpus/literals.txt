@@ -23,6 +23,7 @@ void main() {
         (decimal_integer_literal))
       (expression_statement
         (decimal_integer_literal)))))
+
 ================================================================================
 Hexadecimal integer literals
 ================================================================================
@@ -48,6 +49,7 @@ void main() {
         (hex_integer_literal))
       (expression_statement
         (hex_integer_literal)))))
+
 ================================================================================
 Floating point literals
 ================================================================================
@@ -76,6 +78,7 @@ void main() {
         (decimal_floating_point_literal))
       (expression_statement
         (decimal_floating_point_literal)))))
+
 ================================================================================
 Boolean literals
 ================================================================================
@@ -98,6 +101,7 @@ void main() {
         (true))
       (expression_statement
         (false)))))
+
 ================================================================================
 Null literal
 ================================================================================
@@ -117,6 +121,7 @@ void main() {
     (block
       (expression_statement
         (null_literal)))))
+
 ================================================================================
 String literals
 ================================================================================
@@ -137,10 +142,13 @@ void main() {
     (block
       (expression_statement
         (string_literal
-          (template_chars_single_single)))
+          (string_literal_single_quotes
+            (template_chars_single_single))))
       (expression_statement
         (string_literal
-          (template_chars_double_single))))))
+          (string_literal_double_quotes
+            (template_chars_double_single)))))))
+
 ================================================================================
 Symbol literals
 ================================================================================
@@ -166,6 +174,7 @@ void main() {
         (symbol_literal
           (identifier)
           (identifier))))))
+
 ================================================================================
 List literal
 ================================================================================
@@ -198,6 +207,7 @@ void main() {
       (expression_statement
         (list_literal
           (decimal_integer_literal))))))
+
 ================================================================================
 Set or map literal
 ================================================================================
@@ -224,5 +234,6 @@ void main() {
         (set_or_map_literal
           (pair
             key: (string_literal
-              (template_chars_single_single))
+              (string_literal_single_quotes
+                (template_chars_single_single)))
             value: (decimal_integer_literal)))))))

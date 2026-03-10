@@ -11183,6 +11183,82 @@
     }
   },
   {
+    "type": "raw_string_literal_double_quotes",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "template_chars_double_single",
+          "named": true
+        },
+        {
+          "type": "template_chars_raw_slash",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "raw_string_literal_double_quotes_multiple",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "template_chars_double",
+          "named": true
+        },
+        {
+          "type": "template_chars_raw_slash",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "raw_string_literal_single_quotes",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "template_chars_raw_slash",
+          "named": true
+        },
+        {
+          "type": "template_chars_single_single",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "raw_string_literal_single_quotes_multiple",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "template_chars_raw_slash",
+          "named": true
+        },
+        {
+          "type": "template_chars_single",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "record_field",
     "named": true,
     "fields": {},
@@ -13084,6 +13160,72 @@
     "fields": {},
     "children": {
       "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "raw_string_literal_double_quotes",
+          "named": true
+        },
+        {
+          "type": "raw_string_literal_double_quotes_multiple",
+          "named": true
+        },
+        {
+          "type": "raw_string_literal_single_quotes",
+          "named": true
+        },
+        {
+          "type": "raw_string_literal_single_quotes_multiple",
+          "named": true
+        },
+        {
+          "type": "string_literal_double_quotes",
+          "named": true
+        },
+        {
+          "type": "string_literal_double_quotes_multiple",
+          "named": true
+        },
+        {
+          "type": "string_literal_single_quotes",
+          "named": true
+        },
+        {
+          "type": "string_literal_single_quotes_multiple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string_literal_double_quotes",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "template_chars_double_single",
+          "named": true
+        },
+        {
+          "type": "template_substitution",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string_literal_double_quotes_multiple",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -13095,19 +13237,49 @@
           "named": true
         },
         {
-          "type": "template_chars_double_single",
+          "type": "template_substitution",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "string_literal_single_quotes",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
         {
-          "type": "template_chars_raw_slash",
-          "named": true
-        },
-        {
-          "type": "template_chars_single",
+          "type": "escape_sequence",
           "named": true
         },
         {
           "type": "template_chars_single_single",
+          "named": true
+        },
+        {
+          "type": "template_substitution",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string_literal_single_quotes_multiple",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "template_chars_single",
           "named": true
         },
         {
