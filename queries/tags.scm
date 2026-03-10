@@ -1,7 +1,7 @@
 ; tags.scm - Dart symbol tagging queries
 
 ; Classes
-(class_definition
+(class_declaration
   name: (identifier) @name) @definition.class
 
 ; Mixins
