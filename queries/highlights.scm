@@ -77,7 +77,7 @@
 ; Declarations
 ; ============================================================================
 
-(class_definition
+(class_declaration
   name: (identifier) @type)
 
 (mixin_declaration

@@ -7784,7 +7784,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "class_definition"
+            "name": "class_declaration"
           },
           {
             "type": "SYMBOL",
@@ -9333,7 +9333,7 @@
         }
       ]
     },
-    "class_definition": {
+    "class_declaration": {
       "type": "CHOICE",
       "members": [
         {
@@ -12241,7 +12241,7 @@
     ],
     [
       "_top_level_definition",
-      "class_definition",
+      "class_declaration",
       "_built_in_identifier"
     ],
     [
@@ -12266,7 +12266,7 @@
     ],
     [
       "_top_level_definition",
-      "class_definition",
+      "class_declaration",
       "mixin_declaration",
       "_built_in_identifier"
     ],

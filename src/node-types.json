@@ -4,7 +4,7 @@
     "named": true,
     "subtypes": [
       {
-        "type": "class_definition",
+        "type": "class_declaration",
         "named": true
       },
       {
@@ -1916,7 +1916,7 @@
     }
   },
   {
-    "type": "class_definition",
+    "type": "class_declaration",
     "named": true,
     "fields": {
       "body": {

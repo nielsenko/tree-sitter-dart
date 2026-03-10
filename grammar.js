@@ -170,12 +170,12 @@ module.exports = grammar({
     // [$._function_name, $.constructor_signature], -- subsumed
     // Built-in identifier conflicts
     [$._top_level_definition, $._built_in_identifier],
-    [$._top_level_definition, $.class_definition, $._built_in_identifier],
+    [$._top_level_definition, $.class_declaration, $._built_in_identifier],
     [$._top_level_definition, $.mixin_declaration, $._built_in_identifier],
     [$._top_level_definition, $.extension_declaration, $._built_in_identifier],
     [$._top_level_definition, $.extension_type_declaration, $._built_in_identifier],
     [$._top_level_definition, $.enum_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.class_definition, $.mixin_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.class_declaration, $.mixin_declaration, $._built_in_identifier],
     [$.class_member, $._built_in_identifier],
     [$.type_alias, $._built_in_identifier],
     [$.function_signature, $.getter_signature, $._var_or_type],
@@ -1588,7 +1588,7 @@ module.exports = grammar({
       prec(
         1,
         choice(
-          $.class_definition,
+          $.class_declaration,
           $.mixin_declaration,
           $.extension_declaration,
           $.extension_type_declaration,
@@ -1788,7 +1788,7 @@ module.exports = grammar({
 
     // --- Classes ---
 
-    class_definition: ($) =>
+    class_declaration: ($) =>
       choice(
         seq(
           optional($._metadata),

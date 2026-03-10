@@ -7,7 +7,7 @@ class Foo {}
 --------------------------------------------------------------------------------
 
 (source_file
-  (class_definition
+  (class_declaration
     name: (identifier)
     body: (class_body)))
 
@@ -20,7 +20,7 @@ class Dog extends Animal implements Barker {}
 --------------------------------------------------------------------------------
 
 (source_file
-  (class_definition
+  (class_declaration
     name: (identifier)
     superclass: (superclass
       type: (type_identifier))
@@ -37,7 +37,7 @@ class Cat extends Animal with Walker, Purrer {}
 --------------------------------------------------------------------------------
 
 (source_file
-  (class_definition
+  (class_declaration
     name: (identifier)
     superclass: (superclass
       type: (type_identifier)
@@ -55,7 +55,7 @@ sealed class Shape {}
 --------------------------------------------------------------------------------
 
 (source_file
-  (class_definition
+  (class_declaration
     name: (identifier)
     body: (class_body)))
 
@@ -68,7 +68,7 @@ abstract base class Vehicle {}
 --------------------------------------------------------------------------------
 
 (source_file
-  (class_definition
+  (class_declaration
     name: (identifier)
     body: (class_body)))
 
@@ -81,7 +81,7 @@ interface class Drawable {}
 --------------------------------------------------------------------------------
 
 (source_file
-  (class_definition
+  (class_declaration
     name: (identifier)
     body: (class_body)))
 
@@ -346,7 +346,7 @@ class Foo {
 --------------------------------------------------------------------------------
 
 (source_file
-  (class_definition
+  (class_declaration
     name: (identifier)
     body: (class_body
       (class_member
@@ -382,7 +382,7 @@ class Foo {
 --------------------------------------------------------------------------------
 
 (source_file
-  (class_definition
+  (class_declaration
     name: (identifier)
     body: (class_body
       (class_member
@@ -416,7 +416,7 @@ class Foo {
 --------------------------------------------------------------------------------
 
 (source_file
-  (class_definition
+  (class_declaration
     name: (identifier)
     body: (class_body
       (annotation
@@ -469,21 +469,21 @@ class Invariant<inout K, inout V> {}
 --------------------------------------------------------------------------------
 
 (source_file
-  (class_definition
+  (class_declaration
     name: (identifier)
     type_parameters: (type_parameters
       (type_parameter
         variance: (variance_modifier)
         name: (type_identifier)))
     body: (class_body))
-  (class_definition
+  (class_declaration
     name: (identifier)
     type_parameters: (type_parameters
       (type_parameter
         variance: (variance_modifier)
         name: (type_identifier)))
     body: (class_body))
-  (class_definition
+  (class_declaration
     name: (identifier)
     type_parameters: (type_parameters
       (type_parameter
@@ -515,7 +515,7 @@ augment mixin M {
     uri: (uri
       (string_literal
         (template_chars_single_single))))
-  (class_definition
+  (class_declaration
     name: (identifier)
     superclass: (superclass
       (mixins
@@ -557,7 +557,7 @@ class Foo {
 --------------------------------------------------------------------------------
 
 (source_file
-  (class_definition
+  (class_declaration
     name: (identifier)
     body: (class_body
       (class_member
