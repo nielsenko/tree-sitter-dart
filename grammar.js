@@ -1826,14 +1826,14 @@ module.exports = grammar({
     class_body: ($) =>
       seq(
         "{",
-        repeat(seq(optional($._metadata), $.class_member)),
+        repeat($.class_member),
         "}",
       ),
 
     class_member: ($) =>
       choice(
-        seq(optional("augment"), $.declaration, ";"),
-        seq(optional("augment"), $.method_signature, $.function_body),
+        seq(optional($._metadata), optional("augment"), $.declaration, ";"),
+        seq(optional($._metadata), optional("augment"), $.method_signature, $.function_body),
       ),
 
     superclass: ($) =>
@@ -1899,7 +1899,7 @@ module.exports = grammar({
     extension_body: ($) =>
       seq(
         "{",
-        repeat(seq(optional($._metadata), $.class_member)),
+        repeat($.class_member),
         "}",
       ),
 
@@ -1960,7 +1960,7 @@ module.exports = grammar({
         optional(
           seq(
             ";",
-            repeat(seq(optional($._metadata), $.class_member)),
+            repeat($.class_member),
           ),
         ),
         "}",
