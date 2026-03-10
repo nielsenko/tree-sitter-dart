@@ -432,9 +432,9 @@ class Foo {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (annotation
-        name: (identifier))
       (class_member
+        (annotation
+          name: (identifier))
         (method_signature
           (getter_signature
             return_type: (record_type
@@ -447,9 +447,9 @@ class Foo {
           (block
             (return_statement
               (null_literal)))))
-      (annotation
-        name: (identifier))
       (class_member
+        (annotation
+          name: (identifier))
         (method_signature
           (getter_signature
             return_type: (record_type
@@ -466,17 +466,17 @@ class Foo {
                   (template_chars_single_single))))
             (record_field
               (decimal_integer_literal)))))
-      (annotation
-        name: (identifier)
-        (annotation_arguments
-          (annotation_open_paren)
-          (named_argument
-            (label
-              (identifier))
-            (string_literal
-              (string_literal_single_quotes
-                (template_chars_single_single))))))
       (class_member
+        (annotation
+          name: (identifier)
+          (annotation_arguments
+            (annotation_open_paren)
+            (named_argument
+              (label
+                (identifier))
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single))))))
         (method_signature
           (getter_signature
             return_type: (record_type
