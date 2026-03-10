@@ -150,3 +150,89 @@ void main() {
               (string_literal
                 (string_literal_single_quotes
                   (template_chars_single_single))))))))))
+
+================================================================================
+Object pattern with labeled fields
+================================================================================
+
+class Point { final int x; final int y; Point(this.x, this.y); }
+void main() {
+  var p = Point(1, 2);
+  switch (p) {
+    case Point(x: var px, y: var py) when px > py:
+      print(px);
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (class_member
+        (declaration
+          (type_identifier)
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)))))
+      (class_member
+        (declaration
+          (type_identifier)
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)))))
+      (class_member
+        (declaration
+          (constructor_signature
+            name: (identifier)
+            parameters: (formal_parameter_list
+              (formal_parameter
+                (constructor_param
+                  (identifier)))
+              (formal_parameter
+                (constructor_param
+                  (identifier)))))))))
+  (function_signature
+    return_type: (void_type)
+    name: (identifier)
+    parameters: (formal_parameter_list))
+  (function_body
+    (block
+      (local_variable_declaration
+        (initialized_variable_definition
+          name: (identifier)
+          value: (identifier)
+          value: (selector
+            (argument_part
+              (arguments
+                (argument
+                  (decimal_integer_literal))
+                (argument
+                  (decimal_integer_literal)))))))
+      (switch_statement
+        condition: (parenthesized_expression
+          (identifier))
+        body: (switch_block
+          (switch_statement_case
+            (object_pattern
+              (type_identifier)
+              (label
+                (identifier))
+              (variable_pattern
+                name: (identifier))
+              (label
+                (identifier))
+              (variable_pattern
+                name: (identifier)))
+            (relational_expression
+              (identifier)
+              (relational_operator)
+              (identifier))
+            (expression_statement
+              (identifier)
+              (selector
+                (argument_part
+                  (arguments
+                    (argument
+                      (identifier))))))))))))

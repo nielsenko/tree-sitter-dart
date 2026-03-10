@@ -9796,6 +9796,10 @@
           "named": true
         },
         {
+          "type": "label",
+          "named": true
+        },
+        {
           "type": "list_pattern",
           "named": true
         },
@@ -11493,6 +11497,10 @@
         },
         {
           "type": "if_null_expression",
+          "named": true
+        },
+        {
+          "type": "label",
           "named": true
         },
         {
