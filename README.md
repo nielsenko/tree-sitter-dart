@@ -37,6 +37,30 @@ npm start
 
 This builds a WASM version of the parser and opens the tree-sitter playground.
 
+## Architecture
+
+### External scanner
+
+The parser uses a custom external scanner (`src/scanner.c`) for three aspects of
+Dart syntax that cannot be expressed with tree-sitter's generated lexer:
+
+1. **String interpolation characters** - Dart strings can contain `$expr` and
+   `${expr}` interpolations. The scanner emits `template_chars_*` tokens for
+   the literal text between interpolation boundaries, handling all four string
+   quote styles (single, double, triple-single, triple-double) and raw strings.
+
+2. **Nested block comments** - Dart block comments (`/* ... */`) can nest
+   arbitrarily. The scanner tracks nesting depth and distinguishes regular block
+   comments from documentation block comments (`/** ... */`).
+
+3. **Annotation argument disambiguation** - In Dart, `@Foo(args)` is an
+   annotation with arguments, but `@override (String, int)` (with a space) is
+   an annotation followed by a record type. The scanner emits an
+   `annotation_open_paren` token only when `(` appears immediately after the
+   annotation name with no whitespace, matching the Dart spec's NO_SPACE rule.
+
+The scanner is stateless - serialize/deserialize are no-ops.
+
 ## Development
 
 The grammar is defined entirely in `grammar.js`. After making changes, run:
