@@ -191,12 +191,14 @@ enum Planet {
         name: (identifier)
         (argument_part
           (arguments
-            (decimal_floating_point_literal))))
+            (argument
+              (decimal_floating_point_literal)))))
       (enum_constant
         name: (identifier)
         (argument_part
           (arguments
-            (decimal_floating_point_literal))))
+            (argument
+              (decimal_floating_point_literal)))))
       (class_member
         (declaration
           (type_identifier)
@@ -471,12 +473,13 @@ class Foo {
           name: (identifier)
           (annotation_arguments
             (annotation_open_paren)
-            (named_argument
-              (label
-                (identifier))
-              (string_literal
-                (string_literal_single_quotes
-                  (template_chars_single_single))))))
+            (argument
+              (named_argument
+                (label
+                  (identifier))
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single)))))))
         (method_signature
           (getter_signature
             return_type: (record_type

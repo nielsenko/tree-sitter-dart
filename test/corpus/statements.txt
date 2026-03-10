@@ -96,7 +96,8 @@ void main() {
             (selector
               (argument_part
                 (arguments
-                  (identifier))))))))))
+                  (argument
+                    (identifier)))))))))))
 
 ================================================================================
 For-in loop
@@ -126,7 +127,8 @@ void main() {
             (selector
               (argument_part
                 (arguments
-                  (identifier))))))))))
+                  (argument
+                    (identifier)))))))))))
 
 ================================================================================
 While loop
@@ -225,7 +227,8 @@ void main() {
             (selector
               (argument_part
                 (arguments
-                  (identifier))))))
+                  (argument
+                    (identifier)))))))
         (catch_clause
           exception: (identifier)
           stack_trace: (identifier))
@@ -235,7 +238,8 @@ void main() {
             (selector
               (argument_part
                 (arguments
-                  (identifier))))))
+                  (argument
+                    (identifier)))))))
         (finally_clause
           (block
             (expression_statement

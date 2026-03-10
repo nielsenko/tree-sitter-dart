@@ -5747,7 +5747,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_any_argument"
+            "name": "argument"
           },
           {
             "type": "REPEAT",
@@ -5760,7 +5760,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_any_argument"
+                  "name": "argument"
                 }
               ]
             }
@@ -5780,7 +5780,7 @@
         ]
       }
     },
-    "_any_argument": {
+    "argument": {
       "type": "CHOICE",
       "members": [
         {

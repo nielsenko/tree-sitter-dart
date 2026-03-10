@@ -37,7 +37,8 @@ void main() {
               (selector
                 (argument_part
                   (arguments
-                    (identifier))))))
+                    (argument
+                      (identifier)))))))
           (switch_statement_default
             (break_statement)))))))
 
@@ -103,7 +104,8 @@ void main() {
             (selector
               (argument_part
                 (arguments
-                  (identifier))))))))))
+                  (argument
+                    (identifier)))))))))))
 
 ================================================================================
 Switch expression

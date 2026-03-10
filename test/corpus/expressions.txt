@@ -362,14 +362,16 @@ void main() {
           (selector
             (argument_part
               (arguments
-                (decimal_integer_literal)))))
+                (argument
+                  (decimal_integer_literal))))))
         (cascade_section
           (cascade_selector
             (identifier))
           (selector
             (argument_part
               (arguments
-                (decimal_integer_literal)))))))))
+                (argument
+                  (decimal_integer_literal))))))))))
 
 ================================================================================
 Built-in identifiers as assignable expressions
@@ -429,19 +431,21 @@ void f() {
         (selector
           (argument_part
             (arguments
-              (named_argument
-                (label
-                  (identifier))
-                (decimal_integer_literal))))))
+              (argument
+                (named_argument
+                  (label
+                    (identifier))
+                  (decimal_integer_literal)))))))
       (expression_statement
         (identifier)
         (selector
           (argument_part
             (arguments
-              (named_argument
-                (label
-                  (identifier))
-                (true)))))))))
+              (argument
+                (named_argument
+                  (label
+                    (identifier))
+                  (true))))))))))
 
 ================================================================================
 Built-in identifiers as member access
