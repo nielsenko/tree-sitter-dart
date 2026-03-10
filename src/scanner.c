@@ -9,6 +9,7 @@ enum TokenType {
   TEMPLATE_CHARS_RAW_SLASH,
   BLOCK_COMMENT,
   DOCUMENTATION_BLOCK_COMMENT,
+  ANNOTATION_OPEN_PAREN,
 };
 
 void *tree_sitter_dart_external_scanner_create() { return NULL; }
@@ -122,6 +123,16 @@ bool tree_sitter_dart_external_scanner_scan(void *payload, TSLexer *lexer,
   ) {
     return scan_templates(lexer, valid_symbols);
   }
+
+  // Annotation open paren: only match '(' immediately (no whitespace).
+  // This disambiguates @Foo(args) from @override (RecordType).
+  if (valid_symbols[ANNOTATION_OPEN_PAREN] && lexer->lookahead == '(') {
+    advance(lexer);
+    lexer->mark_end(lexer);
+    lexer->result_symbol = ANNOTATION_OPEN_PAREN;
+    return true;
+  }
+
   while (iswspace(lexer->lookahead)) lexer->advance(lexer, true);
 
   if (lexer->lookahead == '/') {
