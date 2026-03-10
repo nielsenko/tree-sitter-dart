@@ -2099,7 +2099,7 @@ module.exports = grammar({
       seq("(", commaSep1TrailingComma($._pattern_field), ")"),
 
     _pattern_field: ($) =>
-      seq(optional(seq(optional($.identifier), ":")), $._pattern),
+      seq(optional(choice($.label, ":")), $._pattern),
 
     object_pattern: ($) =>
       seq(
