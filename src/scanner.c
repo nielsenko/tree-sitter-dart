@@ -12,13 +12,13 @@ enum TokenType {
 };
 
 void *tree_sitter_dart_external_scanner_create() { return NULL; }
-void tree_sitter_dart_external_scanner_destroy(void *p) {}
-void tree_sitter_dart_external_scanner_reset(void *p) {}
-unsigned tree_sitter_dart_external_scanner_serialize(void *p, char *buffer) { return 0; }
-void tree_sitter_dart_external_scanner_deserialize(void *p, const char *b, unsigned n) {}
+void tree_sitter_dart_external_scanner_destroy(void *p) { (void)p; }
+void tree_sitter_dart_external_scanner_reset(void *p) { (void)p; }
+unsigned tree_sitter_dart_external_scanner_serialize(void *p, char *buffer) { (void)p; (void)buffer; return 0; }
+void tree_sitter_dart_external_scanner_deserialize(void *p, const char *b, unsigned n) { (void)p; (void)b; (void)n; }
 
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
-static void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
+
 
 static bool scan_multiline_comments(TSLexer *lexer) {
 
@@ -113,6 +113,7 @@ static bool scan_templates(TSLexer *lexer, const bool *valid_symbols) {
 
 bool tree_sitter_dart_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
+  (void)payload;
   if (
       valid_symbols[TEMPLATE_CHARS_DOUBLE] ||
       valid_symbols[TEMPLATE_CHARS_SINGLE] ||
