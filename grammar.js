@@ -176,7 +176,7 @@ module.exports = grammar({
     [$._top_level_definition, $.extension_type_declaration, $._built_in_identifier],
     [$._top_level_definition, $.enum_declaration, $._built_in_identifier],
     [$._top_level_definition, $.class_definition, $.mixin_declaration, $._built_in_identifier],
-    [$._class_member_definition, $._built_in_identifier],
+    [$.class_member, $._built_in_identifier],
     [$.type_alias, $._built_in_identifier],
     [$.function_signature, $.getter_signature, $._var_or_type],
     [$.function_signature, $.setter_signature, $._var_or_type],
@@ -1825,11 +1825,11 @@ module.exports = grammar({
     class_body: ($) =>
       seq(
         "{",
-        repeat(seq(optional($._metadata), $._class_member_definition)),
+        repeat(seq(optional($._metadata), $.class_member)),
         "}",
       ),
 
-    _class_member_definition: ($) =>
+    class_member: ($) =>
       choice(
         seq(optional("augment"), $.declaration, ";"),
         seq(optional("augment"), $.method_signature, $.function_body),
@@ -1898,12 +1898,7 @@ module.exports = grammar({
     extension_body: ($) =>
       seq(
         "{",
-        repeat(
-          choice(
-            seq(optional($._metadata), $.declaration, ";"),
-            seq(optional($._metadata), $.method_signature, $.function_body),
-          ),
-        ),
+        repeat(seq(optional($._metadata), $.class_member)),
         "}",
       ),
 
@@ -1964,7 +1959,7 @@ module.exports = grammar({
         optional(
           seq(
             ";",
-            repeat(seq(optional($._metadata), $._class_member_definition)),
+            repeat(seq(optional($._metadata), $.class_member)),
           ),
         ),
         "}",

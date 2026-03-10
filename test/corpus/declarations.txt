@@ -100,13 +100,14 @@ mixin Flyable on Animal {
     name: (identifier)
     (type_identifier)
     body: (class_body
-      (method_signature
-        (function_signature
-          return_type: (void_type)
-          name: (identifier)
-          parameters: (formal_parameter_list)))
-      (function_body
-        (block)))))
+      (class_member
+        (method_signature
+          (function_signature
+            return_type: (void_type)
+            name: (identifier)
+            parameters: (formal_parameter_list)))
+        (function_body
+          (block))))))
 
 ================================================================================
 Extension declaration
@@ -123,12 +124,13 @@ extension StringExt on String {
     name: (identifier)
     class: (type_identifier)
     body: (extension_body
-      (method_signature
-        (getter_signature
-          return_type: (type_identifier)
-          name: (identifier)))
-      (function_body
-        (identifier)))))
+      (class_member
+        (method_signature
+          (getter_signature
+            return_type: (type_identifier)
+            name: (identifier)))
+        (function_body
+          (identifier))))))
 
 ================================================================================
 Extension type
@@ -195,18 +197,20 @@ enum Planet {
         (argument_part
           (arguments
             (decimal_floating_point_literal))))
-      (declaration
-        (type_identifier)
-        (initialized_identifier_list
-          (initialized_identifier
-            name: (identifier))))
-      (declaration
-        (constant_constructor_signature
-          name: (identifier)
-          parameters: (formal_parameter_list
-            (formal_parameter
-              (constructor_param
-                (identifier)))))))))
+      (class_member
+        (declaration
+          (type_identifier)
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)))))
+      (class_member
+        (declaration
+          (constant_constructor_signature
+            name: (identifier)
+            parameters: (formal_parameter_list
+              (formal_parameter
+                (constructor_param
+                  (identifier))))))))))
 
 ================================================================================
 Typedef
@@ -345,24 +349,27 @@ class Foo {
   (class_definition
     name: (identifier)
     body: (class_body
-      (declaration
-        (type_identifier)
-        (initialized_identifier_list
-          (initialized_identifier
-            name: (identifier)
-            value: (decimal_integer_literal))))
-      (declaration
-        (type_identifier)
-        (initialized_identifier_list
-          (initialized_identifier
-            name: (identifier)
-            value: (string_literal))))
-      (declaration
-        (type_identifier)
-        (initialized_identifier_list
-          (initialized_identifier
-            name: (identifier)
-            value: (true)))))))
+      (class_member
+        (declaration
+          (type_identifier)
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)
+              value: (decimal_integer_literal)))))
+      (class_member
+        (declaration
+          (type_identifier)
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)
+              value: (string_literal)))))
+      (class_member
+        (declaration
+          (type_identifier)
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)
+              value: (true))))))))
 
 ================================================================================
 Chained assignment in constructor initializer
@@ -378,23 +385,24 @@ class Foo {
   (class_definition
     name: (identifier)
     body: (class_body
-      (declaration
-        (constructor_signature
-          name: (identifier)
-          parameters: (formal_parameter_list))
-        (initializers
-          (initializer_list_entry
-            (field_initializer
-              name: (identifier)
-              value: (assignment_expression
-                left: (assignable_expression
-                  (identifier)
-                  (unconditional_assignable_selector
-                    (identifier)))
-                right: (identifier)
-                right: (selector
-                  (argument_part
-                    (arguments)))))))))))
+      (class_member
+        (declaration
+          (constructor_signature
+            name: (identifier)
+            parameters: (formal_parameter_list))
+          (initializers
+            (initializer_list_entry
+              (field_initializer
+                name: (identifier)
+                value: (assignment_expression
+                  left: (assignable_expression
+                    (identifier)
+                    (unconditional_assignable_selector
+                      (identifier)))
+                  right: (identifier)
+                  right: (selector
+                    (argument_part
+                      (arguments))))))))))))
 
 ================================================================================
 Record return type with annotation
@@ -413,18 +421,19 @@ class Foo {
     body: (class_body
       (annotation
         name: (identifier))
-      (method_signature
-        (getter_signature
-          return_type: (record_type
-            (record_type_field
-              type: (type_identifier))
-            (record_type_field
-              type: (type_identifier)))
-          name: (identifier)))
-      (function_body
-        (block
-          (return_statement
-            (null_literal)))))))
+      (class_member
+        (method_signature
+          (getter_signature
+            return_type: (record_type
+              (record_type_field
+                type: (type_identifier))
+              (record_type_field
+                type: (type_identifier)))
+            name: (identifier)))
+        (function_body
+          (block
+            (return_statement
+              (null_literal))))))))
 
 ================================================================================
 Extension type with primary constructor
@@ -512,27 +521,29 @@ augment mixin M {
       (mixins
         (type_identifier)))
     body: (class_body
-      (method_signature
-        (getter_signature
-          return_type: (type_identifier)
-          name: (identifier)))
-      (function_body
-        (string_literal
-          (template_substitution
-            (identifier_dollar_escaped))
-          (template_chars_single_single)))))
+      (class_member
+        (method_signature
+          (getter_signature
+            return_type: (type_identifier)
+            name: (identifier)))
+        (function_body
+          (string_literal
+            (template_substitution
+              (identifier_dollar_escaped))
+            (template_chars_single_single))))))
   (mixin_declaration
     name: (identifier)
     body: (class_body
-      (method_signature
-        (getter_signature
-          return_type: (type_identifier)
-          name: (identifier)))
-      (function_body
-        (string_literal
-          (template_substitution
-            (identifier))
-          (template_chars_single_single))))))
+      (class_member
+        (method_signature
+          (getter_signature
+            return_type: (type_identifier)
+            name: (identifier)))
+        (function_body
+          (string_literal
+            (template_substitution
+              (identifier))
+            (template_chars_single_single)))))))
 
 ================================================================================
 Native method body
@@ -549,19 +560,21 @@ class Foo {
   (class_definition
     name: (identifier)
     body: (class_body
-      (method_signature
-        (getter_signature
-          return_type: (type_identifier)
-          name: (identifier)))
-      (function_body
-        (native))
-      (method_signature
-        (function_signature
-          return_type: (type_identifier)
-          name: (identifier)
-          parameters: (formal_parameter_list)))
-      (function_body
-        (native)))))
+      (class_member
+        (method_signature
+          (getter_signature
+            return_type: (type_identifier)
+            name: (identifier)))
+        (function_body
+          (native)))
+      (class_member
+        (method_signature
+          (function_signature
+            return_type: (type_identifier)
+            name: (identifier)
+            parameters: (formal_parameter_list)))
+        (function_body
+          (native))))))
 
 ================================================================================
 External final declaration

@@ -1909,15 +1909,7 @@
           "named": true
         },
         {
-          "type": "declaration",
-          "named": true
-        },
-        {
-          "type": "function_body",
-          "named": true
-        },
-        {
-          "type": "method_signature",
+          "type": "class_member",
           "named": true
         }
       ]
@@ -1988,6 +1980,29 @@
         },
         {
           "type": "mixin_application_class",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "class_member",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "declaration",
+          "named": true
+        },
+        {
+          "type": "function_body",
+          "named": true
+        },
+        {
+          "type": "method_signature",
           "named": true
         }
       ]
@@ -3165,19 +3180,11 @@
           "named": true
         },
         {
-          "type": "declaration",
+          "type": "class_member",
           "named": true
         },
         {
           "type": "enum_constant",
-          "named": true
-        },
-        {
-          "type": "function_body",
-          "named": true
-        },
-        {
-          "type": "method_signature",
           "named": true
         }
       ]
@@ -3553,15 +3560,7 @@
           "named": true
         },
         {
-          "type": "declaration",
-          "named": true
-        },
-        {
-          "type": "function_body",
-          "named": true
-        },
-        {
-          "type": "method_signature",
+          "type": "class_member",
           "named": true
         }
       ]
