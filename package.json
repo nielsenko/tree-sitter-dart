@@ -2,7 +2,7 @@
   "name": "tree-sitter-dart",
   "version": "0.1.0",
   "description": "Dart grammar for tree-sitter",
-  "repository": "https://github.com/tree-sitter/tree-sitter-dart",
+  "repository": "https://github.com/nielsenko/tree-sitter-dart",
   "license": "MIT",
   "author": {
     "name": "Kasper Overgård Nielsen",

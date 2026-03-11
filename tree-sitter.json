@@ -12,7 +12,8 @@
       "injection-regex": "^dart$",
       "class-name": "TreeSitterDart",
       "highlights": "queries/highlights.scm",
-      "tags": "queries/tags.scm"
+      "tags": "queries/tags.scm",
+      "locals": "queries/locals.scm"
     }
   ],
   "metadata": {
@@ -26,7 +27,7 @@
       }
     ],
     "links": {
-      "repository": "https://github.com/tree-sitter/tree-sitter-dart"
+      "repository": "https://github.com/nielsenko/tree-sitter-dart"
     }
   },
   "bindings": {
