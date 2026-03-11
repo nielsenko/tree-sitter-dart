@@ -13,13 +13,14 @@ autoexamples = false
 
 build = "bindings/rust/build.rs"
 include = [
+  "Cargo.toml",
+  "LICENSE",
+  "README.md",
   "bindings/rust/*",
   "grammar.js",
   "queries/*",
   "src/*",
   "tree-sitter.json",
-  "LICENSE",
-  "README.md",
 ]
 
 [lib]
