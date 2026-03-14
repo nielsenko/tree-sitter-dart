@@ -132,6 +132,10 @@
         "named": true
       },
       {
+        "type": "rethrow_statement",
+        "named": true
+      },
+      {
         "type": "return_statement",
         "named": true
       },
@@ -4809,6 +4813,10 @@
           "named": true
         },
         {
+          "type": "annotation",
+          "named": true
+        },
+        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -5582,6 +5590,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "annotation",
           "named": true
         },
         {
@@ -12089,6 +12101,11 @@
     }
   },
   {
+    "type": "rethrow_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "return_statement",
     "named": true,
     "fields": {},
@@ -15728,6 +15745,10 @@
   },
   {
     "type": "required",
+    "named": false
+  },
+  {
+    "type": "rethrow",
     "named": false
   },
   {

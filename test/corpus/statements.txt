@@ -249,6 +249,72 @@ void main() {
                   (arguments))))))))))
 
 ================================================================================
+Rethrow statement
+================================================================================
+
+void main() {
+  try {
+    foo();
+  } catch (e) {
+    rethrow;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    return_type: (void_type)
+    name: (identifier)
+    parameters: (formal_parameter_list))
+  (function_body
+    (block
+      (try_statement
+        body: (block
+          (expression_statement
+            (identifier)
+            (selector
+              (argument_part
+                (arguments)))))
+        (catch_clause
+          exception: (identifier))
+        (block
+          (rethrow_statement))))))
+
+================================================================================
+For-in loop with metadata
+================================================================================
+
+void main() {
+  for (@deprecated var x in list) {
+    print(x);
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    return_type: (void_type)
+    name: (identifier)
+    parameters: (formal_parameter_list))
+  (function_body
+    (block
+      (for_statement
+        (annotation
+          name: (identifier))
+        name: (identifier)
+        value: (identifier)
+        body: (block
+          (expression_statement
+            (identifier)
+            (selector
+              (argument_part
+                (arguments
+                  (argument
+                    (identifier)))))))))))
+
+================================================================================
 Return statement
 ================================================================================
 

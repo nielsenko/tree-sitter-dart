@@ -1356,6 +1356,7 @@ module.exports = grammar({
         $.try_statement,
         $.break_statement,
         $.continue_statement,
+        $.rethrow_statement,
         $.return_statement,
         $.yield_statement,
         $.yield_each_statement,
@@ -1428,6 +1429,7 @@ module.exports = grammar({
       choice(
         // for-in loop
         seq(
+          optional($._metadata),
           choice($._declared_identifier, $.identifier),
           "in",
           field("value", $._expression),
@@ -1538,6 +1540,8 @@ module.exports = grammar({
     break_statement: ($) => seq("break", optional($.identifier), ";"),
 
     continue_statement: ($) => seq("continue", optional($.identifier), ";"),
+
+    rethrow_statement: (_) => seq("rethrow", ";"),
 
     return_statement: ($) => seq("return", optional($._expression), ";"),
 
