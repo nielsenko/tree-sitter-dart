@@ -178,6 +178,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -351,6 +355,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -546,6 +554,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -678,6 +690,10 @@
       "types": [
         {
           "type": "_literal",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -817,6 +833,10 @@
           },
           {
             "type": "additive_expression",
+            "named": true
+          },
+          {
+            "type": "argument_part",
             "named": true
           },
           {
@@ -964,6 +984,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "const_object_expression",
           "named": true
         },
@@ -1047,6 +1071,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -1173,6 +1201,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -1293,6 +1325,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -1449,6 +1485,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -1581,6 +1621,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -1759,6 +1803,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -2098,6 +2146,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -2237,6 +2289,10 @@
             "named": true
           },
           {
+            "type": "argument_part",
+            "named": true
+          },
+          {
             "type": "assignment_expression",
             "named": true
           },
@@ -2368,6 +2424,10 @@
           },
           {
             "type": "additive_expression",
+            "named": true
+          },
+          {
+            "type": "argument_part",
             "named": true
           },
           {
@@ -2503,6 +2563,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -2758,6 +2822,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -3331,6 +3399,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -3456,6 +3528,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -3905,6 +3981,10 @@
             "named": true
           },
           {
+            "type": "argument_part",
+            "named": true
+          },
+          {
             "type": "assignment_expression",
             "named": true
           },
@@ -4065,6 +4145,10 @@
           },
           {
             "type": "additive_expression",
+            "named": true
+          },
+          {
+            "type": "argument_part",
             "named": true
           },
           {
@@ -4230,6 +4314,10 @@
             "named": true
           },
           {
+            "type": "argument_part",
+            "named": true
+          },
+          {
             "type": "assignment_expression",
             "named": true
           },
@@ -4369,6 +4457,10 @@
           },
           {
             "type": "additive_expression",
+            "named": true
+          },
+          {
+            "type": "argument_part",
             "named": true
           },
           {
@@ -4528,6 +4620,10 @@
             "named": true
           },
           {
+            "type": "argument_part",
+            "named": true
+          },
+          {
             "type": "assignment_expression",
             "named": true
           },
@@ -4667,6 +4763,10 @@
           },
           {
             "type": "additive_expression",
+            "named": true
+          },
+          {
+            "type": "argument_part",
             "named": true
           },
           {
@@ -4814,6 +4914,10 @@
         },
         {
           "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -5010,6 +5114,10 @@
             "named": true
           },
           {
+            "type": "argument_part",
+            "named": true
+          },
+          {
             "type": "assignment_expression",
             "named": true
           },
@@ -5149,6 +5257,10 @@
           },
           {
             "type": "additive_expression",
+            "named": true
+          },
+          {
+            "type": "argument_part",
             "named": true
           },
           {
@@ -5308,6 +5420,10 @@
             "named": true
           },
           {
+            "type": "argument_part",
+            "named": true
+          },
+          {
             "type": "assignment_expression",
             "named": true
           },
@@ -5447,6 +5563,10 @@
           },
           {
             "type": "additive_expression",
+            "named": true
+          },
+          {
+            "type": "argument_part",
             "named": true
           },
           {
@@ -5594,6 +5714,10 @@
         },
         {
           "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -5865,6 +5989,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -6039,6 +6167,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -6362,6 +6494,10 @@
             "named": true
           },
           {
+            "type": "argument_part",
+            "named": true
+          },
+          {
             "type": "assignment_expression",
             "named": true
           },
@@ -6524,6 +6660,10 @@
             "named": true
           },
           {
+            "type": "argument_part",
+            "named": true
+          },
+          {
             "type": "assignment_expression",
             "named": true
           },
@@ -6663,6 +6803,10 @@
           },
           {
             "type": "additive_expression",
+            "named": true
+          },
+          {
+            "type": "argument_part",
             "named": true
           },
           {
@@ -6826,6 +6970,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -7008,6 +7156,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -7149,6 +7301,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -7400,6 +7556,10 @@
             "named": true
           },
           {
+            "type": "argument_part",
+            "named": true
+          },
+          {
             "type": "assignment_expression",
             "named": true
           },
@@ -7570,6 +7730,10 @@
           },
           {
             "type": "additive_expression",
+            "named": true
+          },
+          {
+            "type": "argument_part",
             "named": true
           },
           {
@@ -7938,6 +8102,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -8098,6 +8266,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -8318,6 +8490,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -8441,6 +8617,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -8561,6 +8741,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -8939,6 +9123,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "const_object_expression",
           "named": true
         },
@@ -9007,6 +9195,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -9291,6 +9483,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -9454,6 +9650,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -9590,6 +9790,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -9753,6 +9957,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -10011,6 +10219,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -10188,6 +10400,10 @@
             "named": true
           },
           {
+            "type": "argument_part",
+            "named": true
+          },
+          {
             "type": "assignment_expression",
             "named": true
           },
@@ -10327,6 +10543,10 @@
           },
           {
             "type": "additive_expression",
+            "named": true
+          },
+          {
+            "type": "argument_part",
             "named": true
           },
           {
@@ -10498,6 +10718,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -10689,6 +10913,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -10865,6 +11093,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -11170,6 +11402,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -11310,6 +11546,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -11457,6 +11697,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -11822,6 +12066,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -11951,6 +12199,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -12122,6 +12374,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -12290,6 +12546,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -12524,6 +12784,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -12735,6 +12999,10 @@
             "named": true
           },
           {
+            "type": "argument_part",
+            "named": true
+          },
+          {
             "type": "assignment_expression",
             "named": true
           },
@@ -12890,6 +13158,10 @@
           },
           {
             "type": "additive_expression",
+            "named": true
+          },
+          {
+            "type": "argument_part",
             "named": true
           },
           {
@@ -13360,6 +13632,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -13566,6 +13842,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -13790,6 +14070,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -13930,6 +14214,10 @@
           },
           {
             "type": "additive_expression",
+            "named": true
+          },
+          {
+            "type": "argument_part",
             "named": true
           },
           {
@@ -14232,6 +14520,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -14480,6 +14772,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -14657,6 +14953,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignable_expression",
           "named": true
         },
@@ -14741,6 +15041,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -14990,6 +15294,10 @@
           "named": true
         },
         {
+          "type": "argument_part",
+          "named": true
+        },
+        {
           "type": "assignment_expression",
           "named": true
         },
@@ -15126,6 +15434,10 @@
         },
         {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {

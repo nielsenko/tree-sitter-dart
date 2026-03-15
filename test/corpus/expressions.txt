@@ -509,3 +509,155 @@ void f() {
               (argument
                 (list_literal
                   (identifier))))))))))
+
+================================================================================
+Dot shorthand in assignment and arguments
+================================================================================
+
+Color f(Color c) {
+  Color x = .red;
+  paint(.blue);
+  return .green;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    return_type: (type_identifier)
+    name: (identifier)
+    parameters: (formal_parameter_list
+      (formal_parameter
+        (type_identifier)
+        name: (identifier))))
+  (function_body
+    (block
+      (local_variable_declaration
+        (initialized_variable_definition
+          (type_identifier)
+          name: (identifier)
+          value: (static_member_shorthand
+            (identifier))))
+      (expression_statement
+        (identifier)
+        (selector
+          (argument_part
+            (arguments
+              (argument
+                (static_member_shorthand
+                  (identifier)))))))
+      (return_statement
+        (static_member_shorthand
+          (identifier))))))
+
+================================================================================
+Dot shorthand in list literal
+================================================================================
+
+void f() {
+  var x = [.red, .green, .blue];
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    return_type: (void_type)
+    name: (identifier)
+    parameters: (formal_parameter_list))
+  (function_body
+    (block
+      (local_variable_declaration
+        (initialized_variable_definition
+          name: (identifier)
+          value: (list_literal
+            (static_member_shorthand
+              (identifier))
+            (static_member_shorthand
+              (identifier))
+            (static_member_shorthand
+              (identifier))))))))
+
+================================================================================
+Dot shorthand in map literal value
+================================================================================
+
+void f() {
+  var x = {'key': .red};
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    return_type: (void_type)
+    name: (identifier)
+    parameters: (formal_parameter_list))
+  (function_body
+    (block
+      (local_variable_declaration
+        (initialized_variable_definition
+          name: (identifier)
+          value: (set_or_map_literal
+            (pair
+              key: (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single)))
+              value: (static_member_shorthand
+                (identifier)))))))))
+
+================================================================================
+Dot shorthand const constructor
+================================================================================
+
+void f() {
+  var x = const .new(1);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    return_type: (void_type)
+    name: (identifier)
+    parameters: (formal_parameter_list))
+  (function_body
+    (block
+      (local_variable_declaration
+        (initialized_variable_definition
+          name: (identifier)
+          value: (static_member_shorthand
+            (arguments
+              (argument
+                (decimal_integer_literal)))))))))
+
+================================================================================
+Super with argument part
+================================================================================
+
+class A extends B {
+  int call(int x) => super(x);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    superclass: (superclass
+      type: (type_identifier))
+    body: (class_body
+      (class_member
+        (method_signature
+          (function_signature
+            return_type: (type_identifier)
+            name: (identifier)
+            parameters: (formal_parameter_list
+              (formal_parameter
+                (type_identifier)
+                name: (identifier)))))
+        (function_body
+          (argument_part
+            (arguments
+              (argument
+                (identifier)))))))))

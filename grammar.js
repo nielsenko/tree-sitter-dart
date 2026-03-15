@@ -131,6 +131,7 @@ module.exports = grammar({
     // Pattern ambiguities
     [$.set_or_map_literal, $.map_pattern],
     [$.list_literal, $.list_pattern],
+    [$.static_member_shorthand, $.constant_pattern],
     // [$.constant_pattern, $._type_name], -- subsumed
     [$._primary, $.constant_pattern],
     // [$._primary, $.constant_pattern, $._type_name], -- subsumed
@@ -1191,7 +1192,7 @@ module.exports = grammar({
         $.const_object_expression,
         $.parenthesized_expression,
         "this",
-        seq("super", $.unconditional_assignable_selector),
+        seq("super", choice($.unconditional_assignable_selector, $.argument_part)),
         $.constructor_invocation,
         $.constructor_tearoff,
         $.switch_expression,
@@ -1233,7 +1234,7 @@ module.exports = grammar({
 
     // Dot shorthand syntax (Dart 3.10+)
     static_member_shorthand: ($) =>
-      prec(-1,
+      prec.dynamic(-1,
         choice(
           seq(".", $.identifier),
           seq(".", "new"),
