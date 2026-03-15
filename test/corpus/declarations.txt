@@ -699,3 +699,31 @@ void f() {
           (selector
             (argument_part
               (arguments))))))))
+
+================================================================================
+External static field declarations
+================================================================================
+
+class JsInterop {
+  external static dynamic TYPES;
+  external static final int DEBUG;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (class_member
+        (declaration
+          (external)
+          (type_identifier)
+          (identifier_list
+            (identifier))))
+      (class_member
+        (declaration
+          (external)
+          (type_identifier)
+          (identifier_list
+            (identifier)))))))

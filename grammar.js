@@ -84,6 +84,8 @@ module.exports = grammar({
     [$._type_not_void],
     [$._function_type_tail],
     [$._type_not_void_not_function, $._function_type_tail],
+    [$._type, $.function_type],
+    [$.function_type],
     // Var or type ambiguities
     [$._var_or_type],
     [$._var_or_type, $.function_signature],
@@ -205,6 +207,7 @@ module.exports = grammar({
     [$._function_formal_parameter, $._simple_formal_parameter, $._declared_identifier, $._built_in_identifier],
     [$._named_parameter_type, $._built_in_identifier],
     [$.declaration, $.external, $._built_in_identifier],
+    [$.declaration, $._external_and_static, $._built_in_identifier],
     [$.factory_constructor_signature, $.redirecting_factory_constructor_signature, $._built_in_identifier],
     [$._function_name, $.constructor_signature],
     [$._type_name, $._primary, $.constant_pattern],
@@ -212,6 +215,8 @@ module.exports = grammar({
     [$._type_name, $._primary, $._simple_formal_parameter, $.constant_pattern],
     [$._type_name, $.assignable_expression, $._primary],
     [$._external_and_static, $._built_in_identifier],
+    [$._type_not_void_not_function, $._function_type_tail, $._built_in_identifier],
+    [$._function_type_tail, $._built_in_identifier],
     [$.factory_constructor_signature, $._built_in_identifier],
     [$.assignable_expression, $._simple_formal_parameter],
     [$.unconditional_assignable_selector, $.super_formal_parameter],
@@ -1692,7 +1697,7 @@ module.exports = grammar({
         seq("abstract", "covariant", "final", optional($._type), $.identifier_list),
         seq("abstract", "covariant", optional($._type), $.identifier_list),
         // External field declarations
-        seq($.external, optional("final"), optional($._type), $.identifier_list),
+        seq($.external, optional("static"), optional("final"), optional($._type), $.identifier_list),
       ),
 
     external: (_) => "external",
@@ -2149,7 +2154,7 @@ module.exports = grammar({
       choice(
         // Category 2: built-in identifiers
         "abstract", "as", "covariant", "deferred",
-        "export", "external", "factory", "get", "implements",
+        "dynamic", "export", "external", "factory", "Function", "get", "implements",
         "import", "interface", "late", "library", "mixin",
         "operator", "part", "required", "set", "show",
         "static", "typedef",

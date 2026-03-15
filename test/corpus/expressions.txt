@@ -478,3 +478,34 @@ void f() {
             (unconditional_assignable_selector
               (identifier)))
           right: (decimal_integer_literal))))))
+
+================================================================================
+Function as identifier (static method access)
+================================================================================
+
+void f() {
+  Function.apply(callback, [value]);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    return_type: (void_type)
+    name: (identifier)
+    parameters: (formal_parameter_list))
+  (function_body
+    (block
+      (expression_statement
+        (identifier)
+        (selector
+          (unconditional_assignable_selector
+            (identifier)))
+        (selector
+          (argument_part
+            (arguments
+              (argument
+                (identifier))
+              (argument
+                (list_literal
+                  (identifier))))))))))
