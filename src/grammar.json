@@ -8713,7 +8713,28 @@
               "members": [
                 {
                   "type": "STRING",
-                  "value": "final"
+                  "value": "covariant"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "final"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "var"
+                    }
+                  ]
                 },
                 {
                   "type": "BLANK"

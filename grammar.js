@@ -1703,7 +1703,7 @@ module.exports = grammar({
         seq("abstract", "covariant", "final", optional($._type), $.identifier_list),
         seq("abstract", "covariant", optional($._type), $.identifier_list),
         // External field declarations
-        seq($.external, optional("static"), optional("final"), optional($._type), $.identifier_list),
+        seq($.external, optional("static"), optional("covariant"), optional(choice("final", "var")), optional($._type), $.identifier_list),
       ),
 
     external: (_) => "external",
