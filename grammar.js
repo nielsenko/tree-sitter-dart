@@ -584,7 +584,7 @@ module.exports = grammar({
       token(sep1(/[0-9]+/, /_+/)),
 
     hex_integer_literal: (_) =>
-      token(seq(choice("0x", "0X"), sep1(/[A-Fa-f0-9]+/, "_"))),
+      token(seq(choice("0x", "0X"), sep1(/[A-Fa-f0-9]+/, /_+/))),
 
     decimal_floating_point_literal: (_) =>
       token(
