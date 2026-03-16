@@ -521,6 +521,26 @@ extension type JSArray<T extends JSAny?>._(JSArrayRepType _jsArray) implements J
     body: (class_body)))
 
 ================================================================================
+Extension type with annotated representation
+================================================================================
+
+extension type ExtensionType(@annotation int id) implements int {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_type_declaration
+    name: (extension_type_name
+      (identifier))
+    representation: (extension_type_representation
+      (annotation
+        name: (identifier))
+      type: (type_identifier)
+      name: (identifier))
+    (type_identifier)
+    body: (class_body)))
+
+================================================================================
 Type variance modifiers
 ================================================================================
 
