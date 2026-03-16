@@ -216,6 +216,7 @@ module.exports = grammar({
     [$.declaration, $.external, $._built_in_identifier],
     [$.declaration, $._external_and_static, $._built_in_identifier],
     [$.factory_constructor_signature, $.redirecting_factory_constructor_signature, $._built_in_identifier],
+    [$.redirecting_factory_constructor_signature, $._built_in_identifier],
     [$._function_name, $.constructor_signature],
     [$._type_name, $._primary, $.constant_pattern],
     [$._type_name, $._primary, $._function_formal_parameter],
@@ -1703,6 +1704,7 @@ module.exports = grammar({
         // Instance field declarations
         seq(optional("late"), "final", optional($._type), $.initialized_identifier_list),
         seq(optional("late"), $._var_or_type, $.initialized_identifier_list),
+        seq("const", optional($._type), $.static_final_declaration_list),
         // Abstract field declarations
         seq("abstract", "final", optional($._type), $.identifier_list),
         seq("abstract", optional($._type), $.identifier_list),
@@ -1794,7 +1796,7 @@ module.exports = grammar({
       commaSep1($.static_final_declaration),
 
     static_final_declaration: ($) =>
-      seq(field("name", $.identifier), "=", field("value", $._expression)),
+      seq(field("name", $.identifier), optional(seq("=", field("value", $._expression)))),
 
     initialized_identifier_list: ($) =>
       commaSep1($.initialized_identifier),
