@@ -161,6 +161,8 @@ module.exports = grammar({
     [$._record_literal_no_const, $.formal_parameter_list],
     // Block vs set_or_map literal
     [$.block, $.set_or_map_literal],
+    // Empty switch block vs empty switch expression
+    [$.switch_block, $.switch_expression],
     // Primary + constructor_param
     [$._primary, $.constructor_param],
     // Switch statement case
@@ -1510,7 +1512,7 @@ module.exports = grammar({
       seq(
         "switch",
         field("condition", $.parenthesized_expression),
-        field("body", seq("{", commaSep1TrailingComma($.switch_expression_case), "}")),
+        field("body", seq("{", commaSepTrailingComma($.switch_expression_case), "}")),
       ),
 
     switch_expression_case: ($) =>
@@ -1813,7 +1815,7 @@ module.exports = grammar({
         ),
         seq(
           optional($._metadata),
-          $._class_modifiers,
+          choice($._class_modifiers, $._mixin_class_modifiers),
           $.mixin_application_class,
         ),
       ),

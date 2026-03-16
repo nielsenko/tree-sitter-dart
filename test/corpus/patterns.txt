@@ -152,6 +152,25 @@ void main() {
                   (template_chars_single_single))))))))))
 
 ================================================================================
+Empty switch expression
+================================================================================
+
+f(x) => switch(x) {};
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    name: (identifier)
+    parameters: (formal_parameter_list
+      (formal_parameter
+        (identifier))))
+  (function_body
+    (switch_expression
+      condition: (parenthesized_expression
+        (identifier)))))
+
+================================================================================
 Object pattern with labeled fields
 ================================================================================
 

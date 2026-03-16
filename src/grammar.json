@@ -7190,39 +7190,47 @@
                 "value": "{"
               },
               {
-                "type": "SEQ",
+                "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "switch_expression_case"
-                  },
-                  {
-                    "type": "REPEAT",
-                    "content": {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "STRING",
-                          "value": ","
-                        },
-                        {
-                          "type": "SYMBOL",
-                          "name": "switch_expression_case"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "CHOICE",
+                    "type": "SEQ",
                     "members": [
                       {
-                        "type": "STRING",
-                        "value": ","
+                        "type": "SYMBOL",
+                        "name": "switch_expression_case"
                       },
                       {
-                        "type": "BLANK"
+                        "type": "REPEAT",
+                        "content": {
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "STRING",
+                              "value": ","
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "switch_expression_case"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": ","
+                          },
+                          {
+                            "type": "BLANK"
+                          }
+                        ]
                       }
                     ]
+                  },
+                  {
+                    "type": "BLANK"
                   }
                 ]
               },
@@ -9519,8 +9527,17 @@
               ]
             },
             {
-              "type": "SYMBOL",
-              "name": "_class_modifiers"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_class_modifiers"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_mixin_class_modifiers"
+                }
+              ]
             },
             {
               "type": "SYMBOL",
@@ -12260,6 +12277,10 @@
     [
       "block",
       "set_or_map_literal"
+    ],
+    [
+      "switch_block",
+      "switch_expression"
     ],
     [
       "_primary",

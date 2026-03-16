@@ -727,3 +727,51 @@ class JsInterop {
           (type_identifier)
           (identifier_list
             (identifier)))))))
+
+================================================================================
+Mixin class declaration
+================================================================================
+
+mixin class M {}
+
+base mixin class BM {}
+
+abstract mixin class AM {}
+
+abstract base mixin class ABM {}
+
+mixin class MC = Object with M1;
+
+abstract base mixin class AMC = Object with M1 implements I;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body))
+  (class_declaration
+    name: (identifier)
+    body: (class_body))
+  (class_declaration
+    name: (identifier)
+    body: (class_body))
+  (class_declaration
+    name: (identifier)
+    body: (class_body))
+  (class_declaration
+    (mixin_application_class
+      (identifier)
+      (mixin_application
+        (type_identifier)
+        (mixins
+          (type_identifier)))))
+  (class_declaration
+    (mixin_application_class
+      (identifier)
+      (mixin_application
+        (type_identifier)
+        (mixins
+          (type_identifier))
+        (interfaces
+          (type_identifier))))))
