@@ -11364,16 +11364,8 @@
               "value": "const"
             },
             {
-              "type": "STRING",
-              "value": "("
-            },
-            {
               "type": "SYMBOL",
-              "name": "_expression"
-            },
-            {
-              "type": "STRING",
-              "value": ")"
+              "name": "_record_literal_no_const"
             }
           ]
         },
@@ -12301,6 +12293,10 @@
     ],
     [
       "list_literal",
+      "constant_pattern"
+    ],
+    [
+      "record_literal",
       "constant_pattern"
     ],
     [

@@ -143,6 +143,7 @@ module.exports = grammar({
     [$._parenthesized_pattern, $._pattern_field],
     [$.set_or_map_literal, $.constant_pattern],
     [$.list_literal, $.constant_pattern],
+    [$.record_literal, $.constant_pattern],
     // Constructor tearoff vs primary
     [$.constructor_tearoff, $._identifier_or_new],
     // Postfix expression vs primary (constructor_invocation)
@@ -2083,7 +2084,7 @@ module.exports = grammar({
         $.const_object_expression,
         seq("const", optional($.type_arguments), "[", commaSep1TrailingComma($._element), "]"),
         seq("const", optional($.type_arguments), "{", commaSep1TrailingComma($._element), "}"),
-        seq("const", "(", $._expression, ")"),
+        seq("const", $._record_literal_no_const),
         // Dot shorthand (Dart 3.6+): .enumValue in patterns
         seq(".", $.identifier),
       ),

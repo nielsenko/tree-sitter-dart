@@ -2893,6 +2893,10 @@
           "named": true
         },
         {
+          "type": "label",
+          "named": true
+        },
+        {
           "type": "logical_and_expression",
           "named": true
         },
@@ -2930,6 +2934,10 @@
         },
         {
           "type": "qualified",
+          "named": true
+        },
+        {
+          "type": "record_field",
           "named": true
         },
         {

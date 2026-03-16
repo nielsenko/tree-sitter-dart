@@ -174,6 +174,36 @@ void main() {
                   (template_chars_single_single))))))))))
 
 ================================================================================
+Const record pattern
+================================================================================
+
+void f(x) {
+  if (x case const (1, 2, 3)) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    return_type: (void_type)
+    name: (identifier)
+    parameters: (formal_parameter_list
+      (formal_parameter
+        (identifier))))
+  (function_body
+    (block
+      (if_statement
+        (identifier)
+        (constant_pattern
+          (record_field
+            (decimal_integer_literal))
+          (record_field
+            (decimal_integer_literal))
+          (record_field
+            (decimal_integer_literal)))
+        consequence: (block)))))
+
+================================================================================
 Empty switch expression
 ================================================================================
 
