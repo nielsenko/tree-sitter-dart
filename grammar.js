@@ -1464,6 +1464,7 @@ module.exports = grammar({
         ),
         // Pattern for-in loop (Dart 3.0)
         seq(
+          optional($._metadata),
           choice("final", "var"),
           $._outer_pattern,
           "in",

@@ -315,6 +315,36 @@ void main() {
                     (identifier)))))))))))
 
 ================================================================================
+Pattern for-in with metadata
+================================================================================
+
+void f(x) {
+  for (@annotation var (a, b) in x) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    return_type: (void_type)
+    name: (identifier)
+    parameters: (formal_parameter_list
+      (formal_parameter
+        (identifier))))
+  (function_body
+    (block
+      (for_statement
+        (annotation
+          name: (identifier))
+        (record_pattern
+          (constant_pattern
+            (identifier))
+          (constant_pattern
+            (identifier)))
+        value: (identifier)
+        body: (block)))))
+
+================================================================================
 Return statement
 ================================================================================
 
