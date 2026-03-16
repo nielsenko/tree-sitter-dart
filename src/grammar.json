@@ -11618,8 +11618,8 @@
                       ]
                     },
                     {
-                      "type": "STRING",
-                      "value": "..."
+                      "type": "SYMBOL",
+                      "name": "rest_pattern"
                     }
                   ]
                 },
@@ -11653,8 +11653,8 @@
                             ]
                           },
                           {
-                            "type": "STRING",
-                            "value": "..."
+                            "type": "SYMBOL",
+                            "name": "rest_pattern"
                           }
                         ]
                       }

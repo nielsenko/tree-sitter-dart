@@ -2112,7 +2112,7 @@ module.exports = grammar({
       seq(
         optional($.type_arguments),
         "{",
-        commaSepTrailingComma(choice(seq($._expression, ":", $._pattern), "...")),
+        commaSepTrailingComma(choice(seq($._expression, ":", $._pattern), $.rest_pattern)),
         "}",
       ),
 

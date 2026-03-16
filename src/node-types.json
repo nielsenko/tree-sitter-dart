@@ -8910,6 +8910,10 @@
           "named": true
         },
         {
+          "type": "rest_pattern",
+          "named": true
+        },
+        {
           "type": "selector",
           "named": true
         },
