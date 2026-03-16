@@ -246,6 +246,7 @@ void main() {
   [?a];
   {?key: value};
   {key: ?value};
+  {?key: ?value};
 }
 
 --------------------------------------------------------------------------------
@@ -269,6 +270,12 @@ void main() {
       (expression_statement
         (set_or_map_literal
           (pair
+            key: (identifier)
+            value: (null_aware_element
+              (identifier)))))
+      (expression_statement
+        (set_or_map_literal
+          (null_aware_pair
             key: (identifier)
             value: (null_aware_element
               (identifier))))))))

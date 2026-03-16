@@ -10057,6 +10057,10 @@
             "named": true
           },
           {
+            "type": "null_aware_element",
+            "named": true
+          },
+          {
             "type": "parenthesized_expression",
             "named": true
           },
