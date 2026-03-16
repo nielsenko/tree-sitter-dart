@@ -228,6 +228,8 @@ module.exports = grammar({
     [$.factory_constructor_signature, $._built_in_identifier],
     [$.assignable_expression, $._simple_formal_parameter],
     [$.unconditional_assignable_selector, $.super_formal_parameter],
+    // this.identifier in initializer_list_entry vs redirection
+    [$.initializer_list_entry, $._identifier_or_new],
   ],
 
   rules: {
@@ -1756,6 +1758,7 @@ module.exports = grammar({
       choice(
         seq("super", $.arguments),
         seq("super", ".", choice($.identifier, "new"), $.arguments),
+        seq("this", ".", choice($.identifier, "new"), $.arguments),
         $.field_initializer,
         $.assertion,
       ),

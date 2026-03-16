@@ -9248,6 +9248,36 @@
           ]
         },
         {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "this"
+            },
+            {
+              "type": "STRING",
+              "value": "."
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "STRING",
+                  "value": "new"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "arguments"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "field_initializer"
         },
@@ -12713,6 +12743,10 @@
     [
       "unconditional_assignable_selector",
       "super_formal_parameter"
+    ],
+    [
+      "initializer_list_entry",
+      "_identifier_or_new"
     ]
   ],
   "precedences": [],
