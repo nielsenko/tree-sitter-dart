@@ -1343,7 +1343,7 @@ module.exports = grammar({
         "this",
         ".",
         $.identifier,
-        optional($._formal_parameter_part),
+        optional(seq($._formal_parameter_part, optional("?"))),
       ),
 
     super_formal_parameter: ($) =>
@@ -1352,7 +1352,7 @@ module.exports = grammar({
         "super",
         ".",
         $.identifier,
-        optional($._formal_parameter_part),
+        optional(seq($._formal_parameter_part, optional("?"))),
       ),
 
     // ========================================================================
