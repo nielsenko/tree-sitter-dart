@@ -316,6 +316,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "type_arguments",
           "named": true
         }

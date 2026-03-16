@@ -401,7 +401,7 @@ module.exports = grammar({
       seq(
         "@",
         field("name", choice($.identifier, $.qualified)),
-        optional($.type_arguments),
+        optional(seq($.type_arguments, optional(seq(".", $._identifier_or_new)))),
         $.annotation_arguments,
       ),
 

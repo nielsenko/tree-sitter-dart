@@ -521,6 +521,40 @@ extension type JSArray<T extends JSAny?>._(JSArrayRepType _jsArray) implements J
     body: (class_body)))
 
 ================================================================================
+Annotations with generic type arguments and .new
+================================================================================
+
+@GenericClass<int, String>.new()
+class Foo {}
+
+@GenericClass<int>.named()
+class Bar {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (annotation
+      name: (identifier)
+      (type_arguments
+        (type_identifier)
+        (type_identifier))
+      (annotation_arguments
+        (annotation_open_paren)))
+    name: (identifier)
+    body: (class_body))
+  (class_declaration
+    (annotation
+      name: (identifier)
+      (type_arguments
+        (type_identifier))
+      (identifier)
+      (annotation_arguments
+        (annotation_open_paren)))
+    name: (identifier)
+    body: (class_body)))
+
+================================================================================
 Extension type with annotated representation
 ================================================================================
 
