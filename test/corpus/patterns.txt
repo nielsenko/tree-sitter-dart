@@ -43,6 +43,28 @@ void main() {
             (break_statement)))))))
 
 ================================================================================
+Empty record pattern assignment
+================================================================================
+
+void main() {
+  () = x;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_signature
+    return_type: (void_type)
+    name: (identifier)
+    parameters: (formal_parameter_list))
+  (function_body
+    (block
+      (expression_statement
+        (pattern_assignment
+          (record_pattern)
+          (identifier))))))
+
+================================================================================
 Pattern variable declaration
 ================================================================================
 

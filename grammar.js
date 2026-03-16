@@ -158,6 +158,9 @@ module.exports = grammar({
     // Record literal vs record field / record type
     [$._record_literal_no_const, $.record_field],
     [$.record_type, $._record_literal_no_const],
+    [$.record_type, $._record_literal_no_const, $.record_pattern],
+    [$._record_literal_no_const, $.record_pattern],
+    [$.record_type, $.record_pattern],
     [$._record_literal_no_const, $.formal_parameter_list],
     // Block vs set_or_map literal
     [$.block, $.set_or_map_literal],
@@ -2108,7 +2111,7 @@ module.exports = grammar({
       ),
 
     record_pattern: ($) =>
-      seq("(", commaSep1TrailingComma($._pattern_field), ")"),
+      seq("(", commaSepTrailingComma($._pattern_field), ")"),
 
     _pattern_field: ($) =>
       seq(optional(choice($.label, ":")), $._pattern),
