@@ -362,16 +362,14 @@ void main() {
           (selector
             (argument_part
               (arguments
-                (argument
-                  (decimal_integer_literal))))))
+                (decimal_integer_literal)))))
         (cascade_section
           (cascade_selector
             (identifier))
           (selector
             (argument_part
               (arguments
-                (argument
-                  (decimal_integer_literal))))))))))
+                (decimal_integer_literal)))))))))
 
 ================================================================================
 Built-in identifiers as assignable expressions
@@ -431,21 +429,19 @@ void f() {
         (selector
           (argument_part
             (arguments
-              (argument
-                (named_argument
-                  (label
-                    (identifier))
-                  (decimal_integer_literal)))))))
+              (named_argument
+                (label
+                  (identifier))
+                (decimal_integer_literal))))))
       (expression_statement
         (identifier)
         (selector
           (argument_part
             (arguments
-              (argument
-                (named_argument
-                  (label
-                    (identifier))
-                  (true))))))))))
+              (named_argument
+                (label
+                  (identifier))
+                (true)))))))))
 
 ================================================================================
 Built-in identifiers as member access
@@ -504,11 +500,9 @@ void f() {
         (selector
           (argument_part
             (arguments
-              (argument
-                (identifier))
-              (argument
-                (list_literal
-                  (identifier))))))))))
+              (identifier)
+              (list_literal
+                (identifier)))))))))
 
 ================================================================================
 Dot shorthand in assignment and arguments
@@ -543,9 +537,8 @@ Color f(Color c) {
         (selector
           (argument_part
             (arguments
-              (argument
-                (static_member_shorthand
-                  (identifier)))))))
+              (static_member_shorthand
+                (identifier))))))
       (return_statement
         (static_member_shorthand
           (identifier))))))
@@ -628,8 +621,7 @@ void f() {
           name: (identifier)
           value: (static_member_shorthand
             (arguments
-              (argument
-                (decimal_integer_literal)))))))))
+              (decimal_integer_literal))))))))
 
 ================================================================================
 Super with argument part
@@ -659,5 +651,4 @@ class A extends B {
         (function_body
           (argument_part
             (arguments
-              (argument
-                (identifier)))))))))
+              (identifier))))))))

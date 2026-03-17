@@ -1259,9 +1259,8 @@ module.exports = grammar({
 
     arguments: ($) => seq("(", optional($._argument_list), ")"),
 
-    _argument_list: ($) => prec.right(commaSep1TrailingComma($.argument)),
-
-    argument: ($) => choice($.named_argument, $._expression),
+    _argument_list: ($) =>
+      prec.right(commaSep1TrailingComma(choice($.named_argument, $._expression))),
 
     named_argument: ($) => seq($.label, $._expression),
 

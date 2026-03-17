@@ -96,8 +96,7 @@ void main() {
             (selector
               (argument_part
                 (arguments
-                  (argument
-                    (identifier)))))))))))
+                  (identifier))))))))))
 
 ================================================================================
 For-in loop
@@ -127,8 +126,7 @@ void main() {
             (selector
               (argument_part
                 (arguments
-                  (argument
-                    (identifier)))))))))))
+                  (identifier))))))))))
 
 ================================================================================
 While loop
@@ -227,8 +225,7 @@ void main() {
             (selector
               (argument_part
                 (arguments
-                  (argument
-                    (identifier)))))))
+                  (identifier))))))
         (catch_clause
           exception: (identifier)
           stack_trace: (identifier))
@@ -238,8 +235,7 @@ void main() {
             (selector
               (argument_part
                 (arguments
-                  (argument
-                    (identifier)))))))
+                  (identifier))))))
         (finally_clause
           (block
             (expression_statement
@@ -311,8 +307,7 @@ void main() {
             (selector
               (argument_part
                 (arguments
-                  (argument
-                    (identifier)))))))))))
+                  (identifier))))))))))
 
 ================================================================================
 Pattern for-in with metadata

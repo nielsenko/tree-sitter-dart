@@ -37,8 +37,7 @@ void main() {
               (selector
                 (argument_part
                   (arguments
-                    (argument
-                      (identifier)))))))
+                    (identifier))))))
           (switch_statement_default
             (break_statement)))))))
 
@@ -126,8 +125,7 @@ void main() {
             (selector
               (argument_part
                 (arguments
-                  (argument
-                    (identifier)))))))))))
+                  (identifier))))))))))
 
 ================================================================================
 Switch expression
@@ -277,10 +275,8 @@ void main() {
           value: (selector
             (argument_part
               (arguments
-                (argument
-                  (decimal_integer_literal))
-                (argument
-                  (decimal_integer_literal)))))))
+                (decimal_integer_literal)
+                (decimal_integer_literal))))))
       (switch_statement
         condition: (parenthesized_expression
           (identifier))
@@ -305,5 +301,4 @@ void main() {
               (selector
                 (argument_part
                   (arguments
-                    (argument
-                      (identifier))))))))))))
+                    (identifier)))))))))))
