@@ -281,11 +281,11 @@ void main() {
             (identifier))))
       (expression_statement
         (postfix_expression
-          (assignable_expression
+          argument: (assignable_expression
             (identifier))))
       (expression_statement
         (postfix_expression
-          (assignable_expression
+          argument: (assignable_expression
             (identifier)))))))
 
 ================================================================================
@@ -308,10 +308,9 @@ void main() async {
       (expression_statement
         (unary_expression
           (await_expression
-            (identifier)
-            (selector
-              (argument_part
-                (arguments)))))))))
+            (call_expression
+              function: (identifier)
+              arguments: (arguments))))))))
 
 ================================================================================
 Throw expression
@@ -332,10 +331,9 @@ void main() {
     (block
       (expression_statement
         (throw_expression
-          value: (identifier)
-          value: (selector
-            (argument_part
-              (arguments))))))))
+          value: (call_expression
+            function: (identifier)
+            arguments: (arguments)))))))
 
 ================================================================================
 Cascade expression
@@ -357,19 +355,17 @@ void main() {
       (expression_statement
         (identifier)
         (cascade_section
-          (cascade_selector
-            (identifier))
-          (selector
-            (argument_part
-              (arguments
-                (decimal_integer_literal)))))
+          (cascade_call_expression
+            function: (cascade_selector
+              (identifier))
+            arguments: (arguments
+              (decimal_integer_literal))))
         (cascade_section
-          (cascade_selector
-            (identifier))
-          (selector
-            (argument_part
-              (arguments
-                (decimal_integer_literal)))))))))
+          (cascade_call_expression
+            function: (cascade_selector
+              (identifier))
+            arguments: (arguments
+              (decimal_integer_literal))))))))
 
 ================================================================================
 Built-in identifiers as assignable expressions
@@ -425,23 +421,21 @@ void f() {
   (function_body
     (block
       (expression_statement
-        (identifier)
-        (selector
-          (argument_part
-            (arguments
-              (named_argument
-                (label
-                  (identifier))
-                (decimal_integer_literal))))))
+        (call_expression
+          function: (identifier)
+          arguments: (arguments
+            (named_argument
+              (label
+                (identifier))
+              (decimal_integer_literal)))))
       (expression_statement
-        (identifier)
-        (selector
-          (argument_part
-            (arguments
-              (named_argument
-                (label
-                  (identifier))
-                (true)))))))))
+        (call_expression
+          function: (identifier)
+          arguments: (arguments
+            (named_argument
+              (label
+                (identifier))
+              (true))))))))
 
 ================================================================================
 Built-in identifiers as member access
@@ -464,15 +458,13 @@ void f() {
       (expression_statement
         (assignment_expression
           left: (assignable_expression
-            (identifier)
-            (unconditional_assignable_selector
-              (identifier)))
+            object: (identifier)
+            property: (identifier))
           right: (decimal_integer_literal)))
       (expression_statement
         (assignment_expression
           left: (assignable_expression
-            (unconditional_assignable_selector
-              (identifier)))
+            property: (identifier))
           right: (decimal_integer_literal))))))
 
 ================================================================================
@@ -493,16 +485,14 @@ void f() {
   (function_body
     (block
       (expression_statement
-        (identifier)
-        (selector
-          (unconditional_assignable_selector
-            (identifier)))
-        (selector
-          (argument_part
-            (arguments
-              (identifier)
-              (list_literal
-                (identifier)))))))))
+        (call_expression
+          function: (member_expression
+            object: (identifier)
+            property: (identifier))
+          arguments: (arguments
+            (identifier)
+            (list_literal
+              (identifier))))))))
 
 ================================================================================
 Dot shorthand in assignment and arguments
@@ -533,12 +523,11 @@ Color f(Color c) {
           value: (static_member_shorthand
             (identifier))))
       (expression_statement
-        (identifier)
-        (selector
-          (argument_part
-            (arguments
-              (static_member_shorthand
-                (identifier))))))
+        (call_expression
+          function: (identifier)
+          arguments: (arguments
+            (static_member_shorthand
+              (identifier)))))
       (return_statement
         (static_member_shorthand
           (identifier))))))
@@ -649,6 +638,6 @@ class A extends B {
                 (type_identifier)
                 name: (identifier)))))
         (function_body
-          (argument_part
-            (arguments
+          (call_expression
+            arguments: (arguments
               (identifier))))))))

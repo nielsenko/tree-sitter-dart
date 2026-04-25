@@ -189,14 +189,12 @@ enum Planet {
     body: (enum_body
       (enum_constant
         name: (identifier)
-        (argument_part
-          (arguments
-            (decimal_floating_point_literal))))
+        (arguments
+          (decimal_floating_point_literal)))
       (enum_constant
         name: (identifier)
-        (argument_part
-          (arguments
-            (decimal_floating_point_literal))))
+        (arguments
+          (decimal_floating_point_literal)))
       (class_member
         (declaration
           (type_identifier)
@@ -403,13 +401,11 @@ class Foo {
                 name: (identifier)
                 value: (assignment_expression
                   left: (assignable_expression
-                    (identifier)
-                    (unconditional_assignable_selector
-                      (identifier)))
-                  right: (identifier)
-                  right: (selector
-                    (argument_part
-                      (arguments))))))))))))
+                    object: (identifier)
+                    property: (identifier))
+                  right: (call_expression
+                    function: (identifier)
+                    arguments: (arguments)))))))))))
 
 ================================================================================
 Record return type with annotation
@@ -727,29 +723,25 @@ void f() {
       (local_variable_declaration
         (initialized_variable_definition
           name: (identifier)
-          value: (identifier)
-          value: (selector)))
+          value: (null_assertion_expression
+            value: (identifier))))
       (expression_statement
-        (identifier)
-        (selector)
-        (selector
-          (unconditional_assignable_selector
-            (identifier)))
-        (selector
-          (argument_part
-            (arguments))))
+        (call_expression
+          function: (member_expression
+            object: (null_assertion_expression
+              value: (identifier))
+            property: (identifier))
+          arguments: (arguments)))
       (expression_statement
         (identifier)
         (cascade_section
-          (cascade_selector
-            (identifier))
-          (selector)
-          (selector
-            (unconditional_assignable_selector
-              (identifier)))
-          (selector
-            (argument_part
-              (arguments))))))))
+          (cascade_call_expression
+            function: (cascade_member_expression
+              object: (cascade_null_assertion_expression
+                value: (cascade_selector
+                  (identifier)))
+              property: (identifier))
+            arguments: (arguments)))))))
 
 ================================================================================
 External static field declarations

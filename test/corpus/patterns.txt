@@ -33,11 +33,10 @@ void main() {
               (relational_operator)
               (decimal_integer_literal))
             (expression_statement
-              (identifier)
-              (selector
-                (argument_part
-                  (arguments
-                    (identifier))))))
+              (call_expression
+                function: (identifier)
+                arguments: (arguments
+                  (identifier)))))
           (switch_statement_default
             (break_statement)))))))
 
@@ -121,11 +120,10 @@ void main() {
           (rest_pattern))
         consequence: (block
           (expression_statement
-            (identifier)
-            (selector
-              (argument_part
-                (arguments
-                  (identifier))))))))))
+            (call_expression
+              function: (identifier)
+              arguments: (arguments
+                (identifier)))))))))
 
 ================================================================================
 Switch expression
@@ -157,13 +155,11 @@ void main() {
               (variable_pattern
                 (type_identifier)
                 name: (identifier))
-              (identifier)
-              (selector
-                (unconditional_assignable_selector
-                  (identifier)))
-              (selector
-                (argument_part
-                  (arguments))))
+              (call_expression
+                function: (member_expression
+                  object: (identifier)
+                  property: (identifier))
+                arguments: (arguments)))
             body: (switch_expression_case
               (constant_pattern
                 (identifier))
@@ -271,12 +267,11 @@ void main() {
       (local_variable_declaration
         (initialized_variable_definition
           name: (identifier)
-          value: (identifier)
-          value: (selector
-            (argument_part
-              (arguments
-                (decimal_integer_literal)
-                (decimal_integer_literal))))))
+          value: (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (decimal_integer_literal)
+              (decimal_integer_literal)))))
       (switch_statement
         condition: (parenthesized_expression
           (identifier))
@@ -297,8 +292,7 @@ void main() {
               (relational_operator)
               (identifier))
             (expression_statement
-              (identifier)
-              (selector
-                (argument_part
-                  (arguments
-                    (identifier)))))))))))
+              (call_expression
+                function: (identifier)
+                arguments: (arguments
+                  (identifier))))))))))

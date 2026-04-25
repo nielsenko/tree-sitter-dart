@@ -18,10 +18,9 @@ void main() {
       (if_statement
         (identifier)
         consequence: (expression_statement
-          (identifier)
-          (selector
-            (argument_part
-              (arguments))))))))
+          (call_expression
+            function: (identifier)
+            arguments: (arguments)))))))
 
 ================================================================================
 If-else statement
@@ -48,16 +47,14 @@ void main() {
         (identifier)
         consequence: (block
           (expression_statement
-            (identifier)
-            (selector
-              (argument_part
-                (arguments)))))
+            (call_expression
+              function: (identifier)
+              arguments: (arguments))))
         alternative: (block
           (expression_statement
-            (identifier)
-            (selector
-              (argument_part
-                (arguments)))))))))
+            (call_expression
+              function: (identifier)
+              arguments: (arguments))))))))
 
 ================================================================================
 For loop
@@ -88,15 +85,14 @@ void main() {
           (relational_operator)
           (decimal_integer_literal))
         update: (postfix_expression
-          (assignable_expression
+          argument: (assignable_expression
             (identifier)))
         body: (block
           (expression_statement
-            (identifier)
-            (selector
-              (argument_part
-                (arguments
-                  (identifier))))))))))
+            (call_expression
+              function: (identifier)
+              arguments: (arguments
+                (identifier)))))))))
 
 ================================================================================
 For-in loop
@@ -122,11 +118,10 @@ void main() {
         value: (identifier)
         body: (block
           (expression_statement
-            (identifier)
-            (selector
-              (argument_part
-                (arguments
-                  (identifier))))))))))
+            (call_expression
+              function: (identifier)
+              arguments: (arguments
+                (identifier)))))))))
 
 ================================================================================
 While loop
@@ -176,7 +171,7 @@ void main() {
         body: (block
           (expression_statement
             (postfix_expression
-              (assignable_expression
+              argument: (assignable_expression
                 (identifier)))))
         condition: (parenthesized_expression
           (relational_expression
@@ -212,37 +207,33 @@ void main() {
       (try_statement
         body: (block
           (expression_statement
-            (identifier)
-            (selector
-              (argument_part
-                (arguments)))))
+            (call_expression
+              function: (identifier)
+              arguments: (arguments))))
         (type_identifier)
         (catch_clause
           exception: (identifier))
         (block
           (expression_statement
-            (identifier)
-            (selector
-              (argument_part
-                (arguments
-                  (identifier))))))
+            (call_expression
+              function: (identifier)
+              arguments: (arguments
+                (identifier)))))
         (catch_clause
           exception: (identifier)
           stack_trace: (identifier))
         (block
           (expression_statement
-            (identifier)
-            (selector
-              (argument_part
-                (arguments
-                  (identifier))))))
+            (call_expression
+              function: (identifier)
+              arguments: (arguments
+                (identifier)))))
         (finally_clause
           (block
             (expression_statement
-              (identifier)
-              (selector
-                (argument_part
-                  (arguments))))))))))
+              (call_expression
+                function: (identifier)
+                arguments: (arguments)))))))))
 
 ================================================================================
 Rethrow statement
@@ -268,10 +259,9 @@ void main() {
       (try_statement
         body: (block
           (expression_statement
-            (identifier)
-            (selector
-              (argument_part
-                (arguments)))))
+            (call_expression
+              function: (identifier)
+              arguments: (arguments))))
         (catch_clause
           exception: (identifier))
         (block
@@ -303,11 +293,10 @@ void main() {
         value: (identifier)
         body: (block
           (expression_statement
-            (identifier)
-            (selector
-              (argument_part
-                (arguments
-                  (identifier))))))))))
+            (call_expression
+              function: (identifier)
+              arguments: (arguments
+                (identifier)))))))))
 
 ================================================================================
 Pattern for-in with metadata
@@ -405,8 +394,7 @@ void main() {
   (function_body
     (block
       (expression_statement
-        (identifier)
-        (selector
-          (argument_part
-            (arguments))))
+        (call_expression
+          function: (identifier)
+          arguments: (arguments)))
       (empty_statement))))

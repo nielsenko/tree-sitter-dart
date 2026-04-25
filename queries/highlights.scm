@@ -82,11 +82,27 @@
   "operator" @keyword)
 
 ; Property access
-(unconditional_assignable_selector
-  (identifier) @property)
+[
+  (member_expression)
+  (null_aware_member_expression)
+  (cascade_member_expression)
+  (cascade_null_aware_member_expression)
+] property: (identifier) @property
 
-(conditional_assignable_selector
-  (identifier) @property)
+; Function calls (non-method)
+(call_expression
+  function: (identifier) @function.call)
+
+; Method calls
+(call_expression
+  function: [
+    (member_expression property: (identifier) @function.method.call)
+    (null_aware_member_expression property: (identifier) @function.method.call)
+  ])
+
+(cascade_call_expression
+  function: (cascade_selector
+    (identifier) @function.method.call))
 
 ; ============================================================================
 ; Declarations

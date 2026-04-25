@@ -45,6 +45,35 @@ function commaSepTrailingComma(rule) {
   return optional(commaSep1TrailingComma(rule));
 }
 
+// Produces the 5 wrapper rules shared between non-cascade and cascade postfix
+// chains: member/index/null-aware-member/null-aware-index/null-assertion.
+// `base` is the recursive postfix-chain rule name (the "object" position).
+// `prefix` is "" for non-cascade and "cascade_" for cascade variants.
+function postfixChainWrappers(base, prefix) {
+  return {
+    [`${prefix}member_expression`]: ($) =>
+      prec.left(PREC.UNARY_POSTFIX, seq(
+        field("object", $[base]), ".", field("property", $.identifier),
+      )),
+    [`${prefix}index_expression`]: ($) =>
+      prec.left(PREC.UNARY_POSTFIX, seq(
+        field("object", $[base]), "[", field("index", $._expression), "]",
+      )),
+    [`${prefix}null_aware_member_expression`]: ($) =>
+      prec.left(PREC.UNARY_POSTFIX, seq(
+        field("object", $[base]), "?.", field("property", $.identifier),
+      )),
+    [`${prefix}null_aware_index_expression`]: ($) =>
+      prec.left(PREC.UNARY_POSTFIX, seq(
+        field("object", $[base]), "?", "[", field("index", $._expression), "]",
+      )),
+    [`${prefix}null_assertion_expression`]: ($) =>
+      prec.left(PREC.UNARY_POSTFIX, seq(
+        field("value", $[base]), "!",
+      )),
+  };
+}
+
 module.exports = grammar({
   name: "dart",
 
@@ -64,6 +93,10 @@ module.exports = grammar({
   word: ($) => $._name,
 
   supertypes: ($) => [$._statement, $._literal, $._declaration],
+
+  precedences: ($) => [
+    ["call", "instantiation"],
+  ],
 
   conflicts: ($) => [
     // Type vs expression ambiguity: `x<y>` could be type args or relational
@@ -94,19 +127,19 @@ module.exports = grammar({
     [$._final_const_var_or_type, $.const_object_expression],
     // Expression ambiguities
     [$._expression],
-    [$._postfix_expression],
-    [$.assignable_expression, $._postfix_expression],
     [$._primary, $.assignable_expression],
-    [$._assignable_selector_part, $._postfix_expression],
-    // [$._assignable_selector_part, $.selector], -- unnecessary
     [$._primary, $.labeled_statement],
-    // [$._cascade_subsection], -- removed, cascade now uses selector directly
+    // Assignable-vs-wrapper: same chain reduces under either name; lookahead picks
+    [$.assignable_expression, $.member_expression, $._unary_expression],
+    [$.assignable_expression, $.index_expression, $._unary_expression],
+    [$.assignable_expression, $.null_aware_member_expression, $._unary_expression],
+    [$.assignable_expression, $.null_aware_index_expression, $._unary_expression],
     // Type name ambiguities
     [$._type_name],
+    [$._type_name, $.assignable_expression],
     // [$._type_name, $._simple_formal_parameter], -- subsumed
     // [$._type_name, $._function_formal_parameter], -- subsumed
     // [$._type_name, $.function_signature], -- covered by _function_name conflicts
-    // [$._type_name, $.assignable_expression], -- unnecessary
     // [$._type_name, $._primary, $.assignable_expression], -- subsumed
     // Parameter ambiguities
     [$._normal_formal_parameters],
@@ -126,8 +159,6 @@ module.exports = grammar({
     [$.pattern_variable_declaration, $._for_loop_parts, $._final_const_var_or_type],
     [$.pattern_variable_declaration, $._var_or_type],
     [$._final_const_var_or_type, $.pattern_variable_declaration],
-    // Super formal parameter
-    // [$.super_formal_parameter, $.unconditional_assignable_selector], -- subsumed
     // Pattern ambiguities
     [$.set_or_map_literal, $.map_pattern],
     [$.list_literal, $.list_pattern],
@@ -146,9 +177,6 @@ module.exports = grammar({
     [$.record_literal, $.constant_pattern],
     // Constructor tearoff vs primary
     [$.constructor_tearoff, $._identifier_or_new],
-    // Postfix expression vs primary (constructor_invocation)
-    [$.postfix_expression, $._primary],
-    [$.assignable_expression, $.postfix_expression, $._primary],
     // [$._simple_formal_parameter, $.assignable_expression], -- unnecessary
     // Declaration external
     [$.declaration, $.external],
@@ -156,6 +184,9 @@ module.exports = grammar({
     [$.type_arguments, $.relational_operator],
     // [$.relational_operator, $.type_parameters], -- unnecessary
     [$.type_arguments, $.relational_operator, $.type_parameters],
+    // Generic call/instantiation vs comparisons (TS-style GLR fork on `<`)
+    [$._unary_expression, $.instantiation_expression],
+    [$._unary_expression, $.call_expression],
     // Record literal vs record field / record type
     [$._record_literal_no_const, $.record_field],
     [$.record_type, $._record_literal_no_const],
@@ -227,7 +258,7 @@ module.exports = grammar({
     [$._function_type_tail, $._built_in_identifier],
     [$.factory_constructor_signature, $._built_in_identifier],
     [$.assignable_expression, $._simple_formal_parameter],
-    [$.unconditional_assignable_selector, $.super_formal_parameter],
+    [$._primary, $.super_formal_parameter],
     // this.identifier in initializer_list_entry vs redirection
     [$.initializer_list_entry, $._identifier_or_new],
   ],
@@ -953,14 +984,31 @@ module.exports = grammar({
 
     assignable_expression: ($) =>
       choice(
-        seq($._primary, $._assignable_selector_part),
-        seq("super", $.unconditional_assignable_selector),
-        seq($.constructor_invocation, $._assignable_selector_part),
-        prec.dynamic(1, $.identifier),
+        $.identifier,
+        seq(
+          field("object", $._postfix_expression),
+          ".",
+          field("property", $.identifier),
+        ),
+        seq(
+          field("object", $._postfix_expression),
+          "[",
+          field("index", $._expression),
+          "]",
+        ),
+        seq(
+          field("object", $._postfix_expression),
+          "?.",
+          field("property", $.identifier),
+        ),
+        seq(
+          field("object", $._postfix_expression),
+          "?",
+          "[",
+          field("index", $._expression),
+          "]",
+        ),
       ),
-
-    _assignable_selector_part: ($) =>
-      seq(repeat($.selector), $._assignable_selector),
 
     // --- Conditional ---
 
@@ -1129,51 +1177,41 @@ module.exports = grammar({
 
     _postfix_expression: ($) =>
       choice(
-        seq($._primary, repeat($.selector)),
+        $._primary,
+        $.call_expression,
+        $.member_expression,
+        $.index_expression,
+        $.null_aware_member_expression,
+        $.null_aware_index_expression,
+        $.null_assertion_expression,
+        $.instantiation_expression,
         $.postfix_expression,
       ),
 
     postfix_expression: ($) =>
       prec.right(
-        choice(
-          seq($.assignable_expression, choice("++", "--")),
-          seq($.constructor_invocation, repeat($.selector)),
+        seq(field("argument", $.assignable_expression), choice("++", "--")),
+      ),
+
+    call_expression: ($) =>
+      prec.dynamic(1, prec("call",
+        seq(
+          field("function", $._postfix_expression),
+          field("arguments", $.arguments),
+        ),
+      )),
+
+    // Named prec required so the `<` ambiguity (call/instantiation/relational)
+    // falls through to GLR conflict declarations rather than being auto-resolved.
+    instantiation_expression: ($) =>
+      prec("instantiation",
+        seq(
+          field("function", $._postfix_expression),
+          field("type_arguments", $.type_arguments),
         ),
       ),
 
-    // --- Selectors ---
-
-    selector: ($) =>
-      prec.right(
-        PREC.UNARY_POSTFIX,
-        choice(
-          "!",
-          $._assignable_selector,
-          $.argument_part,
-          $.type_arguments,
-        ),
-      ),
-
-    argument_part: ($) =>
-      seq(optional($.type_arguments), $.arguments),
-
-    _assignable_selector: ($) =>
-      choice(
-        $.unconditional_assignable_selector,
-        $.conditional_assignable_selector,
-      ),
-
-    unconditional_assignable_selector: ($) =>
-      choice(
-        seq("[", $._expression, "]"),
-        seq(".", $.identifier),
-      ),
-
-    conditional_assignable_selector: ($) =>
-      choice(
-        seq("?.", $.identifier),
-        seq("?", "[", $._expression, "]"),
-      ),
+    ...postfixChainWrappers("_postfix_expression", ""),
 
     // --- Cascade ---
 
@@ -1182,10 +1220,20 @@ module.exports = grammar({
         PREC.CASCADE,
         seq(
           choice("..", "?.."),
-          $.cascade_selector,
-          repeat($.selector),
+          $._cascade_postfix_expression,
           optional(seq($._assignment_operator, $._expression_without_cascade)),
         ),
+      ),
+
+    _cascade_postfix_expression: ($) =>
+      choice(
+        $.cascade_selector,
+        $.cascade_call_expression,
+        $.cascade_member_expression,
+        $.cascade_index_expression,
+        $.cascade_null_aware_member_expression,
+        $.cascade_null_aware_index_expression,
+        $.cascade_null_assertion_expression,
       ),
 
     cascade_selector: ($) =>
@@ -1193,6 +1241,22 @@ module.exports = grammar({
         seq(optional("?"), "[", $._expression, "]"),
         $.identifier,
       ),
+
+    // cascade_call_expression keeps `optional(type_arguments)` inline because
+    // there's no `cascade_instantiation_expression` - bare `..foo<int>` (cascade
+    // tearoff) isn't valid Dart, so the `<` fork that forced the call/instantiation
+    // split on the non-cascade side doesn't apply here.
+    cascade_call_expression: ($) =>
+      prec.left(
+        PREC.UNARY_POSTFIX,
+        seq(
+          field("function", $._cascade_postfix_expression),
+          optional(field("type_arguments", $.type_arguments)),
+          field("arguments", $.arguments),
+        ),
+      ),
+
+    ...postfixChainWrappers("_cascade_postfix_expression", "cascade_"),
 
     // --- Primary expressions ---
 
@@ -1205,7 +1269,7 @@ module.exports = grammar({
         $.const_object_expression,
         $.parenthesized_expression,
         "this",
-        seq("super", choice($.unconditional_assignable_selector, $.argument_part)),
+        "super",
         $.constructor_invocation,
         $.constructor_tearoff,
         $.switch_expression,
@@ -1996,7 +2060,7 @@ module.exports = grammar({
         seq(
           optional($._metadata),
           field("name", $.identifier),
-          optional($.argument_part),
+          optional(seq(optional($.type_arguments), $.arguments)),
         ),
         seq(
           optional($._metadata),
