@@ -11,7 +11,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -40,7 +41,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -73,7 +75,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -112,7 +115,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -142,7 +146,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -168,7 +173,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -206,7 +212,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -217,7 +224,8 @@ void main() {
               (call_expression
                 function: (identifier)
                 arguments: (arguments))))
-          (type_identifier)
+          (type
+            (type_identifier))
           (catch_clause
             exception: (identifier))
           (block
@@ -259,7 +267,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -290,7 +299,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -320,7 +330,8 @@ void f(x) {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list
         (formal_parameter
@@ -351,7 +362,8 @@ int foo() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (type_identifier)
+      return_type: (type
+        (type_identifier))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -372,7 +384,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -401,7 +414,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body

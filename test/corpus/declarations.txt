@@ -23,9 +23,11 @@ class Dog extends Animal implements Barker {}
   (class_declaration
     name: (identifier)
     superclass: (superclass
-      type: (type_identifier))
+      type: (type
+        (type_identifier)))
     interfaces: (interfaces
-      (type_identifier))
+      (type
+        (type_identifier)))
     body: (class_body)))
 
 ================================================================================
@@ -40,10 +42,13 @@ class Cat extends Animal with Walker, Purrer {}
   (class_declaration
     name: (identifier)
     superclass: (superclass
-      type: (type_identifier)
+      type: (type
+        (type_identifier))
       (mixins
-        (type_identifier)
-        (type_identifier)))
+        (type
+          (type_identifier))
+        (type
+          (type_identifier))))
     body: (class_body)))
 
 ================================================================================
@@ -98,12 +103,14 @@ mixin Flyable on Animal {
 (source_file
   (mixin_declaration
     name: (identifier)
-    (type_identifier)
+    (type
+      (type_identifier))
     body: (class_body
       (class_member
         (method_signature
           (function_signature
-            return_type: (void_type)
+            return_type: (type
+              (void_type))
             name: (identifier)
             parameters: (formal_parameter_list)))
         (function_body
@@ -122,12 +129,14 @@ extension StringExt on String {
 (source_file
   (extension_declaration
     name: (identifier)
-    class: (type_identifier)
+    class: (type
+      (type_identifier))
     body: (extension_body
       (class_member
         (method_signature
           (getter_signature
-            return_type: (type_identifier)
+            return_type: (type
+              (type_identifier))
             name: (identifier)))
         (function_body
           (identifier))))))
@@ -145,9 +154,11 @@ extension type Meters(double value) implements double {}
     name: (extension_type_name
       (identifier))
     representation: (extension_type_representation
-      type: (type_identifier)
+      type: (type
+        (type_identifier))
       name: (identifier))
-    (type_identifier)
+    (type
+      (type_identifier))
     body: (class_body)))
 
 ================================================================================
@@ -197,7 +208,8 @@ enum Planet {
           (decimal_floating_point_literal)))
       (class_member
         (declaration
-          (type_identifier)
+          (type
+            (type_identifier))
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)))))
@@ -221,9 +233,11 @@ typedef IntList = List<int>;
 (source_file
   (type_alias
     (type_identifier)
-    (type_identifier)
-    (type_arguments
-      (type_identifier))))
+    (type
+      (type_identifier)
+      (type_arguments
+        (type
+          (type_identifier))))))
 
 ================================================================================
 Top-level variable declarations
@@ -358,14 +372,16 @@ class Foo {
     body: (class_body
       (class_member
         (declaration
-          (type_identifier)
+          (type
+            (type_identifier))
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)
               value: (decimal_integer_literal)))))
       (class_member
         (declaration
-          (type_identifier)
+          (type
+            (type_identifier))
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)
@@ -373,7 +389,8 @@ class Foo {
                 (string_literal_single_quotes))))))
       (class_member
         (declaration
-          (type_identifier)
+          (type
+            (type_identifier))
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)
@@ -436,11 +453,14 @@ class Foo {
           name: (identifier))
         (method_signature
           (getter_signature
-            return_type: (record_type
-              (record_type_field
-                type: (type_identifier))
-              (record_type_field
-                type: (type_identifier)))
+            return_type: (type
+              (record_type
+                (record_type_field
+                  type: (type
+                    (type_identifier)))
+                (record_type_field
+                  type: (type
+                    (type_identifier)))))
             name: (identifier)))
         (function_body
           (block
@@ -451,11 +471,14 @@ class Foo {
           name: (identifier))
         (method_signature
           (getter_signature
-            return_type: (record_type
-              (record_type_field
-                type: (type_identifier))
-              (record_type_field
-                type: (type_identifier)))
+            return_type: (type
+              (record_type
+                (record_type_field
+                  type: (type
+                    (type_identifier)))
+                (record_type_field
+                  type: (type
+                    (type_identifier)))))
             name: (identifier)))
         (function_body
           (record_literal
@@ -478,11 +501,14 @@ class Foo {
                   (template_chars_single_single))))))
         (method_signature
           (getter_signature
-            return_type: (record_type
-              (record_type_field
-                type: (type_identifier))
-              (record_type_field
-                type: (type_identifier)))
+            return_type: (type
+              (record_type
+                (record_type_field
+                  type: (type
+                    (type_identifier)))
+                (record_type_field
+                  type: (type
+                    (type_identifier)))))
             name: (identifier)))
         (function_body
           (record_literal
@@ -508,12 +534,16 @@ extension type JSArray<T extends JSAny?>._(JSArrayRepType _jsArray) implements J
       (type_parameters
         (type_parameter
           name: (type_identifier)
-          bound: (type_identifier)))
+          bound: (type
+            (type_identifier))
+          bound: (type)))
       (identifier))
     representation: (extension_type_representation
-      type: (type_identifier)
+      type: (type
+        (type_identifier))
       name: (identifier))
-    (type_identifier)
+    (type
+      (type_identifier))
     body: (class_body)))
 
 ================================================================================
@@ -533,8 +563,10 @@ class Bar {}
     (annotation
       name: (identifier)
       (type_arguments
-        (type_identifier)
-        (type_identifier))
+        (type
+          (type_identifier))
+        (type
+          (type_identifier)))
       (annotation_arguments
         (annotation_open_paren)))
     name: (identifier)
@@ -543,7 +575,8 @@ class Bar {}
     (annotation
       name: (identifier)
       (type_arguments
-        (type_identifier))
+        (type
+          (type_identifier)))
       (identifier)
       (annotation_arguments
         (annotation_open_paren)))
@@ -565,9 +598,11 @@ extension type ExtensionType(@annotation int id) implements int {}
     representation: (extension_type_representation
       (annotation
         name: (identifier))
-      type: (type_identifier)
+      type: (type
+        (type_identifier))
       name: (identifier))
-    (type_identifier)
+    (type
+      (type_identifier))
     body: (class_body)))
 
 ================================================================================
@@ -632,12 +667,14 @@ augment mixin M {
     name: (identifier)
     superclass: (superclass
       (mixins
-        (type_identifier)))
+        (type
+          (type_identifier))))
     body: (class_body
       (class_member
         (method_signature
           (getter_signature
-            return_type: (type_identifier)
+            return_type: (type
+              (type_identifier))
             name: (identifier)))
         (function_body
           (string_literal
@@ -651,7 +688,8 @@ augment mixin M {
       (class_member
         (method_signature
           (getter_signature
-            return_type: (type_identifier)
+            return_type: (type
+              (type_identifier))
             name: (identifier)))
         (function_body
           (string_literal
@@ -678,14 +716,16 @@ class Foo {
       (class_member
         (method_signature
           (getter_signature
-            return_type: (type_identifier)
+            return_type: (type
+              (type_identifier))
             name: (identifier)))
         (function_body
           (native)))
       (class_member
         (method_signature
           (function_signature
-            return_type: (type_identifier)
+            return_type: (type
+              (type_identifier))
             name: (identifier)
             parameters: (formal_parameter_list)))
         (function_body
@@ -702,7 +742,8 @@ external final int x;
 (source_file
   (external_variable_declaration
     (external)
-    (type_identifier)
+    (type
+      (type_identifier))
     (identifier_list
       (identifier))))
 
@@ -721,7 +762,8 @@ void f() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -767,13 +809,15 @@ class JsInterop {
       (class_member
         (declaration
           (external)
-          (type_identifier)
+          (type
+            (type_identifier))
           (identifier_list
             (identifier))))
       (class_member
         (declaration
           (external)
-          (type_identifier)
+          (type
+            (type_identifier))
           (identifier_list
             (identifier)))))))
 
@@ -795,7 +839,8 @@ class C {
       (class_member
         (declaration
           (external)
-          (type_identifier)
+          (type
+            (type_identifier))
           (identifier_list
             (identifier))))
       (class_member
@@ -839,15 +884,20 @@ abstract base mixin class AMC = Object with M1 implements I;
     (mixin_application_class
       (identifier)
       (mixin_application
-        (type_identifier)
+        (type
+          (type_identifier))
         (mixins
-          (type_identifier)))))
+          (type
+            (type_identifier))))))
   (class_declaration
     (mixin_application_class
       (identifier)
       (mixin_application
-        (type_identifier)
-        (mixins
+        (type
           (type_identifier))
+        (mixins
+          (type
+            (type_identifier)))
         (interfaces
-          (type_identifier))))))
+          (type
+            (type_identifier)))))))

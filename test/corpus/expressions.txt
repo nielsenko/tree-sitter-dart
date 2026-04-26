@@ -25,7 +25,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -109,7 +110,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -156,7 +158,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -182,7 +185,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -218,7 +222,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -228,18 +233,21 @@ void main() {
             (identifier)
             (type_test
               (is_operator)
-              (type_identifier))))
+              (type
+                (type_identifier)))))
         (expression_statement
           (type_test_expression
             (identifier)
             (type_test
               (is_operator)
-              (type_identifier))))
+              (type
+                (type_identifier)))))
         (expression_statement
           (type_cast_expression
             (identifier)
             (type_cast
-              (type_identifier))))))))
+              (type
+                (type_identifier)))))))))
 
 ================================================================================
 Unary expressions
@@ -260,7 +268,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -307,7 +316,8 @@ void main() async {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -332,7 +342,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -356,7 +367,8 @@ void main() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -391,7 +403,8 @@ void f() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -426,7 +439,8 @@ void f() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -462,7 +476,8 @@ void f() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -492,7 +507,8 @@ void f() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -522,17 +538,20 @@ Color f(Color c) {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (type_identifier)
+      return_type: (type
+        (type_identifier))
       name: (identifier)
       parameters: (formal_parameter_list
         (formal_parameter
-          (type_identifier)
+          (type
+            (type_identifier))
           name: (identifier))))
     body: (function_body
       (block
         (local_variable_declaration
           (initialized_variable_definition
-            (type_identifier)
+            (type
+              (type_identifier))
             name: (identifier)
             value: (static_member_shorthand
               (identifier))))
@@ -559,7 +578,8 @@ void f() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -588,7 +608,8 @@ void f() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -617,7 +638,8 @@ void f() {
 (source_file
   (function_declaration
     signature: (function_signature
-      return_type: (void_type)
+      return_type: (type
+        (void_type))
       name: (identifier)
       parameters: (formal_parameter_list))
     body: (function_body
@@ -643,16 +665,19 @@ class A extends B {
   (class_declaration
     name: (identifier)
     superclass: (superclass
-      type: (type_identifier))
+      type: (type
+        (type_identifier)))
     body: (class_body
       (class_member
         (method_signature
           (function_signature
-            return_type: (type_identifier)
+            return_type: (type
+              (type_identifier))
             name: (identifier)
             parameters: (formal_parameter_list
               (formal_parameter
-                (type_identifier)
+                (type
+                  (type_identifier))
                 name: (identifier)))))
         (function_body
           (call_expression

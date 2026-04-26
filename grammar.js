@@ -45,6 +45,11 @@ function commaSepTrailingComma(rule) {
   return optional(commaSep1TrailingComma(rule));
 }
 
+// Wraps a type expression with the optional `?` nullable marker.
+function nullable(rule) {
+  return seq(rule, optional("?"));
+}
+
 // Produces the 5 wrapper rules shared between non-cascade and cascade postfix
 // chains: member/index/null-aware-member/null-aware-index/null-assertion.
 // `base` is the recursive postfix-chain rule name (the "object" position).
@@ -117,7 +122,17 @@ module.exports = grammar({
     [$._type_not_void],
     [$._function_type_tail],
     [$._type_not_void_not_function, $._function_type_tail],
-    [$._type, $.function_type],
+    [$.type, $._type_not_function],
+    [$.type, $._function_type_tail, $._built_in_identifier],
+    [$.type, $._type_not_function, $._function_type_tail, $._built_in_identifier],
+    [$.type, $._function_type_tail],
+    [$.type, $._type_not_function, $._function_type_tail],
+    [$._type_not_function, $._function_type_tail, $._built_in_identifier],
+    [$._type_not_void, $._function_type_tail, $._built_in_identifier],
+    [$._type_not_function, $._type_not_void, $._function_type_tail, $._built_in_identifier],
+    [$._type_not_function, $._function_type_tail],
+    [$.type, $._type_not_function, $._type_not_void, $._function_type_tail, $._built_in_identifier],
+    [$._type_not_void, $._function_type_tail],
     [$.function_type],
     // Var or type ambiguities
     [$._var_or_type],
@@ -423,30 +438,47 @@ module.exports = grammar({
     // Types (Phase 2)
     // ========================================================================
 
-    _type: ($) =>
+    // Public wrapper: every type-labeled position emits exactly one `type`
+    // child. The scope-restricted variants below alias to `type` so consumers
+    // see a uniform `(type ...)` regardless of which slot matched.
+    type: ($) =>
       choice(
-        seq($.function_type, optional("?")),
-        $._type_not_function,
+        nullable($.function_type),
+        nullable($.record_type),
+        $.void_type,
+        nullable(seq($._type_name, optional($.type_arguments))),
+        nullable("Function"),
       ),
 
     _type_not_function: ($) =>
-      choice(
-        $._type_not_void_not_function,
-        seq($.record_type, optional("?")),
-        $.void_type,
+      alias(
+        choice(
+          nullable(seq($._type_name, optional($.type_arguments))),
+          nullable("Function"),
+          nullable($.record_type),
+          $.void_type,
+        ),
+        $.type,
       ),
 
     _type_not_void: ($) =>
-      choice(
-        seq($.function_type, optional("?")),
-        seq($.record_type, optional("?")),
-        $._type_not_void_not_function,
+      alias(
+        choice(
+          nullable($.function_type),
+          nullable($.record_type),
+          nullable(seq($._type_name, optional($.type_arguments))),
+          nullable("Function"),
+        ),
+        $.type,
       ),
 
     _type_not_void_not_function: ($) =>
-      choice(
-        seq($._type_name, optional($.type_arguments), optional("?")),
-        seq("Function", optional("?")),
+      alias(
+        choice(
+          nullable(seq($._type_name, optional($.type_arguments))),
+          nullable("Function"),
+        ),
+        $.type,
       ),
 
     _type_name: ($) =>
@@ -493,7 +525,7 @@ module.exports = grammar({
       ),
 
     normal_parameter_type: ($) =>
-      seq(optional($._metadata), choice($.typed_identifier, $._type)),
+      seq(optional($._metadata), choice($.typed_identifier, $.type)),
 
     optional_parameter_types: ($) =>
       choice(
@@ -510,10 +542,10 @@ module.exports = grammar({
     _named_parameter_type: ($) =>
       seq(optional($._metadata), optional("required"), $.typed_identifier),
 
-    typed_identifier: ($) => seq(field("type", $._type), field("name", $.identifier)),
+    typed_identifier: ($) => seq(field("type", $.type), field("name", $.identifier)),
 
     type_arguments: ($) =>
-      seq("<", commaSep1($._type), ">"),
+      seq("<", commaSep1($.type), ">"),
 
     type_parameters: ($) =>
       seq("<", commaSep1($.type_parameter), ">"),
@@ -551,7 +583,7 @@ module.exports = grammar({
       ),
 
     record_type_field: ($) =>
-      seq(optional($._metadata), field("type", $._type), optional(field("name", $.identifier))),
+      seq(optional($._metadata), field("type", $.type), optional(field("name", $.identifier))),
 
     record_type_named_field: ($) =>
       seq(optional($._metadata), $.typed_identifier),
@@ -1351,7 +1383,7 @@ module.exports = grammar({
     _function_formal_parameter: ($) =>
       seq(
         optional("covariant"),
-        optional($._type),
+        optional($.type),
         $.identifier,
         $._formal_parameter_part,
         optional("?"),
@@ -1612,7 +1644,7 @@ module.exports = grammar({
 
     function_signature: ($) =>
       seq(
-        optional(field("return_type", $._type)),
+        optional(field("return_type", $.type)),
         field("name", $._function_name),
         field("parameters", $._formal_parameter_part),
       ),
@@ -1621,10 +1653,10 @@ module.exports = grammar({
     _function_name: ($) => $.identifier,
 
     getter_signature: ($) =>
-      seq(optional(field("return_type", $._type)), "get", field("name", $.identifier)),
+      seq(optional(field("return_type", $.type)), "get", field("name", $.identifier)),
 
     setter_signature: ($) =>
-      seq(optional(field("return_type", $._type)), "set", field("name", $.identifier), field("parameters", $._formal_parameter_part)),
+      seq(optional(field("return_type", $.type)), "set", field("name", $.identifier), field("parameters", $._formal_parameter_part)),
 
     function_body: ($) =>
       choice(
@@ -1656,19 +1688,19 @@ module.exports = grammar({
 
     _final_const_var_or_type: ($) =>
       choice(
-        seq(optional("late"), "final", optional($._type)),
-        seq("const", optional($._type)),
+        seq(optional("late"), "final", optional($.type)),
+        seq("const", optional($.type)),
         seq(optional("late"), $._var_or_type),
       ),
 
     _var_or_type: ($) =>
-      choice($._type, seq("var", optional($._type))),
+      choice($.type, seq("var", optional($.type))),
 
     _final_var_or_type: ($) =>
       choice(
         "var",
         "final",
-        seq(optional("final"), $._type),
+        seq(optional("final"), $.type),
       ),
 
     // --- Class members ---
@@ -1706,13 +1738,13 @@ module.exports = grammar({
           choice(
             seq(
               choice("final", "const"),
-              optional($._type),
+              optional($.type),
               $.static_final_declaration_list,
             ),
             seq(
               "late",
               choice(
-                seq("final", optional($._type), $.initialized_identifier_list),
+                seq("final", optional($.type), $.initialized_identifier_list),
                 seq($._var_or_type, $.initialized_identifier_list),
               ),
             ),
@@ -1726,7 +1758,7 @@ module.exports = grammar({
             seq(
               "late",
               choice(
-                seq("final", optional($._type), $.identifier_list),
+                seq("final", optional($.type), $.identifier_list),
                 seq($._var_or_type, $.initialized_identifier_list),
               ),
             ),
@@ -1734,16 +1766,16 @@ module.exports = grammar({
           ),
         ),
         // Instance field declarations
-        seq(optional("late"), "final", optional($._type), $.initialized_identifier_list),
+        seq(optional("late"), "final", optional($.type), $.initialized_identifier_list),
         seq(optional("late"), $._var_or_type, $.initialized_identifier_list),
-        seq("const", optional($._type), $.static_final_declaration_list),
+        seq("const", optional($.type), $.static_final_declaration_list),
         // Abstract field declarations
-        seq("abstract", "final", optional($._type), $.identifier_list),
-        seq("abstract", optional($._type), $.identifier_list),
-        seq("abstract", "covariant", "final", optional($._type), $.identifier_list),
-        seq("abstract", "covariant", optional($._type), $.identifier_list),
+        seq("abstract", "final", optional($.type), $.identifier_list),
+        seq("abstract", optional($.type), $.identifier_list),
+        seq("abstract", "covariant", "final", optional($.type), $.identifier_list),
+        seq("abstract", "covariant", optional($.type), $.identifier_list),
         // External field declarations
-        seq($.external, optional("static"), optional("covariant"), optional(choice("final", "var")), optional($._type), $.identifier_list),
+        seq($.external, optional("static"), optional("covariant"), optional(choice("final", "var")), optional($.type), $.identifier_list),
       ),
 
     external: (_) => "external",
@@ -1805,7 +1837,7 @@ module.exports = grammar({
 
     operator_signature: ($) =>
       seq(
-        optional(field("return_type", $._type)),
+        optional(field("return_type", $.type)),
         "operator",
         field("operator", choice("~", $.binary_operator, "[]", "[]=")),
         field("parameters", $.formal_parameter_list),
@@ -1939,7 +1971,7 @@ module.exports = grammar({
           optional(field("name", $.identifier)),
           optional(field("type_parameters", $.type_parameters)),
           "on",
-          field("class", $._type),
+          field("class", $.type),
           field("body", $.extension_body),
         ),
         seq(
@@ -1970,7 +2002,7 @@ module.exports = grammar({
           optional("const"),
           field("name", $.extension_type_name),
           field("representation", $.extension_type_representation),
-          optional(seq("implements", commaSep1($._type))),
+          optional(seq("implements", commaSep1($.type))),
           field("body", $.class_body),
         ),
         seq(
@@ -1993,7 +2025,7 @@ module.exports = grammar({
       ),
 
     extension_type_representation: ($) =>
-      seq("(", optional($._metadata), field("type", $._type), field("name", $.identifier), ")"),
+      seq("(", optional($._metadata), field("type", $.type), field("name", $.identifier), ")"),
 
     // --- Enums (enhanced, Dart 2.17) ---
 
@@ -2046,7 +2078,7 @@ module.exports = grammar({
         seq(
           optional($._metadata),
           "typedef",
-          optional($._type),
+          optional($.type),
           $._type_name,
           $._formal_parameter_part,
           ";",
@@ -2057,7 +2089,7 @@ module.exports = grammar({
           $._type_name,
           optional($.type_parameters),
           "=",
-          $._type,
+          $.type,
           ";",
         ),
       ),
@@ -2122,7 +2154,7 @@ module.exports = grammar({
         optional("augment"),
         field("modifier", $.external),
         optional("final"),
-        optional(field("type", $._type)),
+        optional(field("type", $.type)),
         $.identifier_list,
         ";",
       ),
@@ -2134,13 +2166,13 @@ module.exports = grammar({
         choice(
           seq(
             field("modifier", choice("final", "const")),
-            optional(field("type", $._type)),
+            optional(field("type", $.type)),
             $.static_final_declaration_list,
           ),
           seq(
             field("modifier", "late"),
             "final",
-            optional(field("type", $._type)),
+            optional(field("type", $.type)),
             $.initialized_identifier_list,
           ),
           seq(
@@ -2195,7 +2227,7 @@ module.exports = grammar({
         $.object_pattern,
       ),
 
-    cast_pattern: ($) => seq($._primary_pattern, "as", field("type", $._type)),
+    cast_pattern: ($) => seq($._primary_pattern, "as", field("type", $.type)),
 
     null_check_pattern: ($) => seq($._primary_pattern, "?"),
 

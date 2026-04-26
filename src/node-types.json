@@ -2970,39 +2970,11 @@
     "named": true,
     "fields": {
       "type": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "void_type",
+            "type": "type",
             "named": true
           }
         ]
@@ -3879,31 +3851,7 @@
         "required": true,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
+            "type": "type",
             "named": true
           }
         ]
@@ -4206,31 +4154,15 @@
           "named": true
         },
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "type",
           "named": true
         },
         {
           "type": "type_parameters",
-          "named": true
-        },
-        {
-          "type": "void_type",
           "named": true
         }
       ]
@@ -4333,10 +4265,6 @@
           "named": true
         },
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
           "type": "getter_signature",
           "named": true
         },
@@ -4357,10 +4285,6 @@
           "named": true
         },
         {
-          "type": "record_type",
-          "named": true
-        },
-        {
           "type": "redirecting_factory_constructor_signature",
           "named": true
         },
@@ -4377,15 +4301,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "void_type",
+          "type": "type",
           "named": true
         }
       ]
@@ -4879,39 +4795,11 @@
         ]
       },
       "class": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "void_type",
+            "type": "type",
             "named": true
           }
         ]
@@ -5016,23 +4904,7 @@
           "named": true
         },
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "void_type",
+          "type": "type",
           "named": true
         }
       ]
@@ -5072,39 +4944,11 @@
         ]
       },
       "type": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "void_type",
+            "type": "type",
             "named": true
           }
         ]
@@ -5249,39 +5093,11 @@
         ]
       },
       "type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "void_type",
+            "type": "type",
             "named": true
           }
         ]
@@ -6443,10 +6259,6 @@
           "named": true
         },
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
@@ -6527,10 +6339,6 @@
           "named": true
         },
         {
-          "type": "record_type",
-          "named": true
-        },
-        {
           "type": "relational_expression",
           "named": true
         },
@@ -6551,15 +6359,11 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "type",
           "named": true
         },
         {
           "type": "type_cast_expression",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
           "named": true
         },
         {
@@ -6572,10 +6376,6 @@
         },
         {
           "type": "variable_pattern",
-          "named": true
-        },
-        {
-          "type": "void_type",
           "named": true
         }
       ]
@@ -7323,10 +7123,6 @@
           "named": true
         },
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
@@ -7407,10 +7203,6 @@
           "named": true
         },
         {
-          "type": "record_type",
-          "named": true
-        },
-        {
           "type": "relational_expression",
           "named": true
         },
@@ -7431,15 +7223,11 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "type",
           "named": true
         },
         {
           "type": "type_cast_expression",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
           "named": true
         },
         {
@@ -7452,10 +7240,6 @@
         },
         {
           "type": "variable_pattern",
-          "named": true
-        },
-        {
-          "type": "void_type",
           "named": true
         }
       ]
@@ -7493,15 +7277,7 @@
           "named": true
         },
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "record_type",
           "named": true
         },
         {
@@ -7509,19 +7285,11 @@
           "named": true
         },
         {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "type",
           "named": true
         },
         {
           "type": "type_parameters",
-          "named": true
-        },
-        {
-          "type": "void_type",
           "named": true
         }
       ]
@@ -7971,39 +7739,11 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "void_type",
+            "type": "type",
             "named": true
           }
         ]
@@ -8023,23 +7763,11 @@
           "named": true
         },
         {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "type",
           "named": true
         },
         {
           "type": "type_parameters",
-          "named": true
-        },
-        {
-          "type": "void_type",
           "named": true
         }
       ]
@@ -8096,39 +7824,11 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "void_type",
+            "type": "type",
             "named": true
           }
         ]
@@ -9940,27 +9640,11 @@
       "required": false,
       "types": [
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
           "type": "initialized_identifier",
           "named": true
         },
         {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "void_type",
+          "type": "type",
           "named": true
         }
       ]
@@ -10116,22 +9800,10 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "type",
           "named": true
         }
       ]
@@ -11322,10 +10994,6 @@
       "required": true,
       "types": [
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
           "type": "interfaces",
           "named": true
         },
@@ -11334,15 +11002,7 @@
           "named": true
         },
         {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "type",
           "named": true
         }
       ]
@@ -11425,19 +11085,7 @@
           "named": true
         },
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "type",
           "named": true
         }
       ]
@@ -11449,22 +11097,10 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "type",
           "named": true
         }
       ]
@@ -11788,31 +11424,7 @@
         "required": true,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
+            "type": "type",
             "named": true
           }
         ]
@@ -11825,34 +11437,18 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "annotation",
           "named": true
         },
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "type",
           "named": true
         },
         {
           "type": "typed_identifier",
-          "named": true
-        },
-        {
-          "type": "void_type",
           "named": true
         }
       ]
@@ -13397,39 +12993,11 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "void_type",
+            "type": "type",
             "named": true
           }
         ]
@@ -15263,39 +14831,11 @@
         ]
       },
       "type": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "void_type",
+            "type": "type",
             "named": true
           }
         ]
@@ -15364,31 +14904,7 @@
         "required": true,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
+            "type": "type",
             "named": true
           }
         ]
@@ -16180,39 +15696,11 @@
         ]
       },
       "return_type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "void_type",
+            "type": "type",
             "named": true
           }
         ]
@@ -16958,31 +16446,15 @@
           "named": true
         },
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "type",
           "named": true
         },
         {
           "type": "type_parameters",
-          "named": true
-        },
-        {
-          "type": "void_type",
           "named": true
         }
       ]
@@ -16997,31 +16469,7 @@
         "required": false,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
+            "type": "type",
             "named": true
           }
         ]
@@ -17919,39 +17367,11 @@
         ]
       },
       "type": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "void_type",
+            "type": "type",
             "named": true
           }
         ]
@@ -17966,15 +17386,7 @@
           "named": true
         },
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
           "type": "initialized_identifier_list",
-          "named": true
-        },
-        {
-          "type": "record_type",
           "named": true
         },
         {
@@ -17982,15 +17394,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "void_type",
+          "type": "type",
           "named": true
         }
       ]
@@ -18028,46 +17432,42 @@
           "named": true
         },
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "type",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "type_alias",
+    "type": "type",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
-        {
-          "type": "annotation",
-          "named": true
-        },
-        {
-          "type": "formal_parameter_list",
-          "named": true
-        },
         {
           "type": "function_type",
           "named": true
         },
         {
+          "type": "parameter_type_list",
+          "named": true
+        },
+        {
           "type": "record_type",
+          "named": true
+        },
+        {
+          "type": "record_type_field",
+          "named": true
+        },
+        {
+          "type": "record_type_named_field",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         },
         {
@@ -18090,23 +17490,23 @@
     }
   },
   {
-    "type": "type_arguments",
+    "type": "type_alias",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "function_type",
+          "type": "annotation",
           "named": true
         },
         {
-          "type": "record_type",
+          "type": "formal_parameter_list",
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "type",
           "named": true
         },
         {
@@ -18114,7 +17514,22 @@
           "named": true
         },
         {
-          "type": "void_type",
+          "type": "type_parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -18126,22 +17541,10 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "type",
           "named": true
         }
       ]
@@ -18308,31 +17711,7 @@
         "required": false,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
+            "type": "type",
             "named": true
           }
         ]
@@ -18393,23 +17772,11 @@
       "required": true,
       "types": [
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
           "type": "is_operator",
           "named": true
         },
         {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
+          "type": "type",
           "named": true
         }
       ]
@@ -18577,39 +17944,11 @@
         ]
       },
       "type": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "?",
-            "named": false
-          },
-          {
-            "type": "Function",
-            "named": false
-          },
-          {
-            "type": "function_type",
-            "named": true
-          },
-          {
-            "type": "record_type",
-            "named": true
-          },
-          {
-            "type": "type_arguments",
-            "named": true
-          },
-          {
-            "type": "type_identifier",
-            "named": true
-          },
-          {
-            "type": "void_type",
+            "type": "type",
             "named": true
           }
         ]
@@ -18769,27 +18108,11 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "void_type",
+          "type": "type",
           "named": true
         }
       ]
