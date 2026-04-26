@@ -1816,13 +1816,17 @@ module.exports = grammar({
       ),
 
     factory_constructor_signature: ($) =>
-      seq("factory", field("name", seq($.identifier, repeat(seq(".", $.identifier)))), field("parameters", $.formal_parameter_list)),
+      seq(
+        "factory",
+        field("name", seq($.identifier, optional(seq(".", $._identifier_or_new)))),
+        field("parameters", $.formal_parameter_list),
+      ),
 
     redirecting_factory_constructor_signature: ($) =>
       seq(
         optional("const"),
         "factory",
-        field("name", seq($.identifier, repeat(seq(".", $.identifier)))),
+        field("name", seq($.identifier, optional(seq(".", $._identifier_or_new)))),
         field("parameters", $.formal_parameter_list),
         "=",
         field("target", $._type_not_void),

@@ -4973,6 +4973,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "new",
+            "named": false
           }
         ]
       },
@@ -14346,6 +14350,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "new",
+            "named": false
           }
         ]
       },
