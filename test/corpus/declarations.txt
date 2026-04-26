@@ -236,20 +236,23 @@ const pi = 3.14;
 --------------------------------------------------------------------------------
 
 (source_file
-  (static_final_declaration_list
-    (static_final_declaration
-      name: (identifier)
-      value: (decimal_integer_literal)))
-  (initialized_identifier_list
-    (initialized_identifier
-      name: (identifier)
-      value: (string_literal
-        (string_literal_single_quotes
-          (template_chars_single_single)))))
-  (static_final_declaration_list
-    (static_final_declaration
-      name: (identifier)
-      value: (decimal_floating_point_literal))))
+  (top_level_variable_declaration
+    (static_final_declaration_list
+      (static_final_declaration
+        name: (identifier)
+        value: (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (string_literal
+          (string_literal_single_quotes
+            (template_chars_single_single))))))
+  (top_level_variable_declaration
+    (static_final_declaration_list
+      (static_final_declaration
+        name: (identifier)
+        value: (decimal_floating_point_literal)))))
 
 ================================================================================
 Import declarations
