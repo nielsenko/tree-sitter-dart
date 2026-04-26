@@ -5127,6 +5127,114 @@
     "fields": {}
   },
   {
+    "type": "external_function_declaration",
+    "named": true,
+    "fields": {
+      "modifier": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "external",
+            "named": true
+          }
+        ]
+      },
+      "signature": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "function_signature",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "external_getter_declaration",
+    "named": true,
+    "fields": {
+      "modifier": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "external",
+            "named": true
+          }
+        ]
+      },
+      "signature": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "getter_signature",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "external_setter_declaration",
+    "named": true,
+    "fields": {
+      "modifier": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "external",
+            "named": true
+          }
+        ]
+      },
+      "signature": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "setter_signature",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "factory_constructor_signature",
     "named": true,
     "fields": {
@@ -16204,11 +16312,19 @@
           "named": true
         },
         {
-          "type": "function_declaration",
+          "type": "external_function_declaration",
           "named": true
         },
         {
-          "type": "function_signature",
+          "type": "external_getter_declaration",
+          "named": true
+        },
+        {
+          "type": "external_setter_declaration",
+          "named": true
+        },
+        {
+          "type": "function_declaration",
           "named": true
         },
         {
@@ -16217,10 +16333,6 @@
         },
         {
           "type": "getter_declaration",
-          "named": true
-        },
-        {
-          "type": "getter_signature",
           "named": true
         },
         {
@@ -16257,10 +16369,6 @@
         },
         {
           "type": "setter_declaration",
-          "named": true
-        },
-        {
-          "type": "setter_signature",
           "named": true
         },
         {

@@ -211,13 +211,15 @@ module.exports = grammar({
     // [$._function_name, $.constructor_signature], -- subsumed
     // Built-in identifier conflicts
     [$._top_level_definition, $._built_in_identifier],
-    [$._top_level_definition, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.class_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.mixin_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.extension_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.extension_type_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.enum_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.class_declaration, $.mixin_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.function_declaration, $.getter_declaration, $.setter_declaration, $.external_function_declaration, $.external_getter_declaration, $.external_setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.class_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $.external_function_declaration, $.external_getter_declaration, $.external_setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.mixin_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $.external_function_declaration, $.external_getter_declaration, $.external_setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.extension_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $.external_function_declaration, $.external_getter_declaration, $.external_setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.extension_type_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $.external_function_declaration, $.external_getter_declaration, $.external_setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.enum_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $.external_function_declaration, $.external_getter_declaration, $.external_setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.class_declaration, $.mixin_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $.external_function_declaration, $.external_getter_declaration, $.external_setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.external, $._built_in_identifier],
+    [$._top_level_definition, $.external],
     [$.class_member, $._built_in_identifier],
     [$.type_alias, $._built_in_identifier],
     [$.function_signature, $.getter_signature, $._var_or_type],
@@ -285,27 +287,9 @@ module.exports = grammar({
         $.function_declaration,
         $.getter_declaration,
         $.setter_declaration,
-        seq(
-          optional($._metadata),
-          optional("augment"),
-          optional("external"),
-          $.function_signature,
-          ";",
-        ),
-        seq(
-          optional($._metadata),
-          optional("augment"),
-          optional("external"),
-          $.getter_signature,
-          ";",
-        ),
-        seq(
-          optional($._metadata),
-          optional("augment"),
-          optional("external"),
-          $.setter_signature,
-          ";",
-        ),
+        $.external_function_declaration,
+        $.external_getter_declaration,
+        $.external_setter_declaration,
         seq(
           optional($._metadata),
           optional("augment"),
@@ -2118,6 +2102,36 @@ module.exports = grammar({
         optional("augment"),
         field("signature", $.setter_signature),
         field("body", $.function_body),
+      ),
+
+    // `external` is optional to accept the (technically-invalid-at-top-level)
+    // bodyless `void f();` form the previous grammar permitted; in practice
+    // top-level bodyless functions are external.
+    external_function_declaration: ($) =>
+      seq(
+        optional($._metadata),
+        optional("augment"),
+        optional(field("modifier", $.external)),
+        field("signature", $.function_signature),
+        ";",
+      ),
+
+    external_getter_declaration: ($) =>
+      seq(
+        optional($._metadata),
+        optional("augment"),
+        optional(field("modifier", $.external)),
+        field("signature", $.getter_signature),
+        ";",
+      ),
+
+    external_setter_declaration: ($) =>
+      seq(
+        optional($._metadata),
+        optional("augment"),
+        optional(field("modifier", $.external)),
+        field("signature", $.setter_signature),
+        ";",
       ),
 
     // ========================================================================
