@@ -22,22 +22,47 @@
   name: (identifier) @name) @definition.class
 
 ; Top-level functions
-(source_file
-  (function_signature
-    name: (identifier) @name)
-  (function_body)) @definition.function
+(function_declaration
+  signature: (function_signature
+    name: (identifier) @name)) @definition.function
 
 ; Top-level getters
-(source_file
-  (getter_signature
-    name: (identifier) @name)
-  (function_body)) @definition.function
+(getter_declaration
+  signature: (getter_signature
+    name: (identifier) @name)) @definition.function
 
 ; Top-level setters
-(source_file
-  (setter_signature
-    name: (identifier) @name)
-  (function_body)) @definition.function
+(setter_declaration
+  signature: (setter_signature
+    name: (identifier) @name)) @definition.function
+
+; External top-level functions/getters/setters
+(external_function_declaration
+  signature: (function_signature
+    name: (identifier) @name)) @definition.function
+
+(external_getter_declaration
+  signature: (getter_signature
+    name: (identifier) @name)) @definition.function
+
+(external_setter_declaration
+  signature: (setter_signature
+    name: (identifier) @name)) @definition.function
+
+; Top-level variables
+(top_level_variable_declaration
+  (static_final_declaration_list
+    (static_final_declaration
+      name: (identifier) @name))) @definition.variable
+
+(top_level_variable_declaration
+  (initialized_identifier_list
+    (initialized_identifier
+      name: (identifier) @name))) @definition.variable
+
+(external_variable_declaration
+  (identifier_list
+    (identifier) @name)) @definition.variable
 
 ; Methods
 (method_signature

@@ -54,7 +54,7 @@
 ; Functions
 ; ============================================================================
 
-; Top-level functions
+; Function/getter/setter names (matches at any nesting level)
 (function_signature
   name: (identifier) @function)
 

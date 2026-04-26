@@ -12971,11 +12971,6 @@
       "_simple_formal_parameter"
     ],
     [
-      "_top_level_definition",
-      "_built_in_identifier"
-    ],
-    [
-      "_top_level_definition",
       "function_declaration",
       "getter_declaration",
       "setter_declaration",
@@ -12983,96 +12978,7 @@
       "external_getter_declaration",
       "external_setter_declaration",
       "top_level_variable_declaration",
-      "external_variable_declaration",
       "_built_in_identifier"
-    ],
-    [
-      "_top_level_definition",
-      "class_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "external_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "_top_level_definition",
-      "mixin_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "external_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "_top_level_definition",
-      "extension_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "external_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "_top_level_definition",
-      "extension_type_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "external_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "_top_level_definition",
-      "enum_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "external_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "_top_level_definition",
-      "class_declaration",
-      "mixin_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "external_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "_top_level_definition",
-      "external",
-      "_built_in_identifier"
-    ],
-    [
-      "_top_level_definition",
-      "external"
     ],
     [
       "function_declaration",
@@ -13083,64 +12989,10 @@
       "external_setter_declaration",
       "top_level_variable_declaration",
       "external_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
       "_built_in_identifier"
     ],
     [
       "class_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "mixin_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "extension_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "extension_type_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "enum_declaration",
       "function_declaration",
       "getter_declaration",
       "setter_declaration",
@@ -13160,79 +13012,6 @@
       "external_getter_declaration",
       "external_setter_declaration",
       "top_level_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "class_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "external_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "mixin_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "external_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "extension_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "external_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "extension_type_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "external_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "enum_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "external_variable_declaration",
-      "_built_in_identifier"
-    ],
-    [
-      "class_declaration",
-      "mixin_declaration",
-      "function_declaration",
-      "getter_declaration",
-      "setter_declaration",
-      "external_function_declaration",
-      "external_getter_declaration",
-      "external_setter_declaration",
-      "top_level_variable_declaration",
-      "external_variable_declaration",
       "_built_in_identifier"
     ],
     [
