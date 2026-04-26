@@ -101,8 +101,7 @@
   ])
 
 (cascade_call_expression
-  function: (cascade_selector
-    (identifier) @function.method.call))
+  property: (identifier) @function.method.call)
 
 ; ============================================================================
 ; Declarations

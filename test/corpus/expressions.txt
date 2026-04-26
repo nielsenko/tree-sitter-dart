@@ -377,14 +377,12 @@ void main() {
           (identifier)
           (cascade_section
             (cascade_call_expression
-              function: (cascade_selector
-                (identifier))
+              property: (identifier)
               arguments: (arguments
                 (decimal_integer_literal))))
           (cascade_section
             (cascade_call_expression
-              function: (cascade_selector
-                (identifier))
+              property: (identifier)
               arguments: (arguments
                 (decimal_integer_literal)))))))))
 

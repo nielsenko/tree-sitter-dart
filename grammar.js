@@ -1245,13 +1245,26 @@ module.exports = grammar({
     // there's no `cascade_instantiation_expression` - bare `..foo<int>` (cascade
     // tearoff) isn't valid Dart, so the `<` fork that forced the call/instantiation
     // split on the non-cascade side doesn't apply here.
+    //
+    // The simple `..foo()` / `..foo<T>()` form exposes the method name as
+    // `property:` directly (mirroring `member_expression` and
+    // `cascade_member_expression`), so consumers don't need an extra hop
+    // through `cascade_selector`. Chained forms (e.g. `..foo().bar()`) keep
+    // the `function:` field for the more complex tail.
     cascade_call_expression: ($) =>
       prec.left(
         PREC.UNARY_POSTFIX,
-        seq(
-          field("function", $._cascade_postfix_expression),
-          optional(field("type_arguments", $.type_arguments)),
-          field("arguments", $.arguments),
+        choice(
+          prec.dynamic(1, seq(
+            field("property", $.identifier),
+            optional(field("type_arguments", $.type_arguments)),
+            field("arguments", $.arguments),
+          )),
+          seq(
+            field("function", $._cascade_postfix_expression),
+            optional(field("type_arguments", $.type_arguments)),
+            field("arguments", $.arguments),
+          ),
         ),
       ),
 
