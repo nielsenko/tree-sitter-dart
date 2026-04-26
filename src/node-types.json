@@ -7870,6 +7870,42 @@
     }
   },
   {
+    "type": "getter_declaration",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "function_body",
+            "named": true
+          }
+        ]
+      },
+      "signature": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "getter_signature",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "getter_signature",
     "named": true,
     "fields": {
@@ -15904,6 +15940,42 @@
     }
   },
   {
+    "type": "setter_declaration",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "function_body",
+            "named": true
+          }
+        ]
+      },
+      "signature": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "setter_signature",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "setter_signature",
     "named": true,
     "fields": {
@@ -16132,10 +16204,6 @@
           "named": true
         },
         {
-          "type": "function_body",
-          "named": true
-        },
-        {
           "type": "function_declaration",
           "named": true
         },
@@ -16145,6 +16213,10 @@
         },
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "getter_declaration",
           "named": true
         },
         {
@@ -16181,6 +16253,10 @@
         },
         {
           "type": "script_tag",
+          "named": true
+        },
+        {
+          "type": "setter_declaration",
           "named": true
         },
         {

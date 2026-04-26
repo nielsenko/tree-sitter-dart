@@ -211,19 +211,13 @@ module.exports = grammar({
     // [$._function_name, $.constructor_signature], -- subsumed
     // Built-in identifier conflicts
     [$._top_level_definition, $._built_in_identifier],
-    [$._top_level_definition, $.function_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.class_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.class_declaration, $.function_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.mixin_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.mixin_declaration, $.function_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.extension_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.extension_declaration, $.function_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.extension_type_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.extension_type_declaration, $.function_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.enum_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.enum_declaration, $.function_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.class_declaration, $.mixin_declaration, $._built_in_identifier],
-    [$._top_level_definition, $.class_declaration, $.mixin_declaration, $.function_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.class_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.mixin_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.extension_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.extension_type_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.enum_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.class_declaration, $.mixin_declaration, $.function_declaration, $.getter_declaration, $.setter_declaration, $._built_in_identifier],
     [$.class_member, $._built_in_identifier],
     [$.type_alias, $._built_in_identifier],
     [$.function_signature, $.getter_signature, $._var_or_type],
@@ -289,8 +283,8 @@ module.exports = grammar({
       choice(
         $._declaration,
         $.function_declaration,
-        seq(optional($._metadata), optional("augment"), $.getter_signature, $.function_body),
-        seq(optional($._metadata), optional("augment"), $.setter_signature, $.function_body),
+        $.getter_declaration,
+        $.setter_declaration,
         seq(
           optional($._metadata),
           optional("augment"),
@@ -2107,6 +2101,22 @@ module.exports = grammar({
         optional($._metadata),
         optional("augment"),
         field("signature", $.function_signature),
+        field("body", $.function_body),
+      ),
+
+    getter_declaration: ($) =>
+      seq(
+        optional($._metadata),
+        optional("augment"),
+        field("signature", $.getter_signature),
+        field("body", $.function_body),
+      ),
+
+    setter_declaration: ($) =>
+      seq(
+        optional($._metadata),
+        optional("augment"),
+        field("signature", $.setter_signature),
         field("body", $.function_body),
       ),
 
