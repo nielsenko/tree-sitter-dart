@@ -97,7 +97,7 @@ module.exports = grammar({
 
   word: ($) => $._name,
 
-  supertypes: ($) => [$._statement, $._literal, $._declaration],
+  supertypes: ($) => [$._statement, $._literal, $._declaration, $._instantiation],
 
   precedences: ($) => [
     ["call", "instantiation"],
@@ -180,6 +180,7 @@ module.exports = grammar({
     [$.static_member_shorthand, $.constant_pattern],
     // [$.constant_pattern, $._type_name], -- subsumed
     [$._primary, $.constant_pattern],
+    [$._instantiation, $.constant_pattern],
     // [$._primary, $.constant_pattern, $._type_name], -- subsumed
     // [$._primary, $.constant_pattern, $._simple_formal_parameter], -- subsumed
     // [$._primary, $.constant_pattern, $._type_name, $._simple_formal_parameter], -- subsumed
@@ -1277,12 +1278,10 @@ module.exports = grammar({
         $._literal,
         $.identifier,
         $.function_expression,
-        $.new_expression,
-        $.const_object_expression,
+        $._instantiation,
         $.parenthesized_expression,
         "this",
         "super",
-        $.constructor_invocation,
         $.constructor_tearoff,
         $.switch_expression,
         $.static_member_shorthand,
@@ -1301,6 +1300,12 @@ module.exports = grammar({
         seq(optional("async"), "=>", $._expression),
         seq(optional(choice("async", "async*", "sync*")), $.block),
       ),
+
+    // Hidden supertype: any expression that constructs an instance. Lets
+    // queries address the three forms (new/const/implicit) uniformly via
+    // (_instantiation) without alternation. Does not add an AST layer.
+    _instantiation: ($) =>
+      choice($.new_expression, $.const_object_expression, $.constructor_invocation),
 
     new_expression: ($) =>
       seq("new", field("type", $._type_not_void), optional(seq(".", field("constructor", $.identifier))), field("arguments", $.arguments)),

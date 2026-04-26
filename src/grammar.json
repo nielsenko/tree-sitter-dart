@@ -5493,11 +5493,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "new_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "const_object_expression"
+          "name": "_instantiation"
         },
         {
           "type": "SYMBOL",
@@ -5510,10 +5506,6 @@
         {
           "type": "STRING",
           "value": "super"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "constructor_invocation"
         },
         {
           "type": "SYMBOL",
@@ -5628,6 +5620,23 @@
               "name": "block"
             }
           ]
+        }
+      ]
+    },
+    "_instantiation": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "new_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "const_object_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "constructor_invocation"
         }
       ]
     },
@@ -13185,6 +13194,10 @@
       "constant_pattern"
     ],
     [
+      "_instantiation",
+      "constant_pattern"
+    ],
+    [
       "_literal",
       "constant_pattern"
     ],
@@ -13578,7 +13591,8 @@
   "supertypes": [
     "_statement",
     "_literal",
-    "_declaration"
+    "_declaration",
+    "_instantiation"
   ],
   "reserved": {}
 }

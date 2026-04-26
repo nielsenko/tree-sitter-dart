@@ -30,6 +30,24 @@
     ]
   },
   {
+    "type": "_instantiation",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "const_object_expression",
+        "named": true
+      },
+      {
+        "type": "constructor_invocation",
+        "named": true
+      },
+      {
+        "type": "new_expression",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "_literal",
     "named": true,
     "subtypes": [
@@ -170,6 +188,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -195,14 +217,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -247,10 +261,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -351,6 +361,10 @@
       "required": true,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -388,14 +402,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -444,10 +450,6 @@
         },
         {
           "type": "named_argument",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -518,6 +520,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -551,14 +557,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -607,10 +605,6 @@
         },
         {
           "type": "named_argument",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -696,6 +690,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -729,14 +727,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -781,10 +771,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -855,6 +841,10 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -888,14 +878,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -940,10 +922,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -1017,19 +995,15 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
           {
             "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -1054,10 +1028,6 @@
           },
           {
             "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -1201,6 +1171,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -1234,14 +1208,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -1286,10 +1252,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -1369,19 +1331,15 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
         {
           "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -1406,10 +1364,6 @@
         },
         {
           "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -1471,6 +1425,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -1496,14 +1454,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -1548,10 +1498,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -1614,6 +1560,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -1639,14 +1589,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -1691,10 +1633,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -1757,6 +1695,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -1782,14 +1724,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -1834,10 +1768,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -1940,19 +1870,15 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
           {
             "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -1977,10 +1903,6 @@
           },
           {
             "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -2102,6 +2024,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -2135,14 +2061,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -2187,10 +2105,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -2394,6 +2308,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -2427,14 +2345,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -2479,10 +2389,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -2646,6 +2552,10 @@
       "required": true,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -2706,14 +2616,6 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
-          "named": true
-        },
-        {
           "type": "constructor_tearoff",
           "named": true
         },
@@ -2755,10 +2657,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -2825,6 +2723,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -2858,14 +2760,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -2910,10 +2804,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -2995,6 +2885,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -3027,15 +2921,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -3088,10 +2974,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -3347,6 +3229,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -3376,14 +3262,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -3428,10 +3306,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -3501,6 +3375,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -3530,14 +3408,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -3582,10 +3452,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -3656,6 +3522,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -3681,14 +3551,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -3733,10 +3595,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -3907,6 +3765,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -3940,14 +3802,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -4004,10 +3858,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -4473,6 +4323,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -4498,14 +4352,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -4550,10 +4396,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -4621,6 +4463,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -4654,14 +4500,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -4706,10 +4544,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -5173,6 +5007,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -5206,14 +5044,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -5258,10 +5088,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -5356,6 +5182,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -5389,14 +5219,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -5449,10 +5271,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -5542,6 +5360,10 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -5575,14 +5397,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -5627,10 +5441,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -5704,6 +5514,10 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -5737,14 +5551,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -5793,10 +5599,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -5880,6 +5682,10 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -5913,14 +5719,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -5965,10 +5763,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -6042,6 +5836,10 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -6075,14 +5873,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -6127,10 +5917,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -6205,6 +5991,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -6241,15 +6031,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -6302,10 +6084,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -6406,6 +6184,10 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -6439,14 +6221,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -6491,10 +6265,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -6568,6 +6338,10 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -6601,14 +6375,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -6657,10 +6423,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -6744,6 +6506,10 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -6777,14 +6543,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -6829,10 +6587,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -6906,6 +6660,10 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -6939,14 +6697,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -6991,10 +6741,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -7069,6 +6815,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -7105,15 +6855,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -7166,10 +6908,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -7329,6 +7067,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -7366,14 +7108,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -7422,10 +7156,6 @@
         },
         {
           "type": "native",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -7562,6 +7292,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -7599,14 +7333,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -7651,10 +7377,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -7870,6 +7592,10 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -7903,14 +7629,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -7963,10 +7681,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -8056,6 +7770,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -8089,14 +7807,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -8141,10 +7851,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -8218,6 +7924,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -8251,14 +7961,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -8311,10 +8013,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -8405,6 +8103,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -8445,15 +8147,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -8506,10 +8200,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -8604,6 +8294,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -8629,14 +8323,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -8681,10 +8367,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -8768,6 +8450,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -8808,15 +8494,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -8869,10 +8547,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -9026,6 +8700,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -9059,14 +8737,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -9111,10 +8781,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -9188,19 +8854,15 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
           {
             "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -9225,10 +8887,6 @@
           },
           {
             "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -9290,6 +8948,10 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -9323,14 +8985,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -9375,10 +9029,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -9483,6 +9133,10 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -9516,14 +9170,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -9568,10 +9214,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -9707,19 +9349,15 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
           {
             "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -9744,10 +9382,6 @@
           },
           {
             "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -9942,6 +9576,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -9975,14 +9613,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -10035,10 +9665,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -10129,6 +9755,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -10161,15 +9791,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -10222,10 +9844,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -10366,6 +9984,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -10391,14 +10013,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -10443,10 +10057,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -10509,6 +10119,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -10534,14 +10148,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -10586,10 +10192,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -10652,6 +10254,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -10692,15 +10298,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -10753,10 +10351,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -10859,19 +10453,15 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
           {
             "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -10896,10 +10486,6 @@
           },
           {
             "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -11157,19 +10743,15 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
         {
           "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -11194,10 +10776,6 @@
         },
         {
           "type": "member_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -11244,6 +10822,10 @@
       "required": true,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -11277,14 +10859,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -11333,10 +10907,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -11505,6 +11075,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -11537,15 +11111,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -11598,10 +11164,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -11688,19 +11250,15 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
           {
             "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -11725,10 +11283,6 @@
           },
           {
             "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -11780,6 +11334,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -11813,14 +11371,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -11865,10 +11415,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -11939,6 +11485,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -11972,14 +11522,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -12024,10 +11566,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -12101,19 +11639,15 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
           {
             "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -12138,10 +11672,6 @@
           },
           {
             "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -12193,19 +11723,15 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
           {
             "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -12230,10 +11756,6 @@
           },
           {
             "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -12295,6 +11817,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -12328,14 +11854,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -12380,10 +11898,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -12457,6 +11971,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -12490,14 +12008,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -12542,10 +12052,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -12629,6 +12135,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -12661,15 +12171,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -12722,10 +12224,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -12812,6 +12310,10 @@
       "required": true,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -12844,15 +12346,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -12909,10 +12403,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -13055,6 +12545,10 @@
       "required": true,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -13092,14 +12586,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -13148,10 +12634,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -13256,6 +12738,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -13289,14 +12775,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -13341,10 +12819,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -13418,6 +12892,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -13451,14 +12929,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -13503,10 +12973,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -13609,6 +13075,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -13642,14 +13112,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -13694,10 +13156,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -13817,6 +13275,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -13857,15 +13319,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -13918,10 +13372,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -14016,6 +13466,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -14056,15 +13510,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -14117,10 +13563,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -14331,6 +13773,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -14364,14 +13810,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -14420,10 +13858,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -14494,6 +13928,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -14527,14 +13965,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -14583,10 +14013,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -14661,6 +14087,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -14693,15 +14123,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -14758,10 +14180,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -14991,6 +14409,10 @@
       "required": true,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -15016,14 +14438,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -15068,10 +14482,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -15143,6 +14553,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -15175,15 +14589,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -15236,10 +14642,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -15331,6 +14733,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -15364,14 +14770,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -15416,10 +14814,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -15495,6 +14889,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -15528,14 +14926,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -15588,10 +14978,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -15758,6 +15144,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -15783,14 +15173,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -15835,10 +15217,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -15969,6 +15347,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -16002,14 +15384,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -16054,10 +15428,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -16147,6 +15517,10 @@
         "required": false,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -16180,14 +15554,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -16232,10 +15598,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -16594,6 +15956,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -16634,15 +16000,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -16695,10 +16053,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -16819,6 +16173,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -16863,15 +16221,7 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
           "type": "constant_pattern",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -16928,10 +16278,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -17064,6 +16410,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -17097,14 +16447,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -17153,10 +16495,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -17227,6 +16565,10 @@
         "required": true,
         "types": [
           {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
             "type": "_literal",
             "named": true
           },
@@ -17260,14 +16602,6 @@
           },
           {
             "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_invocation",
             "named": true
           },
           {
@@ -17312,10 +16646,6 @@
           },
           {
             "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
             "named": true
           },
           {
@@ -17601,6 +16931,10 @@
       "required": true,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -17626,14 +16960,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -17678,10 +17004,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -17833,6 +17155,10 @@
       "required": true,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -17858,14 +17184,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -17910,10 +17228,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -18006,6 +17320,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -18019,14 +17337,6 @@
         },
         {
           "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -18055,10 +17365,6 @@
         },
         {
           "type": "negate_operator",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -18200,6 +17506,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -18233,14 +17543,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -18285,10 +17587,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
@@ -18359,6 +17657,10 @@
       "required": false,
       "types": [
         {
+          "type": "_instantiation",
+          "named": true
+        },
+        {
           "type": "_literal",
           "named": true
         },
@@ -18392,14 +17694,6 @@
         },
         {
           "type": "conditional_expression",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_invocation",
           "named": true
         },
         {
@@ -18444,10 +17738,6 @@
         },
         {
           "type": "multiplicative_expression",
-          "named": true
-        },
-        {
-          "type": "new_expression",
           "named": true
         },
         {
