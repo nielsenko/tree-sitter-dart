@@ -151,7 +151,6 @@ module.exports = grammar({
     [$.assignable_expression, $.null_aware_index_expression, $._unary_expression],
     // Type name ambiguities
     [$._type_name],
-    [$._type_name, $.assignable_expression],
     // [$._type_name, $._simple_formal_parameter], -- subsumed
     // [$._type_name, $._function_formal_parameter], -- subsumed
     // [$._type_name, $.function_signature], -- covered by _function_name conflicts
@@ -186,7 +185,6 @@ module.exports = grammar({
     // [$._primary, $.constant_pattern, $._type_name, $._simple_formal_parameter], -- subsumed
     [$._literal, $.constant_pattern],
     [$.prefix_operator, $.constant_pattern],
-    [$._pattern_field, $.label],
     [$._parenthesized_pattern, $._pattern_field],
     [$.set_or_map_literal, $.constant_pattern],
     [$.list_literal, $.constant_pattern],
@@ -278,7 +276,6 @@ module.exports = grammar({
     [$._type_name, $._primary, $._function_formal_parameter],
     [$._type_name, $._primary, $._simple_formal_parameter, $.constant_pattern],
     [$._type_name, $.assignable_expression, $._primary],
-    [$._external_and_static, $._built_in_identifier],
     [$._type_not_void_not_function, $._function_type_tail, $._built_in_identifier],
     [$._function_type_tail, $._built_in_identifier],
     [$.factory_constructor_signature, $._built_in_identifier],
