@@ -1,4 +1,4 @@
-module github.com/tree-sitter/tree-sitter-dart
+module github.com/nielsenko/tree-sitter-dart
 
 go 1.22
 

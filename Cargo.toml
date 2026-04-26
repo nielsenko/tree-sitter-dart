@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-dart"
 description = "Dart grammar for tree-sitter"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Kasper Overgård Nielsen <kasper@byolimit.com>"]
 license = "MIT"
 readme = "README.md"
@@ -13,14 +13,14 @@ autoexamples = false
 
 build = "bindings/rust/build.rs"
 include = [
-  "Cargo.toml",
-  "LICENSE",
-  "README.md",
-  "bindings/rust/*",
-  "grammar.js",
-  "queries/*",
-  "src/*",
-  "tree-sitter.json",
+  "/Cargo.toml",
+  "/LICENSE",
+  "/README.md",
+  "/bindings/rust/**",
+  "/grammar.js",
+  "/queries/**",
+  "/src/**",
+  "/tree-sitter.json",
 ]
 
 [lib]
@@ -33,4 +33,4 @@ tree-sitter-language = "0.1"
 cc = "1.2"
 
 [dev-dependencies]
-tree-sitter = "0.25.4"
+tree-sitter = "0.26"

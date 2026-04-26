@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tree-sitter-dart"
 description = "Dart grammar for tree-sitter"
-version = "0.1.0"
+version = "0.2.0"
 keywords = ["incremental", "parsing", "tree-sitter", "dart"]
 classifiers = [
   "Intended Audience :: Developers",
@@ -19,7 +19,7 @@ license.text = "MIT"
 readme = "README.md"
 
 [project.urls]
-Homepage = "https://github.com/tree-sitter/tree-sitter-dart"
+Homepage = "https://github.com/nielsenko/tree-sitter-dart"
 
 [project.optional-dependencies]
 core = ["tree-sitter~=0.24"]
