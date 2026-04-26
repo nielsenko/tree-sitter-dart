@@ -241,7 +241,7 @@ module.exports = grammar({
      $.external_function_declaration, $.external_getter_declaration, $.external_setter_declaration,
      $.top_level_variable_declaration, $._built_in_identifier],
     [$.top_level_variable_declaration, $._built_in_identifier],
-    [$.class_member, $._built_in_identifier],
+    [$.class_member, $.method_declaration, $._built_in_identifier],
     [$.type_alias, $._built_in_identifier],
     [$.function_signature, $.getter_signature, $._var_or_type],
     [$.function_signature, $.setter_signature, $._var_or_type],
@@ -1921,7 +1921,15 @@ module.exports = grammar({
     class_member: ($) =>
       choice(
         seq(optional($._metadata), optional("augment"), $.declaration, ";"),
-        seq(optional($._metadata), optional("augment"), $.method_signature, $.function_body),
+        $.method_declaration,
+      ),
+
+    method_declaration: ($) =>
+      seq(
+        optional($._metadata),
+        optional("augment"),
+        field("signature", $.method_signature),
+        field("body", $.function_body),
       ),
 
     superclass: ($) =>

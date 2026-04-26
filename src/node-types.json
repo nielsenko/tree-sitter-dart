@@ -3287,11 +3287,7 @@
           "named": true
         },
         {
-          "type": "function_body",
-          "named": true
-        },
-        {
-          "type": "method_signature",
+          "type": "method_declaration",
           "named": true
         }
       ]
@@ -10944,6 +10940,42 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "method_declaration",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "function_body",
+            "named": true
+          }
+        ]
+      },
+      "signature": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "method_signature",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        }
+      ]
     }
   },
   {

@@ -669,17 +669,18 @@ class A extends B {
         (type_identifier)))
     body: (class_body
       (class_member
-        (method_signature
-          (function_signature
-            return_type: (type
-              (type_identifier))
-            name: (identifier)
-            parameters: (formal_parameter_list
-              (formal_parameter
-                (type
-                  (type_identifier))
-                name: (identifier)))))
-        (function_body
-          (call_expression
-            arguments: (arguments
-              (identifier))))))))
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (type_identifier))
+              name: (identifier)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier)))))
+          body: (function_body
+            (call_expression
+              arguments: (arguments
+                (identifier)))))))))

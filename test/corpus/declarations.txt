@@ -107,14 +107,15 @@ mixin Flyable on Animal {
       (type_identifier))
     body: (class_body
       (class_member
-        (method_signature
-          (function_signature
-            return_type: (type
-              (void_type))
-            name: (identifier)
-            parameters: (formal_parameter_list)))
-        (function_body
-          (block))))))
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (void_type))
+              name: (identifier)
+              parameters: (formal_parameter_list)))
+          body: (function_body
+            (block)))))))
 
 ================================================================================
 Extension declaration
@@ -133,13 +134,14 @@ extension StringExt on String {
       (type_identifier))
     body: (extension_body
       (class_member
-        (method_signature
-          (getter_signature
-            return_type: (type
-              (type_identifier))
-            name: (identifier)))
-        (function_body
-          (identifier))))))
+        (method_declaration
+          signature: (method_signature
+            (getter_signature
+              return_type: (type
+                (type_identifier))
+              name: (identifier)))
+          body: (function_body
+            (identifier)))))))
 
 ================================================================================
 Extension type
@@ -449,75 +451,78 @@ class Foo {
     name: (identifier)
     body: (class_body
       (class_member
-        (annotation
-          name: (identifier))
-        (method_signature
-          (getter_signature
-            return_type: (type
-              (record_type
-                (record_type_field
-                  type: (type
-                    (type_identifier)))
-                (record_type_field
-                  type: (type
-                    (type_identifier)))))
-            name: (identifier)))
-        (function_body
-          (block
-            (return_statement
-              (null_literal)))))
+        (method_declaration
+          (annotation
+            name: (identifier))
+          signature: (method_signature
+            (getter_signature
+              return_type: (type
+                (record_type
+                  (record_type_field
+                    type: (type
+                      (type_identifier)))
+                  (record_type_field
+                    type: (type
+                      (type_identifier)))))
+              name: (identifier)))
+          body: (function_body
+            (block
+              (return_statement
+                (null_literal))))))
       (class_member
-        (annotation
-          name: (identifier))
-        (method_signature
-          (getter_signature
-            return_type: (type
-              (record_type
-                (record_type_field
-                  type: (type
-                    (type_identifier)))
-                (record_type_field
-                  type: (type
-                    (type_identifier)))))
-            name: (identifier)))
-        (function_body
-          (record_literal
-            (record_field
-              (string_literal
-                (string_literal_single_quotes
-                  (template_chars_single_single))))
-            (record_field
-              (decimal_integer_literal)))))
+        (method_declaration
+          (annotation
+            name: (identifier))
+          signature: (method_signature
+            (getter_signature
+              return_type: (type
+                (record_type
+                  (record_type_field
+                    type: (type
+                      (type_identifier)))
+                  (record_type_field
+                    type: (type
+                      (type_identifier)))))
+              name: (identifier)))
+          body: (function_body
+            (record_literal
+              (record_field
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single))))
+              (record_field
+                (decimal_integer_literal))))))
       (class_member
-        (annotation
-          name: (identifier)
-          (annotation_arguments
-            (annotation_open_paren)
-            (named_argument
-              (label
-                (identifier))
-              (string_literal
-                (string_literal_single_quotes
-                  (template_chars_single_single))))))
-        (method_signature
-          (getter_signature
-            return_type: (type
-              (record_type
-                (record_type_field
-                  type: (type
-                    (type_identifier)))
-                (record_type_field
-                  type: (type
-                    (type_identifier)))))
-            name: (identifier)))
-        (function_body
-          (record_literal
-            (record_field
-              (string_literal
-                (string_literal_single_quotes
-                  (template_chars_single_single))))
-            (record_field
-              (decimal_integer_literal))))))))
+        (method_declaration
+          (annotation
+            name: (identifier)
+            (annotation_arguments
+              (annotation_open_paren)
+              (named_argument
+                (label
+                  (identifier))
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single))))))
+          signature: (method_signature
+            (getter_signature
+              return_type: (type
+                (record_type
+                  (record_type_field
+                    type: (type
+                      (type_identifier)))
+                  (record_type_field
+                    type: (type
+                      (type_identifier)))))
+              name: (identifier)))
+          body: (function_body
+            (record_literal
+              (record_field
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single))))
+              (record_field
+                (decimal_integer_literal)))))))))
 
 ================================================================================
 Extension type with primary constructor
@@ -671,32 +676,34 @@ augment mixin M {
           (type_identifier))))
     body: (class_body
       (class_member
-        (method_signature
-          (getter_signature
-            return_type: (type
-              (type_identifier))
-            name: (identifier)))
-        (function_body
-          (string_literal
-            (string_literal_single_quotes
-              (template_substitution
-                (identifier_dollar_escaped))
-              (template_chars_single_single)))))))
+        (method_declaration
+          signature: (method_signature
+            (getter_signature
+              return_type: (type
+                (type_identifier))
+              name: (identifier)))
+          body: (function_body
+            (string_literal
+              (string_literal_single_quotes
+                (template_substitution
+                  (identifier_dollar_escaped))
+                (template_chars_single_single))))))))
   (mixin_declaration
     name: (identifier)
     body: (class_body
       (class_member
-        (method_signature
-          (getter_signature
-            return_type: (type
-              (type_identifier))
-            name: (identifier)))
-        (function_body
-          (string_literal
-            (string_literal_single_quotes
-              (template_substitution
-                (identifier))
-              (template_chars_single_single))))))))
+        (method_declaration
+          signature: (method_signature
+            (getter_signature
+              return_type: (type
+                (type_identifier))
+              name: (identifier)))
+          body: (function_body
+            (string_literal
+              (string_literal_single_quotes
+                (template_substitution
+                  (identifier))
+                (template_chars_single_single)))))))))
 
 ================================================================================
 Native method body
@@ -714,22 +721,24 @@ class Foo {
     name: (identifier)
     body: (class_body
       (class_member
-        (method_signature
-          (getter_signature
-            return_type: (type
-              (type_identifier))
-            name: (identifier)))
-        (function_body
-          (native)))
+        (method_declaration
+          signature: (method_signature
+            (getter_signature
+              return_type: (type
+                (type_identifier))
+              name: (identifier)))
+          body: (function_body
+            (native))))
       (class_member
-        (method_signature
-          (function_signature
-            return_type: (type
-              (type_identifier))
-            name: (identifier)
-            parameters: (formal_parameter_list)))
-        (function_body
-          (native))))))
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (type_identifier))
+              name: (identifier)
+              parameters: (formal_parameter_list)))
+          body: (function_body
+            (native)))))))
 
 ================================================================================
 External final declaration
