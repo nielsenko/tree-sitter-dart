@@ -96,69 +96,8 @@
           "name": "top_level_variable_declaration"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_metadata"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "augment"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "STRING",
-              "value": "external"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "final"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_type"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "identifier_list"
-            },
-            {
-              "type": "STRING",
-              "value": ";"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "external_variable_declaration"
         }
       ]
     },
@@ -11276,6 +11215,79 @@
         }
       ]
     },
+    "external_variable_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_metadata"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "augment"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "modifier",
+          "content": {
+            "type": "SYMBOL",
+            "name": "external"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "final"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "type",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_type"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier_list"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
     "top_level_variable_declaration": {
       "type": "SEQ",
       "members": [
@@ -12971,6 +12983,7 @@
       "external_getter_declaration",
       "external_setter_declaration",
       "top_level_variable_declaration",
+      "external_variable_declaration",
       "_built_in_identifier"
     ],
     [
@@ -12983,6 +12996,7 @@
       "external_getter_declaration",
       "external_setter_declaration",
       "top_level_variable_declaration",
+      "external_variable_declaration",
       "_built_in_identifier"
     ],
     [
@@ -12995,6 +13009,7 @@
       "external_getter_declaration",
       "external_setter_declaration",
       "top_level_variable_declaration",
+      "external_variable_declaration",
       "_built_in_identifier"
     ],
     [
@@ -13007,6 +13022,7 @@
       "external_getter_declaration",
       "external_setter_declaration",
       "top_level_variable_declaration",
+      "external_variable_declaration",
       "_built_in_identifier"
     ],
     [
@@ -13019,6 +13035,7 @@
       "external_getter_declaration",
       "external_setter_declaration",
       "top_level_variable_declaration",
+      "external_variable_declaration",
       "_built_in_identifier"
     ],
     [
@@ -13031,6 +13048,7 @@
       "external_getter_declaration",
       "external_setter_declaration",
       "top_level_variable_declaration",
+      "external_variable_declaration",
       "_built_in_identifier"
     ],
     [
@@ -13044,6 +13062,7 @@
       "external_getter_declaration",
       "external_setter_declaration",
       "top_level_variable_declaration",
+      "external_variable_declaration",
       "_built_in_identifier"
     ],
     [
@@ -13063,6 +13082,17 @@
       "external_getter_declaration",
       "external_setter_declaration",
       "top_level_variable_declaration",
+      "external_variable_declaration",
+      "_built_in_identifier"
+    ],
+    [
+      "function_declaration",
+      "getter_declaration",
+      "setter_declaration",
+      "external_function_declaration",
+      "external_getter_declaration",
+      "external_setter_declaration",
+      "top_level_variable_declaration",
       "_built_in_identifier"
     ],
     [
@@ -13130,6 +13160,79 @@
       "external_getter_declaration",
       "external_setter_declaration",
       "top_level_variable_declaration",
+      "_built_in_identifier"
+    ],
+    [
+      "class_declaration",
+      "function_declaration",
+      "getter_declaration",
+      "setter_declaration",
+      "external_function_declaration",
+      "external_getter_declaration",
+      "external_setter_declaration",
+      "top_level_variable_declaration",
+      "external_variable_declaration",
+      "_built_in_identifier"
+    ],
+    [
+      "mixin_declaration",
+      "function_declaration",
+      "getter_declaration",
+      "setter_declaration",
+      "external_function_declaration",
+      "external_getter_declaration",
+      "external_setter_declaration",
+      "top_level_variable_declaration",
+      "external_variable_declaration",
+      "_built_in_identifier"
+    ],
+    [
+      "extension_declaration",
+      "function_declaration",
+      "getter_declaration",
+      "setter_declaration",
+      "external_function_declaration",
+      "external_getter_declaration",
+      "external_setter_declaration",
+      "top_level_variable_declaration",
+      "external_variable_declaration",
+      "_built_in_identifier"
+    ],
+    [
+      "extension_type_declaration",
+      "function_declaration",
+      "getter_declaration",
+      "setter_declaration",
+      "external_function_declaration",
+      "external_getter_declaration",
+      "external_setter_declaration",
+      "top_level_variable_declaration",
+      "external_variable_declaration",
+      "_built_in_identifier"
+    ],
+    [
+      "enum_declaration",
+      "function_declaration",
+      "getter_declaration",
+      "setter_declaration",
+      "external_function_declaration",
+      "external_getter_declaration",
+      "external_setter_declaration",
+      "top_level_variable_declaration",
+      "external_variable_declaration",
+      "_built_in_identifier"
+    ],
+    [
+      "class_declaration",
+      "mixin_declaration",
+      "function_declaration",
+      "getter_declaration",
+      "setter_declaration",
+      "external_function_declaration",
+      "external_getter_declaration",
+      "external_setter_declaration",
+      "top_level_variable_declaration",
+      "external_variable_declaration",
       "_built_in_identifier"
     ],
     [

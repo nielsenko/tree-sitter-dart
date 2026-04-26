@@ -700,9 +700,11 @@ external final int x;
 --------------------------------------------------------------------------------
 
 (source_file
-  (type_identifier)
-  (identifier_list
-    (identifier)))
+  (external_variable_declaration
+    (external)
+    (type_identifier)
+    (identifier_list
+      (identifier))))
 
 ================================================================================
 Non-null assertion
