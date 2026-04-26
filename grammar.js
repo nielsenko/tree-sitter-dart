@@ -211,12 +211,19 @@ module.exports = grammar({
     // [$._function_name, $.constructor_signature], -- subsumed
     // Built-in identifier conflicts
     [$._top_level_definition, $._built_in_identifier],
+    [$._top_level_definition, $.function_declaration, $._built_in_identifier],
     [$._top_level_definition, $.class_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.class_declaration, $.function_declaration, $._built_in_identifier],
     [$._top_level_definition, $.mixin_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.mixin_declaration, $.function_declaration, $._built_in_identifier],
     [$._top_level_definition, $.extension_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.extension_declaration, $.function_declaration, $._built_in_identifier],
     [$._top_level_definition, $.extension_type_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.extension_type_declaration, $.function_declaration, $._built_in_identifier],
     [$._top_level_definition, $.enum_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.enum_declaration, $.function_declaration, $._built_in_identifier],
     [$._top_level_definition, $.class_declaration, $.mixin_declaration, $._built_in_identifier],
+    [$._top_level_definition, $.class_declaration, $.mixin_declaration, $.function_declaration, $._built_in_identifier],
     [$.class_member, $._built_in_identifier],
     [$.type_alias, $._built_in_identifier],
     [$.function_signature, $.getter_signature, $._var_or_type],
@@ -281,7 +288,7 @@ module.exports = grammar({
     _top_level_definition: ($) =>
       choice(
         $._declaration,
-        seq(optional($._metadata), optional("augment"), $.function_signature, $.function_body),
+        $.function_declaration,
         seq(optional($._metadata), optional("augment"), $.getter_signature, $.function_body),
         seq(optional($._metadata), optional("augment"), $.setter_signature, $.function_body),
         seq(
@@ -2093,6 +2100,14 @@ module.exports = grammar({
           $._type,
           ";",
         ),
+      ),
+
+    function_declaration: ($) =>
+      seq(
+        optional($._metadata),
+        optional("augment"),
+        field("signature", $.function_signature),
+        field("body", $.function_body),
       ),
 
     // ========================================================================

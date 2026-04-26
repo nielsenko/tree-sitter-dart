@@ -714,34 +714,35 @@ void f() {
 --------------------------------------------------------------------------------
 
 (source_file
-  (function_signature
-    return_type: (void_type)
-    name: (identifier)
-    parameters: (formal_parameter_list))
-  (function_body
-    (block
-      (local_variable_declaration
-        (initialized_variable_definition
-          name: (identifier)
-          value: (null_assertion_expression
-            value: (identifier))))
-      (expression_statement
-        (call_expression
-          function: (member_expression
-            object: (null_assertion_expression
-              value: (identifier))
-            property: (identifier))
-          arguments: (arguments)))
-      (expression_statement
-        (identifier)
-        (cascade_section
-          (cascade_call_expression
-            function: (cascade_member_expression
-              object: (cascade_null_assertion_expression
-                value: (cascade_selector
-                  (identifier)))
+  (function_declaration
+    signature: (function_signature
+      return_type: (void_type)
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_definition
+            name: (identifier)
+            value: (null_assertion_expression
+              value: (identifier))))
+        (expression_statement
+          (call_expression
+            function: (member_expression
+              object: (null_assertion_expression
+                value: (identifier))
               property: (identifier))
-            arguments: (arguments)))))))
+            arguments: (arguments)))
+        (expression_statement
+          (identifier)
+          (cascade_section
+            (cascade_call_expression
+              function: (cascade_member_expression
+                object: (cascade_null_assertion_expression
+                  value: (cascade_selector
+                    (identifier)))
+                property: (identifier))
+              arguments: (arguments))))))))
 
 ================================================================================
 External static field declarations

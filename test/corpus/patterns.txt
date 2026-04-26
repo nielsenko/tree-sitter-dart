@@ -14,31 +14,32 @@ void main() {
 --------------------------------------------------------------------------------
 
 (source_file
-  (function_signature
-    return_type: (void_type)
-    name: (identifier)
-    parameters: (formal_parameter_list))
-  (function_body
-    (block
-      (switch_statement
-        condition: (parenthesized_expression
-          (identifier))
-        body: (switch_block
-          (switch_statement_case
-            (variable_pattern
-              (type_identifier)
-              name: (identifier))
-            (relational_expression
-              (identifier)
-              (relational_operator)
-              (decimal_integer_literal))
-            (expression_statement
-              (call_expression
-                function: (identifier)
-                arguments: (arguments
-                  (identifier)))))
-          (switch_statement_default
-            (break_statement)))))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (void_type)
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (switch_statement
+          condition: (parenthesized_expression
+            (identifier))
+          body: (switch_block
+            (switch_statement_case
+              (variable_pattern
+                (type_identifier)
+                name: (identifier))
+              (relational_expression
+                (identifier)
+                (relational_operator)
+                (decimal_integer_literal))
+              (expression_statement
+                (call_expression
+                  function: (identifier)
+                  arguments: (arguments
+                    (identifier)))))
+            (switch_statement_default
+              (break_statement))))))))
 
 ================================================================================
 Empty record pattern assignment
@@ -51,16 +52,17 @@ void main() {
 --------------------------------------------------------------------------------
 
 (source_file
-  (function_signature
-    return_type: (void_type)
-    name: (identifier)
-    parameters: (formal_parameter_list))
-  (function_body
-    (block
-      (expression_statement
-        (pattern_assignment
-          (record_pattern)
-          (identifier))))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (void_type)
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (expression_statement
+          (pattern_assignment
+            (record_pattern)
+            (identifier)))))))
 
 ================================================================================
 Pattern variable declaration
@@ -73,24 +75,25 @@ void main() {
 --------------------------------------------------------------------------------
 
 (source_file
-  (function_signature
-    return_type: (void_type)
-    name: (identifier)
-    parameters: (formal_parameter_list))
-  (function_body
-    (block
-      (local_variable_declaration
-        (pattern_variable_declaration
-          (record_pattern
-            (constant_pattern
-              (identifier))
-            (constant_pattern
-              (identifier)))
-          (record_literal
-            (record_field
-              (decimal_integer_literal))
-            (record_field
-              (decimal_integer_literal))))))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (void_type)
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (local_variable_declaration
+          (pattern_variable_declaration
+            (record_pattern
+              (constant_pattern
+                (identifier))
+              (constant_pattern
+                (identifier)))
+            (record_literal
+              (record_field
+                (decimal_integer_literal))
+              (record_field
+                (decimal_integer_literal)))))))))
 
 ================================================================================
 If-case statement
@@ -105,25 +108,26 @@ void main() {
 --------------------------------------------------------------------------------
 
 (source_file
-  (function_signature
-    return_type: (void_type)
-    name: (identifier)
-    parameters: (formal_parameter_list))
-  (function_body
-    (block
-      (if_statement
-        (identifier)
-        (list_pattern
-          (variable_pattern
-            (type_identifier)
-            name: (identifier))
-          (rest_pattern))
-        consequence: (block
-          (expression_statement
-            (call_expression
-              function: (identifier)
-              arguments: (arguments
-                (identifier)))))))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (void_type)
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (if_statement
+          (identifier)
+          (list_pattern
+            (variable_pattern
+              (type_identifier)
+              name: (identifier))
+            (rest_pattern))
+          consequence: (block
+            (expression_statement
+              (call_expression
+                function: (identifier)
+                arguments: (arguments
+                  (identifier))))))))))
 
 ================================================================================
 Switch expression
@@ -139,33 +143,34 @@ void main() {
 --------------------------------------------------------------------------------
 
 (source_file
-  (function_signature
-    return_type: (void_type)
-    name: (identifier)
-    parameters: (formal_parameter_list))
-  (function_body
-    (block
-      (local_variable_declaration
-        (initialized_variable_definition
-          name: (identifier)
-          value: (switch_expression
-            condition: (parenthesized_expression
-              (identifier))
-            body: (switch_expression_case
-              (variable_pattern
-                (type_identifier)
-                name: (identifier))
-              (call_expression
-                function: (member_expression
-                  object: (identifier)
-                  property: (identifier))
-                arguments: (arguments)))
-            body: (switch_expression_case
-              (constant_pattern
+  (function_declaration
+    signature: (function_signature
+      return_type: (void_type)
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_definition
+            name: (identifier)
+            value: (switch_expression
+              condition: (parenthesized_expression
                 (identifier))
-              (string_literal
-                (string_literal_single_quotes
-                  (template_chars_single_single))))))))))
+              body: (switch_expression_case
+                (variable_pattern
+                  (type_identifier)
+                  name: (identifier))
+                (call_expression
+                  function: (member_expression
+                    object: (identifier)
+                    property: (identifier))
+                  arguments: (arguments)))
+              body: (switch_expression_case
+                (constant_pattern
+                  (identifier))
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single)))))))))))
 
 ================================================================================
 Const record pattern
@@ -178,24 +183,25 @@ void f(x) {
 --------------------------------------------------------------------------------
 
 (source_file
-  (function_signature
-    return_type: (void_type)
-    name: (identifier)
-    parameters: (formal_parameter_list
-      (formal_parameter
-        (identifier))))
-  (function_body
-    (block
-      (if_statement
-        (identifier)
-        (constant_pattern
-          (record_field
-            (decimal_integer_literal))
-          (record_field
-            (decimal_integer_literal))
-          (record_field
-            (decimal_integer_literal)))
-        consequence: (block)))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (void_type)
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (identifier))))
+    body: (function_body
+      (block
+        (if_statement
+          (identifier)
+          (constant_pattern
+            (record_field
+              (decimal_integer_literal))
+            (record_field
+              (decimal_integer_literal))
+            (record_field
+              (decimal_integer_literal)))
+          consequence: (block))))))
 
 ================================================================================
 Empty switch expression
@@ -206,15 +212,16 @@ f(x) => switch(x) {};
 --------------------------------------------------------------------------------
 
 (source_file
-  (function_signature
-    name: (identifier)
-    parameters: (formal_parameter_list
-      (formal_parameter
-        (identifier))))
-  (function_body
-    (switch_expression
-      condition: (parenthesized_expression
-        (identifier)))))
+  (function_declaration
+    signature: (function_signature
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (identifier))))
+    body: (function_body
+      (switch_expression
+        condition: (parenthesized_expression
+          (identifier))))))
 
 ================================================================================
 Object pattern with labeled fields
@@ -258,41 +265,42 @@ void main() {
               (formal_parameter
                 (constructor_param
                   (identifier)))))))))
-  (function_signature
-    return_type: (void_type)
-    name: (identifier)
-    parameters: (formal_parameter_list))
-  (function_body
-    (block
-      (local_variable_declaration
-        (initialized_variable_definition
-          name: (identifier)
-          value: (call_expression
-            function: (identifier)
-            arguments: (arguments
-              (decimal_integer_literal)
-              (decimal_integer_literal)))))
-      (switch_statement
-        condition: (parenthesized_expression
-          (identifier))
-        body: (switch_block
-          (switch_statement_case
-            (object_pattern
-              (type_identifier)
-              (label
+  (function_declaration
+    signature: (function_signature
+      return_type: (void_type)
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_definition
+            name: (identifier)
+            value: (call_expression
+              function: (identifier)
+              arguments: (arguments
+                (decimal_integer_literal)
+                (decimal_integer_literal)))))
+        (switch_statement
+          condition: (parenthesized_expression
+            (identifier))
+          body: (switch_block
+            (switch_statement_case
+              (object_pattern
+                (type_identifier)
+                (label
+                  (identifier))
+                (variable_pattern
+                  name: (identifier))
+                (label
+                  (identifier))
+                (variable_pattern
+                  name: (identifier)))
+              (relational_expression
+                (identifier)
+                (relational_operator)
                 (identifier))
-              (variable_pattern
-                name: (identifier))
-              (label
-                (identifier))
-              (variable_pattern
-                name: (identifier)))
-            (relational_expression
-              (identifier)
-              (relational_operator)
-              (identifier))
-            (expression_statement
-              (call_expression
-                function: (identifier)
-                arguments: (arguments
-                  (identifier))))))))))
+              (expression_statement
+                (call_expression
+                  function: (identifier)
+                  arguments: (arguments
+                    (identifier)))))))))))
