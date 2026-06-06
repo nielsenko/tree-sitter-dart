@@ -158,7 +158,7 @@ void main() {
     body: (function_body
       (block
         (local_variable_declaration
-          (initialized_variable_definition
+          (initialized_variable_declaration
             name: (identifier)
             value: (switch_expression
               condition: (parenthesized_expression
@@ -285,7 +285,7 @@ void main() {
     body: (function_body
       (block
         (local_variable_declaration
-          (initialized_variable_definition
+          (initialized_variable_declaration
             name: (identifier)
             value: (call_expression
               function: (identifier)

@@ -1485,7 +1485,7 @@ module.exports = grammar({
       choice(
         seq(
           optional($._metadata),
-          $.initialized_variable_definition,
+          $.initialized_variable_declaration,
           ";",
         ),
         seq(
@@ -1495,7 +1495,7 @@ module.exports = grammar({
         ),
       ),
 
-    initialized_variable_definition: ($) =>
+    initialized_variable_declaration: ($) =>
       seq(
         $._declared_identifier,
         optional(seq("=", field("value", $._expression))),

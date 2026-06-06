@@ -6828,7 +6828,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "initialized_variable_definition"
+              "name": "initialized_variable_declaration"
             },
             {
               "type": "STRING",
@@ -6863,7 +6863,7 @@
         }
       ]
     },
-    "initialized_variable_definition": {
+    "initialized_variable_declaration": {
       "type": "SEQ",
       "members": [
         {

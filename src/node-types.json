@@ -9108,7 +9108,7 @@
     }
   },
   {
-    "type": "initialized_variable_definition",
+    "type": "initialized_variable_declaration",
     "named": true,
     "fields": {
       "name": {
@@ -9958,7 +9958,7 @@
           "named": true
         },
         {
-          "type": "initialized_variable_definition",
+          "type": "initialized_variable_declaration",
           "named": true
         },
         {

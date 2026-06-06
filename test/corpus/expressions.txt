@@ -547,7 +547,7 @@ Color f(Color c) {
     body: (function_body
       (block
         (local_variable_declaration
-          (initialized_variable_definition
+          (initialized_variable_declaration
             (type
               (type_identifier))
             name: (identifier)
@@ -583,7 +583,7 @@ void f() {
     body: (function_body
       (block
         (local_variable_declaration
-          (initialized_variable_definition
+          (initialized_variable_declaration
             name: (identifier)
             value: (list_literal
               (static_member_shorthand
@@ -613,7 +613,7 @@ void f() {
     body: (function_body
       (block
         (local_variable_declaration
-          (initialized_variable_definition
+          (initialized_variable_declaration
             name: (identifier)
             value: (set_or_map_literal
               (pair
@@ -643,7 +643,7 @@ void f() {
     body: (function_body
       (block
         (local_variable_declaration
-          (initialized_variable_definition
+          (initialized_variable_declaration
             name: (identifier)
             value: (static_member_shorthand
               (arguments

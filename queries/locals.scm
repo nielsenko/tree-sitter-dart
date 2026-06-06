@@ -25,7 +25,7 @@
 ; ============================================================================
 
 ; Variables
-(initialized_variable_definition
+(initialized_variable_declaration
   name: (identifier) @local.definition)
 
 (initialized_identifier

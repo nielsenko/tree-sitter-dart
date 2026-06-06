@@ -167,7 +167,7 @@
 ; Variables
 ; ============================================================================
 
-(initialized_variable_definition
+(initialized_variable_declaration
   name: (identifier) @variable)
 
 (initialized_identifier

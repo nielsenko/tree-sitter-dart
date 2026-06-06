@@ -778,7 +778,7 @@ void f() {
     body: (function_body
       (block
         (local_variable_declaration
-          (initialized_variable_definition
+          (initialized_variable_declaration
             name: (identifier)
             value: (null_assertion_expression
               value: (identifier))))

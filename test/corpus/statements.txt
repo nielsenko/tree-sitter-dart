@@ -83,7 +83,7 @@ void main() {
       (block
         (for_statement
           init: (local_variable_declaration
-            (initialized_variable_definition
+            (initialized_variable_declaration
               name: (identifier)
               value: (decimal_integer_literal)))
           condition: (relational_expression
