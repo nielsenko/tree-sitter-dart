@@ -3086,7 +3086,7 @@
       "required": false,
       "types": [
         {
-          "type": "class_member",
+          "type": "member_declaration",
           "named": true
         }
       ]
@@ -3161,29 +3161,6 @@
         },
         {
           "type": "primary_constructor",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "class_member",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "annotation",
-          "named": true
-        },
-        {
-          "type": "declaration",
-          "named": true
-        },
-        {
-          "type": "method_declaration",
           "named": true
         }
       ]
@@ -4199,11 +4176,11 @@
       "required": false,
       "types": [
         {
-          "type": "class_member",
+          "type": "enum_constant",
           "named": true
         },
         {
-          "type": "enum_constant",
+          "type": "member_declaration",
           "named": true
         }
       ]
@@ -4599,7 +4576,7 @@
       "required": false,
       "types": [
         {
-          "type": "class_member",
+          "type": "member_declaration",
           "named": true
         }
       ]
@@ -10455,6 +10432,29 @@
         },
         {
           "type": "variable_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "member_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "declaration",
+          "named": true
+        },
+        {
+          "type": "method_declaration",
           "named": true
         }
       ]

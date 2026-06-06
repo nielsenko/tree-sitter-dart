@@ -240,7 +240,7 @@ module.exports = grammar({
      $.external_function_declaration, $.external_getter_declaration, $.external_setter_declaration,
      $.top_level_variable_declaration, $._built_in_identifier],
     [$.top_level_variable_declaration, $._built_in_identifier],
-    [$.class_member, $.method_declaration, $._built_in_identifier],
+    [$.member_declaration, $.method_declaration, $._built_in_identifier],
     [$.type_alias, $._built_in_identifier],
     [$.function_signature, $.getter_signature, $._var_or_type],
     [$.function_signature, $.setter_signature, $._var_or_type],
@@ -1973,11 +1973,11 @@ module.exports = grammar({
     class_body: ($) =>
       seq(
         "{",
-        repeat($.class_member),
+        repeat($.member_declaration),
         "}",
       ),
 
-    class_member: ($) =>
+    member_declaration: ($) =>
       choice(
         seq(optional($._metadata), optional("augment"), $.declaration, ";"),
         $.method_declaration,
@@ -2054,7 +2054,7 @@ module.exports = grammar({
     extension_body: ($) =>
       seq(
         "{",
-        repeat($.class_member),
+        repeat($.member_declaration),
         "}",
       ),
 
@@ -2117,7 +2117,7 @@ module.exports = grammar({
         optional(
           seq(
             ";",
-            repeat($.class_member),
+            repeat($.member_declaration),
           ),
         ),
         "}",

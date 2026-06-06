@@ -666,7 +666,7 @@ class A extends B {
       type: (type
         (type_identifier)))
     body: (class_body
-      (class_member
+      (member_declaration
         (method_declaration
           signature: (method_signature
             (function_signature

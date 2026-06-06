@@ -111,7 +111,7 @@ class Point(var int x, var int y) {
             (type_identifier))
           name: (identifier))))
     body: (class_body
-      (class_member
+      (member_declaration
         (method_declaration
           signature: (method_signature
             (getter_signature
@@ -302,7 +302,7 @@ class Point(var int x, var int y) {
             (type_identifier))
           name: (identifier))))
     body: (class_body
-      (class_member
+      (member_declaration
         (method_declaration
           signature: (method_signature
             (primary_constructor_body_signature
@@ -347,14 +347,14 @@ class B(int x) extends A {
       type: (type
         (type_identifier)))
     body: (class_body
-      (class_member
+      (member_declaration
         (declaration
           (type
             (type_identifier))
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)))))
-      (class_member
+      (member_declaration
         (declaration
           (primary_constructor_body_signature
             (initializers
@@ -385,14 +385,14 @@ class Pet {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (declaration
           (type
             (type_identifier))
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)))))
-      (class_member
+      (member_declaration
         (declaration
           (constructor_signature
             parameters: (formal_parameter_list))
@@ -419,14 +419,14 @@ class Pet {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (declaration
           (type
             (type_identifier))
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)))))
-      (class_member
+      (member_declaration
         (declaration
           (constructor_signature
             name: (identifier)
@@ -450,7 +450,7 @@ class Pet {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (method_declaration
           signature: (method_signature
             (factory_constructor_signature
@@ -459,7 +459,7 @@ class Pet {
             (call_expression
               function: (identifier)
               arguments: (arguments)))))
-      (class_member
+      (member_declaration
         (method_declaration
           signature: (method_signature
             (factory_constructor_signature
@@ -485,11 +485,11 @@ class Pet {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (declaration
           (constant_constructor_signature
             parameters: (formal_parameter_list))))
-      (class_member
+      (member_declaration
         (declaration
           (constructor_signature
             name: (identifier)
@@ -515,21 +515,21 @@ class Point {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (declaration
           (type
             (type_identifier))
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)))))
-      (class_member
+      (member_declaration
         (declaration
           (type
             (type_identifier))
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)))))
-      (class_member
+      (member_declaration
         (declaration
           (constructor_signature
             name: (identifier)
@@ -557,14 +557,14 @@ class C {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (declaration
           (type
             (type_identifier))
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)))))
-      (class_member
+      (member_declaration
         (declaration
           (constructor_signature
             name: (identifier)

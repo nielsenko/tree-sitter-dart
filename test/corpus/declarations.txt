@@ -106,7 +106,7 @@ mixin Flyable on Animal {
     (type
       (type_identifier))
     body: (class_body
-      (class_member
+      (member_declaration
         (method_declaration
           signature: (method_signature
             (function_signature
@@ -133,7 +133,7 @@ extension StringExt on String {
     class: (type
       (type_identifier))
     body: (extension_body
-      (class_member
+      (member_declaration
         (method_declaration
           signature: (method_signature
             (getter_signature
@@ -208,14 +208,14 @@ enum Planet {
         name: (identifier)
         (arguments
           (decimal_floating_point_literal)))
-      (class_member
+      (member_declaration
         (declaration
           (type
             (type_identifier))
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)))))
-      (class_member
+      (member_declaration
         (declaration
           (constant_constructor_signature
             name: (identifier)
@@ -372,7 +372,7 @@ class Foo {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (declaration
           (type
             (type_identifier))
@@ -380,7 +380,7 @@ class Foo {
             (initialized_identifier
               name: (identifier)
               value: (decimal_integer_literal)))))
-      (class_member
+      (member_declaration
         (declaration
           (type
             (type_identifier))
@@ -389,7 +389,7 @@ class Foo {
               name: (identifier)
               value: (string_literal
                 (string_literal_single_quotes))))))
-      (class_member
+      (member_declaration
         (declaration
           (type
             (type_identifier))
@@ -412,7 +412,7 @@ class Foo {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (declaration
           (constructor_signature
             name: (identifier)
@@ -450,7 +450,7 @@ class Foo {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (method_declaration
           (annotation
             name: (identifier))
@@ -469,7 +469,7 @@ class Foo {
             (block
               (return_statement
                 (null_literal))))))
-      (class_member
+      (member_declaration
         (method_declaration
           (annotation
             name: (identifier))
@@ -492,7 +492,7 @@ class Foo {
                     (template_chars_single_single))))
               (record_field
                 (decimal_integer_literal))))))
-      (class_member
+      (member_declaration
         (method_declaration
           (annotation
             name: (identifier)
@@ -675,7 +675,7 @@ augment mixin M {
         (type
           (type_identifier))))
     body: (class_body
-      (class_member
+      (member_declaration
         (method_declaration
           signature: (method_signature
             (getter_signature
@@ -691,7 +691,7 @@ augment mixin M {
   (mixin_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (method_declaration
           signature: (method_signature
             (getter_signature
@@ -720,7 +720,7 @@ class Foo {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (method_declaration
           signature: (method_signature
             (getter_signature
@@ -729,7 +729,7 @@ class Foo {
               name: (identifier)))
           body: (function_body
             (native))))
-      (class_member
+      (member_declaration
         (method_declaration
           signature: (method_signature
             (function_signature
@@ -815,14 +815,14 @@ class JsInterop {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (declaration
           (external)
           (type
             (type_identifier))
           (identifier_list
             (identifier))))
-      (class_member
+      (member_declaration
         (declaration
           (external)
           (type
@@ -845,14 +845,14 @@ class C {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (declaration
           (external)
           (type
             (type_identifier))
           (identifier_list
             (identifier))))
-      (class_member
+      (member_declaration
         (declaration
           (external)
           (identifier_list

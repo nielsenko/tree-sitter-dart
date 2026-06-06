@@ -10252,7 +10252,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "class_member"
+            "name": "member_declaration"
           }
         },
         {
@@ -10261,7 +10261,7 @@
         }
       ]
     },
-    "class_member": {
+    "member_declaration": {
       "type": "CHOICE",
       "members": [
         {
@@ -10815,7 +10815,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "class_member"
+            "name": "member_declaration"
           }
         },
         {
@@ -11297,7 +11297,7 @@
                   "type": "REPEAT",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "class_member"
+                    "name": "member_declaration"
                   }
                 }
               ]
@@ -13687,7 +13687,7 @@
       "_built_in_identifier"
     ],
     [
-      "class_member",
+      "member_declaration",
       "method_declaration",
       "_built_in_identifier"
     ],

@@ -251,21 +251,21 @@ void main() {
   (class_declaration
     name: (identifier)
     body: (class_body
-      (class_member
+      (member_declaration
         (declaration
           (type
             (type_identifier))
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)))))
-      (class_member
+      (member_declaration
         (declaration
           (type
             (type_identifier))
           (initialized_identifier_list
             (initialized_identifier
               name: (identifier)))))
-      (class_member
+      (member_declaration
         (declaration
           (constructor_signature
             name: (identifier)
