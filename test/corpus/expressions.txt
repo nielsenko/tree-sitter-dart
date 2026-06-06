@@ -616,7 +616,7 @@ void f() {
           (initialized_variable_declaration
             name: (identifier)
             value: (set_or_map_literal
-              (pair
+              (map_element
                 key: (string_literal
                   (string_literal_single_quotes
                     (template_chars_single_single)))

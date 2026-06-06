@@ -3267,7 +3267,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "pair"
+          "name": "map_element"
         },
         {
           "type": "SYMBOL",
@@ -3342,7 +3342,7 @@
         }
       ]
     },
-    "pair": {
+    "map_element": {
       "type": "SEQ",
       "members": [
         {

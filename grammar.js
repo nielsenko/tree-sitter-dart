@@ -855,7 +855,7 @@ module.exports = grammar({
     _element: ($) =>
       choice(
         $._expression,
-        $.pair,
+        $.map_element,
         $.spread_element,
         $.null_aware_expression_element,
         $.null_aware_map_element,
@@ -868,7 +868,7 @@ module.exports = grammar({
     null_aware_map_element: ($) =>
       seq("?", field("key", $._expression), ":", field("value", choice($._expression, $.null_aware_expression_element))),
 
-    pair: ($) =>
+    map_element: ($) =>
       seq(
         field("key", $._expression),
         ":",

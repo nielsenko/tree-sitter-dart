@@ -438,7 +438,7 @@ class Foo {
   (int, int?)? get range { return null; }
 
   @override
-  (String, int) get pair => ('text', 42);
+  (String, int) get map_element => ('text', 42);
 
   @JsonKey(name: 'foo')
   (String, int) get annotatedPair => ('text', 42);
