@@ -38,7 +38,7 @@
 (formal_parameter
   (identifier) @local.definition)
 
-(constructor_param
+(field_formal_parameter
   (identifier) @local.definition)
 
 (super_formal_parameter

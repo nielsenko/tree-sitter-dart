@@ -212,8 +212,8 @@ module.exports = grammar({
     [$.block, $.set_or_map_literal],
     // Empty switch block vs empty switch expression
     [$.switch_block, $.switch_expression],
-    // Primary + constructor_param
-    [$._primary, $.constructor_param],
+    // Primary + field_formal_parameter
+    [$._primary, $.field_formal_parameter],
     // Switch statement case
     [$.switch_statement_case],
     // Primary + function_formal_parameter + type_name
@@ -1402,7 +1402,7 @@ module.exports = grammar({
         choice(
           $._function_formal_parameter,
           $._simple_formal_parameter,
-          $.constructor_param,
+          $.field_formal_parameter,
           $.super_formal_parameter,
         ),
       ),
@@ -1430,7 +1430,7 @@ module.exports = grammar({
         field("name", $.identifier),
       ),
 
-    constructor_param: ($) =>
+    field_formal_parameter: ($) =>
       seq(
         optional($._final_const_var_or_type),
         "this",

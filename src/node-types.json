@@ -4002,33 +4002,6 @@
     }
   },
   {
-    "type": "constructor_param",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "formal_parameter_list",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        },
-        {
-          "type": "type_parameters",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "constructor_signature",
     "named": true,
     "fields": {
@@ -5002,6 +4975,33 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "field_formal_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "formal_parameter_list",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -7029,7 +7029,7 @@
           "named": true
         },
         {
-          "type": "constructor_param",
+          "type": "field_formal_parameter",
           "named": true
         },
         {

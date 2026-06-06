@@ -152,7 +152,7 @@
 (formal_parameter
   (identifier) @variable.parameter)
 
-(constructor_param
+(field_formal_parameter
   (identifier) @variable.parameter)
 
 (super_formal_parameter

@@ -221,7 +221,7 @@ enum Planet {
             name: (identifier)
             parameters: (formal_parameter_list
               (formal_parameter
-                (constructor_param
+                (field_formal_parameter
                   (identifier))))))))))
 
 ================================================================================

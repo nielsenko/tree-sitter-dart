@@ -6427,7 +6427,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "constructor_param"
+              "name": "field_formal_parameter"
             },
             {
               "type": "SYMBOL",
@@ -6566,7 +6566,7 @@
         }
       ]
     },
-    "constructor_param": {
+    "field_formal_parameter": {
       "type": "SEQ",
       "members": [
         {
@@ -13621,7 +13621,7 @@
     ],
     [
       "_primary",
-      "constructor_param"
+      "field_formal_parameter"
     ],
     [
       "switch_statement_case"
