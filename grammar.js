@@ -1906,7 +1906,7 @@ module.exports = grammar({
           optional(field("type_parameters", $.type_parameters)),
           optional(field("superclass", $.superclass)),
           optional(field("interfaces", $.interfaces)),
-          field("body", $.class_body),
+          choice(field("body", $.class_body), ";"),
         ),
         seq(
           optional($._metadata),
@@ -1985,7 +1985,7 @@ module.exports = grammar({
         optional(field("type_parameters", $.type_parameters)),
         optional(seq("on", commaSep1($._type_not_void))),
         optional(field("interfaces", $.interfaces)),
-        field("body", $.class_body),
+        choice(field("body", $.class_body), ";"),
       ),
 
     // --- Extensions ---
@@ -1999,7 +1999,7 @@ module.exports = grammar({
           optional(field("type_parameters", $.type_parameters)),
           "on",
           field("class", $.type),
-          field("body", $.extension_body),
+          choice(field("body", $.extension_body), ";"),
         ),
         seq(
           optional($._metadata),
@@ -2030,7 +2030,7 @@ module.exports = grammar({
           field("name", $.extension_type_name),
           field("representation", $.extension_type_representation),
           optional(seq("implements", commaSep1($.type))),
-          field("body", $.class_body),
+          choice(field("body", $.class_body), ";"),
         ),
         seq(
           optional($._metadata),
@@ -2065,13 +2065,13 @@ module.exports = grammar({
         optional($.type_parameters),
         optional($.mixins),
         optional($.interfaces),
-        field("body", $.enum_body),
+        choice(field("body", $.enum_body), ";"),
       ),
 
     enum_body: ($) =>
       seq(
         "{",
-        commaSep1TrailingComma($.enum_constant),
+        optional(commaSep1TrailingComma($.enum_constant)),
         optional(
           seq(
             ";",
