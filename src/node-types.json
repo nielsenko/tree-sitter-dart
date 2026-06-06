@@ -327,7 +327,7 @@
             "named": true
           },
           {
-            "type": "qualified",
+            "type": "qualified_name",
             "named": true
           }
         ]
@@ -3878,7 +3878,7 @@
           "named": true
         },
         {
-          "type": "qualified",
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -13735,7 +13735,7 @@
     }
   },
   {
-    "type": "qualified",
+    "type": "qualified_name",
     "named": true,
     "fields": {},
     "children": {

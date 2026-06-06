@@ -415,7 +415,7 @@ module.exports = grammar({
     _annotation_with_args: ($) =>
       seq(
         "@",
-        field("name", choice($.identifier, $.qualified)),
+        field("name", choice($.identifier, $.qualified_name)),
         optional(seq($.type_arguments, optional(seq(".", $._identifier_or_new)))),
         $.annotation_arguments,
       ),
@@ -424,9 +424,9 @@ module.exports = grammar({
       seq($.annotation_open_paren, optional($._argument_list), ")"),
 
     _annotation_no_args: ($) =>
-      seq("@", field("name", choice($.identifier, $.qualified))),
+      seq("@", field("name", choice($.identifier, $.qualified_name))),
 
-    qualified: ($) =>
+    qualified_name: ($) =>
       choice(
         seq($._type_name, ".", $._identifier_or_new),
         seq($._type_name, ".", $._type_name, ".", $._identifier_or_new),
@@ -2311,7 +2311,7 @@ module.exports = grammar({
         seq($.string_literal, optional(seq(".", $.identifier))),
         $.symbol_literal,
         seq($.identifier, optional(seq(".", $.identifier))),
-        $.qualified,
+        $.qualified_name,
         $.const_object_expression,
         seq("const", optional($.type_arguments), "[", commaSep1TrailingComma($._element), "]"),
         seq("const", optional($.type_arguments), "{", commaSep1TrailingComma($._element), "}"),

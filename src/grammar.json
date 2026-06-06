@@ -690,7 +690,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "qualified"
+                "name": "qualified_name"
               }
             ]
           }
@@ -783,14 +783,14 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "qualified"
+                "name": "qualified_name"
               }
             ]
           }
         }
       ]
     },
-    "qualified": {
+    "qualified_name": {
       "type": "CHOICE",
       "members": [
         {
@@ -12398,7 +12398,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "qualified"
+          "name": "qualified_name"
         },
         {
           "type": "SYMBOL",
