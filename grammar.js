@@ -161,9 +161,9 @@ module.exports = grammar({
     [$.typed_identifier, $._var_or_type, $._function_formal_parameter],
     [$.record_type_field, $._function_formal_parameter, $._var_or_type],
     [$.record_type_field, $._var_or_type, $._final_var_or_type, $._function_formal_parameter],
-    [$._var_or_type, $._final_var_or_type],
     [$._var_or_type, $._final_var_or_type, $._function_formal_parameter],
-    [$._final_const_var_or_type, $._final_var_or_type],
+    [$._function_formal_parameter, $._final_const_var_or_type],
+    [$._function_formal_parameter, $._final_const_var_or_type, $._final_var_or_type],
     [$.record_type_field, $._final_var_or_type],
     [$._final_var_or_type],
     // Type parameter vs type name
@@ -1398,6 +1398,7 @@ module.exports = grammar({
     _function_formal_parameter: ($) =>
       seq(
         optional("covariant"),
+        optional(choice("var", "final")),
         optional($.type),
         $.identifier,
         $._formal_parameter_part,
@@ -1902,8 +1903,10 @@ module.exports = grammar({
           optional($._metadata),
           optional("augment"),
           choice($._class_modifiers, $._mixin_class_modifiers),
+          optional("const"),
           field("name", $.identifier),
           optional(field("type_parameters", $.type_parameters)),
+          optional($.primary_constructor),
           optional(field("superclass", $.superclass)),
           optional(field("interfaces", $.interfaces)),
           choice(field("body", $.class_body), ";"),
@@ -1929,6 +1932,14 @@ module.exports = grammar({
 
     _mixin_class_modifiers: ($) =>
       seq(optional("abstract"), optional("base"), "mixin", "class"),
+
+    // Dart 3.13 primary constructors: `class User(final String name);`,
+    // `class const D<T>.named(final T x) extends A;`
+    primary_constructor: ($) =>
+      seq(
+        optional(seq(".", field("name", $._identifier_or_new))),
+        field("parameters", $.formal_parameter_list),
+      ),
 
     class_body: ($) =>
       seq(
@@ -2052,7 +2063,7 @@ module.exports = grammar({
       ),
 
     extension_type_representation: ($) =>
-      seq("(", optional($._metadata), field("type", $.type), field("name", $.identifier), ")"),
+      seq("(", optional($._metadata), optional("final"), field("type", $.type), field("name", $.identifier), ")"),
 
     // --- Enums (enhanced, Dart 2.17) ---
 
@@ -2061,8 +2072,10 @@ module.exports = grammar({
         optional($._metadata),
         optional("augment"),
         "enum",
+        optional("const"),
         field("name", $.identifier),
         optional($.type_parameters),
+        optional($.primary_constructor),
         optional($.mixins),
         optional($.interfaces),
         choice(field("body", $.enum_body), ";"),
