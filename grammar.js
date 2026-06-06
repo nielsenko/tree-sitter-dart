@@ -1809,21 +1809,29 @@ module.exports = grammar({
 
     constructor_signature: ($) =>
       seq(
-        field("name", seq($.identifier, optional(seq(".", $._identifier_or_new)))),
+        choice(
+          field("name", seq($.identifier, optional(seq(".", $._identifier_or_new)))),
+          // Dart 3.13 abbreviated form: `new();`, `new withName(this.name);`
+          seq("new", optional(field("name", $.identifier))),
+        ),
         field("parameters", $.formal_parameter_list),
       ),
 
     constant_constructor_signature: ($) =>
       seq(
         "const",
-        field("name", seq($.identifier, optional(seq(".", $._identifier_or_new)))),
+        choice(
+          field("name", seq($.identifier, optional(seq(".", $._identifier_or_new)))),
+          seq("new", optional(field("name", $.identifier))),
+        ),
         field("parameters", $.formal_parameter_list),
       ),
 
     factory_constructor_signature: ($) =>
       seq(
         "factory",
-        field("name", seq($.identifier, optional(seq(".", $._identifier_or_new)))),
+        // Name optional since Dart 3.13: `factory() => ...` is the unnamed factory.
+        optional(field("name", seq($.identifier, optional(seq(".", $._identifier_or_new))))),
         field("parameters", $.formal_parameter_list),
       ),
 
@@ -1831,7 +1839,7 @@ module.exports = grammar({
       seq(
         optional("const"),
         "factory",
-        field("name", seq($.identifier, optional(seq(".", $._identifier_or_new)))),
+        optional(field("name", seq($.identifier, optional(seq(".", $._identifier_or_new))))),
         field("parameters", $.formal_parameter_list),
         "=",
         field("target", $._type_not_void),
@@ -1839,7 +1847,9 @@ module.exports = grammar({
       ),
 
     redirection: ($) =>
-      seq(":", "this", optional(seq(".", $._identifier_or_new)), $.arguments),
+      // Dynamic precedence: `: this.named(1)` is a redirection, not an
+      // initializer list with a this.named(...) entry.
+      prec.dynamic(1, seq(":", "this", optional(seq(".", $._identifier_or_new)), $.arguments)),
 
     initializers: ($) => seq(":", commaSep1($.initializer_list_entry)),
 
