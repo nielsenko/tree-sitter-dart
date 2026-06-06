@@ -142,6 +142,9 @@
 (redirecting_factory_constructor_signature
   (identifier) @constructor)
 
+(primary_constructor
+  name: (identifier) @constructor)
+
 ; ============================================================================
 ; Parameters
 ; ============================================================================

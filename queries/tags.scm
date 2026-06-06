@@ -99,6 +99,10 @@
 (redirecting_factory_constructor_signature
   (identifier) @name) @definition.method
 
+; Named primary constructors (Dart 3.13)
+(primary_constructor
+  name: (identifier) @name) @definition.method
+
 ; Typedefs
 (type_alias
   (type_identifier) @name) @definition.type
