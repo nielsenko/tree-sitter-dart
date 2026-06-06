@@ -1727,10 +1727,17 @@ module.exports = grammar({
         $.factory_constructor_signature,
         seq(optional("static"), choice($.function_signature, $.getter_signature, $.setter_signature)),
         $.operator_signature,
+        $.primary_constructor_body_signature,
       ),
+
+    // Dart 3.13: initializer list and/or body of a header primary constructor,
+    // declared as a class member: `this : assert(x >= 0) { ... }`
+    primary_constructor_body_signature: ($) =>
+      seq("this", optional($.initializers)),
 
     declaration: ($) =>
       choice(
+        $.primary_constructor_body_signature,
         seq(
           $.constant_constructor_signature,
           optional(choice($.redirection, $.initializers)),

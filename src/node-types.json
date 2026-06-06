@@ -4145,6 +4145,10 @@
           "named": true
         },
         {
+          "type": "primary_constructor_body_signature",
+          "named": true
+        },
+        {
           "type": "redirecting_factory_constructor_signature",
           "named": true
         },
@@ -10619,6 +10623,10 @@
           "named": true
         },
         {
+          "type": "primary_constructor_body_signature",
+          "named": true
+        },
+        {
           "type": "setter_signature",
           "named": true
         }
@@ -13709,6 +13717,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "primary_constructor_body_signature",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "initializers",
+          "named": true
+        }
+      ]
     }
   },
   {

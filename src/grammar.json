@@ -8337,12 +8337,41 @@
         {
           "type": "SYMBOL",
           "name": "operator_signature"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "primary_constructor_body_signature"
+        }
+      ]
+    },
+    "primary_constructor_body_signature": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "this"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "initializers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
     "declaration": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "primary_constructor_body_signature"
+        },
         {
           "type": "SEQ",
           "members": [
