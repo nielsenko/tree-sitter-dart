@@ -1377,11 +1377,23 @@ module.exports = grammar({
       seq($.formal_parameter, optional(seq("=", $._expression))),
 
     _default_named_parameter: ($) =>
-      seq(
-        optional($._metadata),
-        optional("required"),
-        $.formal_parameter,
-        optional(seq(choice("=", ":"), $._expression)),
+      choice(
+        // Dynamic precedence: in `{required this.x}`, `required` is the
+        // keyword, not the type of the parameter.
+        prec.dynamic(
+          1,
+          seq(
+            optional($._metadata),
+            "required",
+            $.formal_parameter,
+            optional(seq(choice("=", ":"), $._expression)),
+          ),
+        ),
+        seq(
+          optional($._metadata),
+          $.formal_parameter,
+          optional(seq(choice("=", ":"), $._expression)),
+        ),
       ),
 
     _normal_formal_parameter: ($) =>
