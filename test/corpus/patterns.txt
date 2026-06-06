@@ -33,7 +33,7 @@ void main() {
                 name: (identifier))
               (relational_expression
                 (identifier)
-                (relational_operator)
+                operator: (relational_operator)
                 (decimal_integer_literal))
               (expression_statement
                 (call_expression
@@ -309,7 +309,7 @@ void main() {
                   name: (identifier)))
               (relational_expression
                 (identifier)
-                (relational_operator)
+                operator: (relational_operator)
                 (identifier))
               (expression_statement
                 (call_expression

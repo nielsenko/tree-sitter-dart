@@ -121,6 +121,7 @@ class Point(var int x, var int y) {
           body: (function_body
             (additive_expression
               (identifier)
+              operator: (additive_operator)
               (identifier))))))))
 
 ================================================================================
@@ -311,7 +312,7 @@ class Point(var int x, var int y) {
                   (assertion
                     (relational_expression
                       (identifier)
-                      (relational_operator)
+                      operator: (relational_operator)
                       (decimal_integer_literal)))))))
           body: (function_body
             (block

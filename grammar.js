@@ -1043,10 +1043,12 @@ module.exports = grammar({
       prec.left(
         PREC.EQUALITY,
         choice(
-          seq($._real_expression, choice("==", "!="), $._real_expression),
-          seq("super", choice("==", "!="), $._real_expression),
+          seq($._real_expression, field("operator", $.equality_operator), $._real_expression),
+          seq("super", field("operator", $.equality_operator), $._real_expression),
         ),
       ),
+
+    equality_operator: (_) => choice("==", "!="),
 
     // --- Relational ---
 
@@ -1054,8 +1056,8 @@ module.exports = grammar({
       prec.left(
         PREC.RELATIONAL,
         choice(
-          seq($._real_expression, $.relational_operator, $._real_expression),
-          seq("super", $.relational_operator, $._real_expression),
+          seq($._real_expression, field("operator", $.relational_operator), $._real_expression),
+          seq("super", field("operator", $.relational_operator), $._real_expression),
         ),
       ),
 
@@ -1081,8 +1083,8 @@ module.exports = grammar({
       prec.left(
         PREC.BITWISE_OR,
         choice(
-          seq($._real_expression, "|", $._real_expression),
-          seq("super", repeat1(seq("|", $._real_expression))),
+          seq($._real_expression, field("operator", alias("|", $.bitwise_operator)), $._real_expression),
+          seq("super", repeat1(seq(field("operator", alias("|", $.bitwise_operator)), $._real_expression))),
         ),
       ),
 
@@ -1090,8 +1092,8 @@ module.exports = grammar({
       prec.left(
         PREC.BITWISE_XOR,
         choice(
-          seq($._real_expression, "^", $._real_expression),
-          seq("super", repeat1(seq("^", $._real_expression))),
+          seq($._real_expression, field("operator", alias("^", $.bitwise_operator)), $._real_expression),
+          seq("super", repeat1(seq(field("operator", alias("^", $.bitwise_operator)), $._real_expression))),
         ),
       ),
 
@@ -1099,8 +1101,8 @@ module.exports = grammar({
       prec.left(
         PREC.BITWISE_AND,
         choice(
-          seq($._real_expression, "&", $._real_expression),
-          seq("super", repeat1(seq("&", $._real_expression))),
+          seq($._real_expression, field("operator", alias("&", $.bitwise_operator)), $._real_expression),
+          seq("super", repeat1(seq(field("operator", alias("&", $.bitwise_operator)), $._real_expression))),
         ),
       ),
 
@@ -1110,12 +1112,12 @@ module.exports = grammar({
       prec.left(
         PREC.SHIFT,
         choice(
-          seq($._real_expression, $._shift_operator, $._real_expression),
-          seq("super", repeat1(seq($._shift_operator, $._real_expression))),
+          seq($._real_expression, field("operator", $.shift_operator), $._real_expression),
+          seq("super", repeat1(seq(field("operator", $.shift_operator), $._real_expression))),
         ),
       ),
 
-    _shift_operator: (_) => choice("<<", ">>>", ">>"),
+    shift_operator: (_) => choice("<<", ">>>", ">>"),
 
     // --- Additive ---
 
@@ -1123,12 +1125,12 @@ module.exports = grammar({
       prec.left(
         PREC.ADDITIVE,
         choice(
-          seq($._real_expression, $._additive_operator, $._real_expression),
-          seq("super", repeat1(seq($._additive_operator, $._real_expression))),
+          seq($._real_expression, field("operator", $.additive_operator), $._real_expression),
+          seq("super", repeat1(seq(field("operator", $.additive_operator), $._real_expression))),
         ),
       ),
 
-    _additive_operator: (_) => choice("+", "-"),
+    additive_operator: (_) => choice("+", "-"),
 
     // --- Multiplicative ---
 
@@ -1138,11 +1140,13 @@ module.exports = grammar({
         choice(
           seq(
             $._unary_expression,
-            repeat1(seq(choice("*", "/", "%", "~/"), $._unary_expression)),
+            repeat1(seq(field("operator", $.multiplicative_operator), $._unary_expression)),
           ),
-          seq("super", repeat1(seq(choice("*", "/", "%", "~/"), $._unary_expression))),
+          seq("super", repeat1(seq(field("operator", $.multiplicative_operator), $._unary_expression))),
         ),
       ),
+
+    multiplicative_operator: (_) => choice("*", "/", "%", "~/"),
 
     // --- Unary ---
 
@@ -1156,11 +1160,11 @@ module.exports = grammar({
       prec(
         PREC.UNARY_PREFIX,
         choice(
-          seq($.prefix_operator, $._unary_expression),
-          seq($.negation_operator, $._unary_expression),
+          seq(field("operator", $.prefix_operator), $._unary_expression),
+          seq(field("operator", $.negation_operator), $._unary_expression),
           $.await_expression,
-          seq(choice("-", "~"), "super"),
-          seq(choice("++", "--"), $.assignable_expression),
+          seq(field("operator", $.prefix_operator), "super"),
+          seq(field("operator", alias(choice("++", "--"), $.increment_operator)), $.assignable_expression),
         ),
       ),
 
@@ -1187,7 +1191,10 @@ module.exports = grammar({
 
     postfix_expression: ($) =>
       prec.right(
-        seq(field("argument", $.assignable_expression), choice("++", "--")),
+        seq(
+          field("argument", $.assignable_expression),
+          field("operator", alias(choice("++", "--"), $.increment_operator)),
+        ),
       ),
 
     call_expression: ($) =>
@@ -1892,11 +1899,13 @@ module.exports = grammar({
         field("parameters", $.formal_parameter_list),
       ),
 
+    // Spec: binaryOperator. Kept flat (no nested operator nodes) because in
+    // an operator_signature the token is the declared *name*, not an operation.
     binary_operator: ($) =>
       choice(
         choice("*", "/", "%", "~/"),
-        $._additive_operator,
-        $._shift_operator,
+        choice("+", "-"),
+        choice("<<", ">>>", ">>"),
         $.relational_operator,
         "==",
         "|",

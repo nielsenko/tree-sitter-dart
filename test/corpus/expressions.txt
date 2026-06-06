@@ -34,50 +34,62 @@ void main() {
         (expression_statement
           (additive_expression
             (identifier)
+            operator: (additive_operator)
             (identifier)))
         (expression_statement
           (additive_expression
             (identifier)
+            operator: (additive_operator)
             (identifier)))
         (expression_statement
           (multiplicative_expression
             (identifier)
+            operator: (multiplicative_operator)
             (identifier)))
         (expression_statement
           (multiplicative_expression
             (identifier)
+            operator: (multiplicative_operator)
             (identifier)))
         (expression_statement
           (multiplicative_expression
             (identifier)
+            operator: (multiplicative_operator)
             (identifier)))
         (expression_statement
           (multiplicative_expression
             (identifier)
+            operator: (multiplicative_operator)
             (identifier)))
         (expression_statement
           (shift_expression
             (identifier)
+            operator: (shift_operator)
             (identifier)))
         (expression_statement
           (shift_expression
             (identifier)
+            operator: (shift_operator)
             (identifier)))
         (expression_statement
           (shift_expression
             (identifier)
+            operator: (shift_operator)
             (identifier)))
         (expression_statement
           (bitwise_and_expression
             (identifier)
+            operator: (bitwise_operator)
             (identifier)))
         (expression_statement
           (bitwise_xor_expression
             (identifier)
+            operator: (bitwise_operator)
             (identifier)))
         (expression_statement
           (bitwise_or_expression
             (identifier)
+            operator: (bitwise_operator)
             (identifier)))
         (expression_statement
           (logical_and_expression
@@ -119,30 +131,32 @@ void main() {
         (expression_statement
           (relational_expression
             (identifier)
-            (relational_operator)
+            operator: (relational_operator)
             (identifier)))
         (expression_statement
           (relational_expression
             (identifier)
-            (relational_operator)
+            operator: (relational_operator)
             (identifier)))
         (expression_statement
           (relational_expression
             (identifier)
-            (relational_operator)
+            operator: (relational_operator)
             (identifier)))
         (expression_statement
           (relational_expression
             (identifier)
-            (relational_operator)
+            operator: (relational_operator)
             (identifier)))
         (expression_statement
           (equality_expression
             (identifier)
+            operator: (equality_operator)
             (identifier)))
         (expression_statement
           (equality_expression
             (identifier)
+            operator: (equality_operator)
             (identifier)))))))
 
 ================================================================================
@@ -276,32 +290,36 @@ void main() {
       (block
         (expression_statement
           (unary_expression
-            (prefix_operator)
+            operator: (prefix_operator)
             (identifier)))
         (expression_statement
           (unary_expression
-            (negation_operator)
+            operator: (negation_operator)
             (identifier)))
         (expression_statement
           (unary_expression
-            (prefix_operator)
+            operator: (prefix_operator)
             (identifier)))
         (expression_statement
           (unary_expression
+            operator: (increment_operator)
             (assignable_expression
               (identifier))))
         (expression_statement
           (unary_expression
+            operator: (increment_operator)
             (assignable_expression
               (identifier))))
         (expression_statement
           (postfix_expression
             argument: (assignable_expression
-              (identifier))))
+              (identifier))
+            operator: (increment_operator)))
         (expression_statement
           (postfix_expression
             argument: (assignable_expression
-              (identifier))))))))
+              (identifier))
+            operator: (increment_operator)))))))
 
 ================================================================================
 Await expression

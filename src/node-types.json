@@ -182,7 +182,18 @@
   {
     "type": "additive_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "operator": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "additive_operator",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -313,6 +324,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "additive_operator",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "annotation",
@@ -1419,7 +1435,18 @@
   {
     "type": "bitwise_and_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "operator": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "bitwise_operator",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -1554,7 +1581,18 @@
   {
     "type": "bitwise_or_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "operator": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "bitwise_operator",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -1689,7 +1727,18 @@
   {
     "type": "bitwise_xor_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "operator": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "bitwise_operator",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -4279,7 +4328,18 @@
   {
     "type": "equality_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "equality_operator",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -4410,6 +4470,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "equality_operator",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "escape_sequence",
@@ -11075,7 +11140,18 @@
   {
     "type": "multiplicative_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "operator": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "multiplicative_operator",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -11150,6 +11226,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "multiplicative_operator",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "named_argument",
@@ -13681,6 +13762,16 @@
             "named": true
           }
         ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "increment_operator",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -14472,10 +14563,21 @@
   {
     "type": "relational_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "relational_operator",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "_instantiation",
@@ -14575,10 +14677,6 @@
         },
         {
           "type": "relational_expression",
-          "named": true
-        },
-        {
-          "type": "relational_operator",
           "named": true
         },
         {
@@ -15207,7 +15305,18 @@
   {
     "type": "shift_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "operator": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "shift_operator",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -15338,6 +15447,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "shift_operator",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "source_file",
@@ -17383,9 +17497,28 @@
   {
     "type": "unary_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "operator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "increment_operator",
+            "named": true
+          },
+          {
+            "type": "negation_operator",
+            "named": true
+          },
+          {
+            "type": "prefix_operator",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
@@ -17433,10 +17566,6 @@
           "named": true
         },
         {
-          "type": "negation_operator",
-          "named": true
-        },
-        {
           "type": "null_assertion_expression",
           "named": true
         },
@@ -17454,10 +17583,6 @@
         },
         {
           "type": "postfix_expression",
-          "named": true
-        },
-        {
-          "type": "prefix_operator",
           "named": true
         },
         {
@@ -17949,10 +18074,6 @@
     "named": false
   },
   {
-    "type": "++",
-    "named": false
-  },
-  {
     "type": "+=",
     "named": false
   },
@@ -17962,10 +18083,6 @@
   },
   {
     "type": "-",
-    "named": false
-  },
-  {
-    "type": "--",
     "named": false
   },
   {
@@ -18153,6 +18270,10 @@
     "named": false
   },
   {
+    "type": "bitwise_operator",
+    "named": true
+  },
+  {
     "type": "block_comment",
     "named": true
   },
@@ -18287,6 +18408,10 @@
   {
     "type": "in",
     "named": false
+  },
+  {
+    "type": "increment_operator",
+    "named": true
   },
   {
     "type": "inline",

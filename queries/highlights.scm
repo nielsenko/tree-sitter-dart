@@ -193,6 +193,12 @@
 (negation_operator) @operator
 (is_operator) @keyword.operator
 (binary_operator) @operator
+(additive_operator) @operator
+(multiplicative_operator) @operator
+(shift_operator) @operator
+(equality_operator) @operator
+(bitwise_operator) @operator
+(increment_operator) @operator
 
 [
   "="
@@ -210,7 +216,6 @@
   "|="
   "??="
   "=="
-  "!="
   "+"
   "-"
   "*"
@@ -228,8 +233,6 @@
   "??"
   "!"
   "~"
-  "++"
-  "--"
   ".."
   "?.."
   "..."
