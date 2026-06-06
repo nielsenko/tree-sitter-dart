@@ -250,11 +250,11 @@ enum Direction(final int degrees) {
             (type_identifier))
           name: (identifier))))
     body: (enum_body
-      (enum_constant
+      (enum_entry
         name: (identifier)
         (arguments
           (decimal_integer_literal)))
-      (enum_constant
+      (enum_entry
         name: (identifier)
         (arguments
           (decimal_integer_literal))))))

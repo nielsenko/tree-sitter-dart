@@ -11246,7 +11246,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "enum_constant"
+                  "name": "enum_entry"
                 },
                 {
                   "type": "REPEAT",
@@ -11259,7 +11259,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "enum_constant"
+                        "name": "enum_entry"
                       }
                     ]
                   }
@@ -11313,7 +11313,7 @@
         }
       ]
     },
-    "enum_constant": {
+    "enum_entry": {
       "type": "CHOICE",
       "members": [
         {

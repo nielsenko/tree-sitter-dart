@@ -175,11 +175,11 @@ enum Color { red, green, blue }
   (enum_declaration
     name: (identifier)
     body: (enum_body
-      (enum_constant
+      (enum_entry
         name: (identifier))
-      (enum_constant
+      (enum_entry
         name: (identifier))
-      (enum_constant
+      (enum_entry
         name: (identifier)))))
 
 ================================================================================
@@ -200,11 +200,11 @@ enum Planet {
   (enum_declaration
     name: (identifier)
     body: (enum_body
-      (enum_constant
+      (enum_entry
         name: (identifier)
         (arguments
           (decimal_floating_point_literal)))
-      (enum_constant
+      (enum_entry
         name: (identifier)
         (arguments
           (decimal_floating_point_literal)))

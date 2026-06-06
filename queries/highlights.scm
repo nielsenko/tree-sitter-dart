@@ -123,7 +123,7 @@
 (enum_declaration
   name: (identifier) @type)
 
-(enum_constant
+(enum_entry
   name: (identifier) @constant)
 
 (type_alias

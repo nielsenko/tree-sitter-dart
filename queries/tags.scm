@@ -108,7 +108,7 @@
   (type_identifier) @name) @definition.type
 
 ; Enum constants
-(enum_constant
+(enum_entry
   name: (identifier) @name) @definition.constant
 
 ; Function call references

@@ -2113,7 +2113,7 @@ module.exports = grammar({
     enum_body: ($) =>
       seq(
         "{",
-        optional(commaSep1TrailingComma($.enum_constant)),
+        optional(commaSep1TrailingComma($.enum_entry)),
         optional(
           seq(
             ";",
@@ -2123,7 +2123,7 @@ module.exports = grammar({
         "}",
       ),
 
-    enum_constant: ($) =>
+    enum_entry: ($) =>
       choice(
         seq(
           optional($._metadata),
