@@ -281,7 +281,7 @@ void main() {
       (block
         (expression_statement
           (list_literal
-            (null_aware_element
+            (null_aware_expression_element
               (identifier))))
         (expression_statement
           (set_or_map_literal
@@ -292,11 +292,11 @@ void main() {
           (set_or_map_literal
             (pair
               key: (identifier)
-              value: (null_aware_element
+              value: (null_aware_expression_element
                 (identifier)))))
         (expression_statement
           (set_or_map_literal
             (null_aware_map_element
               key: (identifier)
-              value: (null_aware_element
+              value: (null_aware_expression_element
                 (identifier)))))))))

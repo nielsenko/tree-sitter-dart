@@ -3846,7 +3846,7 @@
           "named": true
         },
         {
-          "type": "null_aware_element",
+          "type": "null_aware_expression_element",
           "named": true
         },
         {
@@ -5271,7 +5271,7 @@
             "named": true
           },
           {
-            "type": "null_aware_element",
+            "type": "null_aware_expression_element",
             "named": true
           },
           {
@@ -7681,7 +7681,7 @@
             "named": true
           },
           {
-            "type": "null_aware_element",
+            "type": "null_aware_expression_element",
             "named": true
           },
           {
@@ -8013,7 +8013,7 @@
             "named": true
           },
           {
-            "type": "null_aware_element",
+            "type": "null_aware_expression_element",
             "named": true
           },
           {
@@ -9665,7 +9665,7 @@
           "named": true
         },
         {
-          "type": "null_aware_element",
+          "type": "null_aware_expression_element",
           "named": true
         },
         {
@@ -11346,7 +11346,7 @@
     }
   },
   {
-    "type": "null_aware_element",
+    "type": "null_aware_expression_element",
     "named": true,
     "fields": {},
     "children": {
@@ -11985,7 +11985,7 @@
             "named": true
           },
           {
-            "type": "null_aware_element",
+            "type": "null_aware_expression_element",
             "named": true
           },
           {
@@ -13000,7 +13000,7 @@
             "named": true
           },
           {
-            "type": "null_aware_element",
+            "type": "null_aware_expression_element",
             "named": true
           },
           {
@@ -15054,7 +15054,7 @@
           "named": true
         },
         {
-          "type": "null_aware_element",
+          "type": "null_aware_expression_element",
           "named": true
         },
         {

@@ -3275,7 +3275,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "null_aware_element"
+          "name": "null_aware_expression_element"
         },
         {
           "type": "SYMBOL",
@@ -3291,7 +3291,7 @@
         }
       ]
     },
-    "null_aware_element": {
+    "null_aware_expression_element": {
       "type": "SEQ",
       "members": [
         {
@@ -3335,7 +3335,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "null_aware_element"
+                "name": "null_aware_expression_element"
               }
             ]
           }
@@ -3369,7 +3369,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "null_aware_element"
+                "name": "null_aware_expression_element"
               }
             ]
           }
