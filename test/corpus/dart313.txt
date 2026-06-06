@@ -1,0 +1,575 @@
+================================================================================
+Class with semicolon body
+================================================================================
+
+class C;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)))
+
+================================================================================
+Mixin with semicolon body
+================================================================================
+
+mixin N;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (mixin_declaration
+    name: (identifier)))
+
+================================================================================
+Enum with semicolon body
+================================================================================
+
+enum E;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enum_declaration
+    name: (identifier)))
+
+================================================================================
+Extension with semicolon body
+================================================================================
+
+extension Ext on int;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_declaration
+    name: (identifier)
+    class: (type
+      (type_identifier))))
+
+================================================================================
+Extension type with semicolon body
+================================================================================
+
+extension type Meters(int value);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_type_declaration
+    name: (extension_type_name
+      (identifier))
+    representation: (extension_type_representation
+      type: (type
+        (type_identifier))
+      name: (identifier))))
+
+================================================================================
+Primary constructor on class
+================================================================================
+
+class User(final String name, final int age);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    (primary_constructor
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))))
+
+================================================================================
+Primary constructor with class body
+================================================================================
+
+class Point(var int x, var int y) {
+  int get sum => x + y;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    (primary_constructor
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))
+    body: (class_body
+      (class_member
+        (method_declaration
+          signature: (method_signature
+            (getter_signature
+              return_type: (type
+                (type_identifier))
+              name: (identifier)))
+          body: (function_body
+            (additive_expression
+              (identifier)
+              (identifier))))))))
+
+================================================================================
+Named const primary constructor with clauses
+================================================================================
+
+class const D<T extends num>.named(final T x, [final int y = 0]) extends A with M implements B, C;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier)
+        bound: (type
+          (type_identifier))))
+    (primary_constructor
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))
+        (optional_formal_parameters
+          (formal_parameter
+            (type
+              (type_identifier))
+            name: (identifier))
+          (decimal_integer_literal))))
+    superclass: (superclass
+      type: (type
+        (type_identifier))
+      (mixins
+        (type
+          (type_identifier))))
+    interfaces: (interfaces
+      (type
+        (type_identifier))
+      (type
+        (type_identifier)))))
+
+================================================================================
+Primary constructor with named declaring parameters
+================================================================================
+
+class Point(var int x, {required var int y});
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    (primary_constructor
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))
+        (optional_formal_parameters
+          (formal_parameter
+            (type
+              (type_identifier))
+            name: (identifier)))))))
+
+================================================================================
+Primary constructor with super parameter
+================================================================================
+
+class B(super.a) extends A;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    (primary_constructor
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (super_formal_parameter
+            (identifier)))))
+    superclass: (superclass
+      type: (type
+        (type_identifier)))))
+
+================================================================================
+Primary constructor with plain non-declaring parameter
+================================================================================
+
+class DeltaPoint(final int x, int delta);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    (primary_constructor
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))))
+
+================================================================================
+Enum with primary constructor
+================================================================================
+
+enum Direction(final int degrees) {
+  north(0),
+  east(90);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enum_declaration
+    name: (identifier)
+    (primary_constructor
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))
+    body: (enum_body
+      (enum_constant
+        name: (identifier)
+        (arguments
+          (decimal_integer_literal)))
+      (enum_constant
+        name: (identifier)
+        (arguments
+          (decimal_integer_literal))))))
+
+================================================================================
+Extension type with final representation variable
+================================================================================
+
+extension type Meters(final int value);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_type_declaration
+    name: (extension_type_name
+      (identifier))
+    representation: (extension_type_representation
+      type: (type
+        (type_identifier))
+      name: (identifier))))
+
+================================================================================
+Primary constructor body part with assert and block
+================================================================================
+
+class Point(var int x, var int y) {
+  this : assert(x >= 0) {
+    print('created');
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    (primary_constructor
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))
+    body: (class_body
+      (class_member
+        (method_declaration
+          signature: (method_signature
+            (primary_constructor_body_signature
+              (initializers
+                (initializer_list_entry
+                  (assertion
+                    (relational_expression
+                      (identifier)
+                      (relational_operator)
+                      (decimal_integer_literal)))))))
+          body: (function_body
+            (block
+              (expression_statement
+                (call_expression
+                  function: (identifier)
+                  arguments: (arguments
+                    (string_literal
+                      (string_literal_single_quotes
+                        (template_chars_single_single)))))))))))))
+
+================================================================================
+Primary constructor body part with initializers only
+================================================================================
+
+class B(int x) extends A {
+  final String s1;
+  this : s1 = x.toString(), super(x);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    (primary_constructor
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))
+    superclass: (superclass
+      type: (type
+        (type_identifier)))
+    body: (class_body
+      (class_member
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)))))
+      (class_member
+        (declaration
+          (primary_constructor_body_signature
+            (initializers
+              (initializer_list_entry
+                (field_initializer
+                  name: (identifier)
+                  value: (call_expression
+                    function: (member_expression
+                      object: (identifier)
+                      property: (identifier))
+                    arguments: (arguments))))
+              (initializer_list_entry
+                (arguments
+                  (identifier))))))))))
+
+================================================================================
+Abbreviated unnamed constructor
+================================================================================
+
+class Pet {
+  String name;
+  new() : name = 'Fluffy';
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (class_member
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)))))
+      (class_member
+        (declaration
+          (constructor_signature
+            parameters: (formal_parameter_list))
+          (initializers
+            (initializer_list_entry
+              (field_initializer
+                name: (identifier)
+                value: (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single)))))))))))
+
+================================================================================
+Abbreviated named constructor
+================================================================================
+
+class Pet {
+  String name;
+  new withName(this.name);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (class_member
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)))))
+      (class_member
+        (declaration
+          (constructor_signature
+            name: (identifier)
+            parameters: (formal_parameter_list
+              (formal_parameter
+                (constructor_param
+                  (identifier))))))))))
+
+================================================================================
+Abbreviated factory constructors
+================================================================================
+
+class Pet {
+  factory() => Pet();
+  factory anonymous() => Pet();
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (class_member
+        (method_declaration
+          signature: (method_signature
+            (factory_constructor_signature
+              parameters: (formal_parameter_list)))
+          body: (function_body
+            (call_expression
+              function: (identifier)
+              arguments: (arguments)))))
+      (class_member
+        (method_declaration
+          signature: (method_signature
+            (factory_constructor_signature
+              name: (identifier)
+              parameters: (formal_parameter_list)))
+          body: (function_body
+            (call_expression
+              function: (identifier)
+              arguments: (arguments))))))))
+
+================================================================================
+Const and redirecting abbreviated constructors
+================================================================================
+
+class Pet {
+  const new();
+  new redir() : this.named(1);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (class_member
+        (declaration
+          (constant_constructor_signature
+            parameters: (formal_parameter_list))))
+      (class_member
+        (declaration
+          (constructor_signature
+            name: (identifier)
+            parameters: (formal_parameter_list))
+          (redirection
+            (identifier)
+            (arguments
+              (decimal_integer_literal))))))))
+
+================================================================================
+Private named initializing formals
+================================================================================
+
+class Point {
+  final int _x;
+  final int _y;
+  Point({required this._x, required this._y});
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (class_member
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)))))
+      (class_member
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)))))
+      (class_member
+        (declaration
+          (constructor_signature
+            name: (identifier)
+            parameters: (formal_parameter_list
+              (optional_formal_parameters
+                (formal_parameter
+                  (constructor_param
+                    (identifier)))
+                (formal_parameter
+                  (constructor_param
+                    (identifier)))))))))))
+
+================================================================================
+Required keyword binds as keyword not type
+================================================================================
+
+class C {
+  final int x;
+  C({required this.x});
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (class_member
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)))))
+      (class_member
+        (declaration
+          (constructor_signature
+            name: (identifier)
+            parameters: (formal_parameter_list
+              (optional_formal_parameters
+                (formal_parameter
+                  (constructor_param
+                    (identifier)))))))))))
