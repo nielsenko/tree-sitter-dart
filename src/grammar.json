@@ -3695,22 +3695,34 @@
           "name": "throw_expression"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_real_expression"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "cascade_section"
-              }
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "cascade"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_real_expression"
         }
       ]
+    },
+    "cascade": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_real_expression"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "cascade_section"
+            }
+          }
+        ]
+      }
     },
     "_expression_without_cascade": {
       "type": "CHOICE",
@@ -3736,6 +3748,27 @@
           "type": "SYMBOL",
           "name": "conditional_expression"
         },
+        {
+          "type": "SYMBOL",
+          "name": "_binary_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_cast_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_test_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_unary_expression"
+        }
+      ]
+    },
+    "_binary_expression": {
+      "type": "CHOICE",
+      "members": [
         {
           "type": "SYMBOL",
           "name": "logical_or_expression"
@@ -3779,18 +3812,6 @@
         {
           "type": "SYMBOL",
           "name": "multiplicative_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type_cast_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type_test_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_unary_expression"
         }
       ]
     },
@@ -13538,9 +13559,6 @@
       "const_object_expression"
     ],
     [
-      "_expression"
-    ],
-    [
       "_primary",
       "assignable_expression"
     ],
@@ -14043,7 +14061,9 @@
     "_statement",
     "_literal",
     "_declaration",
-    "_instantiation"
+    "_instantiation",
+    "_expression",
+    "_binary_expression"
   ],
   "reserved": {}
 }

@@ -392,17 +392,18 @@ void main() {
     body: (function_body
       (block
         (expression_statement
-          (identifier)
-          (cascade_section
-            (cascade_call_expression
-              property: (identifier)
-              arguments: (arguments
-                (decimal_integer_literal))))
-          (cascade_section
-            (cascade_call_expression
-              property: (identifier)
-              arguments: (arguments
-                (decimal_integer_literal)))))))))
+          (cascade
+            (identifier)
+            (cascade_section
+              (cascade_call_expression
+                property: (identifier)
+                arguments: (arguments
+                  (decimal_integer_literal))))
+            (cascade_section
+              (cascade_call_expression
+                property: (identifier)
+                arguments: (arguments
+                  (decimal_integer_literal))))))))))
 
 ================================================================================
 Built-in identifiers as assignable expressions

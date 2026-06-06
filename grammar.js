@@ -97,7 +97,14 @@ module.exports = grammar({
 
   word: ($) => $._name,
 
-  supertypes: ($) => [$._statement, $._literal, $._declaration, $._instantiation],
+  supertypes: ($) => [
+    $._statement,
+    $._literal,
+    $._declaration,
+    $._instantiation,
+    $._expression,
+    $._binary_expression,
+  ],
 
   precedences: ($) => [
     ["call", "instantiation"],
@@ -141,7 +148,6 @@ module.exports = grammar({
     [$._final_const_var_or_type],
     [$._final_const_var_or_type, $.const_object_expression],
     // Expression ambiguities
-    [$._expression],
     [$._primary, $.assignable_expression],
     [$._primary, $.labeled_statement],
     // Assignable-vs-wrapper: same chain reduces under either name; lookahead picks
@@ -928,8 +934,14 @@ module.exports = grammar({
         $.pattern_assignment,
         $.assignment_expression,
         $.throw_expression,
-        seq($._real_expression, repeat($.cascade_section)),
+        $.cascade,
+        $._real_expression,
       ),
+
+    // Spec: cascade. A receiver expression followed by one or more
+    // cascade sections (`..` / `?..`).
+    cascade: ($) =>
+      prec.right(1, seq($._real_expression, repeat1($.cascade_section))),
 
     _expression_without_cascade: ($) =>
       choice(
@@ -941,6 +953,16 @@ module.exports = grammar({
     _real_expression: ($) =>
       choice(
         $.conditional_expression,
+        $._binary_expression,
+        $.type_cast_expression,
+        $.type_test_expression,
+        $._unary_expression,
+      ),
+
+    // Supertype grouping the spec's binary precedence productions, so
+    // queries can match any binary expression with one pattern.
+    _binary_expression: ($) =>
+      choice(
         $.logical_or_expression,
         $.if_null_expression,
         $.logical_and_expression,
@@ -952,9 +974,6 @@ module.exports = grammar({
         $.shift_expression,
         $.additive_expression,
         $.multiplicative_expression,
-        $.type_cast_expression,
-        $.type_test_expression,
-        $._unary_expression,
       ),
 
     // --- Throw ---
