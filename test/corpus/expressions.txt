@@ -280,7 +280,7 @@ void main() {
             (identifier)))
         (expression_statement
           (unary_expression
-            (negate_operator)
+            (negation_operator)
             (identifier)))
         (expression_statement
           (unary_expression

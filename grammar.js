@@ -1157,7 +1157,7 @@ module.exports = grammar({
         PREC.UNARY_PREFIX,
         choice(
           seq($.prefix_operator, $._unary_expression),
-          seq($.negate_operator, $._unary_expression),
+          seq($.negation_operator, $._unary_expression),
           $.await_expression,
           seq(choice("-", "~"), "super"),
           seq(choice("++", "--"), $.assignable_expression),
@@ -1166,7 +1166,7 @@ module.exports = grammar({
 
     prefix_operator: (_) => choice("-", "~"),
 
-    negate_operator: (_) => "!",
+    negation_operator: (_) => "!",
 
     await_expression: ($) => seq("await", $._unary_expression),
 

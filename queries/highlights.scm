@@ -190,7 +190,7 @@
 
 (relational_operator) @operator
 (prefix_operator) @operator
-(negate_operator) @operator
+(negation_operator) @operator
 (is_operator) @keyword.operator
 (binary_operator) @operator
 

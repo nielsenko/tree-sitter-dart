@@ -4759,7 +4759,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "negate_operator"
+                "name": "negation_operator"
               },
               {
                 "type": "SYMBOL",
@@ -4831,7 +4831,7 @@
         }
       ]
     },
-    "negate_operator": {
+    "negation_operator": {
       "type": "STRING",
       "value": "!"
     },

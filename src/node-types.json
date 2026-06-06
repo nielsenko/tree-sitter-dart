@@ -11023,7 +11023,7 @@
     }
   },
   {
-    "type": "negate_operator",
+    "type": "negation_operator",
     "named": true,
     "fields": {}
   },
@@ -17433,7 +17433,7 @@
           "named": true
         },
         {
-          "type": "negate_operator",
+          "type": "negation_operator",
           "named": true
         },
         {
