@@ -3279,7 +3279,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "null_aware_pair"
+          "name": "null_aware_map_element"
         },
         {
           "type": "SYMBOL",
@@ -3304,7 +3304,7 @@
         }
       ]
     },
-    "null_aware_pair": {
+    "null_aware_map_element": {
       "type": "SEQ",
       "members": [
         {

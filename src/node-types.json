@@ -3854,11 +3854,11 @@
           "named": true
         },
         {
-          "type": "null_aware_member_expression",
+          "type": "null_aware_map_element",
           "named": true
         },
         {
-          "type": "null_aware_pair",
+          "type": "null_aware_member_expression",
           "named": true
         },
         {
@@ -5279,11 +5279,11 @@
             "named": true
           },
           {
-            "type": "null_aware_member_expression",
+            "type": "null_aware_map_element",
             "named": true
           },
           {
-            "type": "null_aware_pair",
+            "type": "null_aware_member_expression",
             "named": true
           },
           {
@@ -7689,11 +7689,11 @@
             "named": true
           },
           {
-            "type": "null_aware_member_expression",
+            "type": "null_aware_map_element",
             "named": true
           },
           {
-            "type": "null_aware_pair",
+            "type": "null_aware_member_expression",
             "named": true
           },
           {
@@ -8021,11 +8021,11 @@
             "named": true
           },
           {
-            "type": "null_aware_member_expression",
+            "type": "null_aware_map_element",
             "named": true
           },
           {
-            "type": "null_aware_pair",
+            "type": "null_aware_member_expression",
             "named": true
           },
           {
@@ -9673,11 +9673,11 @@
           "named": true
         },
         {
-          "type": "null_aware_member_expression",
+          "type": "null_aware_map_element",
           "named": true
         },
         {
-          "type": "null_aware_pair",
+          "type": "null_aware_member_expression",
           "named": true
         },
         {
@@ -11735,101 +11735,7 @@
     }
   },
   {
-    "type": "null_aware_member_expression",
-    "named": true,
-    "fields": {
-      "object": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "_instantiation",
-            "named": true
-          },
-          {
-            "type": "_literal",
-            "named": true
-          },
-          {
-            "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_tearoff",
-            "named": true
-          },
-          {
-            "type": "function_expression",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index_expression",
-            "named": true
-          },
-          {
-            "type": "instantiation_expression",
-            "named": true
-          },
-          {
-            "type": "member_expression",
-            "named": true
-          },
-          {
-            "type": "null_assertion_expression",
-            "named": true
-          },
-          {
-            "type": "null_aware_index_expression",
-            "named": true
-          },
-          {
-            "type": "null_aware_member_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "postfix_expression",
-            "named": true
-          },
-          {
-            "type": "static_member_shorthand",
-            "named": true
-          },
-          {
-            "type": "super",
-            "named": false
-          },
-          {
-            "type": "switch_expression",
-            "named": true
-          },
-          {
-            "type": "this",
-            "named": false
-          }
-        ]
-      },
-      "property": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "null_aware_pair",
+    "type": "null_aware_map_element",
     "named": true,
     "fields": {
       "key": {
@@ -12140,6 +12046,100 @@
           },
           {
             "type": "unary_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "null_aware_member_expression",
+    "named": true,
+    "fields": {
+      "object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_instantiation",
+            "named": true
+          },
+          {
+            "type": "_literal",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
+            "type": "function_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "instantiation_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "null_assertion_expression",
+            "named": true
+          },
+          {
+            "type": "null_aware_index_expression",
+            "named": true
+          },
+          {
+            "type": "null_aware_member_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "postfix_expression",
+            "named": true
+          },
+          {
+            "type": "static_member_shorthand",
+            "named": true
+          },
+          {
+            "type": "super",
+            "named": false
+          },
+          {
+            "type": "switch_expression",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": false
+          }
+        ]
+      },
+      "property": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
             "named": true
           }
         ]
@@ -15062,11 +15062,11 @@
           "named": true
         },
         {
-          "type": "null_aware_member_expression",
+          "type": "null_aware_map_element",
           "named": true
         },
         {
-          "type": "null_aware_pair",
+          "type": "null_aware_member_expression",
           "named": true
         },
         {

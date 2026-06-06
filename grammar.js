@@ -858,14 +858,14 @@ module.exports = grammar({
         $.pair,
         $.spread_element,
         $.null_aware_element,
-        $.null_aware_pair,
+        $.null_aware_map_element,
         $.if_element,
         $.for_element,
       ),
 
     null_aware_element: ($) => seq("?", $._expression),
 
-    null_aware_pair: ($) =>
+    null_aware_map_element: ($) =>
       seq("?", field("key", $._expression), ":", field("value", choice($._expression, $.null_aware_element))),
 
     pair: ($) =>
