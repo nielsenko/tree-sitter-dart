@@ -536,3 +536,126 @@ var mixed = 'a' "b" 'c $x d';
             (template_substitution
               (identifier_dollar_escaped))
             (template_chars_single_single)))))))
+
+================================================================================
+Nested string interpolation
+================================================================================
+
+var a = 'outer ${'inner ${x + 1} mid'} end';
+var b = "${m['key']} and ${f('arg')}";
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (string_literal_single_quotes
+            (template_chars_single_single)
+            (template_substitution
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single)
+                  (template_substitution
+                    (additive_expression
+                      (identifier)
+                      (additive_operator)
+                      (decimal_integer_literal)))
+                  (template_chars_single_single))))
+            (template_chars_single_single))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (string_literal_double_quotes
+            (template_substitution
+              (index_expression
+                (identifier)
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single)))))
+            (template_chars_double_single)
+            (template_substitution
+              (call_expression
+                (identifier)
+                (arguments
+                  (string_literal
+                    (string_literal_single_quotes
+                      (template_chars_single_single))))))))))))
+
+================================================================================
+Nested conditional and loop elements
+================================================================================
+
+var grid = [
+  for (var r = 0; r < n; r++)
+    [
+      for (var c = 0; c < n; c++)
+        if (r == c) 1 else if (r > c) -1 else 0,
+    ],
+  if (extra) ...[
+    for (var e in extras) e,
+  ],
+];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (list_literal
+          (for_element
+            (local_variable_declaration
+              (initialized_variable_declaration
+                (identifier)
+                (decimal_integer_literal)))
+            (relational_expression
+              (identifier)
+              (relational_operator)
+              (identifier))
+            (postfix_expression
+              (assignable_expression
+                (identifier))
+              (increment_operator))
+            (list_literal
+              (for_element
+                (local_variable_declaration
+                  (initialized_variable_declaration
+                    (identifier)
+                    (decimal_integer_literal)))
+                (relational_expression
+                  (identifier)
+                  (relational_operator)
+                  (identifier))
+                (postfix_expression
+                  (assignable_expression
+                    (identifier))
+                  (increment_operator))
+                (if_element
+                  (equality_expression
+                    (identifier)
+                    (equality_operator)
+                    (identifier))
+                  (decimal_integer_literal)
+                  (if_element
+                    (relational_expression
+                      (identifier)
+                      (relational_operator)
+                      (identifier))
+                    (unary_expression
+                      (prefix_operator)
+                      (decimal_integer_literal))
+                    (decimal_integer_literal))))))
+          (if_element
+            (identifier)
+            (spread_element
+              (list_literal
+                (for_element
+                  (identifier)
+                  (identifier)
+                  (identifier))))))))))

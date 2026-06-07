@@ -526,3 +526,132 @@ String describe(Object x) => switch (x) {
           (string_literal
             (string_literal_single_quotes
               (template_chars_single_single))))))))
+
+================================================================================
+Pattern destructuring assignments and declarations
+================================================================================
+
+void f() {
+  var (a, b) = pair;
+  final [x, y, ...rest] = list;
+  var {'k': v} = map;
+  (a, b) = (b, a);
+  var Point(:x, y: py) = pt;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (local_variable_declaration
+          (pattern_variable_declaration
+            (record_pattern
+              (constant_pattern
+                (identifier))
+              (constant_pattern
+                (identifier)))
+            (identifier)))
+        (local_variable_declaration
+          (pattern_variable_declaration
+            (list_pattern
+              (constant_pattern
+                (identifier))
+              (constant_pattern
+                (identifier))
+              (rest_pattern
+                (constant_pattern
+                  (identifier))))
+            (identifier)))
+        (local_variable_declaration
+          (pattern_variable_declaration
+            (map_pattern
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single)))
+              (constant_pattern
+                (identifier)))
+            (identifier)))
+        (expression_statement
+          (pattern_assignment
+            (record_pattern
+              (constant_pattern
+                (identifier))
+              (constant_pattern
+                (identifier)))
+            (record_literal
+              (record_field
+                (identifier))
+              (record_field
+                (identifier)))))
+        (local_variable_declaration
+          (pattern_variable_declaration
+            (object_pattern
+              (type_identifier)
+              (constant_pattern
+                (identifier))
+              (label
+                (identifier))
+              (constant_pattern
+                (identifier)))
+            (identifier)))))))
+
+================================================================================
+For-in over record patterns
+================================================================================
+
+void f(List<(String, int)> entries) {
+  for (var (name, count) in entries) {
+    print('$name: $count');
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier)
+            (type_arguments
+              (type
+                (record_type
+                  (record_type_field
+                    (type
+                      (type_identifier)))
+                  (record_type_field
+                    (type
+                      (type_identifier)))))))
+          (identifier))))
+    (function_body
+      (block
+        (for_statement
+          (record_pattern
+            (constant_pattern
+              (identifier))
+            (constant_pattern
+              (identifier)))
+          (identifier)
+          (block
+            (expression_statement
+              (call_expression
+                (identifier)
+                (arguments
+                  (string_literal
+                    (string_literal_single_quotes
+                      (template_substitution
+                        (identifier_dollar_escaped))
+                      (template_chars_single_single)
+                      (template_substitution
+                        (identifier_dollar_escaped)))))))))))))

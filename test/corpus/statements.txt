@@ -596,3 +596,144 @@ Future<void> h(Stream<int> s) async {
                 (identifier)
                 (arguments
                   (identifier))))))))))
+
+================================================================================
+Try variants: multiple on clauses, catch combinations, rethrow
+================================================================================
+
+void f() {
+  try {
+    risky();
+  } on FormatException {
+    recover();
+  } on IOException catch (e) {
+    log(e);
+    rethrow;
+  } catch (e, st) {
+    report(e, st);
+  } finally {
+    cleanup();
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (try_statement
+          (block
+            (expression_statement
+              (call_expression
+                (identifier)
+                (arguments))))
+          (type
+            (type_identifier))
+          (block
+            (expression_statement
+              (call_expression
+                (identifier)
+                (arguments))))
+          (type
+            (type_identifier))
+          (catch_clause
+            (identifier))
+          (block
+            (expression_statement
+              (call_expression
+                (identifier)
+                (arguments
+                  (identifier))))
+            (rethrow_statement))
+          (catch_clause
+            (identifier)
+            (identifier))
+          (block
+            (expression_statement
+              (call_expression
+                (identifier)
+                (arguments
+                  (identifier)
+                  (identifier)))))
+          (finally_clause
+            (block
+              (expression_statement
+                (call_expression
+                  (identifier)
+                  (arguments))))))))))
+
+================================================================================
+Statement starters: parenthesized, await, prefix operators
+================================================================================
+
+Future<void> f() async {
+  (callback ?? fallback)();
+  await init();
+  ++counter;
+  --counter;
+  !valid ? fail() : ok();
+  -offset.abs();
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (void_type))))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (expression_statement
+          (call_expression
+            (parenthesized_expression
+              (if_null_expression
+                (identifier)
+                (identifier)))
+            (arguments)))
+        (expression_statement
+          (unary_expression
+            (await_expression
+              (call_expression
+                (identifier)
+                (arguments)))))
+        (expression_statement
+          (unary_expression
+            (increment_operator)
+            (assignable_expression
+              (identifier))))
+        (expression_statement
+          (unary_expression
+            (increment_operator)
+            (assignable_expression
+              (identifier))))
+        (expression_statement
+          (conditional_expression
+            (unary_expression
+              (negation_operator)
+              (identifier))
+            (call_expression
+              (identifier)
+              (arguments))
+            (call_expression
+              (identifier)
+              (arguments))))
+        (expression_statement
+          (unary_expression
+            (prefix_operator)
+            (call_expression
+              (member_expression
+                (identifier)
+                (identifier))
+              (arguments))))))))

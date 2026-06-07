@@ -1590,3 +1590,56 @@ class P {
                   (decimal_integer_literal)
                   (relational_operator)
                   (decimal_integer_literal))))))))))
+
+================================================================================
+Generic tearoffs and instantiations as arguments
+================================================================================
+
+void f() {
+  register(parse<int>);
+  apply(List<String>.new, Map.new);
+  sorted.sort(compare<num>);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments
+              (instantiation_expression
+                (identifier)
+                (type_arguments
+                  (type
+                    (type_identifier)))))))
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments
+              (constructor_tearoff
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (type_identifier))))
+              (constructor_tearoff
+                (type_identifier)))))
+        (expression_statement
+          (call_expression
+            (member_expression
+              (identifier)
+              (identifier))
+            (arguments
+              (instantiation_expression
+                (identifier)
+                (type_arguments
+                  (type
+                    (type_identifier)))))))))))

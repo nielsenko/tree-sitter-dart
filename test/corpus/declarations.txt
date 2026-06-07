@@ -1907,3 +1907,453 @@ class C<@Tag T> {
                   (decimal_integer_literal)))))
           (function_body
             (block)))))))
+
+================================================================================
+Class modifier combinations
+================================================================================
+
+sealed class S {}
+abstract base class AB {}
+interface class I {}
+final class F extends S {}
+abstract base mixin class ABM {}
+base mixin M on S implements Comparable<S> {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body))
+  (class_declaration
+    (identifier)
+    (class_body))
+  (class_declaration
+    (identifier)
+    (class_body))
+  (class_declaration
+    (identifier)
+    (superclass
+      (type
+        (type_identifier)))
+    (class_body))
+  (class_declaration
+    (identifier)
+    (class_body))
+  (mixin_declaration
+    (identifier)
+    (type
+      (type_identifier))
+    (interfaces
+      (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (type_identifier)))))
+    (class_body)))
+
+================================================================================
+Abstract members and covariant fields
+================================================================================
+
+abstract class A {
+  abstract int unbacked;
+  abstract covariant num tunable;
+  void declared();
+  int get computed;
+  set stored(int v);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (declaration
+          (type
+            (type_identifier))
+          (identifier_list
+            (identifier))))
+      (member_declaration
+        (declaration
+          (type
+            (type_identifier))
+          (identifier_list
+            (identifier))))
+      (member_declaration
+        (declaration
+          (function_signature
+            (type
+              (void_type))
+            (identifier)
+            (formal_parameter_list))))
+      (member_declaration
+        (declaration
+          (getter_signature
+            (type
+              (type_identifier))
+            (identifier))))
+      (member_declaration
+        (declaration
+          (setter_signature
+            (identifier)
+            (formal_parameter_list
+              (formal_parameter
+                (type
+                  (type_identifier))
+                (identifier)))))))))
+
+================================================================================
+Complete operator declaration set
+================================================================================
+
+class V {
+  V operator -() => this;
+  V operator -(V other) => other;
+  V operator ~() => this;
+  bool operator ==(Object other) => false;
+  V operator |(V o) => o;
+  V operator ^(V o) => o;
+  V operator <<(int n) => this;
+  V operator >>(int n) => this;
+  V operator >>>(int n) => this;
+  V operator %(V o) => o;
+  V operator ~/(V o) => o;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list)))
+          (function_body)))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (identifier))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (formal_parameter_list)))
+          (function_body)))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (false))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (identifier))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (identifier))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body)))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body)))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body)))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (identifier))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (identifier)))))))
+
+================================================================================
+Default values with complex expressions
+================================================================================
+
+void f([
+  int a = 1 + 2,
+  List<int> b = const [1, 2],
+  Map<String, int> c = const {'k': 1},
+  int Function(int) g = identity,
+]) {}
+void h({Duration wait = const Duration(seconds: 1)}) {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (optional_formal_parameters
+          (formal_parameter
+            (type
+              (type_identifier))
+            (identifier))
+          (additive_expression
+            (decimal_integer_literal)
+            (additive_operator)
+            (decimal_integer_literal))
+          (formal_parameter
+            (type
+              (type_identifier)
+              (type_arguments
+                (type
+                  (type_identifier))))
+            (identifier))
+          (list_literal
+            (decimal_integer_literal)
+            (decimal_integer_literal))
+          (formal_parameter
+            (type
+              (type_identifier)
+              (type_arguments
+                (type
+                  (type_identifier))
+                (type
+                  (type_identifier))))
+            (identifier))
+          (set_or_map_literal
+            (map_element
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single)))
+              (decimal_integer_literal)))
+          (formal_parameter
+            (type
+              (function_type
+                (type
+                  (type_identifier))
+                (parameter_type_list
+                  (normal_parameter_type
+                    (type
+                      (type_identifier))))))
+            (identifier))
+          (identifier))))
+    (function_body
+      (block)))
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (optional_formal_parameters
+          (formal_parameter
+            (type
+              (type_identifier))
+            (identifier))
+          (const_object_expression
+            (type
+              (type_identifier))
+            (arguments
+              (named_argument
+                (label
+                  (identifier))
+                (decimal_integer_literal)))))))
+    (function_body
+      (block))))
+
+================================================================================
+Extension type with members
+================================================================================
+
+extension type const Meters(double value) implements Comparable<Meters> {
+  Meters operator +(Meters o) => Meters(value + o.value);
+  double get km => value / 1000;
+  static Meters zero = const Meters(0);
+  @override
+  int compareTo(Meters o) => value.compareTo(o.value);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_type_declaration
+    (extension_type_name
+      (identifier))
+    (extension_type_representation
+      (type
+        (type_identifier))
+      (identifier))
+    (type
+      (type_identifier)
+      (type_arguments
+        (type
+          (type_identifier))))
+    (class_body
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (call_expression
+              (identifier)
+              (arguments
+                (additive_expression
+                  (identifier)
+                  (additive_operator)
+                  (member_expression
+                    (identifier)
+                    (identifier))))))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (getter_signature
+              (type
+                (type_identifier))
+              (identifier)))
+          (function_body
+            (multiplicative_expression
+              (identifier)
+              (multiplicative_operator)
+              (decimal_integer_literal)))))
+      (member_declaration
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              (identifier)
+              (const_object_expression
+                (type
+                  (type_identifier))
+                (arguments
+                  (decimal_integer_literal)))))))
+      (member_declaration
+        (method_declaration
+          (annotation
+            (identifier))
+          (method_signature
+            (function_signature
+              (type
+                (type_identifier))
+              (identifier)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (call_expression
+              (member_expression
+                (identifier)
+                (identifier))
+              (arguments
+                (member_expression
+                  (identifier)
+                  (identifier))))))))))
