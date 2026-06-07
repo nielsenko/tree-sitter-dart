@@ -1345,9 +1345,11 @@ module.exports = grammar({
       ),
 
     constructor_tearoff: ($) =>
-      prec.right(
+      // Dynamic precedence: `List<int>.new` is a tearoff, not a member
+      // access on an instantiation_expression.
+      prec.dynamic(1, prec.right(
         seq($._type_name, optional($.type_arguments), ".", "new"),
-      ),
+      )),
 
     // Dot shorthand syntax (Dart 3.10+)
     static_member_shorthand: ($) =>
@@ -1925,7 +1927,7 @@ module.exports = grammar({
         choice("*", "/", "%", "~/"),
         choice("+", "-"),
         choice("<<", ">>>", ">>"),
-        $.relational_operator,
+        choice("<", ">", "<=", ">="),
         "==",
         "|",
         "^",

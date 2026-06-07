@@ -701,3 +701,303 @@ class A extends B {
             (call_expression
               arguments: (arguments
                 (identifier)))))))))
+
+================================================================================
+Index and null-aware postfix chains
+================================================================================
+
+var a = list[0];
+var b = obj?.field;
+var c = list?[0];
+var d = obj?.items[0].name;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (index_expression
+          (identifier)
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (null_aware_member_expression
+          (identifier)
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (null_aware_index_expression
+          (identifier)
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (member_expression
+          (index_expression
+            (null_aware_member_expression
+              (identifier)
+              (identifier))
+            (decimal_integer_literal))
+          (identifier))))))
+
+================================================================================
+Cascade index and null-aware sections
+================================================================================
+
+void f() {
+  obj
+    ..items[0] = 1
+    ..child?.go()
+    ..map?['k'];
+  other?..name = 'x';
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (expression_statement
+          (cascade
+            (identifier)
+            (cascade_section
+              (cascade_index_expression
+                (cascade_selector
+                  (identifier))
+                (decimal_integer_literal))
+              (decimal_integer_literal))
+            (cascade_section
+              (cascade_call_expression
+                (cascade_null_aware_member_expression
+                  (cascade_selector
+                    (identifier))
+                  (identifier))
+                (arguments)))
+            (cascade_section
+              (cascade_null_aware_index_expression
+                (cascade_selector
+                  (identifier))
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single)))))))
+        (expression_statement
+          (cascade
+            (identifier)
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single))))))))))
+
+================================================================================
+Legacy new and const object expressions
+================================================================================
+
+var p = new Point(1, 2);
+var q = const Point(3, 4);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (new_expression
+          (type
+            (type_identifier))
+          (arguments
+            (decimal_integer_literal)
+            (decimal_integer_literal))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (const_object_expression
+          (type
+            (type_identifier))
+          (arguments
+            (decimal_integer_literal)
+            (decimal_integer_literal)))))))
+
+================================================================================
+Constructor tearoffs and instantiation expressions
+================================================================================
+
+var t = List<int>.new;
+var u = f<int, String>;
+var v = Map.new;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (constructor_tearoff
+          (type_identifier)
+          (type_arguments
+            (type
+              (type_identifier)))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (instantiation_expression
+          (identifier)
+          (type_arguments
+            (type
+              (type_identifier))
+            (type
+              (type_identifier)))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (constructor_tearoff
+          (type_identifier))))))
+
+================================================================================
+Function expressions
+================================================================================
+
+var add = (int a, int b) {
+  return a + b;
+};
+var sq = (x) => x * x;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (function_expression
+          (formal_parameter_list
+            (formal_parameter
+              (type
+                (type_identifier))
+              (identifier))
+            (formal_parameter
+              (type
+                (type_identifier))
+              (identifier)))
+          (function_expression_body
+            (block
+              (return_statement
+                (additive_expression
+                  (identifier)
+                  (additive_operator)
+                  (identifier)))))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (function_expression
+          (formal_parameter_list
+            (formal_parameter
+              (identifier)))
+          (function_expression_body
+            (multiplicative_expression
+              (identifier)
+              (multiplicative_operator)
+              (identifier))))))))
+
+================================================================================
+Annotation with qualified name
+================================================================================
+
+@angular.Component(selector: 'x')
+class C {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (annotation
+      (qualified_name
+        (type_identifier)
+        (identifier))
+      (annotation_arguments
+        (annotation_open_paren)
+        (named_argument
+          (label
+            (identifier))
+          (string_literal
+            (string_literal_single_quotes
+              (template_chars_single_single))))))
+    (identifier)
+    (class_body)))
+
+================================================================================
+Operator declarations
+================================================================================
+
+class V {
+  V operator +(V other) => other;
+  bool operator <=(V other) => true;
+  V operator [](int i) => this;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (identifier))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (true))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body))))))

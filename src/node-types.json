@@ -848,17 +848,7 @@
   {
     "type": "binary_operator",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "relational_operator",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "bitwise_and_expression",
