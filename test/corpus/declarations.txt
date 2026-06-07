@@ -1615,3 +1615,295 @@ class A {
             (identifier)
             (identifier)
             (formal_parameter_list)))))))
+
+================================================================================
+Extension with operators, getters, and static members
+================================================================================
+
+extension NumX on num {
+  num get half => this / 2;
+  set scaled(num v) {}
+  num operator &(num o) => 0;
+  static const tag = 'x';
+  static num parse(String s) => 0;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_declaration
+    (identifier)
+    (type
+      (type_identifier))
+    (extension_body
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (getter_signature
+              (type
+                (type_identifier))
+              (identifier)))
+          (function_body
+            (multiplicative_expression
+              (multiplicative_operator)
+              (decimal_integer_literal)))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (setter_signature
+              (identifier)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (block))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (decimal_integer_literal))))
+      (member_declaration
+        (declaration
+          (static_final_declaration_list
+            (static_final_declaration
+              (identifier)
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single)))))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (function_signature
+              (type
+                (type_identifier))
+              (identifier)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (decimal_integer_literal)))))))
+
+================================================================================
+Enhanced enum full form
+================================================================================
+
+enum Planet<T> with Orbits implements Comparable<Planet<T>> {
+  mercury(3.7, label: 'M'),
+  earth.named(9.8);
+
+  const Planet(this.gravity, {String? label});
+  const Planet.named(double g) : this(g);
+  final double gravity;
+  @override
+  int compareTo(Planet<T> other) => 0;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enum_declaration
+    (identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (mixins
+      (type
+        (type_identifier)))
+    (interfaces
+      (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (type_identifier)
+            (type_arguments
+              (type
+                (type_identifier)))))))
+    (enum_body
+      (enum_entry
+        (identifier)
+        (arguments
+          (decimal_floating_point_literal)
+          (named_argument
+            (label
+              (identifier))
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single))))))
+      (enum_entry
+        (identifier)
+        (identifier)
+        (arguments
+          (decimal_floating_point_literal)))
+      (member_declaration
+        (declaration
+          (constant_constructor_signature
+            (identifier)
+            (formal_parameter_list
+              (formal_parameter
+                (field_formal_parameter
+                  (identifier)))
+              (optional_formal_parameters
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))))
+      (member_declaration
+        (declaration
+          (constant_constructor_signature
+            (identifier)
+            (identifier)
+            (formal_parameter_list
+              (formal_parameter
+                (type
+                  (type_identifier))
+                (identifier))))
+          (redirection
+            (arguments
+              (identifier)))))
+      (member_declaration
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              (identifier)))))
+      (member_declaration
+        (method_declaration
+          (annotation
+            (identifier))
+          (method_signature
+            (function_signature
+              (type
+                (type_identifier))
+              (identifier)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier)
+                    (type_arguments
+                      (type
+                        (type_identifier))))
+                  (identifier)))))
+          (function_body
+            (decimal_integer_literal)))))))
+
+================================================================================
+Covariant and super parameter variants
+================================================================================
+
+class B extends A {
+  B(super.first, {super.second = 5, required super.third});
+  B.fwd(int x) : super(x);
+  void m(covariant int strict) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (superclass
+      (type
+        (type_identifier)))
+    (class_body
+      (member_declaration
+        (declaration
+          (constructor_signature
+            (identifier)
+            (formal_parameter_list
+              (formal_parameter
+                (super_formal_parameter
+                  (identifier)))
+              (optional_formal_parameters
+                (formal_parameter
+                  (super_formal_parameter
+                    (identifier)))
+                (decimal_integer_literal)
+                (formal_parameter
+                  (super_formal_parameter
+                    (identifier))))))))
+      (member_declaration
+        (declaration
+          (constructor_signature
+            (identifier)
+            (identifier)
+            (formal_parameter_list
+              (formal_parameter
+                (type
+                  (type_identifier))
+                (identifier))))
+          (initializers
+            (initializer_list_entry
+              (arguments
+                (identifier))))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (function_signature
+              (type
+                (void_type))
+              (identifier)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (block)))))))
+
+================================================================================
+Metadata placement on parameters and type parameters
+================================================================================
+
+class C<@Tag T> {
+  void m(@Tag int a, [@Tag int b = 0]) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (type_parameters
+      (type_parameter
+        (annotation
+          (identifier))
+        (type_identifier)))
+    (class_body
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (function_signature
+              (type
+                (void_type))
+              (identifier)
+              (formal_parameter_list
+                (formal_parameter
+                  (annotation
+                    (identifier))
+                  (type
+                    (type_identifier))
+                  (identifier))
+                (optional_formal_parameters
+                  (formal_parameter
+                    (annotation
+                      (identifier))
+                    (type
+                      (type_identifier))
+                    (identifier))
+                  (decimal_integer_literal)))))
+          (function_body
+            (block)))))))

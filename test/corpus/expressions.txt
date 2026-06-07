@@ -1345,3 +1345,248 @@ var l = Padding.lerp(.zero, .all(8), t);
               (arguments
                 (decimal_integer_literal)))
             (identifier)))))))
+
+================================================================================
+Compound assignment to index and member targets
+================================================================================
+
+void f() {
+  a[0] += 1;
+  obj.x ??= fallback;
+  grid[i][j] *= 2;
+  obj.list[k] -= delta;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier)
+              (decimal_integer_literal))
+            (decimal_integer_literal)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier)
+              (identifier))
+            (identifier)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (index_expression
+                (identifier)
+                (identifier))
+              (identifier))
+            (decimal_integer_literal)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (member_expression
+                (identifier)
+                (identifier))
+              (identifier))
+            (identifier)))))))
+
+================================================================================
+Immediately invoked function expression and throw expression
+================================================================================
+
+var r = (() => 42)();
+var t = flag ? value : throw StateError('no');
+void g() => throw UnimplementedError();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (call_expression
+          (parenthesized_expression
+            (function_expression
+              (formal_parameter_list)
+              (function_expression_body
+                (decimal_integer_literal))))
+          (arguments)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (conditional_expression
+          (identifier)
+          (identifier)
+          (throw_expression
+            (call_expression
+              (identifier)
+              (arguments
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single))))))))))
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (throw_expression
+        (call_expression
+          (identifier)
+          (arguments))))))
+
+================================================================================
+Generic method declarations and bounded type parameters
+================================================================================
+
+class Box {
+  T pick<T extends Comparable<T>>(List<T> items) => items.first;
+  Map<K, V> zip<K, V>(List<K> ks, List<V> vs) => {};
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (function_signature
+              (type
+                (type_identifier))
+              (identifier)
+              (type_parameters
+                (type_parameter
+                  (type_identifier)
+                  (type
+                    (type_identifier)
+                    (type_arguments
+                      (type
+                        (type_identifier))))))
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier)
+                    (type_arguments
+                      (type
+                        (type_identifier))))
+                  (identifier)))))
+          (function_body
+            (member_expression
+              (identifier)
+              (identifier)))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (function_signature
+              (type
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (type_identifier))
+                  (type
+                    (type_identifier))))
+              (identifier)
+              (type_parameters
+                (type_parameter
+                  (type_identifier))
+                (type_parameter
+                  (type_identifier)))
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier)
+                    (type_arguments
+                      (type
+                        (type_identifier))))
+                  (identifier))
+                (formal_parameter
+                  (type
+                    (type_identifier)
+                    (type_arguments
+                      (type
+                        (type_identifier))))
+                  (identifier)))))
+          (function_body
+            (set_or_map_literal)))))))
+
+================================================================================
+Assert in constructor initializer chains
+================================================================================
+
+class P {
+  final int x;
+  P(this.x)
+      : assert(x >= 0, 'negative'),
+        assert(x < 100);
+  const P.unit()
+      : x = 1,
+        assert(1 > 0);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              (identifier)))))
+      (member_declaration
+        (declaration
+          (constructor_signature
+            (identifier)
+            (formal_parameter_list
+              (formal_parameter
+                (field_formal_parameter
+                  (identifier)))))
+          (initializers
+            (initializer_list_entry
+              (assertion
+                (relational_expression
+                  (identifier)
+                  (relational_operator)
+                  (decimal_integer_literal))
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single)))))
+            (initializer_list_entry
+              (assertion
+                (relational_expression
+                  (identifier)
+                  (relational_operator)
+                  (decimal_integer_literal)))))))
+      (member_declaration
+        (declaration
+          (constant_constructor_signature
+            (identifier)
+            (identifier)
+            (formal_parameter_list))
+          (initializers
+            (initializer_list_entry
+              (field_initializer
+                (identifier)
+                (decimal_integer_literal)))
+            (initializer_list_entry
+              (assertion
+                (relational_expression
+                  (decimal_integer_literal)
+                  (relational_operator)
+                  (decimal_integer_literal))))))))))
