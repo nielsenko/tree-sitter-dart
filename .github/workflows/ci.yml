@@ -35,6 +35,9 @@ jobs:
       - name: Build parser and run unit tests
         run: npm run build-test
 
+      - name: Check node coverage of unit tests
+        run: npm run coverage
+
       - name: Build Rust crate
         run: cargo build --release
 

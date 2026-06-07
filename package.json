@@ -5,7 +5,7 @@
   "repository": "https://github.com/nielsenko/tree-sitter-dart",
   "license": "MIT",
   "author": {
-    "name": "Kasper Overgård Nielsen",
+    "name": "Kasper Overg\u00e5rd Nielsen",
     "email": "kasper@byolimit.com"
   },
   "main": "bindings/node",
@@ -47,6 +47,7 @@
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
     "test": "node --test bindings/node/*_test.js",
-    "build-test": "tree-sitter generate && node-gyp build && tree-sitter test"
+    "build-test": "tree-sitter generate && node-gyp build && tree-sitter test && node tools/check_coverage.mjs",
+    "coverage": "node tools/check_coverage.mjs"
   }
 }
