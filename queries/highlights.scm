@@ -28,10 +28,11 @@
 (template_chars_double_single) @string
 (template_chars_raw_slash) @string
 (escape_sequence) @string.escape
+(template_substitution "$" @punctuation.special)
+(template_substitution "{" @punctuation.special)
+(template_substitution "}" @punctuation.special)
 (template_substitution
-  "$" @punctuation.special
-  "{" @punctuation.special
-  "}" @punctuation.special)
+  (identifier_dollar_escaped) @variable)
 
 (symbol_literal) @string.special.symbol
 

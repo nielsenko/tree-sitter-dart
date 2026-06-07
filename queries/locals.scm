@@ -80,6 +80,23 @@
 (type_parameter
   (type_identifier) @local.definition)
 
+; Constructors (definitions, so the class-name segment does not inherit
+; the class definition's @type highlight via reference resolution)
+(constructor_signature
+  name: (identifier) @local.definition)
+
+(constant_constructor_signature
+  (identifier) @local.definition)
+
+(factory_constructor_signature
+  (identifier) @local.definition)
+
+(redirecting_factory_constructor_signature
+  (identifier) @local.definition)
+
+(primary_constructor
+  name: (identifier) @local.definition)
+
 ; Import aliases
 (import_specification
   alias: (identifier) @local.definition)
