@@ -1013,3 +1013,100 @@ class V {
                     (type_identifier))
                   (identifier)))))
           (function_body))))))
+
+================================================================================
+Compound assignment operators
+================================================================================
+
+void f() {
+  a += 1;
+  a -= 1;
+  a *= 2;
+  a /= 2;
+  a ~/= 2;
+  a %= 3;
+  a <<= 1;
+  a >>= 1;
+  a >>>= 1;
+  a &= m;
+  a |= m;
+  a ^= m;
+  a ??= d;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (decimal_integer_literal)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (decimal_integer_literal)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (decimal_integer_literal)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (decimal_integer_literal)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (decimal_integer_literal)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (decimal_integer_literal)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (decimal_integer_literal)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (decimal_integer_literal)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (decimal_integer_literal)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (identifier)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (identifier)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (identifier)))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (identifier)))))))

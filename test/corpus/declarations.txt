@@ -1292,3 +1292,157 @@ void f(List<int> xs) {
           (identifier)
           (identifier)
           (block))))))
+
+================================================================================
+Late variables and fields
+================================================================================
+
+late int counter;
+late final String name = compute();
+
+class C {
+  late final int _cache;
+  late double ratio = 1.0;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (type
+      (type_identifier))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier))))
+  (top_level_variable_declaration
+    (type
+      (type_identifier))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (call_expression
+          (identifier)
+          (arguments)))))
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              (identifier)))))
+      (member_declaration
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              (identifier)
+              (decimal_floating_point_literal))))))))
+
+================================================================================
+Deferred import and hide combinator
+================================================================================
+
+import 'big.dart' deferred as big;
+import 'util.dart' hide internal, secret;
+export 'api.dart' show publicThing hide legacyThing;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import_or_export
+    (library_import
+      (import_specification
+        (uri
+          (string_literal
+            (string_literal_single_quotes
+              (template_chars_single_single))))
+        (identifier))))
+  (import_or_export
+    (library_import
+      (import_specification
+        (configurable_uri
+          (uri
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single)))))
+        (combinator
+          (identifier)
+          (identifier)))))
+  (import_or_export
+    (library_export
+      (configurable_uri
+        (uri
+          (string_literal
+            (string_literal_single_quotes
+              (template_chars_single_single)))))
+      (combinator
+        (identifier))
+      (combinator
+        (identifier)))))
+
+================================================================================
+Index assignment operator declaration
+================================================================================
+
+class M {
+  void operator []=(int i, Object v) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (void_type))
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier))
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (block)))))))
+
+================================================================================
+Inline class
+================================================================================
+
+inline class Wrapper {
+  final int value;
+  Wrapper(this.value);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              (identifier)))))
+      (member_declaration
+        (declaration
+          (constructor_signature
+            (identifier)
+            (formal_parameter_list
+              (formal_parameter
+                (field_formal_parameter
+                  (identifier))))))))))
