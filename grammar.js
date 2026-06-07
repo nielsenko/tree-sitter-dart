@@ -175,6 +175,9 @@ module.exports = grammar({
     [$.type, $._type_not_function_inner],
     [$.type, $._type_not_function_inner, $._function_type_tail],
     [$._type_not_function_inner, $._function_type_tail, $._built_in_identifier],
+    [$.identifier, $.await_expression],
+    [$.identifier, $.yield_statement],
+    [$.identifier, $.yield_each_statement],
     [$._type_not_void_inner, $._function_type_tail, $._built_in_identifier],
     [$._type_not_void_not_function_inner, $._function_type_tail, $._built_in_identifier],
     [$.type, $._type_not_void_not_function_inner],
@@ -1215,7 +1218,11 @@ module.exports = grammar({
 
     negation_operator: (_) => "!",
 
-    await_expression: ($) => seq("await", $._unary_expression),
+    // Dynamic precedence: when `await x` is viable both as an await
+    // expression and as uses of an identifier named `await`, prefer the
+    // await expression. That matches the analyzer in async contexts, and the
+    // identifier reading only survives where the keyword form cannot parse.
+    await_expression: ($) => prec.dynamic(3, seq("await", $._unary_expression)),
 
     // --- Postfix ---
 
@@ -1714,9 +1721,9 @@ module.exports = grammar({
 
     return_statement: ($) => seq("return", optional($._expression), ";"),
 
-    yield_statement: ($) => seq("yield", $._expression, ";"),
+    yield_statement: ($) => prec.dynamic(3, seq("yield", $._expression, ";")),
 
-    yield_each_statement: ($) => seq("yield", "*", $._expression, ";"),
+    yield_each_statement: ($) => prec.dynamic(3, seq("yield", "*", $._expression, ";")),
 
     // --- Assert ---
 
@@ -2465,7 +2472,16 @@ module.exports = grammar({
       ),
 
     // The "super-identifier" - accepts both regular names and contextual keywords
-    identifier: ($) => choice($._name, $._built_in_identifier),
+    identifier: ($) =>
+      choice(
+        $._name,
+        $._built_in_identifier,
+        // Contextual keywords: legal identifiers outside async/generator
+        // bodies. The analyzer accepts them, and await_expression/yield win
+        // via dynamic precedence when both parses are viable.
+        "await",
+        "yield",
+      ),
 
     // ========================================================================
     // Comments

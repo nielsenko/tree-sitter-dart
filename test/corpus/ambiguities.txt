@@ -698,8 +698,85 @@ T Function<T>(T Function(T) f) higher = id;
         (identifier)))))
 
 ================================================================================
-Invalid: reserved word as identifier
-:error
+Contextual keywords await and yield as identifiers
 ================================================================================
 
-var x = for + 0;
+int await = 6;
+int yield = 7;
+void syncCtx() {
+  var await = 1;
+  print(await + yield);
+}
+Future<void> asyncCtx() async {
+  var r = await fetch();
+  await (cond ? fast() : slow());
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (type
+      (type_identifier))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (type
+      (type_identifier))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (decimal_integer_literal)))
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments
+              (additive_expression
+                (identifier)
+                (additive_operator)
+                (identifier))))))))
+  (function_declaration
+    (function_signature
+      (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (void_type))))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (unary_expression
+              (await_expression
+                (call_expression
+                  (identifier)
+                  (arguments))))))
+        (expression_statement
+          (unary_expression
+            (await_expression
+              (parenthesized_expression
+                (conditional_expression
+                  (identifier)
+                  (call_expression
+                    (identifier)
+                    (arguments))
+                  (call_expression
+                    (identifier)
+                    (arguments)))))))))))
