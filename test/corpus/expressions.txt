@@ -1708,3 +1708,121 @@ class C extends B {
                   (identifier)
                   (member_expression
                     (identifier)))))))))))
+
+================================================================================
+Const canonicalization forms
+================================================================================
+
+void f() {
+  const a = bool.fromEnvironment('dart.library.io');
+  final b = const <int>[];
+  final c = const <String, int>{};
+  final d = identical(const [], const []);
+  const e = Duration(seconds: 1);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (call_expression
+              (member_expression
+                (identifier)
+                (identifier))
+              (arguments
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single)))))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (list_literal
+              (type_arguments
+                (type
+                  (type_identifier))))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (set_or_map_literal
+              (type_arguments
+                (type
+                  (type_identifier))
+                (type
+                  (type_identifier))))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (call_expression
+              (identifier)
+              (arguments
+                (list_literal)
+                (list_literal)))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (call_expression
+              (identifier)
+              (arguments
+                (named_argument
+                  (label
+                    (identifier))
+                  (decimal_integer_literal))))))))))
+
+================================================================================
+Long null-aware chains
+================================================================================
+
+var a = root?.child?.leaf?.value;
+var b = m?['k']?.length;
+var c = obj?.list?[0]?.run()?.next;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (null_aware_member_expression
+          (null_aware_member_expression
+            (null_aware_member_expression
+              (identifier)
+              (identifier))
+            (identifier))
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (null_aware_member_expression
+          (null_aware_index_expression
+            (identifier)
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single))))
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (null_aware_member_expression
+          (call_expression
+            (null_aware_member_expression
+              (null_aware_index_expression
+                (null_aware_member_expression
+                  (identifier)
+                  (identifier))
+                (decimal_integer_literal))
+              (identifier))
+            (arguments))
+          (identifier))))))

@@ -737,3 +737,212 @@ Future<void> f() async {
                 (identifier)
                 (identifier))
               (arguments))))))))
+
+================================================================================
+Async closures and awaited chains
+================================================================================
+
+void f() {
+  run(() async => await fetch());
+  schedule(() async {
+    final r = await Future.wait([a(), b()]);
+    await (cond ? fast() : slow());
+  });
+  items.forEach((e) async { await save(e); });
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments
+              (call_expression
+                (function_expression
+                  (formal_parameter_list)
+                  (function_expression_body
+                    (unary_expression
+                      (await_expression
+                        (identifier)))))
+                (arguments)))))
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments
+              (function_expression
+                (formal_parameter_list)
+                (function_expression_body
+                  (block
+                    (local_variable_declaration
+                      (initialized_variable_declaration
+                        (identifier)
+                        (unary_expression
+                          (await_expression
+                            (call_expression
+                              (member_expression
+                                (identifier)
+                                (identifier))
+                              (arguments
+                                (list_literal
+                                  (call_expression
+                                    (identifier)
+                                    (arguments))
+                                  (call_expression
+                                    (identifier)
+                                    (arguments)))))))))
+                    (expression_statement
+                      (unary_expression
+                        (await_expression
+                          (parenthesized_expression
+                            (conditional_expression
+                              (identifier)
+                              (call_expression
+                                (identifier)
+                                (arguments))
+                              (call_expression
+                                (identifier)
+                                (arguments)))))))))))))
+        (expression_statement
+          (call_expression
+            (member_expression
+              (identifier)
+              (identifier))
+            (arguments
+              (function_expression
+                (formal_parameter_list
+                  (formal_parameter
+                    (identifier)))
+                (function_expression_body
+                  (block
+                    (expression_statement
+                      (unary_expression
+                        (await_expression
+                          (call_expression
+                            (identifier)
+                            (arguments
+                              (identifier))))))))))))))))
+
+================================================================================
+Switch statement with labels, shared cases, and default
+================================================================================
+
+void f(int x) {
+  switch (x) {
+    start:
+    case 0:
+    case 1:
+      first();
+      break;
+    case 2:
+      continue start;
+    default:
+      other();
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (block
+        (switch_statement
+          (parenthesized_expression
+            (identifier))
+          (switch_block
+            (switch_statement_case
+              (label
+                (identifier))
+              (constant_pattern
+                (decimal_integer_literal)))
+            (switch_statement_case
+              (constant_pattern
+                (decimal_integer_literal))
+              (expression_statement
+                (call_expression
+                  (identifier)
+                  (arguments)))
+              (break_statement))
+            (switch_statement_case
+              (constant_pattern
+                (decimal_integer_literal))
+              (continue_statement
+                (identifier)))
+            (switch_statement_default
+              (expression_statement
+                (call_expression
+                  (identifier)
+                  (arguments))))))))))
+
+================================================================================
+Do-while and while with side-effect conditions
+================================================================================
+
+void f() {
+  do {
+    step();
+  } while (it.moveNext());
+  while ((line = read()) != null) {
+    handle(line);
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (do_statement
+          (block
+            (expression_statement
+              (call_expression
+                (identifier)
+                (arguments))))
+          (parenthesized_expression
+            (call_expression
+              (member_expression
+                (identifier)
+                (identifier))
+              (arguments))))
+        (while_statement
+          (parenthesized_expression
+            (equality_expression
+              (parenthesized_expression
+                (assignment_expression
+                  (assignable_expression
+                    (identifier))
+                  (call_expression
+                    (identifier)
+                    (arguments))))
+              (equality_operator)
+              (null_literal)))
+          (block
+            (expression_statement
+              (call_expression
+                (identifier)
+                (arguments
+                  (identifier))))))))))

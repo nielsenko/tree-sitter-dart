@@ -2357,3 +2357,54 @@ extension type const Meters(double value) implements Comparable<Meters> {
                 (member_expression
                   (identifier)
                   (identifier))))))))))
+
+================================================================================
+Part file header
+================================================================================
+
+part of my.library.name;
+
+int helper() => 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_of_directive
+    (dotted_identifier_list
+      (identifier)
+      (identifier)
+      (identifier)))
+  (function_declaration
+    (function_signature
+      (type
+        (type_identifier))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (decimal_integer_literal))))
+
+================================================================================
+Part directive listing files
+================================================================================
+
+library shell;
+
+part 'src/a.dart';
+part 'src/b.dart';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (library_name
+    (dotted_identifier_list
+      (identifier)))
+  (part_directive
+    (uri
+      (string_literal
+        (string_literal_single_quotes
+          (template_chars_single_single)))))
+  (part_directive
+    (uri
+      (string_literal
+        (string_literal_single_quotes
+          (template_chars_single_single))))))
