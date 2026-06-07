@@ -574,3 +574,12 @@ class C {
                 (formal_parameter
                   (field_formal_parameter
                     (identifier)))))))))))
+
+================================================================================
+Known limitation: non-nullable record type after annotation
+:error
+================================================================================
+
+class A {
+  @override (String, int) bar() => ('x', 1);
+}

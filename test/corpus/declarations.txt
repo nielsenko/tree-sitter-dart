@@ -1447,3 +1447,171 @@ inline class Wrapper {
               (formal_parameter
                 (field_formal_parameter
                   (identifier))))))))))
+
+================================================================================
+Classic typedef and generic type alias
+================================================================================
+
+typedef void OldCallback(int code);
+typedef Mapper<T> = T Function(T);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (type
+      (void_type))
+    (type_identifier)
+    (formal_parameter_list
+      (formal_parameter
+        (type
+          (type_identifier))
+        (identifier))))
+  (type_alias
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (type
+      (function_type
+        (type
+          (type_identifier))
+        (parameter_type_list
+          (normal_parameter_type
+            (type
+              (type_identifier))))))))
+
+================================================================================
+Augmentations
+================================================================================
+
+augment class A {
+  augment void m() {}
+}
+augment enum E { one }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (function_signature
+              (type
+                (void_type))
+              (identifier)
+              (formal_parameter_list)))
+          (function_body
+            (block))))))
+  (enum_declaration
+    (identifier)
+    (enum_body
+      (enum_entry
+        (identifier)))))
+
+================================================================================
+Wildcard parameters and variables
+================================================================================
+
+void f(int _, String _) {
+  var _ = compute();
+  for (var _ in items) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (call_expression
+              (identifier)
+              (arguments))))
+        (for_statement
+          (identifier)
+          (identifier)
+          (block))))))
+
+================================================================================
+Library directives
+================================================================================
+
+library my.dotted.name;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (library_name
+    (dotted_identifier_list
+      (identifier)
+      (identifier)
+      (identifier))))
+
+================================================================================
+Unnamed library directive
+================================================================================
+
+@Deprecated('use other')
+library;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (library_name
+    (annotation
+      (identifier)
+      (annotation_arguments
+        (annotation_open_paren)
+        (string_literal
+          (string_literal_single_quotes
+            (template_chars_single_single)))))))
+
+================================================================================
+Const factory and external factory
+================================================================================
+
+class A {
+  const factory A.frozen() = B;
+  external factory A.platform();
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (declaration
+          (redirecting_factory_constructor_signature
+            (identifier)
+            (identifier)
+            (formal_parameter_list)
+            (type
+              (type_identifier)))))
+      (member_declaration
+        (declaration
+          (external)
+          (factory_constructor_signature
+            (identifier)
+            (identifier)
+            (formal_parameter_list)))))))

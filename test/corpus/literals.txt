@@ -436,3 +436,103 @@ var list = [
             (identifier))
           (spread_element
             (identifier)))))))
+
+================================================================================
+Digit separators and numeric edge forms
+================================================================================
+
+var a = 1_000_000;
+var b = 0xFF_EC;
+var c = 1.5e-3;
+var d = .25;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (hex_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_floating_point_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_floating_point_literal)))))
+
+================================================================================
+Escape sequence varieties
+================================================================================
+
+var s = 'a\nb\tc\\d\'eAf\u{1F600}g\x41h';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (string_literal_single_quotes
+            (template_chars_single_single)
+            (escape_sequence)
+            (template_chars_single_single)
+            (escape_sequence)
+            (template_chars_single_single)
+            (escape_sequence)
+            (template_chars_single_single)
+            (escape_sequence)
+            (template_chars_single_single)
+            (escape_sequence)
+            (template_chars_single_single)
+            (escape_sequence)
+            (template_chars_single_single)))))))
+
+================================================================================
+Adjacent string concatenation
+================================================================================
+
+var s = 'first '
+    'second '
+    "third";
+var mixed = 'a' "b" 'c $x d';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (string_literal_single_quotes
+            (template_chars_single_single))
+          (string_literal_single_quotes
+            (template_chars_single_single))
+          (string_literal_double_quotes
+            (template_chars_double_single))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (string_literal_single_quotes
+            (template_chars_single_single))
+          (string_literal_double_quotes
+            (template_chars_double_single))
+          (string_literal_single_quotes
+            (template_chars_single_single)
+            (template_substitution
+              (identifier_dollar_escaped))
+            (template_chars_single_single)))))))

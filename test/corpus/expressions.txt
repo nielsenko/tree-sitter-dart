@@ -1110,3 +1110,238 @@ void f() {
             (assignable_expression
               (identifier))
             (identifier)))))))
+
+================================================================================
+Field pinning: index, constructor, and type_arguments fields
+================================================================================
+
+var a = list[idx];
+var b = new prefix.Point.origin();
+var c = const prefix.Sym.named(1);
+var d = f<int>;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (index_expression
+          object: (identifier)
+          index: (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (new_expression
+          type: (type
+            (type_identifier)
+            (type_identifier))
+          constructor: (identifier)
+          arguments: (arguments)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (const_object_expression
+          type: (type
+            (type_identifier)
+            (type_identifier))
+          constructor: (identifier)
+          arguments: (arguments
+            (decimal_integer_literal))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (instantiation_expression
+          function: (identifier)
+          type_arguments: (type_arguments
+            (type
+              (type_identifier))))))))
+
+================================================================================
+Field pinning: redirecting factory target and external modifier
+================================================================================
+
+class A {
+  factory A.create() = p.B.named;
+}
+external int marker;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (member_declaration
+        (declaration
+          (redirecting_factory_constructor_signature
+            name: (identifier)
+            name: (identifier)
+            parameters: (formal_parameter_list)
+            target: (type
+              (type_identifier)
+              (type_identifier))
+            target_constructor: (identifier))))))
+  (external_variable_declaration
+    modifier: (external)
+    type: (type
+      (type_identifier))
+    (identifier_list
+      (identifier))))
+
+================================================================================
+Exhaustive binary operator tokens
+================================================================================
+
+void f() {
+  a = b >= c;
+  a = b <= c;
+  a = b > c;
+  a = b != c;
+  a = b >>> 2;
+  a = b ?? c ?? d;
+  a = b is! String;
+  a = ~b;
+  a = -b - -c;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (relational_expression
+              (identifier)
+              (relational_operator)
+              (identifier))))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (relational_expression
+              (identifier)
+              (relational_operator)
+              (identifier))))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (relational_expression
+              (identifier)
+              (relational_operator)
+              (identifier))))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (equality_expression
+              (identifier)
+              (equality_operator)
+              (identifier))))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (shift_expression
+              (identifier)
+              (shift_operator)
+              (decimal_integer_literal))))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (if_null_expression
+              (identifier)
+              (if_null_expression
+                (identifier)
+                (identifier)))))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (type_test_expression
+              (identifier)
+              (type_test
+                (is_operator)
+                (type
+                  (type_identifier))))))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (unary_expression
+              (prefix_operator)
+              (identifier))))
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (additive_expression
+              (unary_expression
+                (prefix_operator)
+                (identifier))
+              (additive_operator)
+              (unary_expression
+                (prefix_operator)
+                (identifier)))))))))
+
+================================================================================
+Dot shorthand variants
+================================================================================
+
+Color c1 = .red;
+var c2 = useBlue ? .blue : .green;
+var l = Padding.lerp(.zero, .all(8), t);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (type
+      (type_identifier))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (static_member_shorthand
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (conditional_expression
+          (identifier)
+          (static_member_shorthand
+            (identifier))
+          (static_member_shorthand
+            (identifier))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (call_expression
+          (member_expression
+            (identifier)
+            (identifier))
+          (arguments
+            (static_member_shorthand
+              (identifier))
+            (call_expression
+              (static_member_shorthand
+                (identifier))
+              (arguments
+                (decimal_integer_literal)))
+            (identifier)))))))

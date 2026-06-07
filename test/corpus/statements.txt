@@ -527,3 +527,72 @@ void f() {
                       (decimal_integer_literal))
                     (break_statement
                       (identifier))))))))))))
+
+================================================================================
+Async, sync star, and await-for
+================================================================================
+
+Future<int> f() async => 1;
+Iterable<int> g() sync* {
+  yield 1;
+}
+Future<void> h(Stream<int> s) async {
+  await for (final x in s) {
+    print(x);
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (type_identifier))))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (decimal_integer_literal)))
+  (function_declaration
+    (function_signature
+      (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (type_identifier))))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (yield_statement
+          (decimal_integer_literal)))))
+  (function_declaration
+    (function_signature
+      (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (void_type))))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier)
+            (type_arguments
+              (type
+                (type_identifier))))
+          (identifier))))
+    (function_body
+      (block
+        (for_statement
+          (identifier)
+          (identifier)
+          (block
+            (expression_statement
+              (call_expression
+                (identifier)
+                (arguments
+                  (identifier))))))))))

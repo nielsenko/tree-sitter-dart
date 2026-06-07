@@ -394,3 +394,102 @@ class Tricky {
                   (identifier)))))
           (function_body
             (block)))))))
+
+================================================================================
+Record literals vs parenthesized expressions
+================================================================================
+
+var r = (1, 2);
+var one = (1);
+var named = (a: 1, b: 2);
+var nested = ((1, 2), 3);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (record_literal
+          (record_field
+            (decimal_integer_literal))
+          (record_field
+            (decimal_integer_literal))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (parenthesized_expression
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (record_literal
+          (record_field
+            (label
+              (identifier))
+            (decimal_integer_literal))
+          (record_field
+            (label
+              (identifier))
+            (decimal_integer_literal))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (record_literal
+          (record_field
+            (record_literal
+              (record_field
+                (decimal_integer_literal))
+              (record_field
+                (decimal_integer_literal))))
+          (record_field
+            (decimal_integer_literal)))))))
+
+================================================================================
+Const collections and const in expressions
+================================================================================
+
+var l = const [1, 2];
+var m = const {'k': 1};
+var s = const {1, 2};
+const c = 1 + 2;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (list_literal
+          (decimal_integer_literal)
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (set_or_map_literal
+          (map_element
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single)))
+            (decimal_integer_literal))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (set_or_map_literal
+          (decimal_integer_literal)
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (static_final_declaration_list
+      (static_final_declaration
+        (identifier)
+        (additive_expression
+          (decimal_integer_literal)
+          (additive_operator)
+          (decimal_integer_literal))))))
