@@ -3087,6 +3087,10 @@
               },
               {
                 "type": "STRING",
+                "value": "void"
+              },
+              {
+                "type": "STRING",
                 "value": "~"
               },
               {
@@ -5808,7 +5812,7 @@
                   "name": "constructor",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "identifier"
+                    "name": "_identifier_or_new"
                   }
                 }
               ]
@@ -5858,7 +5862,7 @@
                   "name": "constructor",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "identifier"
+                    "name": "_identifier_or_new"
                   }
                 }
               ]
@@ -7395,6 +7399,18 @@
                       }
                     }
                   ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
                 },
                 {
                   "type": "BLANK"
@@ -9599,7 +9615,7 @@
                   "name": "target_constructor",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "identifier"
+                    "name": "_identifier_or_new"
                   }
                 }
               ]

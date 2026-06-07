@@ -857,6 +857,7 @@ module.exports = grammar({
           "#",
           choice(
             seq($.identifier, repeat(seq(".", $.identifier))),
+            "void",
             "~",
             $.binary_operator,
             "[]",
@@ -1366,10 +1367,10 @@ module.exports = grammar({
       choice($.new_expression, $.const_object_expression, $.constructor_invocation),
 
     new_expression: ($) =>
-      seq("new", field("type", $._type_not_void), optional(seq(".", field("constructor", $.identifier))), field("arguments", $.arguments)),
+      seq("new", field("type", $._type_not_void), optional(seq(".", field("constructor", $._identifier_or_new))), field("arguments", $.arguments)),
 
     const_object_expression: ($) =>
-      seq("const", field("type", $._type_not_void), optional(seq(".", field("constructor", $.identifier))), field("arguments", $.arguments)),
+      seq("const", field("type", $._type_not_void), optional(seq(".", field("constructor", $._identifier_or_new))), field("arguments", $.arguments)),
 
     constructor_invocation: ($) =>
       // Dynamic precedence: a *called* `.new` (`Foo.new(1)`, `Foo<int>.new(1)`)
@@ -1620,6 +1621,7 @@ module.exports = grammar({
           field("condition", optional($._expression)),
           ";",
           commaSep(field("update", $._expression)),
+          optional(","),
         ),
         // Pattern for-in loop (Dart 3.0)
         seq(
@@ -1923,7 +1925,7 @@ module.exports = grammar({
         field("parameters", $.formal_parameter_list),
         "=",
         field("target", $._type_not_void),
-        optional(seq(".", field("target_constructor", $.identifier))),
+        optional(seq(".", field("target_constructor", $._identifier_or_new))),
       ),
 
     redirection: ($) =>

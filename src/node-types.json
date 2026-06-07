@@ -2506,6 +2506,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "new",
+            "named": false
           }
         ]
       },
@@ -6176,6 +6180,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "new",
+            "named": false
           }
         ]
       },
@@ -7721,6 +7729,10 @@
           {
             "type": "identifier",
             "named": true
+          },
+          {
+            "type": "new",
+            "named": false
           }
         ]
       }
@@ -9519,6 +9531,11 @@
     "fields": {}
   },
   {
+    "type": "void_type",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "while_statement",
     "named": true,
     "fields": {
@@ -10159,8 +10176,8 @@
     "named": false
   },
   {
-    "type": "void_type",
-    "named": true
+    "type": "void",
+    "named": false
   },
   {
     "type": "when",

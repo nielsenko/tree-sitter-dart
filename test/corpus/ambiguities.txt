@@ -780,3 +780,238 @@ Future<void> asyncCtx() async {
                   (call_expression
                     (identifier)
                     (arguments)))))))))))
+
+================================================================================
+All contextual keywords as identifiers
+================================================================================
+
+var show = 1;
+var hide = 2;
+var of = 3;
+var on = 4;
+var async = 5;
+var sync = 6;
+var base = 7;
+var sealed = 8;
+var when = 9;
+void f() {
+  print([show, hide, of, on, async, sync, base, sealed, when]);
+  var r = on + base * sealed;
+  use(r);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments
+              (list_literal
+                (identifier)
+                (identifier)
+                (identifier)
+                (identifier)
+                (identifier)
+                (identifier)
+                (identifier)
+                (identifier)
+                (identifier)))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (additive_expression
+              (identifier)
+              (additive_operator)
+              (multiplicative_expression
+                (identifier)
+                (multiplicative_operator)
+                (identifier)))))
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments
+              (identifier))))))))
+
+================================================================================
+Symbol literals including void
+================================================================================
+
+var a = #void;
+var b = #show;
+var c = #parse.method;
+var d = #[]=;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (symbol_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (symbol_literal
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (symbol_literal
+          (identifier)
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (symbol_literal)))))
+
+================================================================================
+Dot-new in const objects and redirect targets
+================================================================================
+
+@Helper(const Class.new())
+class A {
+  const factory A.asc(String f) = SortByAsc.new;
+}
+var n = new Class.new();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (annotation
+      (identifier)
+      (annotation_arguments
+        (annotation_open_paren)
+        (const_object_expression
+          (type
+            (type_identifier))
+          (arguments))))
+    (identifier)
+    (class_body
+      (member_declaration
+        (declaration
+          (redirecting_factory_constructor_signature
+            (identifier)
+            (identifier)
+            (formal_parameter_list
+              (formal_parameter
+                (type
+                  (type_identifier))
+                (identifier)))
+            (type
+              (type_identifier)))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (new_expression
+          (type
+            (type_identifier))
+          (arguments))))))
+
+================================================================================
+Trailing comma in for-loop updates
+================================================================================
+
+void f() {
+  for (var i = 0; i < n; i += 15,) {}
+  for (var j = 0; ; j++, k--,) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (for_statement
+          (local_variable_declaration
+            (initialized_variable_declaration
+              (identifier)
+              (decimal_integer_literal)))
+          (relational_expression
+            (identifier)
+            (relational_operator)
+            (identifier))
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (decimal_integer_literal))
+          (block))
+        (for_statement
+          (local_variable_declaration
+            (initialized_variable_declaration
+              (identifier)
+              (decimal_integer_literal)))
+          (postfix_expression
+            (assignable_expression
+              (identifier))
+            (increment_operator))
+          (postfix_expression
+            (assignable_expression
+              (identifier))
+            (increment_operator))
+          (block))))))
