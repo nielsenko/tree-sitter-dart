@@ -300,3 +300,139 @@ void main() {
               key: (identifier)
               value: (null_aware_expression_element
                 (identifier)))))))))
+
+================================================================================
+Raw strings
+================================================================================
+
+var a = r'raw single';
+var b = r"raw double";
+var c = r'''raw
+multi''';
+var e = r'back\slash $notinterp';
+var d = r"""raw
+multi""";
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (raw_string_literal_single_quotes
+            (template_chars_single_single))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (raw_string_literal_double_quotes
+            (template_chars_double_single))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (raw_string_literal_single_quotes_multiple
+            (template_chars_single))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (raw_string_literal_single_quotes
+            (template_chars_raw_slash)
+            (template_chars_single_single))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (raw_string_literal_double_quotes_multiple
+            (template_chars_double)))))))
+
+================================================================================
+Multiline strings with interpolation and escapes
+================================================================================
+
+var a = '''line
+$name done''';
+var b = """col
+${x + 1} end""";
+var c = 'tab\there\n';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (string_literal_single_quotes_multiple
+            (template_chars_single)
+            (template_substitution
+              (identifier_dollar_escaped))
+            (template_chars_single))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (string_literal_double_quotes_multiple
+            (template_chars_double)
+            (template_substitution
+              (additive_expression
+                (identifier)
+                (additive_operator)
+                (decimal_integer_literal)))
+            (template_chars_double))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (string_literal_single_quotes
+            (template_chars_single_single)
+            (escape_sequence)
+            (template_chars_single_single)
+            (escape_sequence)))))))
+
+================================================================================
+Collection if, for, and spread elements
+================================================================================
+
+var list = [
+  1,
+  if (flag) 2 else 3,
+  for (var i in items) i * 2,
+  ...others,
+  ...?maybe,
+];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (list_literal
+          (decimal_integer_literal)
+          (if_element
+            (identifier)
+            (decimal_integer_literal)
+            (decimal_integer_literal))
+          (for_element
+            (identifier)
+            (identifier)
+            (multiplicative_expression
+              (identifier)
+              (multiplicative_operator)
+              (decimal_integer_literal)))
+          (spread_element
+            (identifier))
+          (spread_element
+            (identifier)))))))

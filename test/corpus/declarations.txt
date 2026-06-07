@@ -911,3 +911,384 @@ abstract base mixin class AMC = Object with M1 implements I;
         (interfaces
           (type
             (type_identifier)))))))
+
+================================================================================
+Top-level getters and setters
+================================================================================
+
+int get counter => _counter;
+set counter(int value) {
+  _counter = value;
+}
+
+class Holder {
+  int get size => _size;
+  set size(int v) {
+    _size = v;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (getter_declaration
+    (getter_signature
+      (type
+        (type_identifier))
+      (identifier))
+    (function_body
+      (identifier)))
+  (setter_declaration
+    (setter_signature
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (block
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (identifier))))))
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (getter_signature
+              (type
+                (type_identifier))
+              (identifier)))
+          (function_body
+            (identifier))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (setter_signature
+              (identifier)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (block
+              (expression_statement
+                (assignment_expression
+                  (assignable_expression
+                    (identifier))
+                  (identifier))))))))))
+
+================================================================================
+External declarations
+================================================================================
+
+external void run();
+external int get version;
+external set debug(bool value);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (external_function_declaration
+    (external)
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list)))
+  (external_getter_declaration
+    (external)
+    (getter_signature
+      (type
+        (type_identifier))
+      (identifier)))
+  (external_setter_declaration
+    (setter_signature
+      (type
+        (type_identifier))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))))
+
+================================================================================
+Redirecting factory constructor
+================================================================================
+
+class A {
+  factory A.create() = B.named;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (declaration
+          (redirecting_factory_constructor_signature
+            (identifier)
+            (identifier)
+            (formal_parameter_list)
+            (type
+              (type_identifier)
+              (type_identifier))))))))
+
+================================================================================
+Local function declaration
+================================================================================
+
+void outer() {
+  int helper(int x) => x * 2;
+  helper(1);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (local_function_declaration
+          (function_signature
+            (type
+              (type_identifier))
+            (identifier)
+            (formal_parameter_list
+              (formal_parameter
+                (type
+                  (type_identifier))
+                (identifier))))
+          (function_body
+            (multiplicative_expression
+              (identifier)
+              (multiplicative_operator)
+              (decimal_integer_literal))))
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments
+              (decimal_integer_literal))))))))
+
+================================================================================
+Function types with parameter type lists
+================================================================================
+
+void Function(int, [String]) f1;
+int Function(double x, {required bool flag, int count}) f2;
+typedef Cb = void Function(int code)?;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (type
+      (function_type
+        (type)
+        (parameter_type_list
+          (normal_parameter_type
+            (type
+              (type_identifier)))
+          (optional_parameter_types
+            (optional_positional_parameter_types
+              (normal_parameter_type
+                (type
+                  (type_identifier))))))))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier))))
+  (top_level_variable_declaration
+    (type
+      (function_type
+        (type
+          (type_identifier))
+        (parameter_type_list
+          (normal_parameter_type
+            (typed_identifier
+              (type
+                (type_identifier))
+              (identifier)))
+          (optional_parameter_types
+            (named_parameter_types
+              (typed_identifier
+                (type
+                  (type_identifier))
+                (identifier))
+              (typed_identifier
+                (type
+                  (type_identifier))
+                (identifier)))))))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier))))
+  (type_alias
+    (type_identifier)
+    (type
+      (function_type
+        (type)
+        (parameter_type_list
+          (normal_parameter_type
+            (typed_identifier
+              (type
+                (type_identifier))
+              (identifier))))))))
+
+================================================================================
+Record type with named fields
+================================================================================
+
+(int, {String name, bool flag}) rec;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (type
+      (record_type
+        (record_type_field
+          (type
+            (type_identifier)))
+        (record_type_named_field
+          (typed_identifier
+            (type
+              (type_identifier))
+            (identifier)))
+        (record_type_named_field
+          (typed_identifier
+            (type
+              (type_identifier))
+            (identifier)))))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)))))
+
+================================================================================
+Part of directive
+================================================================================
+
+part of 'main.dart';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (part_of_directive
+    (uri
+      (string_literal
+        (string_literal_single_quotes
+          (template_chars_single_single))))))
+
+================================================================================
+Configurable import
+================================================================================
+
+import 'src/io.dart'
+    if (dart.library.html) 'src/html.dart'
+    if (dart.library.js == '2') 'src/js.dart';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import_or_export
+    (library_import
+      (import_specification
+        (configurable_uri
+          (uri
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single))))
+          (configuration_uri
+            (uri_test
+              (dotted_identifier_list
+                (identifier)
+                (identifier)
+                (identifier)))
+            (uri
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single)))))
+          (configuration_uri
+            (uri_test
+              (dotted_identifier_list
+                (identifier)
+                (identifier)
+                (identifier))
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single))))
+            (uri
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single))))))))))
+
+================================================================================
+Script tag
+================================================================================
+
+#!/usr/bin/env dart
+void main() {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (script_tag)
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block))))
+
+================================================================================
+For-in with typed identifier
+================================================================================
+
+void f(List<int> xs) {
+  for (int x in xs) {}
+  for (final String s in names) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier)
+            (type_arguments
+              (type
+                (type_identifier))))
+          (identifier))))
+    (function_body
+      (block
+        (for_statement
+          (type
+            (type_identifier))
+          (identifier)
+          (identifier)
+          (block))
+        (for_statement
+          (type
+            (type_identifier))
+          (identifier)
+          (identifier)
+          (block))))))

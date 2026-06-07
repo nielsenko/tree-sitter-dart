@@ -316,3 +316,102 @@ void main() {
                   function: (identifier)
                   arguments: (arguments
                     (identifier)))))))))))
+
+================================================================================
+Cast, null-check, and null-assert patterns
+================================================================================
+
+void f(Object? x) {
+  switch (x) {
+    case int i as num:
+      break;
+    case String? s?:
+      break;
+    case var v!:
+      break;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (block
+        (switch_statement
+          (parenthesized_expression
+            (identifier))
+          (switch_block
+            (switch_statement_case
+              (cast_pattern
+                (variable_pattern
+                  (type
+                    (type_identifier))
+                  (identifier))
+                (type
+                  (type_identifier)))
+              (break_statement))
+            (switch_statement_case
+              (null_check_pattern
+                (variable_pattern
+                  (type
+                    (type_identifier))
+                  (identifier)))
+              (break_statement))
+            (switch_statement_case
+              (null_assert_pattern
+                (variable_pattern
+                  (identifier)))
+              (break_statement))))))))
+
+================================================================================
+Map pattern
+================================================================================
+
+void f(Map<String, int> m) {
+  if (m case {'a': var a, 'b': > 2}) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier)
+            (type_arguments
+              (type
+                (type_identifier))
+              (type
+                (type_identifier))))
+          (identifier))))
+    (function_body
+      (block
+        (if_statement
+          (identifier)
+          (map_pattern
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single)))
+            (variable_pattern
+              (identifier))
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single)))
+            (relational_operator)
+            (decimal_integer_literal))
+          (block))))))

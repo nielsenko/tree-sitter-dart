@@ -1337,12 +1337,15 @@ module.exports = grammar({
       seq("const", field("type", $._type_not_void), optional(seq(".", field("constructor", $.identifier))), field("arguments", $.arguments)),
 
     constructor_invocation: ($) =>
-      prec.right(
+      // Dynamic precedence: a *called* `.new` (`Foo.new(1)`, `Foo<int>.new(1)`)
+      // is a constructor invocation (part of _instantiation), outranking
+      // call_expression over a constructor_tearoff.
+      prec.dynamic(3, prec.right(
         choice(
-          seq(field("type", $._type_name), $.type_arguments, ".", field("constructor", $.identifier), field("arguments", $.arguments)),
+          seq(field("type", $._type_name), $.type_arguments, ".", field("constructor", $._identifier_or_new), field("arguments", $.arguments)),
           seq(field("type", $._type_name), ".", "new", field("arguments", $.arguments)),
         ),
-      ),
+      )),
 
     constructor_tearoff: ($) =>
       // Dynamic precedence: `List<int>.new` is a tearoff, not a member
@@ -1712,7 +1715,9 @@ module.exports = grammar({
       seq(optional(field("return_type", $.type)), "get", field("name", $.identifier)),
 
     setter_signature: ($) =>
-      seq(optional(field("return_type", $.type)), "set", field("name", $.identifier), field("parameters", $._formal_parameter_part)),
+      // Dynamic precedence: `set x(v) {}` is a setter, not a function whose
+      // return type is the built-in identifier `set`.
+      prec.dynamic(1, seq(optional(field("return_type", $.type)), "set", field("name", $.identifier), field("parameters", $._formal_parameter_part))),
 
     function_body: ($) =>
       choice(

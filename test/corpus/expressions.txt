@@ -841,6 +841,7 @@ Constructor tearoffs and instantiation expressions
 var t = List<int>.new;
 var u = f<int, String>;
 var v = Map.new;
+var w = Foo<int>.new(1);
 
 --------------------------------------------------------------------------------
 
@@ -870,7 +871,18 @@ var v = Map.new;
       (initialized_identifier
         (identifier)
         (constructor_tearoff
-          (type_identifier))))))
+          (type_identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (constructor_invocation
+          (type_identifier)
+          (type_arguments
+            (type
+              (type_identifier)))
+          (arguments
+            (decimal_integer_literal)))))))
 
 ================================================================================
 Function expressions

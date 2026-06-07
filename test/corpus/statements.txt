@@ -427,3 +427,103 @@ void main() {
             function: (identifier)
             arguments: (arguments)))
         (empty_statement)))))
+
+================================================================================
+Yield statements
+================================================================================
+
+Stream<int> gen() async* {
+  yield 1;
+  yield* other();
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (type_identifier))))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (yield_statement
+          (decimal_integer_literal))
+        (yield_each_statement
+          (call_expression
+            (identifier)
+            (arguments)))))))
+
+================================================================================
+Labeled statements with break and continue
+================================================================================
+
+void f() {
+  outer:
+  for (var i = 0; i < 3; i++) {
+    for (var j = 0; j < 3; j++) {
+      if (j == 1) continue outer;
+      if (i == 2) break outer;
+    }
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (labeled_statement
+          (identifier)
+          (for_statement
+            (local_variable_declaration
+              (initialized_variable_declaration
+                (identifier)
+                (decimal_integer_literal)))
+            (relational_expression
+              (identifier)
+              (relational_operator)
+              (decimal_integer_literal))
+            (postfix_expression
+              (assignable_expression
+                (identifier))
+              (increment_operator))
+            (block
+              (for_statement
+                (local_variable_declaration
+                  (initialized_variable_declaration
+                    (identifier)
+                    (decimal_integer_literal)))
+                (relational_expression
+                  (identifier)
+                  (relational_operator)
+                  (decimal_integer_literal))
+                (postfix_expression
+                  (assignable_expression
+                    (identifier))
+                  (increment_operator))
+                (block
+                  (if_statement
+                    (equality_expression
+                      (identifier)
+                      (equality_operator)
+                      (decimal_integer_literal))
+                    (continue_statement
+                      (identifier)))
+                  (if_statement
+                    (equality_expression
+                      (identifier)
+                      (equality_operator)
+                      (decimal_integer_literal))
+                    (break_statement
+                      (identifier))))))))))))
