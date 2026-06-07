@@ -97,6 +97,19 @@ module.exports = grammar({
 
   word: ($) => $._name,
 
+  // Spec: RESERVED_WORD. These can never be identifiers, unlike built-in
+  // identifiers. The ABI-15 reserved set makes the lexer reject them where
+  // an identifier is expected instead of falling back to the word token.
+  reserved: {
+    global: ($) => [
+      "assert", "break", "case", "catch", "class", "const", "continue",
+      "default", "do", "else", "enum", "extends", "false", "final",
+      "finally", "for", "if", "in", "is", "new", "null", "rethrow",
+      "return", "super", "switch", "this", "throw", "true", "try",
+      "var", "void", "while", "with",
+    ],
+  },
+
   supertypes: ($) => [
     $._statement,
     $._literal,

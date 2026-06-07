@@ -696,3 +696,10 @@ T Function<T>(T Function(T) f) higher = id;
       (initialized_identifier
         (identifier)
         (identifier)))))
+
+================================================================================
+Invalid: reserved word as identifier
+:error
+================================================================================
+
+var x = for + 0;

@@ -1826,3 +1826,76 @@ var c = obj?.list?[0]?.run()?.next;
               (identifier))
             (arguments))
           (identifier))))))
+
+================================================================================
+Prefixed types with generics and constructors
+================================================================================
+
+import 'dart:math' as math;
+
+math.Point<int> origin = math.Point<int>(0, 0);
+var r = math.Random(42).nextInt(10);
+math.Point<double> Function() factoryFn = make;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import_or_export
+    (library_import
+      (import_specification
+        (configurable_uri
+          (uri
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single)))))
+        (identifier))))
+  (top_level_variable_declaration
+    (type
+      (type_identifier)
+      (type_identifier)
+      (type_arguments
+        (type
+          (type_identifier))))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (call_expression
+          (instantiation_expression
+            (member_expression
+              (identifier)
+              (identifier))
+            (type_arguments
+              (type
+                (type_identifier))))
+          (arguments
+            (decimal_integer_literal)
+            (decimal_integer_literal))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (call_expression
+          (member_expression
+            (call_expression
+              (member_expression
+                (identifier)
+                (identifier))
+              (arguments
+                (decimal_integer_literal)))
+            (identifier))
+          (arguments
+            (decimal_integer_literal))))))
+  (top_level_variable_declaration
+    (type
+      (function_type
+        (type
+          (type_identifier)
+          (type_identifier)
+          (type_arguments
+            (type
+              (type_identifier))))
+        (parameter_type_list)))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (identifier)))))

@@ -659,3 +659,39 @@ var grid = [
                   (identifier)
                   (identifier)
                   (identifier))))))))))
+
+================================================================================
+Conditional spreads and mixed collections
+================================================================================
+
+var merged = {
+  ...base,
+  if (override != null) ...override,
+  'extra': bonus + 0,
+};
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (set_or_map_literal
+          (spread_element
+            (identifier))
+          (if_element
+            (equality_expression
+              (identifier)
+              (equality_operator)
+              (null_literal))
+            (spread_element
+              (identifier)))
+          (map_element
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single)))
+            (additive_expression
+              (identifier)
+              (additive_operator)
+              (decimal_integer_literal))))))))
