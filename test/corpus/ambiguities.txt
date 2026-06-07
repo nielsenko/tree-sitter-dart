@@ -1,0 +1,396 @@
+================================================================================
+Relational vs generic call arguments
+================================================================================
+
+void f() {
+  g(a < b, c > (d));
+  h<int, String>(e);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments
+              (call_expression
+                (instantiation_expression
+                  (identifier)
+                  (type_arguments
+                    (type
+                      (type_identifier))
+                    (type
+                      (type_identifier))))
+                (arguments
+                  (identifier))))))
+        (expression_statement
+          (call_expression
+            (instantiation_expression
+              (identifier)
+              (type_arguments
+                (type
+                  (type_identifier))
+                (type
+                  (type_identifier))))
+            (arguments
+              (identifier))))))))
+
+================================================================================
+Shift and relational chains stay flat
+================================================================================
+
+var a = x << 2;
+var b = x < y << z;
+var c = x >> 2 > w;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (shift_expression
+          (identifier)
+          (shift_operator)
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (relational_expression
+          (identifier)
+          (relational_operator)
+          (shift_expression
+            (identifier)
+            (shift_operator)
+            (identifier))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (relational_expression
+          (shift_expression
+            (identifier)
+            (shift_operator)
+            (decimal_integer_literal))
+          (relational_operator)
+          (identifier))))))
+
+================================================================================
+Empty braces: map literal vs block
+================================================================================
+
+var m = {};
+var s = {1};
+var p = {1: 2};
+void f() {
+  {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (set_or_map_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (set_or_map_literal
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (set_or_map_literal
+          (map_element
+            (decimal_integer_literal)
+            (decimal_integer_literal))))))
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (block)))))
+
+================================================================================
+Conditional vs null-aware index
+================================================================================
+
+var a = cond ? [1] : [2];
+var b = list?[1];
+var c = cond ? x : y;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (conditional_expression
+          (identifier)
+          (list_literal
+            (decimal_integer_literal))
+          (list_literal
+            (decimal_integer_literal))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (null_aware_index_expression
+          (identifier)
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (conditional_expression
+          (identifier)
+          (identifier)
+          (identifier))))))
+
+================================================================================
+Cascade on integer literal
+================================================================================
+
+var s = 1..abs()..toString();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (cascade
+          (decimal_integer_literal)
+          (cascade_section
+            (cascade_call_expression
+              (identifier)
+              (arguments)))
+          (cascade_section
+            (cascade_call_expression
+              (identifier)
+              (arguments))))))))
+
+================================================================================
+Built-in identifiers as plain identifiers
+================================================================================
+
+var set = 1;
+var get = 2;
+var required = 3;
+var operator = factory + dynamic;
+void f(int show, int hide) {
+  late = covariant;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (additive_expression
+          (identifier)
+          (additive_operator)
+          (identifier)))))
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (block
+        (expression_statement
+          (assignment_expression
+            (assignable_expression
+              (identifier))
+            (identifier)))))))
+
+================================================================================
+Nullable type vs conditional in declarations
+================================================================================
+
+int? nullable;
+var t = isInt ? 1 : 0;
+List<int?>? deep;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (type
+      (type_identifier))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (conditional_expression
+          (identifier)
+          (decimal_integer_literal)
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (type
+      (type_identifier)
+      (type_arguments
+        (type
+          (type_identifier))))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)))))
+
+================================================================================
+Function type vs parenthesized and record forms
+================================================================================
+
+(int, String) Function(int) converter;
+void Function()? maybeAction;
+var paren = (grouped + 1) * 2;
+(int, {bool flag}) record = (1, flag: true);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (type
+      (function_type
+        (type
+          (record_type
+            (record_type_field
+              (type
+                (type_identifier)))
+            (record_type_field
+              (type
+                (type_identifier)))))
+        (parameter_type_list
+          (normal_parameter_type
+            (type
+              (type_identifier))))))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier))))
+  (top_level_variable_declaration
+    (type
+      (function_type
+        (type
+          (void_type))
+        (parameter_type_list)))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (multiplicative_expression
+          (parenthesized_expression
+            (additive_expression
+              (identifier)
+              (additive_operator)
+              (decimal_integer_literal)))
+          (multiplicative_operator)
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (type
+      (record_type
+        (record_type_field
+          (type
+            (type_identifier)))
+        (record_type_named_field
+          (typed_identifier
+            (type
+              (type_identifier))
+            (identifier)))))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (record_literal
+          (record_field
+            (decimal_integer_literal))
+          (record_field
+            (label
+              (identifier))
+            (true)))))))
+
+================================================================================
+Getter named get and setter named set
+================================================================================
+
+class Tricky {
+  int get get => 1;
+  set set(int v) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (getter_signature
+              (type
+                (type_identifier))
+              (identifier)))
+          (function_body
+            (decimal_integer_literal))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (setter_signature
+              (identifier)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (block)))))))

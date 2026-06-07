@@ -124,22 +124,11 @@ module.exports = grammar({
     // Declaration ambiguity with external/static
     [$.declaration, $._external_and_static],
     // Type ambiguities
-    [$._type_not_function, $._type_not_void],
     [$._type_not_void_not_function],
-    [$._type_not_void],
     [$._function_type_tail],
     [$._type_not_void_not_function, $._function_type_tail],
-    [$.type, $._type_not_function],
     [$.type, $._function_type_tail, $._built_in_identifier],
-    [$.type, $._type_not_function, $._function_type_tail, $._built_in_identifier],
     [$.type, $._function_type_tail],
-    [$.type, $._type_not_function, $._function_type_tail],
-    [$._type_not_function, $._function_type_tail, $._built_in_identifier],
-    [$._type_not_void, $._function_type_tail, $._built_in_identifier],
-    [$._type_not_function, $._type_not_void, $._function_type_tail, $._built_in_identifier],
-    [$._type_not_function, $._function_type_tail],
-    [$.type, $._type_not_function, $._type_not_void, $._function_type_tail, $._built_in_identifier],
-    [$._type_not_void, $._function_type_tail],
     [$.function_type],
     // Var or type ambiguities
     [$._var_or_type],
@@ -169,6 +158,26 @@ module.exports = grammar({
     [$.record_type_field, $._var_or_type, $._final_var_or_type, $._function_formal_parameter],
     [$._var_or_type, $._final_var_or_type, $._function_formal_parameter],
     [$._function_formal_parameter, $._final_const_var_or_type],
+    [$.type, $._type_not_function_inner, $._function_type_tail, $._built_in_identifier],
+    [$.type, $._type_not_function_inner],
+    [$.type, $._type_not_function_inner, $._function_type_tail],
+    [$._type_not_function_inner, $._function_type_tail, $._built_in_identifier],
+    [$._type_not_void_inner, $._function_type_tail, $._built_in_identifier],
+    [$._type_not_void_not_function_inner, $._function_type_tail, $._built_in_identifier],
+    [$.type, $._type_not_void_not_function_inner],
+    [$.type, $._type_not_void_not_function_inner, $._function_type_tail],
+    [$.type, $._type_not_void_not_function_inner, $._function_type_tail, $._built_in_identifier],
+    [$._type_not_function_inner, $._type_not_void_inner, $._function_type_tail, $._built_in_identifier],
+    [$._type_not_function_inner, $._type_not_void_inner],
+    [$.type, $._type_not_function_inner, $._type_not_void_inner, $._function_type_tail, $._built_in_identifier],
+    [$._type_not_function_inner, $._type_not_void_not_function_inner, $._function_type_tail, $._built_in_identifier],
+    [$._type_not_void_inner, $._type_not_void_not_function_inner, $._function_type_tail, $._built_in_identifier],
+    [$._type_not_function_inner, $._type_not_void_inner, $._type_not_void_not_function_inner, $._function_type_tail, $._built_in_identifier],
+    [$._type_not_function_inner, $._function_type_tail],
+    [$._type_not_void_inner, $._function_type_tail],
+    [$._type_not_void_not_function_inner, $._function_type_tail],
+    [$._type_not_void_inner],
+    [$._type_not_void_not_function_inner],
     [$._function_formal_parameter, $._final_const_var_or_type, $._final_var_or_type],
     [$.record_type_field, $._final_var_or_type],
     [$._final_var_or_type],
@@ -454,35 +463,37 @@ module.exports = grammar({
         nullable("Function"),
       ),
 
-    _type_not_function: ($) =>
-      alias(
-        choice(
-          nullable(seq($._type_name, optional($.type_arguments))),
-          nullable("Function"),
-          nullable($.record_type),
-          $.void_type,
-        ),
-        $.type,
+    // NOTE: these alias *hidden rule symbols* (not inline choices) to `type`.
+    // Aliasing an inline choice renames lone-symbol alternatives (void_type,
+    // record_type) instead of wrapping them, breaking the uniform-(type ...)
+    // contract.
+    _type_not_function: ($) => alias($._type_not_function_inner, $.type),
+
+    _type_not_function_inner: ($) =>
+      choice(
+        nullable(seq($._type_name, optional($.type_arguments))),
+        nullable("Function"),
+        nullable($.record_type),
+        $.void_type,
       ),
 
-    _type_not_void: ($) =>
-      alias(
-        choice(
-          nullable($.function_type),
-          nullable($.record_type),
-          nullable(seq($._type_name, optional($.type_arguments))),
-          nullable("Function"),
-        ),
-        $.type,
+    _type_not_void: ($) => alias($._type_not_void_inner, $.type),
+
+    _type_not_void_inner: ($) =>
+      choice(
+        nullable($.function_type),
+        nullable($.record_type),
+        nullable(seq($._type_name, optional($.type_arguments))),
+        nullable("Function"),
       ),
 
     _type_not_void_not_function: ($) =>
-      alias(
-        choice(
-          nullable(seq($._type_name, optional($.type_arguments))),
-          nullable("Function"),
-        ),
-        $.type,
+      alias($._type_not_void_not_function_inner, $.type),
+
+    _type_not_void_not_function_inner: ($) =>
+      choice(
+        nullable(seq($._type_name, optional($.type_arguments))),
+        nullable("Function"),
       ),
 
     _type_name: ($) =>

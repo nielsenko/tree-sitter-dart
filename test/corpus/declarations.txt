@@ -540,8 +540,7 @@ extension type JSArray<T extends JSAny?>._(JSArrayRepType _jsArray) implements J
         (type_parameter
           name: (type_identifier)
           bound: (type
-            (type_identifier))
-          bound: (type)))
+            (type_identifier))))
       (identifier))
     representation: (extension_type_representation
       type: (type
@@ -1097,7 +1096,8 @@ typedef Cb = void Function(int code)?;
   (top_level_variable_declaration
     (type
       (function_type
-        (type)
+        (type
+          (void_type))
         (parameter_type_list
           (normal_parameter_type
             (type
@@ -1138,7 +1138,8 @@ typedef Cb = void Function(int code)?;
     (type_identifier)
     (type
       (function_type
-        (type)
+        (type
+          (void_type))
         (parameter_type_list
           (normal_parameter_type
             (typed_identifier
