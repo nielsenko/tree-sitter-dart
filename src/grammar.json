@@ -5051,7 +5051,7 @@
     },
     "call_expression": {
       "type": "PREC_DYNAMIC",
-      "value": 1,
+      "value": 2,
       "content": {
         "type": "PREC",
         "value": "call",
@@ -5079,28 +5079,32 @@
       }
     },
     "instantiation_expression": {
-      "type": "PREC",
-      "value": "instantiation",
+      "type": "PREC_DYNAMIC",
+      "value": -1,
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "function",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_postfix_expression"
+        "type": "PREC",
+        "value": "instantiation",
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "function",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_postfix_expression"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "type_arguments",
+              "content": {
+                "type": "SYMBOL",
+                "name": "type_arguments"
+              }
             }
-          },
-          {
-            "type": "FIELD",
-            "name": "type_arguments",
-            "content": {
-              "type": "SYMBOL",
-              "name": "type_arguments"
-            }
-          }
-        ]
+          ]
+        }
       }
     },
     "member_expression": {
@@ -5872,7 +5876,7 @@
     },
     "constructor_invocation": {
       "type": "PREC_DYNAMIC",
-      "value": 3,
+      "value": 4,
       "content": {
         "type": "PREC_RIGHT",
         "value": 0,

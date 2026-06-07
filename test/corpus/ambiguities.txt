@@ -545,3 +545,154 @@ void f(
               (cascade_call_expression
                 (identifier)
                 (arguments)))))))))
+
+================================================================================
+Deeply nested generics and closing angle runs
+================================================================================
+
+Map<String, List<Map<int, Set<String>>>> deep = {};
+List<List<List<List<int>>>> deeper = [];
+var x = foo<A<B<C>>>(arg);
+var cmp = a < b >> c;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (type
+      (type_identifier)
+      (type_arguments
+        (type
+          (type_identifier))
+        (type
+          (type_identifier)
+          (type_arguments
+            (type
+              (type_identifier)
+              (type_arguments
+                (type
+                  (type_identifier))
+                (type
+                  (type_identifier)
+                  (type_arguments
+                    (type
+                      (type_identifier))))))))))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (set_or_map_literal))))
+  (top_level_variable_declaration
+    (type
+      (type_identifier)
+      (type_arguments
+        (type
+          (type_identifier)
+          (type_arguments
+            (type
+              (type_identifier)
+              (type_arguments
+                (type
+                  (type_identifier)
+                  (type_arguments
+                    (type
+                      (type_identifier))))))))))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (list_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (call_expression
+          (instantiation_expression
+            (identifier)
+            (type_arguments
+              (type
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (type_identifier)
+                    (type_arguments
+                      (type
+                        (type_identifier))))))))
+          (arguments
+            (identifier))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (relational_expression
+          (identifier)
+          (relational_operator)
+          (shift_expression
+            (identifier)
+            (shift_operator)
+            (identifier)))))))
+
+================================================================================
+Nested and generic function types
+================================================================================
+
+Future<List<Map<String, void Function(int)>>> Function(Set<int>)? complex;
+T Function<T>(T Function(T) f) higher = id;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (type
+      (function_type
+        (type
+          (type_identifier)
+          (type_arguments
+            (type
+              (type_identifier)
+              (type_arguments
+                (type
+                  (type_identifier)
+                  (type_arguments
+                    (type
+                      (type_identifier))
+                    (type
+                      (function_type
+                        (type
+                          (void_type))
+                        (parameter_type_list
+                          (normal_parameter_type
+                            (type
+                              (type_identifier))))))))))))
+        (parameter_type_list
+          (normal_parameter_type
+            (type
+              (type_identifier)
+              (type_arguments
+                (type
+                  (type_identifier))))))))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier))))
+  (top_level_variable_declaration
+    (type
+      (function_type
+        (type
+          (type_identifier))
+        (type_parameters
+          (type_parameter
+            (type_identifier)))
+        (parameter_type_list
+          (normal_parameter_type
+            (typed_identifier
+              (type
+                (function_type
+                  (type
+                    (type_identifier))
+                  (parameter_type_list
+                    (normal_parameter_type
+                      (type
+                        (type_identifier))))))
+              (identifier))))))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (identifier)))))

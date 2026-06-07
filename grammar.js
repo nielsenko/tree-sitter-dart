@@ -1228,7 +1228,7 @@ module.exports = grammar({
       ),
 
     call_expression: ($) =>
-      prec.dynamic(1, prec("call",
+      prec.dynamic(2, prec("call",
         seq(
           field("function", $._postfix_expression),
           field("arguments", $.arguments),
@@ -1238,12 +1238,16 @@ module.exports = grammar({
     // Named prec required so the `<` ambiguity (call/instantiation/relational)
     // falls through to GLR conflict declarations rather than being auto-resolved.
     instantiation_expression: ($) =>
-      prec("instantiation",
+      // Negative dynamic precedence: a *bare* `a<b>` only wins when it is
+      // genuinely an instantiation (a following call/member raises the total
+      // via call_expression's +2). Otherwise `a < b >> c` must parse as
+      // relational/shift, matching the spec's continuation-token rule.
+      prec.dynamic(-1, prec("instantiation",
         seq(
           field("function", $._postfix_expression),
           field("type_arguments", $.type_arguments),
         ),
-      ),
+      )),
 
     ...postfixChainWrappers("_postfix_expression", ""),
 
@@ -1351,7 +1355,7 @@ module.exports = grammar({
       // Dynamic precedence: a *called* `.new` (`Foo.new(1)`, `Foo<int>.new(1)`)
       // is a constructor invocation (part of _instantiation), outranking
       // call_expression over a constructor_tearoff.
-      prec.dynamic(3, prec.right(
+      prec.dynamic(4, prec.right(
         choice(
           seq(field("type", $._type_name), $.type_arguments, ".", field("constructor", $._identifier_or_new), field("arguments", $.arguments)),
           seq(field("type", $._type_name), ".", "new", field("arguments", $.arguments)),
