@@ -194,6 +194,9 @@
 (prefix_operator) @operator
 (negation_operator) @operator
 (is_operator) @keyword.operator
+(type_cast "as" @keyword.operator)
+(cast_pattern "as" @keyword.operator)
+(import_specification "as" @keyword)
 (binary_operator) @operator
 (additive_operator) @operator
 (multiplicative_operator) @operator
@@ -267,7 +270,6 @@
 
 [
   "abstract"
-  "as"
   "assert"
   "async"
   "async*"
@@ -302,7 +304,6 @@
   "in"
   "inline"
   "interface"
-  "is"
   "late"
   "library"
   "mixin"

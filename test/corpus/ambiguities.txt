@@ -493,3 +493,55 @@ const c = 1 + 2;
           (decimal_integer_literal)
           (additive_operator)
           (decimal_integer_literal))))))
+
+================================================================================
+Comments inside expressions and members
+================================================================================
+
+void f(
+  int a, // trailing
+  /* inline */ int b,
+) {
+  obj
+    // between sections
+    ..go()
+    /* and here */
+    ..stop();
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))
+        (comment)
+        (comment
+          (block_comment))
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (block
+        (expression_statement
+          (cascade
+            (identifier)
+            (comment)
+            (cascade_section
+              (cascade_call_expression
+                (identifier)
+                (arguments)))
+            (comment
+              (block_comment))
+            (cascade_section
+              (cascade_call_expression
+                (identifier)
+                (arguments)))))))))
