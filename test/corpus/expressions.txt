@@ -1899,3 +1899,56 @@ math.Point<double> Function() factoryFn = make;
       (initialized_identifier
         (identifier)
         (identifier)))))
+
+================================================================================
+Static member access chains
+================================================================================
+
+var a = Duration.zero;
+var b = math.pi * 2;
+var c = Colors.blue.shade100;
+var d = Theme.of(context).textTheme.bodyLarge;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (member_expression
+          (identifier)
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (multiplicative_expression
+          (member_expression
+            (identifier)
+            (identifier))
+          (multiplicative_operator)
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (member_expression
+          (member_expression
+            (identifier)
+            (identifier))
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (member_expression
+          (member_expression
+            (call_expression
+              (member_expression
+                (identifier)
+                (identifier))
+              (arguments
+                (identifier)))
+            (identifier))
+          (identifier))))))
