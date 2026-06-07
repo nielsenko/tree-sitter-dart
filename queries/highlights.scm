@@ -28,11 +28,6 @@
 (template_chars_double_single) @string
 (template_chars_raw_slash) @string
 (escape_sequence) @string.escape
-(template_substitution "$" @punctuation.special)
-(template_substitution "{" @punctuation.special)
-(template_substitution "}" @punctuation.special)
-(template_substitution
-  (identifier_dollar_escaped) @variable)
 
 (symbol_literal) @string.special.symbol
 
@@ -251,6 +246,15 @@
 
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket
 
+; Interpolation delimiters override generic brackets (last-wins)
+(template_substitution "$" @punctuation.special)
+(template_substitution "{" @punctuation.special)
+(template_substitution "}" @punctuation.special)
+(template_substitution
+  (identifier_dollar_escaped) @variable)
+(template_substitution
+  (identifier) @variable)
+
 (type_arguments
   "<" @punctuation.bracket
   ">" @punctuation.bracket)
@@ -261,7 +265,6 @@
 
 ["," ";" ":" "." "?." "?."] @punctuation.delimiter
 
-"@" @punctuation.special
 "#" @punctuation.special
 
 ; ============================================================================

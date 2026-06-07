@@ -9,3 +9,9 @@ void render(Shape s) {
   s.area();
   //  ^ reference.call
 }
+
+enum Status { ready }
+
+//   ^ definition.class
+typedef Handler = void Function();
+//      ^ definition.type

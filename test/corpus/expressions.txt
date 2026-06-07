@@ -1643,3 +1643,68 @@ void f() {
                 (type_arguments
                   (type
                     (type_identifier)))))))))))
+
+================================================================================
+Super expression forms
+================================================================================
+
+class C extends B {
+  void m() {
+    super.method();
+    var v = super.field;
+    var i = super[0];
+    super[1] = 2;
+    if (super == other) {}
+    var s = super.toString;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (superclass
+      (type
+        (type_identifier)))
+    (class_body
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (function_signature
+              (type
+                (void_type))
+              (identifier)
+              (formal_parameter_list)))
+          (function_body
+            (block
+              (expression_statement
+                (call_expression
+                  (member_expression
+                    (identifier))
+                  (arguments)))
+              (local_variable_declaration
+                (initialized_variable_declaration
+                  (identifier)
+                  (member_expression
+                    (identifier))))
+              (local_variable_declaration
+                (initialized_variable_declaration
+                  (identifier)
+                  (index_expression
+                    (decimal_integer_literal))))
+              (expression_statement
+                (assignment_expression
+                  (assignable_expression
+                    (decimal_integer_literal))
+                  (decimal_integer_literal)))
+              (if_statement
+                (equality_expression
+                  (equality_operator)
+                  (identifier))
+                (block))
+              (local_variable_declaration
+                (initialized_variable_declaration
+                  (identifier)
+                  (member_expression
+                    (identifier)))))))))))

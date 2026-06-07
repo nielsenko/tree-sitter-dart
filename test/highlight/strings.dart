@@ -7,3 +7,7 @@ line""";
 // <- string
 var d = #symbol;
 //       ^ string.special.symbol
+var e = 'pre ${value} post';
+//           ^ punctuation.special
+//            ^ punctuation.special
+//             ^ variable
