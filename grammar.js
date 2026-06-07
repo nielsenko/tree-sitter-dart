@@ -93,7 +93,7 @@ module.exports = grammar({
     $.annotation_open_paren,
   ],
 
-  extras: ($) => [/\s/, $.comment],
+  extras: ($) => [/\s/, $.comment, $.documentation_comment],
 
   word: ($) => $._name,
 
@@ -2440,9 +2440,16 @@ module.exports = grammar({
       choice(
         // Block comments (via external scanner)
         $.block_comment,
-        $.documentation_block_comment,
-        // Single-line comments
+        // Single-line comments (`//` but not `///`)
         seq("//", /([^/\n].*)?/),
+      ),
+
+    // Dartdoc comments: `///` lines and `/** ... */` blocks. Not a spec
+    // production (the spec only has SINGLE_LINE_COMMENT) - a deliberate
+    // exception so editors can style dartdoc differently.
+    documentation_comment: ($) =>
+      choice(
+        $.documentation_block_comment,
         seq("///", /.*/),
       ),
   },

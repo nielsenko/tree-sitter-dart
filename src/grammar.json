@@ -13400,10 +13400,6 @@
           "name": "block_comment"
         },
         {
-          "type": "SYMBOL",
-          "name": "documentation_block_comment"
-        },
-        {
           "type": "SEQ",
           "members": [
             {
@@ -13415,6 +13411,15 @@
               "value": "([^/\\n].*)?"
             }
           ]
+        }
+      ]
+    },
+    "documentation_comment": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "documentation_block_comment"
         },
         {
           "type": "SEQ",
@@ -13440,6 +13445,10 @@
     {
       "type": "SYMBOL",
       "name": "comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "documentation_comment"
     }
   ],
   "conflicts": [

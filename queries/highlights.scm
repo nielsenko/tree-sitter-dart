@@ -6,6 +6,7 @@
 
 (comment) @comment
 (block_comment) @comment.block
+(documentation_comment) @comment.documentation
 (documentation_block_comment) @comment.block.documentation
 
 ; ============================================================================

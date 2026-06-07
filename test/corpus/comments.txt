@@ -17,6 +17,21 @@ Single-line doc comment
 --------------------------------------------------------------------------------
 
 (source_file
+  (documentation_comment))
+
+================================================================================
+Consecutive doc comment lines
+================================================================================
+
+/// First line.
+/// Second line.
+// regular comment
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (documentation_comment)
+  (documentation_comment)
   (comment))
 ================================================================================
 Block comment
@@ -38,7 +53,7 @@ Documentation block comment
 --------------------------------------------------------------------------------
 
 (source_file
-  (comment
+  (documentation_comment
     (documentation_block_comment)))
 ================================================================================
 Nested block comment
