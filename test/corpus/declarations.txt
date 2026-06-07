@@ -2542,3 +2542,332 @@ class C {
                   (type
                     (type_identifier))
                   (identifier))))))))))
+
+================================================================================
+Annotations on every declaration position
+================================================================================
+
+@deprecated
+class A {
+  @override
+  @protected
+  void m(@checked int x) {}
+  @JsonKey(name: 'n')
+  final int field = 0;
+  @internal
+  A.named();
+}
+@internal
+enum E {
+  @deprecated legacy,
+  current,
+}
+@visibleForTesting
+typedef T = int;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (annotation
+      (identifier))
+    (identifier)
+    (class_body
+      (member_declaration
+        (method_declaration
+          (annotation
+            (identifier))
+          (annotation
+            (identifier))
+          (method_signature
+            (function_signature
+              (type
+                (void_type))
+              (identifier)
+              (formal_parameter_list
+                (formal_parameter
+                  (annotation
+                    (identifier))
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (block))))
+      (member_declaration
+        (annotation
+          (identifier)
+          (annotation_arguments
+            (annotation_open_paren)
+            (named_argument
+              (label
+                (identifier))
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single))))))
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              (identifier)
+              (decimal_integer_literal)))))
+      (member_declaration
+        (annotation
+          (identifier))
+        (declaration
+          (constructor_signature
+            (identifier)
+            (identifier)
+            (formal_parameter_list))))))
+  (enum_declaration
+    (annotation
+      (identifier))
+    (identifier)
+    (enum_body
+      (enum_entry
+        (annotation
+          (identifier))
+        (identifier))
+      (enum_entry
+        (identifier))))
+  (type_alias
+    (annotation
+      (identifier))
+    (type_identifier)
+    (type
+      (type_identifier))))
+
+================================================================================
+Multiple declarators with mixed initialization
+================================================================================
+
+int a = 1, b, c = compute(), d;
+final x = 1, y = 2;
+
+class M {
+  int p = 0, q = 1;
+  static const r = 'a', s = 'b';
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (type
+      (type_identifier))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))
+      (initialized_identifier
+        (identifier))
+      (initialized_identifier
+        (identifier)
+        (call_expression
+          (identifier)
+          (arguments)))
+      (initialized_identifier
+        (identifier))))
+  (top_level_variable_declaration
+    (static_final_declaration_list
+      (static_final_declaration
+        (identifier)
+        (decimal_integer_literal))
+      (static_final_declaration
+        (identifier)
+        (decimal_integer_literal))))
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              (identifier)
+              (decimal_integer_literal))
+            (initialized_identifier
+              (identifier)
+              (decimal_integer_literal)))))
+      (member_declaration
+        (declaration
+          (static_final_declaration_list
+            (static_final_declaration
+              (identifier)
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single))))
+            (static_final_declaration
+              (identifier)
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single))))))))))
+
+================================================================================
+Legacy generic typedef
+================================================================================
+
+typedef T Mapper<T>(T value);
+typedef int Compare(Object a, Object b);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (type
+      (type_identifier))
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (formal_parameter_list
+      (formal_parameter
+        (type
+          (type_identifier))
+        (identifier))))
+  (type_alias
+    (type
+      (type_identifier))
+    (type_identifier)
+    (formal_parameter_list
+      (formal_parameter
+        (type
+          (type_identifier))
+        (identifier))
+      (formal_parameter
+        (type
+          (type_identifier))
+        (identifier)))))
+
+================================================================================
+Bare Function type and covariant operator parameters
+================================================================================
+
+Function anyCallable;
+Function() voidCallable;
+List<Function> callbacks = [];
+
+class V {
+  bool operator ==(covariant V other) => true;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (type)
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier))))
+  (top_level_variable_declaration
+    (type
+      (function_type
+        (parameter_type_list)))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier))))
+  (top_level_variable_declaration
+    (type
+      (type_identifier)
+      (type_arguments
+        (type)))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (list_literal))))
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (operator_signature
+              (type
+                (type_identifier))
+              (binary_operator)
+              (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  (identifier)))))
+          (function_body
+            (true)))))))
+
+================================================================================
+Asserts with message expressions and const nesting
+================================================================================
+
+void f(int x) {
+  assert(x > 0, 'got $x at ${DateTime.now()}');
+  const config = {
+    'keys': const ['a', 'b'],
+    'nested': const {'deep': const [1]},
+  };
+  use(config);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (block
+        (assert_statement
+          (assertion
+            (relational_expression
+              (identifier)
+              (relational_operator)
+              (decimal_integer_literal))
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single)
+                (template_substitution
+                  (identifier_dollar_escaped))
+                (template_chars_single_single)
+                (template_substitution
+                  (call_expression
+                    (member_expression
+                      (identifier)
+                      (identifier))
+                    (arguments)))))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (set_or_map_literal
+              (map_element
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single)))
+                (list_literal
+                  (string_literal
+                    (string_literal_single_quotes
+                      (template_chars_single_single)))
+                  (string_literal
+                    (string_literal_single_quotes
+                      (template_chars_single_single)))))
+              (map_element
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single)))
+                (set_or_map_literal
+                  (map_element
+                    (string_literal
+                      (string_literal_single_quotes
+                        (template_chars_single_single)))
+                    (list_literal
+                      (decimal_integer_literal))))))))
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments
+              (identifier))))))))

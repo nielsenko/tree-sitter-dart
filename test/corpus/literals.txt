@@ -695,3 +695,49 @@ var merged = {
               (identifier)
               (additive_operator)
               (decimal_integer_literal))))))))
+
+================================================================================
+Quote characters adjacent to string delimiters
+================================================================================
+
+var a = '''it''s fine''';
+var b = """say "hi" there""";
+var c = 'double " inside';
+var d = "single ' inside";
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (string_literal_single_quotes_multiple
+            (template_chars_single)
+            (template_chars_single))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (string_literal_double_quotes_multiple
+            (template_chars_double)
+            (template_chars_double)
+            (template_chars_double))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (string_literal_single_quotes
+            (template_chars_single_single)
+            (template_chars_single_single))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (string_literal
+          (string_literal_double_quotes
+            (template_chars_double_single)
+            (template_chars_double_single)))))))

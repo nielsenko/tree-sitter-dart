@@ -1952,3 +1952,191 @@ var d = Theme.of(context).textTheme.bodyLarge;
                 (identifier)))
             (identifier))
           (identifier))))))
+
+================================================================================
+Nested conditional expressions and associativity
+================================================================================
+
+var a = x ? y ? 1 : 2 : z ? 3 : 4;
+var b = p ?? q ? r : s;
+var c = t ? u : v ?? w;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (conditional_expression
+          (identifier)
+          (conditional_expression
+            (identifier)
+            (decimal_integer_literal)
+            (decimal_integer_literal))
+          (conditional_expression
+            (identifier)
+            (decimal_integer_literal)
+            (decimal_integer_literal))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (if_null_expression
+          (identifier)
+          (conditional_expression
+            (identifier)
+            (identifier)
+            (identifier))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (conditional_expression
+          (identifier)
+          (identifier)
+          (if_null_expression
+            (identifier)
+            (identifier)))))))
+
+================================================================================
+Record positional and named field access
+================================================================================
+
+var pair = (1, 'two');
+var first = pair.$1;
+var second = pair.$2;
+var named = rec.name;
+var chained = grid.$1.$2;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (record_literal
+          (record_field
+            (decimal_integer_literal))
+          (record_field
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single))))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (member_expression
+          (identifier)
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (member_expression
+          (identifier)
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (member_expression
+          (identifier)
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (member_expression
+          (member_expression
+            (identifier)
+            (identifier))
+          (identifier))))))
+
+================================================================================
+Dollar identifiers
+================================================================================
+
+var $ = 1;
+var $$cache = 2;
+var price$ = 3;
+void f($Gen $arg) {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (decimal_integer_literal))))
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (block))))
+
+================================================================================
+Cascade compound assignments and index setters
+================================================================================
+
+void f() {
+  buf
+    ..length += 4
+    ..[0] = 1
+    ..items[i] ??= def
+    ..flag = !flag;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (expression_statement
+          (cascade
+            (identifier)
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (decimal_integer_literal))
+            (cascade_section
+              (cascade_selector
+                (decimal_integer_literal))
+              (decimal_integer_literal))
+            (cascade_section
+              (cascade_index_expression
+                (cascade_selector
+                  (identifier))
+                (identifier))
+              (identifier))
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (unary_expression
+                (negation_operator)
+                (identifier)))))))))

@@ -655,3 +655,223 @@ void f(List<(String, int)> entries) {
                       (template_chars_single_single)
                       (template_substitution
                         (identifier_dollar_escaped)))))))))))))
+
+================================================================================
+Deep object patterns with generics
+================================================================================
+
+void f(Object x) {
+  switch (x) {
+    case MapEntry<String, int>(key: var k, value: > 0):
+      break;
+    case Rect(topLeft: Point(x: var px, y: var py), size: var s):
+      break;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (block
+        (switch_statement
+          (parenthesized_expression
+            (identifier))
+          (switch_block
+            (switch_statement_case
+              (object_pattern
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (type_identifier))
+                  (type
+                    (type_identifier)))
+                (label
+                  (identifier))
+                (variable_pattern
+                  (identifier))
+                (label
+                  (identifier))
+                (relational_operator)
+                (decimal_integer_literal))
+              (break_statement))
+            (switch_statement_case
+              (object_pattern
+                (type_identifier)
+                (label
+                  (identifier))
+                (object_pattern
+                  (type_identifier)
+                  (label
+                    (identifier))
+                  (variable_pattern
+                    (identifier))
+                  (label
+                    (identifier))
+                  (variable_pattern
+                    (identifier)))
+                (label
+                  (identifier))
+                (variable_pattern
+                  (identifier)))
+              (break_statement))))))))
+
+================================================================================
+Full relational and logical pattern operators
+================================================================================
+
+String grade(int n) => switch (n) {
+  >= 90 => 'A',
+  > 80 && <= 89 => 'B',
+  == 0 => 'zero',
+  != 1 && < 50 => 'low',
+  _ => 'C',
+};
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (type_identifier))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (switch_expression
+        (parenthesized_expression
+          (identifier))
+        (switch_expression_case
+          (relational_operator)
+          (decimal_integer_literal)
+          (string_literal
+            (string_literal_single_quotes
+              (template_chars_single_single))))
+        (switch_expression_case
+          (relational_operator)
+          (decimal_integer_literal)
+          (relational_operator)
+          (decimal_integer_literal)
+          (string_literal
+            (string_literal_single_quotes
+              (template_chars_single_single))))
+        (switch_expression_case
+          (decimal_integer_literal)
+          (string_literal
+            (string_literal_single_quotes
+              (template_chars_single_single))))
+        (switch_expression_case
+          (decimal_integer_literal)
+          (relational_operator)
+          (decimal_integer_literal)
+          (string_literal
+            (string_literal_single_quotes
+              (template_chars_single_single))))
+        (switch_expression_case
+          (constant_pattern
+            (identifier))
+          (string_literal
+            (string_literal_single_quotes
+              (template_chars_single_single))))))))
+
+================================================================================
+If-case chains with else and guards
+================================================================================
+
+void f(Object x) {
+  if (x case [int a] when a > 0) {
+    one(a);
+  } else if (x case {'k': String v}) {
+    two(v);
+  } else if (x case (int, int) pair) {
+    three(pair);
+  } else {
+    none();
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (block
+        (if_statement
+          (identifier)
+          (list_pattern
+            (variable_pattern
+              (type
+                (type_identifier))
+              (identifier)))
+          (relational_expression
+            (identifier)
+            (relational_operator)
+            (decimal_integer_literal))
+          (block
+            (expression_statement
+              (call_expression
+                (identifier)
+                (arguments
+                  (identifier)))))
+          (if_statement
+            (identifier)
+            (map_pattern
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single)))
+              (variable_pattern
+                (type
+                  (type_identifier))
+                (identifier)))
+            (block
+              (expression_statement
+                (call_expression
+                  (identifier)
+                  (arguments
+                    (identifier)))))
+            (if_statement
+              (identifier)
+              (variable_pattern
+                (type
+                  (record_type
+                    (record_type_field
+                      (type
+                        (type_identifier)))
+                    (record_type_field
+                      (type
+                        (type_identifier)))))
+                (identifier))
+              (block
+                (expression_statement
+                  (call_expression
+                    (identifier)
+                    (arguments
+                      (identifier)))))
+              (block
+                (expression_statement
+                  (call_expression
+                    (identifier)
+                    (arguments)))))))))))
