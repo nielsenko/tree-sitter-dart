@@ -1,0 +1,9 @@
+name: corpus
+environment:
+  sdk: '^3.0.0'
+dependencies:
+  analyzer: '^7.4.0'
+  args: '^2.6.0'
+  http: '^1.2.2'
+  path: '^1.9.1'
+  pool: '^1.5.1'

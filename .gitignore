@@ -48,3 +48,8 @@ zig-out/
 
 # git submodule
 language/
+
+# Corpus data (downloaded by tools/corpus/bin/*.dart)
+tools/corpus/download/
+tools/corpus/out/
+tools/corpus/.dart_tool/
