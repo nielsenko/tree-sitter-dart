@@ -576,10 +576,41 @@ class C {
                     (identifier)))))))))))
 
 ================================================================================
-Known limitation: non-nullable record type after annotation
-:error
+Known limitation: binary expression in a constant switch pattern
 ================================================================================
 
-class A {
-  @override (String, int) bar() => ('x', 1);
+void f(int x) {
+  switch (x) {
+    case 1 + 1:
+      go();
+  }
 }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))
+    body: (function_body
+      (block
+        (switch_statement
+          condition: (parenthesized_expression
+            (identifier))
+          body: (switch_block
+            (switch_statement_case
+              (constant_pattern
+                (decimal_integer_literal))
+              (ERROR
+                (decimal_integer_literal))
+              (expression_statement
+                (call_expression
+                  function: (identifier)
+                  arguments: (arguments))))))))))
