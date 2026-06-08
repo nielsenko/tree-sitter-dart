@@ -1017,16 +1017,51 @@ void f() {
           (block))))))
 
 ================================================================================
-Invalid: unterminated string
-:error
+Known limitation: call-shaped await in sync context parses as await_expression
 ================================================================================
 
-var s = 'no end;
+// Whether `await(5)` is a call or an await expression depends on the
+// enclosing function's async modifier, which tree-sitter cannot see.
+// prec.dynamic(3) prefers the keyword form because await-of-parenthesized
+// dominates real async code. The analyzer accepts this file. We knowingly
+// produce await_expression instead of call_expression here.
+int await(int x) => x;
+void caller() {
+  var a = await(5);
+}
 
-================================================================================
-Invalid: unterminated block comment
-:error
-================================================================================
+--------------------------------------------------------------------------------
 
-/* never closed
-var x = 1;
+(source_file
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (function_declaration
+    (function_signature
+      (type
+        (type_identifier))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (identifier)))
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (unary_expression
+              (await_expression
+                (parenthesized_expression
+                  (decimal_integer_literal))))))))))
