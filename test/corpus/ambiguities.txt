@@ -1065,3 +1065,47 @@ void caller() {
               (await_expression
                 (parenthesized_expression
                   (decimal_integer_literal))))))))))
+
+================================================================================
+Known limitation: call-shaped yield in sync context parses as yield_statement
+================================================================================
+
+// Same class as the call-shaped await pin: whether `yield(5);` calls a
+// function named `yield` or is a yield statement depends on the enclosing
+// function's generator modifier - context tree-sitter cannot see.
+// prec.dynamic(3) prefers the keyword form.
+int yield(int x) => x;
+void caller() {
+  yield(5);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (function_declaration
+    (function_signature
+      (type
+        (type_identifier))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (identifier)))
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (yield_statement
+          (parenthesized_expression
+            (decimal_integer_literal)))))))

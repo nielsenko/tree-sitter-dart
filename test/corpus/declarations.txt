@@ -2871,3 +2871,43 @@ void f(int x) {
             (identifier)
             (arguments
               (identifier))))))))
+
+================================================================================
+Record return type on an annotated method
+================================================================================
+
+class C {
+  @override
+  (String, int) bar() => ('x', 1);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (method_declaration
+          (annotation
+            (identifier))
+          (method_signature
+            (function_signature
+              (type
+                (record_type
+                  (record_type_field
+                    (type
+                      (type_identifier)))
+                  (record_type_field
+                    (type
+                      (type_identifier)))))
+              (identifier)
+              (formal_parameter_list)))
+          (function_body
+            (record_literal
+              (record_field
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single))))
+              (record_field
+                (decimal_integer_literal)))))))))
