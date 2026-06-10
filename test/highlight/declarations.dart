@@ -1,20 +1,25 @@
-enum Color { red, green }
+enum Color {
+  // <- keyword
+  //   ^ type
+  red,
+  green,
+  //^ constant
+}
 
-// <- keyword
-//   ^ type
-//           ^ constant
 typedef Predicate = bool Function(int);
 
 // <- keyword
 //      ^ type.definition
-mixin Walks {}
+mixin Walks {
+  // <- keyword
+  //    ^ type
+}
 
-// <- keyword
-//    ^ type
-extension type Meters(double value) {}
+extension type Meters(double value) {
+  // <- keyword
+  //             ^ type
+}
 
-// <- keyword
-//             ^ type
 @Deprecated('x')
 // <- attribute
 // ^ attribute
