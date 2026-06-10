@@ -89,15 +89,16 @@
 
 ; Const constructors
 (constant_constructor_signature
-  (identifier) @name) @definition.method
+  name: (identifier) @name) @definition.method
 
 ; Factory constructors
 (factory_constructor_signature
-  (identifier) @name) @definition.method
+  name: (identifier) @name) @definition.method
 
-; Redirecting factory constructors
+; Redirecting factory constructors (name:-qualified so the redirect target
+; is not tagged as a definition)
 (redirecting_factory_constructor_signature
-  (identifier) @name) @definition.method
+  name: (identifier) @name) @definition.method
 
 ; Named primary constructors (Dart 3.13)
 (primary_constructor

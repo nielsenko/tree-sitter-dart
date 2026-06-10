@@ -19,3 +19,18 @@ extension type Meters(double value) {}
 // <- attribute
 // ^ attribute
 class Old {}
+
+class Node {
+  Node(this.next);
+  //^ constructor
+  Node? next;
+  //^ type
+  static Node origin() => Node.zero;
+  //       ^ type
+}
+
+@foo.bar('y')
+// <- attribute
+//   ^ attribute
+//      ^ punctuation.bracket
+class Tagged {}

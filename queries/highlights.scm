@@ -131,13 +131,15 @@
   name: (identifier) @constructor)
 
 (constant_constructor_signature
-  (identifier) @constructor)
+  name: (identifier) @constructor)
 
 (factory_constructor_signature
-  (identifier) @constructor)
+  name: (identifier) @constructor)
 
+; name:-qualified so the redirect target (target_constructor:) keeps its
+; own capture instead of @constructor.
 (redirecting_factory_constructor_signature
-  (identifier) @constructor)
+  name: (identifier) @constructor)
 
 (primary_constructor
   name: (identifier) @constructor)
@@ -180,6 +182,14 @@
 (annotation
   "@" @attribute
   name: (identifier) @attribute)
+
+(annotation
+  "@" @attribute
+  name: (qualified_name
+    (type_identifier) @attribute
+    (identifier) @attribute))
+
+(annotation_open_paren) @punctuation.bracket
 
 ; ============================================================================
 ; Operators
@@ -277,7 +287,6 @@
   "async"
   "async*"
   "augment"
-  "await"
   "base"
   "break"
   "case"
@@ -333,8 +342,14 @@
   "when"
   "while"
   "with"
-  "yield"
 ] @keyword
+
+; await/yield are keywords only in their expression/statement forms; the
+; bare tokens also appear as identifiers in sync contexts and must not be
+; painted as keywords there.
+(await_expression "await" @keyword)
+(yield_statement "yield" @keyword)
+(yield_each_statement "yield" @keyword)
 
 ; ============================================================================
 ; Special identifiers

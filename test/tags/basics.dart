@@ -14,4 +14,9 @@ enum Status { ready }
 
 //   ^ definition.class
 typedef Handler = void Function();
+
 //      ^ definition.type
+class Boxed {
+  factory Boxed() = Box.of.unit;
+  //      ^ definition.method
+}

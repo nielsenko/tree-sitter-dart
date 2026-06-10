@@ -28,3 +28,17 @@ void main() {
   //        ^ punctuation.special
   //         ^ variable
 }
+
+int await = 1;
+//  ^ variable
+int yield = 2;
+//  ^ variable
+Future<void> later() async {
+  await go();
+  //^ keyword
+}
+
+Stream<int> gen() async* {
+  yield 1;
+  //^ keyword
+}

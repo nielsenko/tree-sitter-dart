@@ -18,6 +18,13 @@
   (catch_clause)
   (finally_clause)
   (switch_statement_case)
+  ; Constructor signatures are scopes so their name definitions (below) end
+  ; at the signature instead of shadowing the class name for the rest of the
+  ; class body (which made class-name type references inherit @constructor).
+  (constructor_signature)
+  (constant_constructor_signature)
+  (factory_constructor_signature)
+  (redirecting_factory_constructor_signature)
 ] @local.scope
 
 ; ============================================================================
@@ -86,13 +93,15 @@
   name: (identifier) @local.definition)
 
 (constant_constructor_signature
-  (identifier) @local.definition)
+  name: (identifier) @local.definition)
 
 (factory_constructor_signature
-  (identifier) @local.definition)
+  name: (identifier) @local.definition)
 
+; name:-qualified so the redirect target (target_constructor:) is not
+; captured as a definition.
 (redirecting_factory_constructor_signature
-  (identifier) @local.definition)
+  name: (identifier) @local.definition)
 
 (primary_constructor
   name: (identifier) @local.definition)
