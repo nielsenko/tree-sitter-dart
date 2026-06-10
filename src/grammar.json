@@ -9461,15 +9461,15 @@
       ]
     },
     "factory_constructor_signature": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "factory"
-        },
-        {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
+            {
+              "type": "STRING",
+              "value": "factory"
+            },
             {
               "type": "FIELD",
               "name": "name",
@@ -9505,16 +9505,34 @@
               }
             },
             {
-              "type": "BLANK"
+              "type": "FIELD",
+              "name": "parameters",
+              "content": {
+                "type": "SYMBOL",
+                "name": "formal_parameter_list"
+              }
             }
           ]
         },
         {
-          "type": "FIELD",
-          "name": "parameters",
+          "type": "PREC_DYNAMIC",
+          "value": 1,
           "content": {
-            "type": "SYMBOL",
-            "name": "formal_parameter_list"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "factory"
+              },
+              {
+                "type": "FIELD",
+                "name": "parameters",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "formal_parameter_list"
+                }
+              }
+            ]
           }
         }
       ]

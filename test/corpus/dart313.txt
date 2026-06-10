@@ -614,3 +614,49 @@ void f(int x) {
                 (call_expression
                   function: (identifier)
                   arguments: (arguments))))))))))
+
+================================================================================
+External factory heads: bare, named, dotted-const
+================================================================================
+
+class A {
+  external factory();
+  external factory A();
+  external factory fromInt(int i);
+  external const factory A.named();
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (declaration
+          (external)
+          (factory_constructor_signature
+            (formal_parameter_list))))
+      (member_declaration
+        (declaration
+          (external)
+          (factory_constructor_signature
+            (identifier)
+            (formal_parameter_list))))
+      (member_declaration
+        (declaration
+          (external)
+          (factory_constructor_signature
+            (identifier)
+            (formal_parameter_list
+              (formal_parameter
+                (type
+                  (type_identifier))
+                (identifier))))))
+      (member_declaration
+        (declaration
+          (external)
+          (factory_constructor_signature
+            (identifier)
+            (identifier)
+            (formal_parameter_list)))))))

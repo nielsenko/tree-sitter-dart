@@ -1909,11 +1909,18 @@ module.exports = grammar({
       ),
 
     factory_constructor_signature: ($) =>
-      seq(
-        "factory",
+      choice(
+        seq(
+          "factory",
+          field("name", seq($.identifier, optional(seq(".", $._identifier_or_new)))),
+          field("parameters", $.formal_parameter_list),
+        ),
         // Name optional since Dart 3.13: `factory() => ...` is the unnamed factory.
-        optional(field("name", seq($.identifier, optional(seq(".", $._identifier_or_new))))),
-        field("parameters", $.formal_parameter_list),
+        // Dynamic precedence: the bare head otherwise loses its GLR forks - `factory();`
+        // to a generative constructor named `factory` and `external factory();` to a
+        // method whose return type is `external`. Both readings are impossible
+        // (built-in identifiers cannot name classes/types), so the factory wins.
+        prec.dynamic(1, seq("factory", field("parameters", $.formal_parameter_list))),
       ),
 
     redirecting_factory_constructor_signature: ($) =>
