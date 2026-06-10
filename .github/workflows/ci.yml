@@ -45,6 +45,11 @@ jobs:
       - name: Test Go binding
         run: go test ./bindings/go/
 
+      - name: Test Node binding
+        run: |
+          npm install --no-save tree-sitter@^0.25.0
+          npm test
+
       - name: Build Rust crate
         run: cargo build --release
 
