@@ -995,3 +995,60 @@ void f() {
             (arguments
               (identifier)
               (identifier))))))))
+
+================================================================================
+For loop with trailing comma after updates
+================================================================================
+
+void f() {
+  for (var i = 0; i < 3; i++,) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (for_statement
+          (local_variable_declaration
+            (initialized_variable_declaration
+              (identifier)
+              (decimal_integer_literal)))
+          (relational_expression
+            (identifier)
+            (relational_operator)
+            (decimal_integer_literal))
+          (postfix_expression
+            (assignable_expression
+              (identifier))
+            (increment_operator))
+          (block))))))
+
+================================================================================
+For loop with a lone comma in updates is an error
+================================================================================
+
+void f() {
+  for (;;,) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (for_statement
+          (ERROR)
+          (block))))))

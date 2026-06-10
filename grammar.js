@@ -1620,8 +1620,7 @@ module.exports = grammar({
           ),
           field("condition", optional($._expression)),
           ";",
-          commaSep(field("update", $._expression)),
-          optional(","),
+          commaSepTrailingComma(field("update", $._expression)),
         ),
         // Pattern for-in loop (Dart 3.0)
         seq(
@@ -2344,7 +2343,7 @@ module.exports = grammar({
       prec(
         PREC.RELATIONAL,
         choice(
-          seq(choice($.relational_operator, choice("==", "!=")), $._real_expression),
+          seq(choice($.relational_operator, $.equality_operator), $._real_expression),
           $._unary_pattern,
         ),
       ),

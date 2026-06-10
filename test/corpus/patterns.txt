@@ -770,11 +770,13 @@ String grade(int n) => switch (n) {
             (string_literal_single_quotes
               (template_chars_single_single))))
         (switch_expression_case
+          (equality_operator)
           (decimal_integer_literal)
           (string_literal
             (string_literal_single_quotes
               (template_chars_single_single))))
         (switch_expression_case
+          (equality_operator)
           (decimal_integer_literal)
           (relational_operator)
           (decimal_integer_literal)
@@ -875,3 +877,44 @@ void f(Object x) {
                   (call_expression
                     (identifier)
                     (arguments)))))))))))
+
+================================================================================
+Equality patterns produce equality_operator nodes
+================================================================================
+
+void f(Object x) {
+  switch (x) {
+    case == 4:
+      break;
+    case != 5:
+      break;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (block
+        (switch_statement
+          (parenthesized_expression
+            (identifier))
+          (switch_block
+            (switch_statement_case
+              (equality_operator)
+              (decimal_integer_literal)
+              (break_statement))
+            (switch_statement_case
+              (equality_operator)
+              (decimal_integer_literal)
+              (break_statement))))))))
