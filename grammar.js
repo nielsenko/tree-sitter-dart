@@ -2010,10 +2010,20 @@ module.exports = grammar({
           optional($._metadata),
           optional("augment"),
           choice($._class_modifiers, $._mixin_class_modifiers),
-          optional("const"),
-          field("name", $.identifier),
-          optional(field("type_parameters", $.type_parameters)),
-          optional($.primary_constructor),
+          // Header `const` is only valid together with a primary constructor.
+          choice(
+            seq(
+              "const",
+              field("name", $.identifier),
+              optional(field("type_parameters", $.type_parameters)),
+              $.primary_constructor,
+            ),
+            seq(
+              field("name", $.identifier),
+              optional(field("type_parameters", $.type_parameters)),
+              optional($.primary_constructor),
+            ),
+          ),
           optional(field("superclass", $.superclass)),
           optional(field("interfaces", $.interfaces)),
           choice(field("body", $.class_body), ";"),
@@ -2179,10 +2189,20 @@ module.exports = grammar({
         optional($._metadata),
         optional("augment"),
         "enum",
-        optional("const"),
-        field("name", $.identifier),
-        optional($.type_parameters),
-        optional($.primary_constructor),
+        // Header `const` is only valid together with a primary constructor.
+        choice(
+          seq(
+            "const",
+            field("name", $.identifier),
+            optional($.type_parameters),
+            $.primary_constructor,
+          ),
+          seq(
+            field("name", $.identifier),
+            optional($.type_parameters),
+            optional($.primary_constructor),
+          ),
+        ),
         optional($.mixins),
         optional($.interfaces),
         choice(field("body", $.enum_body), ";"),

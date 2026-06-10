@@ -660,3 +660,15 @@ class A {
             (identifier)
             (identifier)
             (formal_parameter_list)))))))
+
+================================================================================
+Header const without a primary constructor is an error
+================================================================================
+
+class const Foo {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (ERROR
+    (identifier)))
