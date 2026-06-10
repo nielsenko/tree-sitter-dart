@@ -48,6 +48,7 @@
     "start": "tree-sitter playground",
     "test": "node --test bindings/node/*_test.js",
     "build-test": "tree-sitter generate && node-gyp build && tree-sitter test && node tools/check_coverage.mjs",
-    "coverage": "node tools/check_coverage.mjs"
+    "coverage": "node tools/check_coverage.mjs",
+    "parse": "node tools/parse.mjs"
   }
 }

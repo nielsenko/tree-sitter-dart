@@ -28,11 +28,14 @@ void main(List<String> args) async {
     tsConfigPath,
   ).writeAsStringSync('{"parser-directories":["$tsParentDir"]}');
 
-  // Clear cached parser.
+  // Clear cached parser (the cache is keyed by language name only, so a lib
+  // compiled from a different dart grammar would be silently reused).
   var home = Platform.environment['HOME'] ?? '';
-  var cacheFile = '$home/.cache/tree-sitter/lib/dart.dylib';
-  if (File(cacheFile).existsSync()) {
-    File(cacheFile).deleteSync();
+  for (var ext in ['dylib', 'so']) {
+    var cacheFile = File('$home/.cache/tree-sitter/lib/dart.$ext');
+    if (cacheFile.existsSync()) {
+      cacheFile.deleteSync();
+    }
   }
 
   // Discover corpora.
