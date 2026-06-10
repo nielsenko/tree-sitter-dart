@@ -12,4 +12,14 @@ func TestCanLoadGrammar(t *testing.T) {
 	if language == nil {
 		t.Errorf("Error loading Dart grammar")
 	}
+	parser := tree_sitter.NewParser()
+	defer parser.Close()
+	if err := parser.SetLanguage(language); err != nil {
+		t.Fatalf("Error setting language (ABI mismatch?): %v", err)
+	}
+	tree := parser.Parse([]byte("class A {}"), nil)
+	defer tree.Close()
+	if tree.RootNode().HasError() {
+		t.Errorf("Error parsing Dart source")
+	}
 }

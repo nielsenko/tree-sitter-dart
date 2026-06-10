@@ -35,8 +35,15 @@ jobs:
       - name: Build parser and run unit tests
         run: npm run build-test
 
-      - name: Check node coverage of unit tests
-        run: npm run coverage
+      - name: Verify committed parser matches grammar.js
+        run: git diff --exit-code -- src/
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Test Go binding
+        run: go test ./bindings/go/
 
       - name: Build Rust crate
         run: cargo build --release

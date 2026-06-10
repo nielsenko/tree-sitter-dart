@@ -14,7 +14,8 @@ let package = Package(
         .library(name: "TreeSitterDart", targets: ["TreeSitterDart"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/tree-sitter/swift-tree-sitter", from: "0.8.0"),
+        // 0.9.0 is the first release whose bundled runtime loads ABI-15 parsers.
+        .package(url: "https://github.com/tree-sitter/swift-tree-sitter", from: "0.9.0"),
     ],
     targets: [
         .target(
