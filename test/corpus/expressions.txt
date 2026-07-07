@@ -2197,3 +2197,45 @@ var a = x ?? y ?? z ? p : q;
             (identifier))
           (identifier)
           (identifier))))))
+
+================================================================================
+Bare Function types take the plain-type route
+================================================================================
+
+Function a = print;
+Function? b;
+int Function()? Function() d = (() => null) as dynamic;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (type)
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (identifier))))
+  (top_level_variable_declaration
+    (type)
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier))))
+  (top_level_variable_declaration
+    (type
+      (function_type
+        (type
+          (type_identifier))
+        (parameter_type_list)
+        (parameter_type_list)))
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (type_cast_expression
+          (parenthesized_expression
+            (function_expression
+              (formal_parameter_list)
+              (function_expression_body
+                (null_literal))))
+          (type_cast
+            (type
+              (type_identifier))))))))

@@ -31,7 +31,7 @@ void main() {
                 (type
                   (type_identifier))
                 name: (identifier))
-              (relational_expression
+              guard: (relational_expression
                 (identifier)
                 operator: (relational_operator)
                 (decimal_integer_literal))
@@ -121,7 +121,7 @@ void main() {
     body: (function_body
       (block
         (if_statement
-          (identifier)
+          condition: (identifier)
           (list_pattern
             (variable_pattern
               (type
@@ -202,7 +202,7 @@ void f(x) {
     body: (function_body
       (block
         (if_statement
-          (identifier)
+          condition: (identifier)
           (constant_pattern
             (record_field
               (decimal_integer_literal))
@@ -272,10 +272,10 @@ void main() {
             parameters: (formal_parameter_list
               (formal_parameter
                 (field_formal_parameter
-                  (identifier)))
+                  name: (identifier)))
               (formal_parameter
                 (field_formal_parameter
-                  (identifier)))))))))
+                  name: (identifier)))))))))
   (function_declaration
     signature: (function_signature
       return_type: (type
@@ -307,7 +307,7 @@ void main() {
                   (identifier))
                 (variable_pattern
                   name: (identifier)))
-              (relational_expression
+              guard: (relational_expression
                 (identifier)
                 operator: (relational_operator)
                 (identifier))

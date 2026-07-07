@@ -1109,3 +1109,93 @@ void caller() {
         (yield_statement
           (parenthesized_expression
             (decimal_integer_literal)))))))
+
+================================================================================
+Null-aware index receiver with nullable function-type cast
+================================================================================
+
+void main() {
+  Map<String, dynamic>? extraParams;
+  final dataGetter =
+      extraParams?['dataGetter'] as FutureOr<List<Map<String, dynamic>>>
+          Function()?;
+  extraParams?['formatter'] as Iterable<int> Function(Iterable<int> value)?;
+  print(dataGetter);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (type
+              (type_identifier)
+              (type_arguments
+                (type
+                  (type_identifier))
+                (type
+                  (type_identifier))))
+            (identifier)))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (type_cast_expression
+              (null_aware_index_expression
+                (identifier)
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single))))
+              (type_cast
+                (type
+                  (function_type
+                    (type
+                      (type_identifier)
+                      (type_arguments
+                        (type
+                          (type_identifier)
+                          (type_arguments
+                            (type
+                              (type_identifier)
+                              (type_arguments
+                                (type
+                                  (type_identifier))
+                                (type
+                                  (type_identifier))))))))
+                    (parameter_type_list)))))))
+        (expression_statement
+          (type_cast_expression
+            (null_aware_index_expression
+              (identifier)
+              (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single))))
+            (type_cast
+              (type
+                (function_type
+                  (type
+                    (type_identifier)
+                    (type_arguments
+                      (type
+                        (type_identifier))))
+                  (parameter_type_list
+                    (normal_parameter_type
+                      (typed_identifier
+                        (type
+                          (type_identifier)
+                          (type_arguments
+                            (type
+                              (type_identifier))))
+                        (identifier)))))))))
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments
+              (identifier))))))))

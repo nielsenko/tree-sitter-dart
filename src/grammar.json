@@ -1330,16 +1330,8 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "parameter_type_list"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "parameter_type_list"
         },
         {
           "type": "CHOICE",
@@ -6442,8 +6434,12 @@
                   "value": "="
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_expression"
+                  "type": "FIELD",
+                  "name": "default_value",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  }
                 }
               ]
             },
@@ -6503,8 +6499,12 @@
                         ]
                       },
                       {
-                        "type": "SYMBOL",
-                        "name": "_expression"
+                        "type": "FIELD",
+                        "name": "default_value",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "_expression"
+                        }
                       }
                     ]
                   },
@@ -6555,8 +6555,12 @@
                       ]
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "_expression"
+                      "type": "FIELD",
+                      "name": "default_value",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "_expression"
+                      }
                     }
                   ]
                 },
@@ -6656,8 +6660,12 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
           "type": "SYMBOL",
@@ -6760,8 +6768,12 @@
           "value": "."
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
           "type": "CHOICE",
@@ -6818,8 +6830,12 @@
           "value": "."
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
           "type": "CHOICE",
@@ -7140,8 +7156,12 @@
             "value": "("
           },
           {
-            "type": "SYMBOL",
-            "name": "_expression"
+            "type": "FIELD",
+            "name": "condition",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
           },
           {
             "type": "CHOICE",
@@ -7838,8 +7858,12 @@
               "value": "on"
             },
             {
-              "type": "SYMBOL",
-              "name": "_type_not_void"
+              "type": "FIELD",
+              "name": "type",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_type_not_void"
+              }
             },
             {
               "type": "CHOICE",
@@ -12390,8 +12414,12 @@
                   "value": "when"
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_expression"
+                  "type": "FIELD",
+                  "name": "guard",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_expression"
+                  }
                 }
               ]
             },
@@ -13670,12 +13698,75 @@
     ],
     [
       "type",
-      "_function_type_tail",
       "_built_in_identifier"
     ],
     [
       "type",
-      "_function_type_tail"
+      "_type_not_function_inner",
+      "_built_in_identifier"
+    ],
+    [
+      "_type_not_function_inner",
+      "_built_in_identifier"
+    ],
+    [
+      "_type_not_void_inner",
+      "_built_in_identifier"
+    ],
+    [
+      "_type_not_void_not_function_inner",
+      "_built_in_identifier"
+    ],
+    [
+      "_type_not_function_inner",
+      "_type_not_void_inner",
+      "_built_in_identifier"
+    ],
+    [
+      "_type_not_function_inner",
+      "_type_not_void_not_function_inner",
+      "_built_in_identifier"
+    ],
+    [
+      "_type_not_void_inner",
+      "_type_not_void_not_function_inner",
+      "_built_in_identifier"
+    ],
+    [
+      "_type_not_function_inner",
+      "_type_not_void_inner",
+      "_type_not_void_not_function_inner",
+      "_built_in_identifier"
+    ],
+    [
+      "type",
+      "_type_not_void_not_function_inner",
+      "_built_in_identifier"
+    ],
+    [
+      "type",
+      "_type_not_function_inner",
+      "_type_not_void_inner",
+      "_built_in_identifier"
+    ],
+    [
+      "type",
+      "_type_not_function_inner",
+      "_type_not_void_not_function_inner",
+      "_built_in_identifier"
+    ],
+    [
+      "type",
+      "_type_not_void_inner",
+      "_type_not_void_not_function_inner",
+      "_built_in_identifier"
+    ],
+    [
+      "type",
+      "_type_not_function_inner",
+      "_type_not_void_inner",
+      "_type_not_void_not_function_inner",
+      "_built_in_identifier"
     ],
     [
       "function_type"
@@ -13762,23 +13853,7 @@
     ],
     [
       "type",
-      "_type_not_function_inner",
-      "_function_type_tail",
-      "_built_in_identifier"
-    ],
-    [
-      "type",
       "_type_not_function_inner"
-    ],
-    [
-      "type",
-      "_type_not_function_inner",
-      "_function_type_tail"
-    ],
-    [
-      "_type_not_function_inner",
-      "_function_type_tail",
-      "_built_in_identifier"
     ],
     [
       "identifier",
@@ -13819,22 +13894,9 @@
     ],
     [
       "_type_not_function_inner",
-      "_type_not_void_inner",
-      "_function_type_tail",
-      "_built_in_identifier"
-    ],
-    [
-      "_type_not_function_inner",
       "_type_not_void_inner"
     ],
     [
-      "type",
-      "_type_not_function_inner",
-      "_type_not_void_inner",
-      "_function_type_tail",
-      "_built_in_identifier"
-    ],
-    [
       "_type_not_function_inner",
       "_type_not_void_not_function_inner",
       "_function_type_tail",
@@ -13852,14 +13914,6 @@
       "_type_not_void_not_function_inner",
       "_function_type_tail",
       "_built_in_identifier"
-    ],
-    [
-      "_type_not_function_inner",
-      "_function_type_tail"
-    ],
-    [
-      "_type_not_void_inner",
-      "_function_type_tail"
     ],
     [
       "_type_not_void_not_function_inner",

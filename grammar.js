@@ -140,8 +140,20 @@ module.exports = grammar({
     [$._type_not_void_not_function],
     [$._function_type_tail],
     [$._type_not_void_not_function, $._function_type_tail],
-    [$.type, $._function_type_tail, $._built_in_identifier],
-    [$.type, $._function_type_tail],
+    [$.type, $._built_in_identifier],
+    [$.type, $._type_not_function_inner, $._built_in_identifier],
+    [$._type_not_function_inner, $._built_in_identifier],
+    [$._type_not_void_inner, $._built_in_identifier],
+    [$._type_not_void_not_function_inner, $._built_in_identifier],
+    [$._type_not_function_inner, $._type_not_void_inner, $._built_in_identifier],
+    [$._type_not_function_inner, $._type_not_void_not_function_inner, $._built_in_identifier],
+    [$._type_not_void_inner, $._type_not_void_not_function_inner, $._built_in_identifier],
+    [$._type_not_function_inner, $._type_not_void_inner, $._type_not_void_not_function_inner, $._built_in_identifier],
+    [$.type, $._type_not_void_not_function_inner, $._built_in_identifier],
+    [$.type, $._type_not_function_inner, $._type_not_void_inner, $._built_in_identifier],
+    [$.type, $._type_not_function_inner, $._type_not_void_not_function_inner, $._built_in_identifier],
+    [$.type, $._type_not_void_inner, $._type_not_void_not_function_inner, $._built_in_identifier],
+    [$.type, $._type_not_function_inner, $._type_not_void_inner, $._type_not_void_not_function_inner, $._built_in_identifier],
     [$.function_type],
     // Var or type ambiguities
     [$._var_or_type],
@@ -171,10 +183,7 @@ module.exports = grammar({
     [$.record_type_field, $._var_or_type, $._final_var_or_type, $._function_formal_parameter],
     [$._var_or_type, $._final_var_or_type, $._function_formal_parameter],
     [$._function_formal_parameter, $._final_const_var_or_type],
-    [$.type, $._type_not_function_inner, $._function_type_tail, $._built_in_identifier],
     [$.type, $._type_not_function_inner],
-    [$.type, $._type_not_function_inner, $._function_type_tail],
-    [$._type_not_function_inner, $._function_type_tail, $._built_in_identifier],
     [$.identifier, $.await_expression],
     [$.identifier, $.yield_statement],
     [$.identifier, $.yield_each_statement],
@@ -183,14 +192,10 @@ module.exports = grammar({
     [$.type, $._type_not_void_not_function_inner],
     [$.type, $._type_not_void_not_function_inner, $._function_type_tail],
     [$.type, $._type_not_void_not_function_inner, $._function_type_tail, $._built_in_identifier],
-    [$._type_not_function_inner, $._type_not_void_inner, $._function_type_tail, $._built_in_identifier],
     [$._type_not_function_inner, $._type_not_void_inner],
-    [$.type, $._type_not_function_inner, $._type_not_void_inner, $._function_type_tail, $._built_in_identifier],
     [$._type_not_function_inner, $._type_not_void_not_function_inner, $._function_type_tail, $._built_in_identifier],
     [$._type_not_void_inner, $._type_not_void_not_function_inner, $._function_type_tail, $._built_in_identifier],
     [$._type_not_function_inner, $._type_not_void_inner, $._type_not_void_not_function_inner, $._function_type_tail, $._built_in_identifier],
-    [$._type_not_function_inner, $._function_type_tail],
-    [$._type_not_void_inner, $._function_type_tail],
     [$._type_not_void_not_function_inner, $._function_type_tail],
     [$._type_not_void_inner],
     [$._type_not_void_not_function_inner],
@@ -530,11 +535,19 @@ module.exports = grammar({
 
     _function_type_tails: ($) => repeat1($._function_type_tail),
 
+    // A tail's parameterTypeList is mandatory: bare `Function` / `Function?`
+    // are typeNamedFunction, not functionType, so they take the plain-type
+    // route and don't grow a function_type wrapper. The trailing `?` stays
+    // IN the tail even though the spec places it between tails (outer `?`
+    // on `type`). Consuming it here keeps `x?['k'] as T Function()?`
+    // parseable. Otherwise the `?[` receiver's live GLR fork kills the
+    // branch that must shift the trailing `?` at the nullable() level.
+    // Pinned in ambiguities.txt. Moving it regressed 4 pub.dev files.
     _function_type_tail: ($) =>
       seq(
         "Function",
         optional($.type_parameters),
-        optional($.parameter_type_list),
+        $.parameter_type_list,
         optional("?"),
       ),
 
@@ -1454,7 +1467,7 @@ module.exports = grammar({
       ),
 
     _default_formal_parameter: ($) =>
-      seq($.formal_parameter, optional(seq("=", $._expression))),
+      seq($.formal_parameter, optional(seq("=", field("default_value", $._expression)))),
 
     _default_named_parameter: ($) =>
       choice(
@@ -1466,13 +1479,13 @@ module.exports = grammar({
             optional($._metadata),
             "required",
             $.formal_parameter,
-            optional(seq(choice("=", ":"), $._expression)),
+            optional(seq(choice("=", ":"), field("default_value", $._expression))),
           ),
         ),
         seq(
           optional($._metadata),
           $.formal_parameter,
-          optional(seq(choice("=", ":"), $._expression)),
+          optional(seq(choice("=", ":"), field("default_value", $._expression))),
         ),
       ),
 
@@ -1492,7 +1505,7 @@ module.exports = grammar({
         optional("covariant"),
         optional(choice("var", "final")),
         optional($.type),
-        $.identifier,
+        field("name", $.identifier),
         $._formal_parameter_part,
         optional("?"),
       ),
@@ -1515,7 +1528,7 @@ module.exports = grammar({
         optional($._final_const_var_or_type),
         "this",
         ".",
-        $.identifier,
+        field("name", $.identifier),
         optional(seq($._formal_parameter_part, optional("?"))),
       ),
 
@@ -1524,7 +1537,7 @@ module.exports = grammar({
         optional($._final_const_var_or_type),
         "super",
         ".",
-        $.identifier,
+        field("name", $.identifier),
         optional(seq($._formal_parameter_part, optional("?"))),
       ),
 
@@ -1598,7 +1611,7 @@ module.exports = grammar({
         seq(
           "if",
           "(",
-          $._expression,
+          field("condition", $._expression),
           optional(seq("case", $._guarded_pattern)),
           ")",
           field("consequence", $._statement),
@@ -1717,7 +1730,7 @@ module.exports = grammar({
     _on_part: ($) =>
       choice(
         seq($.catch_clause, $.block),
-        seq("on", $._type_not_void, optional($.catch_clause), $.block),
+        seq("on", field("type", $._type_not_void), optional($.catch_clause), $.block),
       ),
 
     catch_clause: ($) =>
@@ -2369,7 +2382,7 @@ module.exports = grammar({
     // ========================================================================
 
     _guarded_pattern: ($) =>
-      seq($._pattern, optional(seq("when", $._expression))),
+      seq($._pattern, optional(seq("when", field("guard", $._expression)))),
 
     _pattern: ($) => $._logical_or_pattern,
 

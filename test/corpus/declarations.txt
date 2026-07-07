@@ -223,7 +223,7 @@ enum Planet {
             parameters: (formal_parameter_list
               (formal_parameter
                 (field_formal_parameter
-                  (identifier))))))))))
+                  name: (identifier))))))))))
 
 ================================================================================
 Typedef

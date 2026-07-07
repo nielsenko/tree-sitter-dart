@@ -152,7 +152,7 @@ class const D<T extends num>.named(final T x, [final int y = 0]) extends A with 
             (type
               (type_identifier))
             name: (identifier))
-          (decimal_integer_literal))))
+          default_value: (decimal_integer_literal))))
     superclass: (superclass
       type: (type
         (type_identifier))
@@ -203,7 +203,7 @@ class B(super.a) extends A;
       parameters: (formal_parameter_list
         (formal_parameter
           (super_formal_parameter
-            (identifier)))))
+            name: (identifier)))))
     superclass: (superclass
       type: (type
         (type_identifier)))))
@@ -434,7 +434,7 @@ class Pet {
             parameters: (formal_parameter_list
               (formal_parameter
                 (field_formal_parameter
-                  (identifier))))))))))
+                  name: (identifier))))))))))
 
 ================================================================================
 Abbreviated factory constructors
@@ -538,10 +538,10 @@ class Point {
               (optional_formal_parameters
                 (formal_parameter
                   (field_formal_parameter
-                    (identifier)))
+                    name: (identifier)))
                 (formal_parameter
                   (field_formal_parameter
-                    (identifier)))))))))))
+                    name: (identifier)))))))))))
 
 ================================================================================
 Required keyword binds as keyword not type
@@ -573,7 +573,7 @@ class C {
               (optional_formal_parameters
                 (formal_parameter
                   (field_formal_parameter
-                    (identifier)))))))))))
+                    name: (identifier)))))))))))
 
 ================================================================================
 Known limitation: binary expression in a constant switch pattern

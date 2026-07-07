@@ -18,7 +18,7 @@ void main() {
     body: (function_body
       (block
         (if_statement
-          (identifier)
+          condition: (identifier)
           consequence: (expression_statement
             (call_expression
               function: (identifier)
@@ -48,7 +48,7 @@ void main() {
     body: (function_body
       (block
         (if_statement
-          (identifier)
+          condition: (identifier)
           consequence: (block
             (expression_statement
               (call_expression
@@ -226,7 +226,7 @@ void main() {
               (call_expression
                 function: (identifier)
                 arguments: (arguments))))
-          (type
+          type: (type
             (type_identifier))
           (catch_clause
             exception: (identifier))
