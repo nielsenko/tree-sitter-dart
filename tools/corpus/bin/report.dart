@@ -1,18 +1,32 @@
 /// Runs tree-sitter parse on all corpus Dart files and reports results.
 ///
 /// Usage:
-///   dart run bin/report.dart [--filter-valid] [--details] [--zero-width]
+///   dart run bin/report.dart [--no-filter-valid] [--recheck-syntax]
+///                            [--details] [--zero-width]
+///
+/// By default, files the Dart analyzer rejects as syntactically invalid are
+/// excluded (mustache templates, parse-error fixtures, broken codegen), so
+/// the gate measures the grammar against valid Dart only. The analyzer
+/// verdict is cached in download/.analyzer-invalid.txt and rebuilt
+/// automatically when the corpus file count changes.
+///
+/// Remaining failures are compared by identity against known_failures.txt;
+/// any failing file not listed there (or listed file that now passes) is
+/// reported and the run exits non-zero.
 ///
 /// Options:
-///   --filter-valid  Filter out files with Dart syntax errors before parsing
-///   --details       Show individual failure details
-///   --zero-width    Also flag files whose tree hides recovery behind a
-///                   zero-width node (exit-code acceptance misses these);
-///                   reported separately so the pass/fail baseline is stable
+///   --no-filter-valid  Include analyzer-invalid files (historical raw
+///                      numbers; skips the known-failures identity gate)
+///   --recheck-syntax   Rebuild the cached analyzer verdict
+///   --details          Show individual failure lines
+///   --zero-width       Also flag files whose tree hides recovery behind a
+///                      zero-width node (exit-code acceptance misses these);
+///                      reported separately so the pass/fail baseline is stable
 import 'dart:io';
 
 void main(List<String> args) async {
-  var filterValid = args.contains('--filter-valid');
+  var filterValid = !args.contains('--no-filter-valid');
+  var recheckSyntax = args.contains('--recheck-syntax');
   var showDetails = args.contains('--details');
   var checkZeroWidth = args.contains('--zero-width');
 
@@ -67,40 +81,42 @@ void main(List<String> args) async {
     exit(1);
   }
 
-  // Optionally filter for valid Dart files.
+  var allFiles = corpora.values.expand((f) => f).toList();
+
+  // Filter out analyzer-invalid files (cached; keyed on corpus file count).
   var invalidFiles = <String>{};
   if (filterValid) {
-    stderr.writeln('Checking syntax with Dart analyzer...');
-    var allFiles = corpora.values.expand((f) => f).toList();
-    var process = await Process.start('dart', [
-      'run',
-      'bin/check_syntax.dart',
-    ], workingDirectory: scriptDir);
-    process.stdin.write(allFiles.join('\n'));
-    await process.stdin.close();
-
-    var stdout = await process.stdout
-        .transform(const SystemEncoding().decoder)
-        .join();
-    var stderr2 = await process.stderr
-        .transform(const SystemEncoding().decoder)
-        .join();
-    await process.exitCode;
-
-    for (var line in stdout.split('\n')) {
-      var trimmed = line.trim();
-      if (trimmed.isNotEmpty &&
-          !trimmed.startsWith('Done:') &&
-          !trimmed.startsWith('Checked')) {
-        invalidFiles.add(trimmed);
+    var cacheFile = File('$downloadDir/.analyzer-invalid.txt');
+    var cached = _readSyntaxCache(cacheFile, downloadDir);
+    if (recheckSyntax || cached == null || cached.checkedFiles != allFiles.length) {
+      if (cached != null && cached.checkedFiles != allFiles.length) {
+        stderr.writeln(
+          'Corpus changed (${cached.checkedFiles} -> ${allFiles.length} '
+          'files); rebuilding syntax cache...',
+        );
+      } else {
+        stderr.writeln('Checking syntax with Dart analyzer (cached after)...');
       }
-    }
-    if (stderr2.contains('Done:')) {
+      invalidFiles = await _runSyntaxCheck(scriptDir, allFiles);
+      _writeSyntaxCache(cacheFile, downloadDir, allFiles.length, invalidFiles);
+    } else {
+      invalidFiles = cached.invalid;
       stderr.writeln(
-        stderr2
-            .split('\n')
-            .firstWhere((l) => l.startsWith('Done:'), orElse: () => ''),
+        'Excluding ${invalidFiles.length} analyzer-invalid files '
+        '(cached; --recheck-syntax to rebuild).',
       );
+    }
+  }
+
+  // Expected failures, by identity (paths relative to download/).
+  var knownFailures = <String>{};
+  var knownFailuresFile = File('$scriptDir/known_failures.txt');
+  if (knownFailuresFile.existsSync()) {
+    for (var line in knownFailuresFile.readAsLinesSync()) {
+      var trimmed = line.trim();
+      if (trimmed.isNotEmpty && !trimmed.startsWith('#')) {
+        knownFailures.add(trimmed);
+      }
     }
   }
 
@@ -112,6 +128,7 @@ void main(List<String> args) async {
   var totalFiles = 0;
   var totalPassed = 0;
   var totalFailed = 0;
+  var allFailures = <String>[];
 
   for (var entry in corpora.entries) {
     var name = entry.key;
@@ -130,6 +147,8 @@ void main(List<String> args) async {
     var tempFile = File('${tempDir.path}/corpus-files-$name.txt');
     tempFile.writeAsStringSync(files.join('\n'));
 
+    // A single --quiet --stat pass prints one line per failing file (ERROR
+    // and MISSING alike) followed by the stats summary.
     var result = await Process.run('npx', [
       'tree-sitter',
       'parse',
@@ -141,7 +160,6 @@ void main(List<String> args) async {
       tempFile.path,
     ], workingDirectory: repoRoot);
 
-    // Parse the stats line.
     var output = result.stdout as String;
     if (result.exitCode != 0 && output.isEmpty) {
       stderr.writeln(
@@ -149,9 +167,16 @@ void main(List<String> args) async {
       );
       continue;
     }
-    var statsLine = output
-        .split('\n')
-        .firstWhere((l) => l.contains('Total parses'), orElse: () => '');
+
+    var failureLines = <String>[];
+    var statsLine = '';
+    for (var line in output.split('\n')) {
+      if (line.contains('Total parses')) {
+        statsLine = line;
+      } else if (line.contains('\tParse:')) {
+        failureLines.add(line);
+      }
+    }
 
     var totalMatch = RegExp(
       r'successful parses: (\d+).*failed parses: (\d+).*success percentage: ([\d.]+)%',
@@ -173,6 +198,18 @@ void main(List<String> args) async {
         '$pct%',
       );
 
+      for (var line in failureLines) {
+        var path = line.split(RegExp(r'\s+Parse:')).first.trim();
+        allFailures.add(_relativeToDownload(path, downloadDir));
+      }
+
+      if (failed != failureLines.length) {
+        stderr.writeln(
+          '${''.padRight(20)} WARNING: stats report $failed failures but '
+          '${failureLines.length} failure lines were captured',
+        );
+      }
+
       if (checkZeroWidth) {
         var zwResult = await Process.run('node', [
           'tools/check_zero_width.mjs',
@@ -193,26 +230,13 @@ void main(List<String> args) async {
         );
       }
 
-      if (showDetails && failed > 0) {
-        // Re-run to get failure details.
-        var detailResult = await Process.run('npx', [
-          'tree-sitter',
-          'parse',
-          '--config-path',
-          tsConfigPath,
-          '--quiet',
-          '--paths',
-          tempFile.path,
-        ], workingDirectory: repoRoot);
-        var detailOutput = detailResult.stdout as String;
-        for (var line in detailOutput.split('\n')) {
-          if (line.contains('ERROR')) {
-            // Shorten the path for readability.
-            var short = line.replaceAll(RegExp(r'.*download/[^/]+/'), '  ');
-            // Trim the Parse timing info.
-            short = short.replaceAll(RegExp(r'\s+Parse:.*'), '');
-            stderr.writeln(short);
-          }
+      if (showDetails) {
+        for (var line in failureLines) {
+          // Shorten the path for readability.
+          var short = line.replaceAll(RegExp(r'.*download/[^/]+/'), '  ');
+          // Trim the Parse timing info.
+          short = short.replaceAll(RegExp(r'\s+Parse:.*'), '');
+          stderr.writeln(short);
         }
       }
     } else {
@@ -231,6 +255,116 @@ void main(List<String> args) async {
     '$totalPct%',
   );
 
+  // Identity gate: every failure must be a known one, every known one must
+  // still fail. Only meaningful when analyzer-invalid files are excluded.
+  var exitCode = 0;
+  if (filterValid) {
+    var failureSet = allFailures.toSet();
+    var newFailures = failureSet.difference(knownFailures).toList()..sort();
+    var stalePins = knownFailures.difference(failureSet).toList()..sort();
+
+    if (newFailures.isEmpty && stalePins.isEmpty) {
+      stderr.writeln(
+        'All $totalFailed failures match known_failures.txt.',
+      );
+    }
+    if (newFailures.isNotEmpty) {
+      stderr.writeln('NEW failures (not in known_failures.txt):');
+      for (var f in newFailures) {
+        stderr.writeln('  $f');
+      }
+      exitCode = 1;
+    }
+    if (stalePins.isNotEmpty) {
+      stderr.writeln('Known failures that now pass (prune known_failures.txt):');
+      for (var f in stalePins) {
+        stderr.writeln('  $f');
+      }
+      exitCode = 1;
+    }
+  }
+
   // Clean up temp directory.
   tempDir.deleteSync(recursive: true);
+  exit(exitCode);
+}
+
+class _SyntaxCache {
+  final int checkedFiles;
+  final Set<String> invalid;
+  _SyntaxCache(this.checkedFiles, this.invalid);
+}
+
+_SyntaxCache? _readSyntaxCache(File cacheFile, String downloadDir) {
+  if (!cacheFile.existsSync()) return null;
+  int? checkedFiles;
+  var invalid = <String>{};
+  for (var line in cacheFile.readAsLinesSync()) {
+    var trimmed = line.trim();
+    if (trimmed.startsWith('# checked-files:')) {
+      checkedFiles = int.tryParse(trimmed.split(':').last.trim());
+    } else if (trimmed.isNotEmpty && !trimmed.startsWith('#')) {
+      invalid.add('$downloadDir/$trimmed');
+    }
+  }
+  if (checkedFiles == null) return null;
+  return _SyntaxCache(checkedFiles, invalid);
+}
+
+void _writeSyntaxCache(
+  File cacheFile,
+  String downloadDir,
+  int checkedFiles,
+  Set<String> invalid,
+) {
+  var relative = invalid.map((f) => _relativeToDownload(f, downloadDir)).toList()
+    ..sort();
+  cacheFile.writeAsStringSync(
+    '# Analyzer-invalid corpus files; rebuild with --recheck-syntax.\n'
+    '# checked-files: $checkedFiles\n'
+    '${relative.join('\n')}\n',
+  );
+}
+
+String _relativeToDownload(String path, String downloadDir) =>
+    path.startsWith('$downloadDir/')
+        ? path.substring(downloadDir.length + 1)
+        : path;
+
+Future<Set<String>> _runSyntaxCheck(
+  String scriptDir,
+  List<String> allFiles,
+) async {
+  var process = await Process.start('dart', [
+    'run',
+    'bin/check_syntax.dart',
+  ], workingDirectory: scriptDir);
+  process.stdin.write(allFiles.join('\n'));
+  await process.stdin.close();
+
+  var stdout = await process.stdout
+      .transform(const SystemEncoding().decoder)
+      .join();
+  var stderr2 = await process.stderr
+      .transform(const SystemEncoding().decoder)
+      .join();
+  await process.exitCode;
+
+  var invalid = <String>{};
+  for (var line in stdout.split('\n')) {
+    var trimmed = line.trim();
+    if (trimmed.isNotEmpty &&
+        !trimmed.startsWith('Done:') &&
+        !trimmed.startsWith('Checked')) {
+      invalid.add(trimmed);
+    }
+  }
+  if (stderr2.contains('Done:')) {
+    stderr.writeln(
+      stderr2
+          .split('\n')
+          .firstWhere((l) => l.startsWith('Done:'), orElse: () => ''),
+    );
+  }
+  return invalid;
 }

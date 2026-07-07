@@ -1,0 +1,13 @@
+# Corpus files that are valid Dart (analyzer-accepted) but fail to parse,
+# each with a documented cause. Paths are relative to download/.
+# report.dart exits non-zero if the set of failures deviates from this list.
+
+# Known limitation: constant switch-case pattern that is a binary expression
+# (`case A.x + B.y:`). Supporting it regresses other constant-pattern cases;
+# workaround is `case const (A.x + B.y):`. Pinned in test/corpus.
+pub/cometchat_uikit_shared-5.2.1/lib/src/utils/message_utils.dart
+
+# Contains a literal NUL byte (U+0000) inside a string literal. tree-sitter's
+# lexer reserves \0 as its end-of-input sentinel, so no tree-sitter grammar
+# can accept it. The analyzer parses it fine.
+pub/zard-0.0.26/lib/src/schemas/z_string.dart
