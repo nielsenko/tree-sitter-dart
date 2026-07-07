@@ -207,7 +207,7 @@ module.exports = grammar({
     // Pattern ambiguities
     [$.set_or_map_literal, $.map_pattern],
     [$.list_literal, $.list_pattern],
-    [$.static_member_shorthand, $.constant_pattern],
+    // [$.static_member_shorthand, $.constant_pattern], -- subsumed (constant_pattern now embeds the rule)
     // [$.constant_pattern, $._type_name], -- subsumed
     [$._primary, $.constant_pattern],
     [$._instantiation, $.constant_pattern],
@@ -1071,9 +1071,12 @@ module.exports = grammar({
     // --- If-null ---
 
     if_null_expression: ($) =>
+      // Plain left-associative binary, like the rest of the ladder. The
+      // former repeat1 form hid the reduce behind a hidden repeat node, so
+      // `a ?? b ? c : d` shifted `?` instead of reducing `a ?? b`.
       prec.left(
         PREC.IF_NULL,
-        seq($._real_expression, repeat1(seq("??", $._real_expression))),
+        seq($._real_expression, "??", $._real_expression),
       ),
 
     // --- Logical ---
@@ -1392,7 +1395,11 @@ module.exports = grammar({
 
     // Dot shorthand syntax (Dart 3.10+)
     static_member_shorthand: ($) =>
-      prec.dynamic(-1,
+      // -2, strictly below instantiation_expression's -1: `List<int>.filled`
+      // must parse as member-over-instantiation, not as a relational chain
+      // ending in a shorthand. Genuine shorthands have no competing parse,
+      // so they are unaffected.
+      prec.dynamic(-2,
         choice(
           seq(".", $.identifier),
           seq(".", "new"),
@@ -1875,9 +1882,9 @@ module.exports = grammar({
         seq("const", optional($.type), $.static_final_declaration_list),
         // Abstract field declarations
         seq("abstract", "final", optional($.type), $.identifier_list),
-        seq("abstract", optional($.type), $.identifier_list),
+        seq("abstract", optional(choice("var", $.type)), $.identifier_list),
         seq("abstract", "covariant", "final", optional($.type), $.identifier_list),
-        seq("abstract", "covariant", optional($.type), $.identifier_list),
+        seq("abstract", "covariant", optional(choice("var", $.type)), $.identifier_list),
         // External field declarations
         seq($.external, optional("static"), optional("covariant"), optional(choice("final", "var")), optional($.type), $.identifier_list),
       ),
@@ -2157,7 +2164,7 @@ module.exports = grammar({
           optional("const"),
           field("name", $.extension_type_name),
           field("representation", $.extension_type_representation),
-          optional(seq("implements", commaSep1($.type))),
+          optional(field("interfaces", $.interfaces)),
           choice(field("body", $.class_body), ";"),
         ),
         seq(
@@ -2176,7 +2183,7 @@ module.exports = grammar({
       seq(
         $.identifier,
         optional($.type_parameters),
-        optional(seq(".", $.identifier)),
+        optional(seq(".", $._identifier_or_new)),
       ),
 
     extension_type_representation: ($) =>
@@ -2320,7 +2327,7 @@ module.exports = grammar({
         optional($._metadata),
         optional("augment"),
         field("modifier", $.external),
-        optional("final"),
+        optional(choice("final", "var")),
         optional(field("type", $.type)),
         $.identifier_list,
         ";",
@@ -2411,12 +2418,12 @@ module.exports = grammar({
         seq($.identifier, optional(seq(".", $.identifier))),
         $.qualified_name,
         $.const_object_expression,
-        seq("const", optional($.type_arguments), "[", commaSep1TrailingComma($._element), "]"),
-        seq("const", optional($.type_arguments), "{", commaSep1TrailingComma($._element), "}"),
+        seq("const", optional($.type_arguments), "[", commaSepTrailingComma($._element), "]"),
+        seq("const", optional($.type_arguments), "{", commaSepTrailingComma($._element), "}"),
         seq("const", "(", $._expression, ")"),
         seq("const", $._record_literal_no_const),
-        // Dot shorthand (Dart 3.6+): .enumValue in patterns
-        seq(".", $.identifier),
+        // Dot shorthand (Dart 3.10+): .enumValue, .new, const .named(args)
+        $.static_member_shorthand,
       ),
 
     variable_pattern: ($) => seq($._final_var_or_type, field("name", $.identifier)),

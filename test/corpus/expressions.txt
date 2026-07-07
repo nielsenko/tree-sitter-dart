@@ -1265,10 +1265,10 @@ void f() {
             (assignable_expression
               (identifier))
             (if_null_expression
-              (identifier)
               (if_null_expression
                 (identifier)
-                (identifier)))))
+                (identifier))
+              (identifier))))
         (expression_statement
           (assignment_expression
             (assignable_expression
@@ -1982,12 +1982,12 @@ var c = t ? u : v ?? w;
     (initialized_identifier_list
       (initialized_identifier
         (identifier)
-        (if_null_expression
+        (conditional_expression
+          (if_null_expression
+            (identifier)
+            (identifier))
           (identifier)
-          (conditional_expression
-            (identifier)
-            (identifier)
-            (identifier))))))
+          (identifier)))))
   (top_level_variable_declaration
     (initialized_identifier_list
       (initialized_identifier
@@ -2140,3 +2140,60 @@ void f() {
               (unary_expression
                 (negation_operator)
                 (identifier)))))))))
+
+================================================================================
+Instantiated tearoff with single type argument
+================================================================================
+
+var t = List<int>.filled;
+var u = prefix.Type<int>.member;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (member_expression
+          (instantiation_expression
+            (identifier)
+            (type_arguments
+              (type
+                (type_identifier))))
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (member_expression
+          (instantiation_expression
+            (member_expression
+              (identifier)
+              (identifier))
+            (type_arguments
+              (type
+                (type_identifier))))
+          (identifier))))))
+
+================================================================================
+If-null binds tighter than conditional
+================================================================================
+
+var a = x ?? y ?? z ? p : q;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        (identifier)
+        (conditional_expression
+          (if_null_expression
+            (if_null_expression
+              (identifier)
+              (identifier))
+            (identifier))
+          (identifier)
+          (identifier))))))

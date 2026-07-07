@@ -918,3 +918,153 @@ void f(Object x) {
               (equality_operator)
               (decimal_integer_literal)
               (break_statement))))))))
+
+================================================================================
+Dot shorthand constant patterns
+================================================================================
+
+void f(Object c) {
+  var a = switch (c) {
+    .red => 1,
+    .new => 2,
+    const .origin() => 3,
+    const .filled(2) when c == .green => 4,
+    _ => 0,
+  };
+  if (c case .blue) {
+    return;
+  }
+  switch (c) {
+    case .red:
+      break;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (switch_expression
+              (parenthesized_expression
+                (identifier))
+              (switch_expression_case
+                (constant_pattern
+                  (static_member_shorthand
+                    (identifier)))
+                (decimal_integer_literal))
+              (switch_expression_case
+                (constant_pattern
+                  (static_member_shorthand))
+                (decimal_integer_literal))
+              (switch_expression_case
+                (constant_pattern
+                  (static_member_shorthand
+                    (identifier)
+                    (arguments)))
+                (decimal_integer_literal))
+              (switch_expression_case
+                (constant_pattern
+                  (static_member_shorthand
+                    (identifier)
+                    (arguments
+                      (decimal_integer_literal))))
+                (equality_expression
+                  (identifier)
+                  (equality_operator)
+                  (static_member_shorthand
+                    (identifier)))
+                (decimal_integer_literal))
+              (switch_expression_case
+                (constant_pattern
+                  (identifier))
+                (decimal_integer_literal)))))
+        (if_statement
+          (identifier)
+          (constant_pattern
+            (static_member_shorthand
+              (identifier)))
+          (block
+            (return_statement)))
+        (switch_statement
+          (parenthesized_expression
+            (identifier))
+          (switch_block
+            (switch_statement_case
+              (constant_pattern
+                (static_member_shorthand
+                  (identifier)))
+              (break_statement))))))))
+
+================================================================================
+Empty const collection constant patterns
+================================================================================
+
+void f(Object o) {
+  var a = switch (o) {
+    const [] => 1,
+    const {} => 2,
+    const <int>[] => 3,
+    const <int, int>{} => 4,
+    _ => 0,
+  };
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          (identifier))))
+    (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (switch_expression
+              (parenthesized_expression
+                (identifier))
+              (switch_expression_case
+                (constant_pattern)
+                (decimal_integer_literal))
+              (switch_expression_case
+                (constant_pattern)
+                (decimal_integer_literal))
+              (switch_expression_case
+                (constant_pattern
+                  (type_arguments
+                    (type
+                      (type_identifier))))
+                (decimal_integer_literal))
+              (switch_expression_case
+                (constant_pattern
+                  (type_arguments
+                    (type
+                      (type_identifier))
+                    (type
+                      (type_identifier))))
+                (decimal_integer_literal))
+              (switch_expression_case
+                (constant_pattern
+                  (identifier))
+                (decimal_integer_literal)))))))))

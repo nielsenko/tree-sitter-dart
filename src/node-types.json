@@ -3290,10 +3290,6 @@
         {
           "type": "annotation",
           "named": true
-        },
-        {
-          "type": "type",
-          "named": true
         }
       ]
     }

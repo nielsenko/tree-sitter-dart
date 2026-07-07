@@ -159,8 +159,9 @@ extension type Meters(double value) implements double {}
       type: (type
         (type_identifier))
       name: (identifier))
-    (type
-      (type_identifier))
+    interfaces: (interfaces
+      (type
+        (type_identifier)))
     body: (class_body)))
 
 ================================================================================
@@ -546,8 +547,9 @@ extension type JSArray<T extends JSAny?>._(JSArrayRepType _jsArray) implements J
       type: (type
         (type_identifier))
       name: (identifier))
-    (type
-      (type_identifier))
+    interfaces: (interfaces
+      (type
+        (type_identifier)))
     body: (class_body)))
 
 ================================================================================
@@ -605,8 +607,9 @@ extension type ExtensionType(@annotation int id) implements int {}
       type: (type
         (type_identifier))
       name: (identifier))
-    (type
-      (type_identifier))
+    interfaces: (interfaces
+      (type
+        (type_identifier)))
     body: (class_body)))
 
 ================================================================================
@@ -2282,11 +2285,12 @@ extension type const Meters(double value) implements Comparable<Meters> {
       (type
         (type_identifier))
       (identifier))
-    (type
-      (type_identifier)
-      (type_arguments
-        (type
-          (type_identifier))))
+    (interfaces
+      (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (type_identifier)))))
     (class_body
       (member_declaration
         (method_declaration
@@ -2911,3 +2915,81 @@ class C {
                     (template_chars_single_single))))
               (record_field
                 (decimal_integer_literal)))))))))
+
+================================================================================
+External top-level variable with var
+================================================================================
+
+external var counter;
+external final total;
+external int typed;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (external_variable_declaration
+    (external)
+    (identifier_list
+      (identifier)))
+  (external_variable_declaration
+    (external)
+    (identifier_list
+      (identifier)))
+  (external_variable_declaration
+    (external)
+    (type
+      (type_identifier))
+    (identifier_list
+      (identifier))))
+
+================================================================================
+Abstract fields with var
+================================================================================
+
+abstract class G {
+  abstract var c;
+  abstract covariant var f;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (declaration
+          (identifier_list
+            (identifier))))
+      (member_declaration
+        (declaration
+          (identifier_list
+            (identifier)))))))
+
+================================================================================
+Extension type with .new primary constructor
+================================================================================
+
+extension type N.new(int v) {}
+
+extension type const C.new(int v) {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_type_declaration
+    (extension_type_name
+      (identifier))
+    (extension_type_representation
+      (type
+        (type_identifier))
+      (identifier))
+    (class_body))
+  (extension_type_declaration
+    (extension_type_name
+      (identifier))
+    (extension_type_representation
+      (type
+        (type_identifier))
+      (identifier))
+    (class_body)))
