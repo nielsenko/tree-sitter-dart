@@ -739,3 +739,64 @@ var d = "single ' inside";
           (string_literal_double_quotes
             (template_chars_double_single)
             (template_chars_double_single)))))))
+
+================================================================================
+Escaped dollar after simple interpolation
+================================================================================
+
+void main() {
+  var a = 1;
+  var b = '$a\$notinterp';
+  var c = '\$';
+  var d = '$a$b';
+  print([a, b, c, d]);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (formal_parameter_list))
+    (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (decimal_integer_literal)))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (string_literal
+              (string_literal_single_quotes
+                (template_substitution
+                  (identifier_dollar_escaped))
+                (escape_sequence)
+                (template_chars_single_single)))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (string_literal
+              (string_literal_single_quotes
+                (escape_sequence)))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (identifier)
+            (string_literal
+              (string_literal_single_quotes
+                (template_substitution
+                  (identifier_dollar_escaped))
+                (template_substitution
+                  (identifier_dollar_escaped))))))
+        (expression_statement
+          (call_expression
+            (identifier)
+            (arguments
+              (list_literal
+                (identifier)
+                (identifier)
+                (identifier)
+                (identifier)))))))))

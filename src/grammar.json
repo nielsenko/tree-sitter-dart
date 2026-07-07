@@ -2996,7 +2996,7 @@
     },
     "identifier_dollar_escaped": {
       "type": "PATTERN",
-      "value": "([a-zA-Z_]|(\\\\\\$))([\\w]|(\\\\\\$))*"
+      "value": "[a-zA-Z_]\\w*"
     },
     "_unused_escape_sequence": {
       "type": "IMMEDIATE_TOKEN",
