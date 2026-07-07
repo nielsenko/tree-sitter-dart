@@ -1,16 +1,20 @@
 /// Runs tree-sitter parse on all corpus Dart files and reports results.
 ///
 /// Usage:
-///   dart run bin/report.dart [--filter-valid] [--details]
+///   dart run bin/report.dart [--filter-valid] [--details] [--zero-width]
 ///
 /// Options:
 ///   --filter-valid  Filter out files with Dart syntax errors before parsing
 ///   --details       Show individual failure details
+///   --zero-width    Also flag files whose tree hides recovery behind a
+///                   zero-width node (exit-code acceptance misses these);
+///                   reported separately so the pass/fail baseline is stable
 import 'dart:io';
 
 void main(List<String> args) async {
   var filterValid = args.contains('--filter-valid');
   var showDetails = args.contains('--details');
+  var checkZeroWidth = args.contains('--zero-width');
 
   // Find the tree-sitter-dart root (2 levels up from this package root).
   var scriptDir = Directory.current.path;
@@ -168,6 +172,26 @@ void main(List<String> args) async {
         '${failed.toString().padLeft(5)} failed  '
         '$pct%',
       );
+
+      if (checkZeroWidth) {
+        var zwResult = await Process.run('node', [
+          'tools/check_zero_width.mjs',
+          '--config-path',
+          tsConfigPath,
+          '--quiet',
+          '--paths',
+          tempFile.path,
+        ], workingDirectory: repoRoot);
+        var zwLine = (zwResult.stdout as String)
+            .split('\n')
+            .firstWhere(
+              (l) => l.startsWith('zero-width check:'),
+              orElse: () => '',
+            );
+        stderr.writeln(
+          '${''.padRight(20)} ${zwLine.isEmpty ? 'zero-width check failed to run' : zwLine}',
+        );
+      }
 
       if (showDetails && failed > 0) {
         // Re-run to get failure details.
