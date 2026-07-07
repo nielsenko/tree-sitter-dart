@@ -5637,10 +5637,6 @@
           {
             "type": "_expression",
             "named": true
-          },
-          {
-            "type": "null_aware_expression_element",
-            "named": true
           }
         ]
       }
@@ -6598,10 +6594,6 @@
         "types": [
           {
             "type": "_expression",
-            "named": true
-          },
-          {
-            "type": "null_aware_expression_element",
             "named": true
           }
         ]

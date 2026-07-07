@@ -899,14 +899,20 @@ module.exports = grammar({
 
     null_aware_expression_element: ($) => seq("?", $._expression),
 
+    // Spec: '?' expression ':' '?'? expression | expression ':' '?' expression
+    // - the value-only form is this production too, and the double form is
+    // flat (no nested null_aware_expression_element).
     null_aware_map_element: ($) =>
-      seq("?", field("key", $._expression), ":", field("value", choice($._expression, $.null_aware_expression_element))),
+      choice(
+        seq("?", field("key", $._expression), ":", optional("?"), field("value", $._expression)),
+        seq(field("key", $._expression), ":", "?", field("value", $._expression)),
+      ),
 
     map_element: ($) =>
       seq(
         field("key", $._expression),
         ":",
-        field("value", choice($._expression, $.null_aware_expression_element)),
+        field("value", $._expression),
       ),
 
     spread_element: ($) => seq(choice("...", "...?"), field("value", $._expression)),
