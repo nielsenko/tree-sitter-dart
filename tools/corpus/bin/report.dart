@@ -2,7 +2,7 @@
 ///
 /// Usage:
 ///   dart run bin/report.dart [--no-filter-valid] [--recheck-syntax]
-///                            [--details] [--zero-width]
+///                            [--details] [--no-zero-width]
 ///
 /// By default, files the Dart analyzer rejects as syntactically invalid are
 /// excluded (mustache templates, parse-error fixtures, broken codegen), so
@@ -19,16 +19,21 @@
 ///                      numbers; skips the known-failures identity gate)
 ///   --recheck-syntax   Rebuild the cached analyzer verdict
 ///   --details          Show individual failure lines
-///   --zero-width       Also flag files whose tree hides recovery behind a
-///                      zero-width node (exit-code acceptance misses these);
-///                      reported separately so the pass/fail baseline is stable
+///   --no-zero-width    Skip the zero-width scan. It runs by default: a tree
+///                      can hide error recovery behind a zero-width node
+///                      (recovery supplied a MISSING *hidden* token), and
+///                      `tree-sitter parse` still exits 0 there, because its
+///                      exit code reflects only VISIBLE ERROR/MISSING nodes -
+///                      so parse-rate acceptance alone cannot see the class.
+///                      Reported separately, so the pass/fail baseline above
+///                      stays comparable across runs.
 import 'dart:io';
 
 void main(List<String> args) async {
   var filterValid = !args.contains('--no-filter-valid');
   var recheckSyntax = args.contains('--recheck-syntax');
   var showDetails = args.contains('--details');
-  var checkZeroWidth = args.contains('--zero-width');
+  var checkZeroWidth = !args.contains('--no-zero-width');
 
   // Find the tree-sitter-dart root (2 levels up from this package root).
   var scriptDir = Directory.current.path;
@@ -211,13 +216,25 @@ void main(List<String> args) async {
       }
 
       if (checkZeroWidth) {
+        // Scan only the files that PASSED: check_zero_width flags ERROR and
+        // MISSING nodes too, so feeding it the failures would just re-report
+        // what the gate above already caught. What is wanted here is the
+        // opposite - defects the parse rate cannot see - so a non-zero count
+        // below always means a file that was accepted but should not be.
+        var failedPaths = failureLines
+            .map((line) => line.split(RegExp(r'\s+Parse:')).first.trim())
+            .toSet();
+        var passedFile = File('${tempDir.path}/corpus-passed-$name.txt');
+        passedFile.writeAsStringSync(
+          files.where((f) => !failedPaths.contains(f)).join('\n'),
+        );
         var zwResult = await Process.run('node', [
           'tools/check_zero_width.mjs',
           '--config-path',
           tsConfigPath,
           '--quiet',
           '--paths',
-          tempFile.path,
+          passedFile.path,
         ], workingDirectory: repoRoot);
         var zwLine = (zwResult.stdout as String)
             .split('\n')
