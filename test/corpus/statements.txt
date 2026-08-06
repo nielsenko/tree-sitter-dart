@@ -1105,3 +1105,43 @@ class A {
               parameters: (formal_parameter_list)))
           body: (function_body
             (block)))))))
+================================================================================
+A comment lexed during error recovery does not veto a later annotation's parens
+================================================================================
+
+void f() {
+  ] /*c*/(1);
+}
+
+@abcdefgh(1) int g() => 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (ERROR)
+        (comment
+          (block_comment))
+        (expression_statement
+          (parenthesized_expression
+            (decimal_integer_literal))))))
+  (function_declaration
+    (annotation
+      name: (identifier)
+      (annotation_arguments
+        (annotation_open_paren)
+        (decimal_integer_literal)))
+    signature: (function_signature
+      return_type: (type
+        (type_identifier))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (decimal_integer_literal))))

@@ -1,5 +1,8 @@
 #include "tree_sitter/parser.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 enum TokenType {
   TEMPLATE_CHARS_SINGLE,
   TEMPLATE_CHARS_DOUBLE,
@@ -15,11 +18,57 @@ enum TokenType {
   ERROR_SENTINEL,
 };
 
-void *tree_sitter_dart_external_scanner_create() { return NULL; }
-void tree_sitter_dart_external_scanner_destroy(void *p) { (void)p; }
-void tree_sitter_dart_external_scanner_reset(void *p) { (void)p; }
-unsigned tree_sitter_dart_external_scanner_serialize(void *p, char *buffer) { (void)p; (void)buffer; return 0; }
-void tree_sitter_dart_external_scanner_deserialize(void *p, const char *b, unsigned n) { (void)p; (void)b; (void)n; }
+// ANNOTATION_OPEN_PAREN matches '(' only when it is IMMEDIATELY adjacent
+// to the annotation name (the analyzer's rule for annotation arguments vs
+// a record return type). Whitespace defeats it naturally: the scan that
+// starts on the whitespace sees a non-'(' lookahead, and the internal
+// lexer then consumes the '(' before the scanner runs again. A block
+// comment does not - it is emitted as its own extra token, so the NEXT
+// scan starts exactly on the '(' and would see it as immediate. When a
+// comment in annotation position closes touching a '(', we record a
+// one-shot veto plus that paren's column in serialized state; the scan
+// that starts on that exact '(' then declines ANNOTATION_OPEN_PAREN.
+// Any later emitted external token clears the veto, and the column guard
+// keeps a stale veto from suppressing a different annotation's paren.
+//
+// Known residual: state only serializes when a token is emitted, and the
+// vetoing scan emits nothing, so the veto stays armed until the next
+// external token. EVERY later annotation whose '(' happens to sit at the
+// same column, with no comment or string token in between, is also
+// suppressed (pinned in test/corpus/dart313.txt). This needs a poisoned
+// comment first, so real-world exposure is ~zero; the pre-veto behavior
+// silently misparsed the poisoned case instead.
+typedef struct {
+  bool veto_annotation_paren;
+  uint32_t veto_column;
+} Scanner;
+
+static void clear_annotation_paren_veto(Scanner *scanner) {
+  scanner->veto_annotation_paren = false;
+  scanner->veto_column = 0;
+}
+
+void *tree_sitter_dart_external_scanner_create() {
+  return calloc(1, sizeof(Scanner));
+}
+void tree_sitter_dart_external_scanner_destroy(void *p) { free(p); }
+void tree_sitter_dart_external_scanner_reset(void *p) {
+  clear_annotation_paren_veto((Scanner *)p);
+}
+unsigned tree_sitter_dart_external_scanner_serialize(void *p, char *buffer) {
+  Scanner *scanner = (Scanner *)p;
+  buffer[0] = (char)scanner->veto_annotation_paren;
+  memcpy(&buffer[1], &scanner->veto_column, sizeof(uint32_t));
+  return 1 + sizeof(uint32_t);
+}
+void tree_sitter_dart_external_scanner_deserialize(void *p, const char *b, unsigned n) {
+  Scanner *scanner = (Scanner *)p;
+  clear_annotation_paren_veto(scanner);
+  if (n >= 1 + sizeof(uint32_t)) {
+    scanner->veto_annotation_paren = b[0] != 0;
+    memcpy(&scanner->veto_column, &b[1], sizeof(uint32_t));
+  }
+}
 
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
@@ -32,7 +81,24 @@ static bool is_whitespace(int32_t c) {
 }
 
 
-static bool scan_multiline_comments(TSLexer *lexer) {
+// Called when a comment token is about to be emitted: if the comment sits
+// in annotation position and closes touching a '(', that paren must not
+// become ANNOTATION_OPEN_PAREN (trivia ends the annotation). Emitting a
+// non-poisoned comment clears any previous veto.
+static void set_annotation_paren_veto(Scanner *scanner, TSLexer *lexer,
+                                      const bool *valid_symbols) {
+  // Error recovery marks every symbol valid, so valid_symbols cannot say
+  // "annotation position" there. Arming from a recovery scan would poison
+  // an unrelated later annotation whose '(' shares the column.
+  scanner->veto_annotation_paren =
+      !valid_symbols[ERROR_SENTINEL] &&
+      valid_symbols[ANNOTATION_OPEN_PAREN] && lexer->lookahead == '(';
+  scanner->veto_column =
+      scanner->veto_annotation_paren ? lexer->get_column(lexer) : 0;
+}
+
+static bool scan_multiline_comments(Scanner *scanner, TSLexer *lexer,
+                                    const bool *valid_symbols) {
 
     bool documentation_comment = false;
     advance(lexer);
@@ -65,6 +131,7 @@ static bool scan_multiline_comments(TSLexer *lexer) {
               } else {
                 lexer->result_symbol = DOCUMENTATION_BLOCK_COMMENT;
               }
+              set_annotation_paren_veto(scanner, lexer, valid_symbols);
               return true;
             }
           } else {
@@ -91,8 +158,11 @@ static bool scan_multiline_comments(TSLexer *lexer) {
 // run only counts as string content when it ends at a delimiter on the same
 // line; a run that reaches a line terminator or EOF is ordinary code after a
 // syntax error and must not be swallowed as template chars.
-static bool scan_templates(TSLexer *lexer, const bool *valid_symbols,
-                           bool recovery) {
+static bool scan_templates(Scanner *scanner, TSLexer *lexer,
+                           const bool *valid_symbols, bool recovery) {
+  // Durable only if a token is emitted; template chars can never
+  // immediately precede an annotation's '('.
+  clear_annotation_paren_veto(scanner);
   if(valid_symbols[TEMPLATE_CHARS_DOUBLE]) {
               lexer->result_symbol = TEMPLATE_CHARS_DOUBLE;
   } else if (valid_symbols[TEMPLATE_CHARS_SINGLE]) {
@@ -143,7 +213,7 @@ static bool scan_templates(TSLexer *lexer, const bool *valid_symbols,
 
 bool tree_sitter_dart_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
-  (void)payload;
+  Scanner *scanner = (Scanner *)payload;
   // During error recovery the parser marks every external symbol valid,
   // including the never-emitted sentinel. Running the ordinary template
   // branch there would lex arbitrary code as string content and starve the
@@ -156,19 +226,26 @@ bool tree_sitter_dart_external_scanner_scan(void *payload, TSLexer *lexer,
     // string body or code; only the former emits. Anything else falls
     // through to the shared comment tail below.
     if (lexer->lookahead != '/' && !is_whitespace(lexer->lookahead)) {
-      return scan_templates(lexer, valid_symbols, true);
+      return scan_templates(scanner, lexer, valid_symbols, true);
     }
   } else {
     if (valid_symbols[TEMPLATE_CHARS_DOUBLE] ||
         valid_symbols[TEMPLATE_CHARS_SINGLE] ||
         valid_symbols[TEMPLATE_CHARS_DOUBLE_SINGLE] ||
         valid_symbols[TEMPLATE_CHARS_SINGLE_SINGLE]) {
-      return scan_templates(lexer, valid_symbols, false);
+      return scan_templates(scanner, lexer, valid_symbols, false);
     }
 
     // Annotation open paren: only match '(' immediately (no whitespace).
     // This disambiguates @Foo(args) from @override (RecordType).
     if (valid_symbols[ANNOTATION_OPEN_PAREN] && lexer->lookahead == '(') {
+      if (scanner->veto_annotation_paren &&
+          lexer->get_column(lexer) == scanner->veto_column) {
+        // A block comment separates this '(' from the annotation name;
+        // the analyzer treats that trivia as ending the annotation.
+        return false;
+      }
+      clear_annotation_paren_veto(scanner);
       advance(lexer);
       lexer->mark_end(lexer);
       lexer->result_symbol = ANNOTATION_OPEN_PAREN;
@@ -179,7 +256,7 @@ bool tree_sitter_dart_external_scanner_scan(void *payload, TSLexer *lexer,
   while (is_whitespace(lexer->lookahead)) lexer->advance(lexer, true);
 
   if (lexer->lookahead == '/') {
-    return scan_multiline_comments(lexer);
+    return scan_multiline_comments(scanner, lexer, valid_symbols);
   }
   return false;
 }

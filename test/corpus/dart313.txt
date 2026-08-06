@@ -672,3 +672,49 @@ class const Foo {}
 (source_file
   (ERROR
     (identifier)))
+
+================================================================================
+Known limitation: a poisoned annotation-paren veto degrades every later annotation at that column
+================================================================================
+
+@a/*c*/(int, int) f() => (1, 2);
+@bcdefg(1) int g() => 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    (annotation
+      name: (identifier))
+    (comment
+      (block_comment))
+    signature: (function_signature
+      return_type: (type
+        (record_type
+          (record_type_field
+            type: (type
+              (type_identifier)))
+          (record_type_field
+            type: (type
+              (type_identifier)))))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (record_literal
+        (record_field
+          (decimal_integer_literal))
+        (record_field
+          (decimal_integer_literal)))))
+  (function_declaration
+    (annotation
+      name: (identifier))
+    signature: (function_signature
+      return_type: (type
+        (record_type
+          (ERROR
+            (decimal_integer_literal))))
+      name: (identifier)
+      (ERROR)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (decimal_integer_literal))))
