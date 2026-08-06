@@ -1021,12 +1021,31 @@ module.exports = grammar({
     cascade: ($) =>
       prec.right(1, seq($._real_expression, repeat1($.cascade_section))),
 
+    // Spec: expressionWithoutCascade. Its assignment RHS and throw value
+    // recurse into expressionWithoutCascade (NOT expression), so a
+    // trailing cascade belongs to the enclosing expression: in
+    // `x..y = b = a..z()` the cascade receiver is `x`, not `a`. The
+    // restricted variants are hidden and aliased to the ordinary node
+    // names so the tree shape is unchanged.
     _expression_without_cascade: ($) =>
       choice(
-        $.assignment_expression,
+        alias($._assignment_expression_without_cascade, $.assignment_expression),
         $._real_expression,
-        $.throw_expression,
+        alias($._throw_expression_without_cascade, $.throw_expression),
       ),
+
+    _assignment_expression_without_cascade: ($) =>
+      prec.right(
+        PREC.ASSIGNMENT,
+        seq(
+          field("left", $.assignable_expression),
+          field("operator", $._assignment_operator),
+          field("right", $._expression_without_cascade),
+        ),
+      ),
+
+    _throw_expression_without_cascade: ($) =>
+      seq("throw", field("value", $._expression_without_cascade)),
 
     _real_expression: ($) =>
       choice(

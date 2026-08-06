@@ -2239,3 +2239,50 @@ int Function()? Function() d = (() => null) as dynamic;
           (type_cast
             (type
               (type_identifier))))))))
+
+================================================================================
+Cascade-section assignment RHS does not capture a following cascade
+================================================================================
+
+void main() {
+  x..y = b = a..z();
+  p..q = throw r..s();
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (expression_statement
+          (cascade
+            (identifier)
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (assignment_expression
+                left: (assignable_expression
+                  (identifier))
+                right: (identifier)))
+            (cascade_section
+              (cascade_call_expression
+                property: (identifier)
+                arguments: (arguments)))))
+        (expression_statement
+          (cascade
+            (identifier)
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (throw_expression
+                value: (identifier)))
+            (cascade_section
+              (cascade_call_expression
+                property: (identifier)
+                arguments: (arguments)))))))))

@@ -3789,16 +3789,76 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "assignment_expression"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_assignment_expression_without_cascade"
+          },
+          "named": true,
+          "value": "assignment_expression"
         },
         {
           "type": "SYMBOL",
           "name": "_real_expression"
         },
         {
-          "type": "SYMBOL",
-          "name": "throw_expression"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_throw_expression_without_cascade"
+          },
+          "named": true,
+          "value": "throw_expression"
+        }
+      ]
+    },
+    "_assignment_expression_without_cascade": {
+      "type": "PREC_RIGHT",
+      "value": 3,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "left",
+            "content": {
+              "type": "SYMBOL",
+              "name": "assignable_expression"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_assignment_operator"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "right",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression_without_cascade"
+            }
+          }
+        ]
+      }
+    },
+    "_throw_expression_without_cascade": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "throw"
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expression_without_cascade"
+          }
         }
       ]
     },
