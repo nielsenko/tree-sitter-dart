@@ -39,7 +39,7 @@ pub const TAGS_QUERY: &str = include_str!("../../queries/tags.scm");
 
 #[cfg(test)]
 mod tests {
-    use tree_sitter::{InputEdit, Parser, Point};
+    use tree_sitter::{InputEdit, Node, Parser, Point, Tree};
 
     fn parser() -> Parser {
         let mut parser = Parser::new();
@@ -49,12 +49,77 @@ mod tests {
         parser
     }
 
+    /// Named nodes that consume no input. Error recovery inserts MISSING
+    /// tokens. When the missing token is a *hidden* rule (e.g. `_name`), the
+    /// visible tree keeps a zero-width named node and `has_error()` stays
+    /// false, so exit-code acceptance counts the parse as a success. Mirrors
+    /// the invariant in tools/check_zero_width.mjs.
+    fn zero_width_named_nodes(tree: &Tree) -> Vec<String> {
+        fn walk(node: Node, out: &mut Vec<String>) {
+            if node.is_named() && node.start_byte() == node.end_byte() && node.parent().is_some() {
+                out.push(format!("{} at byte {}", node.kind(), node.start_byte()));
+            }
+            let mut cursor = node.walk();
+            for child in node.children(&mut cursor) {
+                walk(child, out);
+            }
+        }
+        let mut out = Vec::new();
+        walk(tree.root_node(), &mut out);
+        out
+    }
+
     #[test]
     fn test_can_load_grammar() {
         let mut parser = Parser::new();
         parser
             .set_language(&super::LANGUAGE.into())
             .expect("Error loading Dart parser");
+    }
+
+    /// A clean parse never contains a zero-width named node. Recovery can
+    /// still produce one, as the ignored test below and the corpus pin
+    /// "Known limitation: variance keyword with no name recovers to a
+    /// zero-width name" show. This test guards the inputs that must stay
+    /// clean.
+    #[test]
+    fn valid_code_has_no_zero_width_named_nodes() {
+        for source in [
+            "class C<in T> {}",
+            "class D<out> {}",
+            "@Foo(1) int g() => 1;",
+            "var s = 'a$b';",
+        ] {
+            let tree = parser().parse(source, None).unwrap();
+            assert!(!tree.root_node().has_error(), "{source} should parse clean");
+            assert_eq!(
+                zero_width_named_nodes(&tree),
+                Vec::<String>::new(),
+                "{source} -> {}",
+                tree.root_node().to_sexp()
+            );
+        }
+    }
+
+    /// KNOWN LIMITATION (kept as a runnable repro: `cargo test -- --ignored`).
+    ///
+    /// `class C<in> {}` is invalid Dart — `in` is reserved, so it can only be
+    /// the variance modifier, leaving the type parameter without a name. The
+    /// parse is accepted silently: recovery supplies a MISSING *hidden*
+    /// `_name`, which leaves a zero-width `type_identifier` behind and does
+    /// not set `has_error()`. This is a general tree-sitter recovery property,
+    /// not something this grammar can express away — `void f({}) {}` behaves
+    /// the same — so tools/check_zero_width.mjs is what catches it in bulk.
+    #[test]
+    #[ignore = "known limitation: MISSING hidden token leaves a silent zero-width node"]
+    fn variance_keyword_without_a_name_is_not_accepted_silently() {
+        let tree = parser().parse("class C<in> {}", None).unwrap();
+        assert_eq!(
+            zero_width_named_nodes(&tree),
+            Vec::<String>::new(),
+            "tree: {}",
+            tree.root_node().to_sexp()
+        );
     }
 
     /// KNOWN LIMITATION (kept as a runnable repro: `cargo test -- --ignored`).

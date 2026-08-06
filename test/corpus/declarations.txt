@@ -3035,3 +3035,74 @@ class Foo {
               (record_field
                 (decimal_integer_literal)))))))))
 
+================================================================================
+Known limitation: variance keyword with no name recovers to a zero-width name
+================================================================================
+
+class C<in> {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        variance: (variance_modifier)
+        name: (type_identifier
+          (MISSING _name))))
+    body: (class_body)))
+================================================================================
+Type parameters named out/inout are names, not variance modifiers
+================================================================================
+
+class A<out> {}
+class C<out extends num> {}
+class D<out T> {}
+class F<inout T extends num> {}
+void m<inout>() {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)))
+    (class_body))
+  (class_declaration
+    (identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)
+        (type
+          (type_identifier))))
+    (class_body))
+  (class_declaration
+    (identifier)
+    (type_parameters
+      (type_parameter
+        (variance_modifier)
+        (type_identifier)))
+    (class_body))
+  (class_declaration
+    (identifier)
+    (type_parameters
+      (type_parameter
+        (variance_modifier)
+        (type_identifier)
+        (type
+          (type_identifier))))
+    (class_body))
+  (function_declaration
+    (function_signature
+      (type
+        (void_type))
+      (identifier)
+      (type_parameters
+        (type_parameter
+          (type_identifier)))
+      (formal_parameter_list))
+    (function_body
+      (block))))

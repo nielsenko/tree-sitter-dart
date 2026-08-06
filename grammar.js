@@ -622,11 +622,24 @@ module.exports = grammar({
     type_parameters: ($) =>
       seq("<", commaSep1($.type_parameter), ">"),
 
+    // The name admits the variance keywords too: variance never shipped
+    // in Dart, so `class C<out>` / `mixin M<inout>` are valid code whose
+    // type parameter happens to be NAMED out/inout. One-token lookahead
+    // resolves the ambiguity — `<out T>` keeps out as variance, anything
+    // else after out/inout makes it the name ("in" is reserved and can
+    // only be variance).
     type_parameter: ($) =>
       seq(
         optional($._metadata),
         optional(field("variance", $.variance_modifier)),
-        field("name", alias($.identifier, $.type_identifier)),
+        field(
+          "name",
+          choice(
+            alias($.identifier, $.type_identifier),
+            alias("out", $.type_identifier),
+            alias("inout", $.type_identifier),
+          ),
+        ),
         optional(seq("extends", field("bound", $._type_not_void))),
       ),
 
