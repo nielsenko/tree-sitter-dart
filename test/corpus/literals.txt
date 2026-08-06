@@ -800,3 +800,20 @@ void main() {
                 (identifier)
                 (identifier)
                 (identifier)))))))))
+================================================================================
+Lone carriage return ends a single-line string, keeping the text before it
+================================================================================
+
+var s = 'ab';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (string_literal
+          (string_literal_single_quotes
+            (template_chars_single_single)
+            (ERROR)))))))

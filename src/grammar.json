@@ -14355,6 +14355,10 @@
     {
       "type": "SYMBOL",
       "name": "annotation_open_paren"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_error_sentinel"
     }
   ],
   "inline": [],

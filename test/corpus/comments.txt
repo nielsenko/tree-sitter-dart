@@ -75,3 +75,20 @@ Empty source file
 --------------------------------------------------------------------------------
 
 (source_file)
+================================================================================
+Empty block comment is dartdoc, like the analyzer
+================================================================================
+
+/**/
+/* */
+/***/
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (documentation_comment
+    (documentation_block_comment))
+  (comment
+    (block_comment))
+  (documentation_comment
+    (documentation_block_comment)))

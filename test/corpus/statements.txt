@@ -1052,3 +1052,56 @@ void f() {
         (for_statement
           (ERROR)
           (block))))))
+================================================================================
+Error recovery keeps comments and does not lex code as string content
+================================================================================
+
+var a = ] foo + bar;
+var x = 1; /* keep me */
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        (ERROR)
+        value: (additive_expression
+          (identifier)
+          operator: (additive_operator)
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (decimal_integer_literal))))
+  (comment
+    (block_comment)))
+================================================================================
+Error recovery keeps string bodies out of the code it recovers
+================================================================================
+
+class A {
+  ] 'x } class Z {';
+  void ok() {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (ERROR
+        (template_chars_double))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (void_type))
+              name: (identifier)
+              parameters: (formal_parameter_list)))
+          body: (function_body
+            (block)))))))

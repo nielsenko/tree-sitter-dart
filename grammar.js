@@ -91,6 +91,9 @@ module.exports = grammar({
     $.block_comment,
     $.documentation_block_comment,
     $.annotation_open_paren,
+    // Never emitted. It is only valid during error recovery, which lets
+    // the scanner detect recovery exactly. Must stay last.
+    $._error_sentinel,
   ],
 
   extras: ($) => [/\s/, $.comment, $.documentation_comment],
