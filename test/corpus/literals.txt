@@ -817,3 +817,158 @@ var s = 'ab';
           (string_literal_single_quotes
             (template_chars_single_single)
             (ERROR)))))))
+================================================================================
+Dollar before a line break does not extend a single-line string
+================================================================================
+
+var s = 'a$
+var b = 2;
+void main() {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        (ERROR
+          (template_chars_single_single))
+        value: (assignment_expression
+          left: (assignable_expression
+            (identifier))
+          right: (decimal_integer_literal)))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block))))
+================================================================================
+Backslash before a line break does not continue a single-line string
+================================================================================
+
+var s = 'abc\
+def';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (string_literal
+          (string_literal_single_quotes
+            (template_chars_single_single)
+            (ERROR
+              (template_chars_double))))))))
+================================================================================
+Backslash before a line break continues a multi-line string
+================================================================================
+
+var s = '''\
+abc''';
+var t = """\
+def""";
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (string_literal
+          (string_literal_single_quotes_multiple
+            (escape_sequence)
+            (template_chars_single))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (string_literal
+          (string_literal_double_quotes_multiple
+            (escape_sequence)
+            (template_chars_double)))))))
+================================================================================
+Octal-looking escape is backslash-zero plus literal digits
+================================================================================
+
+var s = '\012';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (string_literal
+          (string_literal_single_quotes
+            (escape_sequence)
+            (template_chars_single_single)))))))
+================================================================================
+Trailing dollar before the closing quote of a raw string
+================================================================================
+
+var r = r'5$';
+var w = r'$$';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (string_literal
+          (raw_string_literal_single_quotes
+            (template_chars_single_single))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (string_literal
+          (raw_string_literal_single_quotes))))))
+================================================================================
+Trailing dollar before the closing quote of a non-raw string is MISSING
+================================================================================
+
+var s = 'a$';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (string_literal
+          (string_literal_single_quotes
+            (template_chars_single_single)
+            (template_substitution
+              (MISSING identifier_dollar_escaped))))))))
+================================================================================
+Shebang line at EOF without trailing newline
+================================================================================
+#!/usr/bin/env dart
+--------------------------------------------------------------------------------
+
+(source_file
+  (script_tag))
+================================================================================
+Shebang line ends at a lone carriage return
+================================================================================
+#!/usr/bin/env dartvar x = 1;
+--------------------------------------------------------------------------------
+
+(source_file
+  (script_tag)
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (decimal_integer_literal)))))

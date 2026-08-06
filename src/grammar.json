@@ -110,11 +110,7 @@
         },
         {
           "type": "PATTERN",
-          "value": "[^\\n]*"
-        },
-        {
-          "type": "STRING",
-          "value": "\n"
+          "value": "[^\\n\\r]*"
         }
       ]
     },
@@ -2591,8 +2587,13 @@
                 "value": "'"
               },
               {
-                "type": "SYMBOL",
-                "name": "escape_sequence"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_escape_sequence_single_line"
+                },
+                "named": true,
+                "value": "escape_sequence"
               },
               {
                 "type": "SYMBOL",
@@ -2632,8 +2633,13 @@
                 "value": "\""
               },
               {
-                "type": "SYMBOL",
-                "name": "escape_sequence"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_escape_sequence_single_line"
+                },
+                "named": true,
+                "value": "escape_sequence"
               },
               {
                 "type": "SYMBOL",
@@ -2779,10 +2785,6 @@
                 "name": "_unused_escape_sequence"
               },
               {
-                "type": "SYMBOL",
-                "name": "_sub_string_test"
-              },
-              {
                 "type": "STRING",
                 "value": "$"
               }
@@ -2822,10 +2824,6 @@
               {
                 "type": "SYMBOL",
                 "name": "_unused_escape_sequence"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_sub_string_test"
               },
               {
                 "type": "STRING",
@@ -2874,10 +2872,6 @@
                 {
                   "type": "SYMBOL",
                   "name": "_unused_escape_sequence"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_sub_string_test"
                 },
                 {
                   "type": "STRING",
@@ -2929,10 +2923,6 @@
                   "name": "_unused_escape_sequence"
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_sub_string_test"
-                },
-                {
                   "type": "STRING",
                   "value": "$"
                 }
@@ -2982,21 +2972,27 @@
       ]
     },
     "_sub_string_test": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "$"
-        },
-        {
-          "type": "PATTERN",
-          "value": "[^a-zA-Z_{]"
-        }
-      ]
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "$"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^a-zA-Z_{'\"$\\\\\\n\\r]"
+          }
+        ]
+      }
     },
     "identifier_dollar_escaped": {
-      "type": "PATTERN",
-      "value": "[a-zA-Z_]\\w*"
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[a-zA-Z_]\\w*"
+      }
     },
     "_unused_escape_sequence": {
       "type": "IMMEDIATE_TOKEN",
@@ -3012,11 +3008,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[^xu0-7]"
-              },
-              {
-                "type": "PATTERN",
-                "value": "[0-7]{1,3}"
+                "value": "[^xu]"
               },
               {
                 "type": "PATTERN",
@@ -3038,6 +3030,39 @@
     "escape_sequence": {
       "type": "SYMBOL",
       "name": "_unused_escape_sequence"
+    },
+    "_escape_sequence_single_line": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "\\"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[^xu\\n\\r]"
+              },
+              {
+                "type": "PATTERN",
+                "value": "x[0-9a-fA-F]{2}"
+              },
+              {
+                "type": "PATTERN",
+                "value": "u[0-9a-fA-F]{4}"
+              },
+              {
+                "type": "PATTERN",
+                "value": "u\\{[0-9a-fA-F]+\\}"
+              }
+            ]
+          }
+        ]
+      }
     },
     "symbol_literal": {
       "type": "PREC_RIGHT",

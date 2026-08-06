@@ -45,6 +45,27 @@ function commaSepTrailingComma(rule) {
   return optional(commaSep1TrailingComma(rule));
 }
 
+// An escape sequence's catch-all alternative excludes `x` and `u` (their
+// hex forms follow it) and, in single-line strings, the line terminators:
+// Dart has no line continuation there, so `\` before a newline leaves the
+// string unterminated. Multi-line strings DO continue across it, and
+// `'''\` + newline is the idiomatic way to avoid a leading blank line.
+function escapeSequence(anyChar) {
+  return token.immediate(
+    seq(
+      "\\",
+      choice(
+        // Dart has no octal escapes: '\012' is the escape \0 followed by
+        // the literal characters '12'.
+        anyChar,
+        /x[0-9a-fA-F]{2}/,
+        /u[0-9a-fA-F]{4}/,
+        /u\{[0-9a-fA-F]+\}/,
+      ),
+    ),
+  );
+}
+
 // Wraps a type expression with the optional `?` nullable marker.
 function nullable(rule) {
   return seq(rule, optional("?"));
@@ -356,7 +377,11 @@ module.exports = grammar({
     // Library structure
     // ========================================================================
 
-    script_tag: (_) => seq("#!", /[^\n]*/, "\n"),
+    // No trailing-newline requirement: a shebang-only file without a
+    // final newline is accepted by the analyzer. The tag ends at ANY line
+    // terminator (the analyzer's tokenizeTag stops at LF, CR or EOF), so a
+    // lone CR does not let the tag swallow the rest of the file.
+    script_tag: (_) => seq("#!", /[^\n\r]*/),
 
     library_name: ($) =>
       choice(
@@ -707,7 +732,7 @@ module.exports = grammar({
           choice(
             $.template_chars_double_single,
             "'",
-            $.escape_sequence,
+            alias($._escape_sequence_single_line, $.escape_sequence),
             $._sub_string_test,
             $.template_substitution,
           ),
@@ -722,7 +747,7 @@ module.exports = grammar({
           choice(
             $.template_chars_single_single,
             '"',
-            $.escape_sequence,
+            alias($._escape_sequence_single_line, $.escape_sequence),
             $._sub_string_test,
             $.template_substitution,
           ),
@@ -775,7 +800,6 @@ module.exports = grammar({
             "'",
             $.template_chars_raw_slash,
             $._unused_escape_sequence,
-            $._sub_string_test,
             "$",
           ),
         ),
@@ -791,7 +815,6 @@ module.exports = grammar({
             '"',
             $.template_chars_raw_slash,
             $._unused_escape_sequence,
-            $._sub_string_test,
             "$",
           ),
         ),
@@ -809,7 +832,6 @@ module.exports = grammar({
               $.template_chars_raw_slash,
               '"',
               $._unused_escape_sequence,
-              $._sub_string_test,
               "$",
             ),
           ),
@@ -828,7 +850,6 @@ module.exports = grammar({
               "'",
               $.template_chars_raw_slash,
               $._unused_escape_sequence,
-              $._sub_string_test,
               "$",
             ),
           ),
@@ -845,29 +866,32 @@ module.exports = grammar({
         ),
       ),
 
-    _sub_string_test: (_) => seq("$", /[^a-zA-Z_{]/),
+    // The follow-char class excludes the string delimiters, backslash,
+    // line terminators and '$' so a stray '$' can never swallow the
+    // closing quote (raw strings consume a truly bare '$' via their own
+    // "$" alternative instead). It mirrors scan_templates' stop
+    // characters in src/scanner.c. A single token(): with a split "$" +
+    // regex, error recovery would complete the hidden rule via a zero-width
+    // MISSING anonymous regex token and silently accept `'a$'`.
+    _sub_string_test: (_) => token(seq("$", /[^a-zA-Z_{'"$\\\n\r]/)),
 
     // Spec IDENTIFIER_NO_DOLLAR: a simple interpolation's identifier admits
     // neither `$` ('$a$b' splits into two substitutions, \w excludes $)
     // nor `\$` ('$a\$x' is substitution(a) + escape + chars). A `\$` branch
     // would let maximal munch swallow the escape and its tail.
-    identifier_dollar_escaped: (_) => /[a-zA-Z_]\w*/,
+    // token.immediate: the identifier must touch its `$`. Without it the
+    // extras rule skips the line break after a trailing `$`, so the next
+    // line's first word is lexed as interpolated string content.
+    identifier_dollar_escaped: (_) => token.immediate(/[a-zA-Z_]\w*/),
 
-    _unused_escape_sequence: (_) =>
-      token.immediate(
-        seq(
-          "\\",
-          choice(
-            /[^xu0-7]/,
-            /[0-7]{1,3}/,
-            /x[0-9a-fA-F]{2}/,
-            /u[0-9a-fA-F]{4}/,
-            /u\{[0-9a-fA-F]+\}/,
-          ),
-        ),
-      ),
+    _unused_escape_sequence: (_) => escapeSequence(/[^xu]/),
 
     escape_sequence: ($) => $._unused_escape_sequence,
+
+    // Single-line strings only (aliased back to `escape_sequence`): a
+    // backslash before a line terminator leaves them unterminated, where
+    // multi-line strings continue across it.
+    _escape_sequence_single_line: (_) => escapeSequence(/[^xu\n\r]/),
 
     // --- Symbol literals ---
 
