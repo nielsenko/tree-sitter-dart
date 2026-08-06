@@ -8,6 +8,10 @@
 // @ts-check
 
 // Operator precedence levels (from Dart spec, ascending)
+// Variance keywords that are not reserved words, so they can also be a
+// type parameter's NAME (see type_parameter).
+const NON_RESERVED_VARIANCE_KEYWORDS = ["out", "inout"];
+
 const PREC = {
   CASCADE: 2,
   ASSIGNMENT: 3,
@@ -43,6 +47,24 @@ function commaSep1TrailingComma(rule) {
 
 function commaSepTrailingComma(rule) {
   return optional(commaSep1TrailingComma(rule));
+}
+
+// Spec `expression` and `expressionWithoutCascade` share assignment/throw
+// bodies that differ only in the recursion target. The factories keep the
+// visible rule and its hidden without-cascade twin in lockstep.
+function assignmentExpression($, right) {
+  return prec.right(
+    PREC.ASSIGNMENT,
+    seq(
+      field("left", $.assignable_expression),
+      field("operator", $._assignment_operator),
+      field("right", right),
+    ),
+  );
+}
+
+function throwExpression($, value) {
+  return seq("throw", field("value", value));
 }
 
 // An escape sequence's catch-all alternative excludes `x` and `u` (their
@@ -117,6 +139,9 @@ module.exports = grammar({
     $._error_sentinel,
   ],
 
+  // ASCII-only, like the scanner's own is_whitespace (src/scanner.c) and
+  // like Dart's WHITESPACE production: tree-sitter's /\s/ is ASCII too, so
+  // non-ASCII whitespace is an ERROR rather than skipped trivia.
   extras: ($) => [/\s/, $.comment, $.documentation_comment],
 
   word: ($) => $._name,
@@ -622,12 +647,12 @@ module.exports = grammar({
     type_parameters: ($) =>
       seq("<", commaSep1($.type_parameter), ">"),
 
-    // The name admits the variance keywords too: variance never shipped
-    // in Dart, so `class C<out>` / `mixin M<inout>` are valid code whose
-    // type parameter happens to be NAMED out/inout. One-token lookahead
-    // resolves the ambiguity — `<out T>` keeps out as variance, anything
-    // else after out/inout makes it the name ("in" is reserved and can
-    // only be variance).
+    // The name admits the non-reserved variance keywords too: variance
+    // never shipped in Dart, so `class C<out>` / `mixin M<inout>` are
+    // valid code whose type parameter happens to be NAMED out/inout.
+    // One-token lookahead resolves the ambiguity. `<out T>` keeps out as
+    // variance, and anything else after out/inout makes it the name ("in"
+    // is reserved and can only be variance).
     type_parameter: ($) =>
       seq(
         optional($._metadata),
@@ -636,14 +661,16 @@ module.exports = grammar({
           "name",
           choice(
             alias($.identifier, $.type_identifier),
-            alias("out", $.type_identifier),
-            alias("inout", $.type_identifier),
+            ...NON_RESERVED_VARIANCE_KEYWORDS.map((keyword) =>
+              alias(keyword, $.type_identifier),
+            ),
           ),
         ),
         optional(seq("extends", field("bound", $._type_not_void))),
       ),
 
-    variance_modifier: (_) => choice("in", "out", "inout"),
+    variance_modifier: (_) =>
+      choice("in", ...NON_RESERVED_VARIANCE_KEYWORDS),
 
     record_type: ($) =>
       choice(
@@ -1048,17 +1075,10 @@ module.exports = grammar({
       ),
 
     _assignment_expression_without_cascade: ($) =>
-      prec.right(
-        PREC.ASSIGNMENT,
-        seq(
-          field("left", $.assignable_expression),
-          field("operator", $._assignment_operator),
-          field("right", $._expression_without_cascade),
-        ),
-      ),
+      assignmentExpression($, $._expression_without_cascade),
 
     _throw_expression_without_cascade: ($) =>
-      seq("throw", field("value", $._expression_without_cascade)),
+      throwExpression($, $._expression_without_cascade),
 
     _real_expression: ($) =>
       choice(
@@ -1088,19 +1108,11 @@ module.exports = grammar({
 
     // --- Throw ---
 
-    throw_expression: ($) => seq("throw", field("value", $._expression)),
+    throw_expression: ($) => throwExpression($, $._expression),
 
     // --- Assignment ---
 
-    assignment_expression: ($) =>
-      prec.right(
-        PREC.ASSIGNMENT,
-        seq(
-          field("left", $.assignable_expression),
-          field("operator", $._assignment_operator),
-          field("right", $._expression),
-        ),
-      ),
+    assignment_expression: ($) => assignmentExpression($, $._expression),
 
     _assignment_operator: (_) =>
       choice(

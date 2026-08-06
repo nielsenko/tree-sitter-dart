@@ -23,7 +23,7 @@ enum TokenType {
 // a record return type). Whitespace defeats it naturally: the scan that
 // starts on the whitespace sees a non-'(' lookahead, and the internal
 // lexer then consumes the '(' before the scanner runs again. A block
-// comment does not - it is emitted as its own extra token, so the NEXT
+// comment does not — it is emitted as its own extra token, so the NEXT
 // scan starts exactly on the '(' and would see it as immediate. When a
 // comment in annotation position closes touching a '(', we record a
 // one-shot veto plus that paren's column in serialized state; the scan
@@ -31,13 +31,12 @@ enum TokenType {
 // Any later emitted external token clears the veto, and the column guard
 // keeps a stale veto from suppressing a different annotation's paren.
 //
-// Known residual: state only serializes when a token is emitted, and the
-// vetoing scan emits nothing, so the veto stays armed until the next
-// external token. EVERY later annotation whose '(' happens to sit at the
-// same column, with no comment or string token in between, is also
-// suppressed (pinned in test/corpus/dart313.txt). This needs a poisoned
-// comment first, so real-world exposure is ~zero; the pre-veto behavior
-// silently misparsed the poisoned case instead.
+// Known residual: state only serializes when a token is emitted, so the
+// veto survives until the next external token. A LATER annotation whose
+// '(' happens to sit at the same column, with no comment or string token
+// in between, is also suppressed (pinned in test/corpus/dart313.txt).
+// This needs a poisoned comment first, so real-world exposure is ~zero;
+// the pre-veto behavior silently misparsed the poisoned case instead.
 typedef struct {
   bool veto_annotation_paren;
   uint32_t veto_column;
@@ -74,12 +73,11 @@ static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 // Explicit ASCII whitespace instead of iswspace: wint_t is 16 bits on
 // Windows, so supplementary-plane lookahead truncates (U+10020 -> 0x0020)
-// and would be silently skipped. ASCII is the whole set anyway - Dart's
+// and would be silently skipped. ASCII is the whole set anyway — Dart's
 // WHITESPACE production is ASCII-only, and so is the grammar's /\s/ extra.
 static bool is_whitespace(int32_t c) {
   return c == ' ' || (c >= '\t' && c <= '\r');
 }
-
 
 // Called when a comment token is about to be emitted: if the comment sits
 // in annotation position and closes touching a '(', that paren must not
@@ -97,6 +95,7 @@ static void set_annotation_paren_veto(Scanner *scanner, TSLexer *lexer,
       scanner->veto_annotation_paren ? lexer->get_column(lexer) : 0;
 }
 
+
 static bool scan_multiline_comments(Scanner *scanner, TSLexer *lexer,
                                     const bool *valid_symbols) {
 
@@ -104,18 +103,22 @@ static bool scan_multiline_comments(Scanner *scanner, TSLexer *lexer,
     advance(lexer);
     if (lexer->lookahead != '*') return false;
     advance(lexer);
-    if (lexer->lookahead == '*') documentation_comment = true;
-
     bool after_star = false;
+    if (lexer->lookahead == '*') {
+      // A second '*' opens a doc comment, terminator or not: the analyzer's
+      // tokenizeMultiLineComment sets `dartdoc = $STAR == next` after one
+      // advance, so '/**/' is an empty DOC comment. Priming after_star lets
+      // the shared close path below emit it.
+      advance(lexer);
+      documentation_comment = true;
+      if (lexer->lookahead == '/') {
+        after_star = true;
+      }
+    }
+
     unsigned nesting_depth = 1;
     for (;;) {
       switch (lexer->lookahead) {
-        case '\0':
-          // '\0' is also a valid content character; only stop at real EOF.
-          if (lexer->eof(lexer)) return false;
-          advance(lexer);
-          after_star = false;
-          break;
         case '*':
           advance(lexer);
           after_star = true;
@@ -143,13 +146,16 @@ static bool scan_multiline_comments(Scanner *scanner, TSLexer *lexer,
             }
           }
           break;
+        case '\0':
+          // '\0' is also a valid content character; only stop at real EOF.
+          if (lexer->eof(lexer)) return false;
+          // fall through
         default:
           advance(lexer);
           after_star = false;
           break;
       }
     }
-  return false;
 }
 
 
@@ -187,11 +193,6 @@ static bool scan_templates(Scanner *scanner, TSLexer *lexer,
         if (valid_symbols[TEMPLATE_CHARS_DOUBLE_SINGLE] || valid_symbols[TEMPLATE_CHARS_SINGLE_SINGLE]) return has_content;
         advance(lexer);
         break;
-      case '\0':
-        // '\0' is also a valid content character; only stop at real EOF.
-        if (lexer->eof(lexer)) return false;
-        advance(lexer);
-        break;
       case '$':
         return has_content;
       case '\\':
@@ -202,11 +203,14 @@ static bool scan_templates(Scanner *scanner, TSLexer *lexer,
             return has_content;
         }
         break;
+      case '\0':
+        // '\0' is also a valid content character; only stop at real EOF.
+        if (lexer->eof(lexer)) return false;
+        // fall through
       default:
         advance(lexer);
     }
   }
-  return true;
 }
 
 
