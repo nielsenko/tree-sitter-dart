@@ -101,18 +101,36 @@ mod tests {
         }
     }
 
-    /// KNOWN LIMITATION (kept as a runnable repro: `cargo test -- --ignored`).
-    ///
-    /// `class C<in> {}` is invalid Dart — `in` is reserved, so it can only be
-    /// the variance modifier, leaving the type parameter without a name. The
-    /// parse is accepted silently: recovery supplies a MISSING *hidden*
-    /// `_name`, which leaves a zero-width `type_identifier` behind and does
-    /// not set `has_error()`. This is a general tree-sitter recovery property,
-    /// not something this grammar can express away — `void f({}) {}` behaves
-    /// the same — so tools/check_zero_width.mjs is what catches it in bulk.
+    /// Invalid Dart is flagged by the library even where `tree-sitter parse`
+    /// exits 0. The CLI's exit code reflects only VISIBLE ERROR and MISSING
+    /// nodes, so a MISSING *hidden* token (`_name`) leaves it claiming
+    /// success while `has_error()` is true. That CLI gap, not the grammar, is
+    /// why the corpus gate cannot judge on the exit code alone. See
+    /// tools/check_zero_width.mjs.
     #[test]
-    #[ignore = "known limitation: MISSING hidden token leaves a silent zero-width node"]
-    fn variance_keyword_without_a_name_is_not_accepted_silently() {
+    fn invalid_code_is_flagged_as_an_error() {
+        for source in ["class C<in> {}", "void f({}) {}", "var s = 'a$';"] {
+            let tree = parser().parse(source, None).unwrap();
+            assert!(
+                tree.root_node().has_error(),
+                "{source} should be flagged: {}",
+                tree.root_node().to_sexp()
+            );
+        }
+    }
+
+    /// KNOWN LIMITATION (runnable repro: `cargo test -- --ignored`).
+    ///
+    /// `class C<in> {}` is invalid Dart. `in` is reserved, so it can only be
+    /// the variance modifier, which leaves the type parameter without a name,
+    /// and the analyzer calls it a syntax error. We flag it (asserted above).
+    /// What remains is the SHAPE. Recovery supplies a MISSING hidden `_name`,
+    /// leaving a zero-width `type_identifier` in the tree. That is general
+    /// tree-sitter recovery behaviour rather than a grammar choice, and
+    /// `void f({}) {}` does the same, so it is documented, not worked around.
+    #[test]
+    #[ignore = "known limitation: recovery leaves a zero-width node for a MISSING hidden token"]
+    fn variance_keyword_without_a_name_leaves_no_zero_width_node() {
         let tree = parser().parse("class C<in> {}", None).unwrap();
         assert_eq!(
             zero_width_named_nodes(&tree),
@@ -122,19 +140,13 @@ mod tests {
         );
     }
 
-    /// KNOWN LIMITATION (kept as a runnable repro: `cargo test -- --ignored`).
-    ///
-    /// The annotation-paren veto compares `lexer.get_column()` on a scan that
-    /// returns false. tree-sitter records a token's column dependency only for
-    /// scans that emit, so the token produced under that decision is not
-    /// invalidated when its column changes, and re-indenting the line holding
-    /// a vetoed annotation reuses the old shape instead of re-lexing it.
-    /// Same root cause as the corpus pin "Known limitation: a poisoned
-    /// annotation-paren veto degrades every later annotation at that column":
-    /// the veto can only be cleared by emitting an external token, and the
-    /// vetoing scan emits nothing.
+    /// tree-sitter records a token's column dependency only for scans that
+    /// emit, so a vetoed annotation paren has to be emitted (as the
+    /// record-type variant) rather than declined - otherwise re-indenting
+    /// the line changes the column the veto compared against without
+    /// invalidating the reused subtree, and the incremental tree disagrees
+    /// with a fresh parse of the same buffer.
     #[test]
-    #[ignore = "known limitation: annotation-paren veto is not cleared by a non-emitting scan"]
     fn reindenting_a_vetoed_annotation_reparses_like_a_fresh_parse() {
         let before = "@a/*c*/(int, int) f() => (1, 2);\n@bcdefg(1) int g() => 1;\n";
         let indent = "  ";

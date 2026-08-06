@@ -674,7 +674,7 @@ class const Foo {}
     (identifier)))
 
 ================================================================================
-Known limitation: a poisoned annotation-paren veto degrades every later annotation at that column
+Comment-poisoned annotation paren does not leak into a later annotation at the same column
 ================================================================================
 
 @a/*c*/(int, int) f() => (1, 2);
@@ -707,14 +707,14 @@ Known limitation: a poisoned annotation-paren veto degrades every later annotati
           (decimal_integer_literal)))))
   (function_declaration
     (annotation
-      name: (identifier))
+      name: (identifier)
+      (annotation_arguments
+        (annotation_open_paren)
+        (decimal_integer_literal)))
     signature: (function_signature
       return_type: (type
-        (record_type
-          (ERROR
-            (decimal_integer_literal))))
+        (type_identifier))
       name: (identifier)
-      (ERROR)
       parameters: (formal_parameter_list))
     body: (function_body
       (decimal_integer_literal))))

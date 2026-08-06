@@ -12,31 +12,22 @@ enum TokenType {
   BLOCK_COMMENT,
   DOCUMENTATION_BLOCK_COMMENT,
   ANNOTATION_OPEN_PAREN,
+  COMMENT_SEPARATED_OPEN_PAREN,
   // Never emitted: valid only while the parser is in error recovery
   // (recovery marks every symbol valid), so testing it alone detects
   // recovery exactly. Must stay last in the grammar's externals list.
   ERROR_SENTINEL,
 };
 
-// ANNOTATION_OPEN_PAREN matches '(' only when it is IMMEDIATELY adjacent
-// to the annotation name (the analyzer's rule for annotation arguments vs
-// a record return type). Whitespace defeats it naturally: the scan that
-// starts on the whitespace sees a non-'(' lookahead, and the internal
-// lexer then consumes the '(' before the scanner runs again. A block
-// comment does not — it is emitted as its own extra token, so the NEXT
-// scan starts exactly on the '(' and would see it as immediate. When a
-// comment in annotation position closes touching a '(', we record a
-// one-shot veto plus that paren's column in serialized state; the scan
-// that starts on that exact '(' then declines ANNOTATION_OPEN_PAREN.
-// Any later emitted external token clears the veto, and the column guard
-// keeps a stale veto from suppressing a different annotation's paren.
-//
-// Known residual: state only serializes when a token is emitted, so the
-// veto survives until the next external token. A LATER annotation whose
-// '(' happens to sit at the same column, with no comment or string token
-// in between, is also suppressed (pinned in test/corpus/dart313.txt).
-// This needs a poisoned comment first, so real-world exposure is ~zero;
-// the pre-veto behavior silently misparsed the poisoned case instead.
+// ANNOTATION_OPEN_PAREN matches '(' only when it directly follows the
+// annotation name. That is the analyzer's rule for annotation arguments
+// vs a record return type. Whitespace needs no help. The scan that starts
+// on the whitespace sees no '(', and the internal lexer takes the '('.
+// A block comment is different. It is emitted as its own extra token, so
+// the next scan starts exactly on the '('. When a comment in annotation
+// position ends touching a '(', set_annotation_paren_veto records a veto
+// and that paren's column. The scan at that '(' then emits
+// COMMENT_SEPARATED_OPEN_PAREN, which clears the veto.
 typedef struct {
   bool veto_annotation_paren;
   uint32_t veto_column;
@@ -245,9 +236,18 @@ bool tree_sitter_dart_external_scanner_scan(void *payload, TSLexer *lexer,
     if (valid_symbols[ANNOTATION_OPEN_PAREN] && lexer->lookahead == '(') {
       if (scanner->veto_annotation_paren &&
           lexer->get_column(lexer) == scanner->veto_column) {
-        // A block comment separates this '(' from the annotation name;
-        // the analyzer treats that trivia as ending the annotation.
-        return false;
+        // A block comment separates this '(' from the annotation name; the
+        // analyzer treats that trivia as ending the annotation. Emit the
+        // paren as the record-type variant instead of declining: only an
+        // emission serializes the cleared veto (so it cannot suppress a
+        // later annotation at this column) and registers the column this
+        // decision read (so an incremental re-indent re-lexes it).
+        if (!valid_symbols[COMMENT_SEPARATED_OPEN_PAREN]) return false;
+        clear_annotation_paren_veto(scanner);
+        advance(lexer);
+        lexer->mark_end(lexer);
+        lexer->result_symbol = COMMENT_SEPARATED_OPEN_PAREN;
+        return true;
       }
       clear_annotation_paren_veto(scanner);
       advance(lexer);

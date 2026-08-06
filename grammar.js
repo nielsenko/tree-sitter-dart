@@ -88,6 +88,16 @@ function escapeSequence(anyChar) {
   );
 }
 
+// A record type's '(' - either the ordinary token or, when a block comment
+// separated it from an annotation name, the external variant the scanner
+// emits in place of annotation arguments. Both are '(' in the tree. This is
+// a factory, not a rule, so it inlines at each use: as a hidden rule it
+// would force a reduce decision on every '(' and conflict with
+// parenthesized_expression, formal_parameter_list, record_pattern et al.
+function recordOpenParen($) {
+  return choice("(", alias($._comment_separated_open_paren, "("));
+}
+
 // Wraps a type expression with the optional `?` nullable marker.
 function nullable(rule) {
   return seq(rule, optional("?"));
@@ -134,6 +144,12 @@ module.exports = grammar({
     $.block_comment,
     $.documentation_block_comment,
     $.annotation_open_paren,
+    // The '(' a block comment separated from an annotation name. Emitting
+    // it, rather than declining and letting the internal lexer take the
+    // ordinary token, is what CONSUMES the veto. Scanner state serializes
+    // only with an emitted token, and the column the decision read is
+    // recorded as that token's dependency for incremental reparse.
+    $._comment_separated_open_paren,
     // Never emitted. It is only valid during error recovery, which lets
     // the scanner detect recovery exactly. Must stay last.
     $._error_sentinel,
@@ -674,9 +690,9 @@ module.exports = grammar({
 
     record_type: ($) =>
       choice(
-        seq("(", ")"),
+        seq(recordOpenParen($), ")"),
         seq(
-          "(",
+          recordOpenParen($),
           commaSep1($.record_type_field),
           ",",
           "{",
@@ -684,9 +700,9 @@ module.exports = grammar({
           "}",
           ")",
         ),
-        seq("(", commaSep1TrailingComma($.record_type_field), ")"),
+        seq(recordOpenParen($), commaSep1TrailingComma($.record_type_field), ")"),
         seq(
-          "(",
+          recordOpenParen($),
           "{",
           commaSep1TrailingComma($.record_type_named_field),
           "}",
