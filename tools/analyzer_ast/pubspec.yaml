@@ -1,0 +1,9 @@
+name: analyzer_ast
+description: Dumps the Dart analyzer's AST and compares it with tree-sitter-dart trees.
+publish_to: none
+environment:
+  sdk: ^3.13.0
+dependencies:
+  analyzer: ^14.6.0
+  args: ^2.6.0
+  path: ^1.9.1

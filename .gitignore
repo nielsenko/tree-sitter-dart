@@ -53,3 +53,4 @@ language/
 tools/corpus/download/
 tools/corpus/out/
 tools/corpus/.dart_tool/
+tools/analyzer_ast/.dart_tool/
