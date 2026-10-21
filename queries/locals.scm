@@ -27,6 +27,19 @@
   (redirecting_factory_constructor_signature)
 ] @local.scope
 
+; A member or label name never refers to a local. Giving each its own
+; non-inheriting scope keeps `name` in `user.name` from resolving to a local
+; `name`.
+([
+  (member_expression property: (identifier) @local.scope)
+  (null_aware_member_expression property: (identifier) @local.scope)
+  (cascade_member_expression property: (identifier) @local.scope)
+  (cascade_null_aware_member_expression property: (identifier) @local.scope)
+  (cascade_call_expression property: (identifier) @local.scope)
+  (label (identifier) @local.scope)
+]
+  (#set! local.scope-inherits false))
+
 ; ============================================================================
 ; Definitions
 ; ============================================================================
@@ -40,6 +53,12 @@
 
 (static_final_declaration
   (identifier) @local.definition)
+(for_statement
+  name: (identifier) @local.definition)
+(for_element
+  name: (identifier) @local.definition)
+(variable_pattern
+  name: (identifier) @local.definition)
 
 ; Parameters
 (formal_parameter

@@ -86,6 +86,21 @@
   (cascade_null_aware_member_expression)
 ] property: (identifier) @property
 
+(static_member_shorthand
+  (identifier) @property)
+
+(record_field
+  (label
+    (identifier) @property))
+
+(object_pattern
+  (label
+    (identifier) @property))
+
+(record_pattern
+  (label
+    (identifier) @property))
+
 ; Function calls (non-method)
 (call_expression
   function: (identifier) @function.call)
@@ -99,6 +114,10 @@
 
 (cascade_call_expression
   property: (identifier) @function.method.call)
+
+(call_expression
+  function: (static_member_shorthand
+    (identifier) @function.method.call))
 
 ; ============================================================================
 ; Declarations
@@ -144,6 +163,9 @@
 (primary_constructor
   name: (identifier) @constructor)
 
+(extension_type_representation
+  name: (identifier) @property)
+
 ; ============================================================================
 ; Parameters
 ; ============================================================================
@@ -174,6 +196,22 @@
 
 (static_final_declaration
   (identifier) @variable)
+
+(for_statement
+  name: (identifier) @variable)
+
+(for_element
+  name: (identifier) @variable)
+
+(variable_pattern
+  name: (identifier) @variable)
+
+(record_type_field
+  name: (identifier) @variable)
+
+(record_type_named_field
+  (typed_identifier
+    name: (identifier) @variable))
 
 ; ============================================================================
 ; Annotations
@@ -325,6 +363,7 @@
   "operator"
   "part"
   "required"
+  "rethrow"
   "return"
   "sealed"
   "set"
