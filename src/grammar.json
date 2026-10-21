@@ -5020,6 +5020,10 @@
           {
             "type": "SYMBOL",
             "name": "unary_expression"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "function_expression"
           }
         ]
       }
@@ -5806,8 +5810,13 @@
           "name": "identifier"
         },
         {
-          "type": "SYMBOL",
-          "name": "function_expression"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_function_primary"
+          },
+          "named": true,
+          "value": "function_expression"
         },
         {
           "type": "SYMBOL",
@@ -5878,10 +5887,61 @@
       ]
     },
     "function_expression_body": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "async"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "=>"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        }
+      ]
+    },
+    "_function_primary": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "parameters",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_formal_parameter_part"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_function_primary_body"
+            },
+            "named": true,
+            "value": "function_expression_body"
+          }
+        }
+      ]
+    },
+    "_function_primary_body": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
           "members": [
             {
               "type": "CHOICE",
@@ -5891,53 +5951,23 @@
                   "value": "async"
                 },
                 {
-                  "type": "BLANK"
+                  "type": "STRING",
+                  "value": "async*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "sync*"
                 }
               ]
             },
             {
-              "type": "STRING",
-              "value": "=>"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_expression"
+              "type": "BLANK"
             }
           ]
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": "async"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "async*"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "sync*"
-                    }
-                  ]
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "block"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "block"
         }
       ]
     },
@@ -13963,21 +13993,6 @@
     ],
     [
       "assignable_expression",
-      "member_expression",
-      "_unary_expression"
-    ],
-    [
-      "assignable_expression",
-      "index_expression",
-      "_unary_expression"
-    ],
-    [
-      "assignable_expression",
-      "null_aware_member_expression",
-      "_unary_expression"
-    ],
-    [
-      "assignable_expression",
       "null_aware_index_expression",
       "_unary_expression"
     ],
@@ -14183,10 +14198,6 @@
     [
       "_unary_expression",
       "instantiation_expression"
-    ],
-    [
-      "_unary_expression",
-      "call_expression"
     ],
     [
       "_record_literal_no_const",

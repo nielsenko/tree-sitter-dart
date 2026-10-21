@@ -766,14 +766,14 @@ void f() {
           (call_expression
             (identifier)
             (arguments
-              (call_expression
-                (function_expression
-                  (formal_parameter_list)
-                  (function_expression_body
-                    (unary_expression
-                      (await_expression
-                        (identifier)))))
-                (arguments)))))
+              (function_expression
+                (formal_parameter_list)
+                (function_expression_body
+                  (unary_expression
+                    (await_expression
+                      (call_expression
+                        (identifier)
+                        (arguments)))))))))
         (expression_statement
           (call_expression
             (identifier)

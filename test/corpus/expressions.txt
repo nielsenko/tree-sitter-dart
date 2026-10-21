@@ -2286,3 +2286,438 @@ void main() {
               (cascade_call_expression
                 property: (identifier)
                 arguments: (arguments)))))))))
+
+================================================================================
+Arrow function bodies extend over selectors
+================================================================================
+
+void f() {
+  xs.map((x) => x.toJson()).toList();
+  run(() => g());
+  pick((p) => p[0]);
+  on((e, emit) => emit(e.value + 1));
+  final hex = bytes.map((b) => b.toRadixString(16)).join('');
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (expression_statement
+          (call_expression
+            function: (member_expression
+              object: (call_expression
+                function: (member_expression
+                  object: (identifier)
+                  property: (identifier))
+                arguments: (arguments
+                  (function_expression
+                    parameters: (formal_parameter_list
+                      (formal_parameter
+                        (identifier)))
+                    body: (function_expression_body
+                      (call_expression
+                        function: (member_expression
+                          object: (identifier)
+                          property: (identifier))
+                        arguments: (arguments))))))
+              property: (identifier))
+            arguments: (arguments)))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (function_expression
+                parameters: (formal_parameter_list)
+                body: (function_expression_body
+                  (call_expression
+                    function: (identifier)
+                    arguments: (arguments)))))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (function_expression
+                parameters: (formal_parameter_list
+                  (formal_parameter
+                    (identifier)))
+                body: (function_expression_body
+                  (index_expression
+                    object: (identifier)
+                    index: (decimal_integer_literal)))))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (function_expression
+                parameters: (formal_parameter_list
+                  (formal_parameter
+                    (identifier))
+                  (formal_parameter
+                    (identifier)))
+                body: (function_expression_body
+                  (call_expression
+                    function: (identifier)
+                    arguments: (arguments
+                      (additive_expression
+                        (member_expression
+                          object: (identifier)
+                          property: (identifier))
+                        operator: (additive_operator)
+                        (decimal_integer_literal)))))))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            name: (identifier)
+            value: (call_expression
+              function: (member_expression
+                object: (call_expression
+                  function: (member_expression
+                    object: (identifier)
+                    property: (identifier))
+                  arguments: (arguments
+                    (function_expression
+                      parameters: (formal_parameter_list
+                        (formal_parameter
+                          (identifier)))
+                      body: (function_expression_body
+                        (call_expression
+                          function: (member_expression
+                            object: (identifier)
+                            property: (identifier))
+                          arguments: (arguments
+                            (decimal_integer_literal)))))))
+                property: (identifier))
+              arguments: (arguments
+                (string_literal
+                  (string_literal_single_quotes))))))))))
+
+================================================================================
+Arrow function bodies keep their calls and selectors (#4, #5)
+================================================================================
+
+void f() {
+  items.where((item) => client.isEnabled('k'));
+  s.map((p) => Foo(p));
+  s.map((p) => a.foo(p));
+  g((p) => Foo(p).x);
+  g((p) => a == b.toString());
+  g((i) => !a.b());
+  g((i) => i > 0 && a.b());
+  g((i) => a.b().toString());
+  g((a) => (b) => c.d);
+  o..cb = (a) => a.foo();
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (expression_statement
+          (call_expression
+            function: (member_expression
+              object: (identifier)
+              property: (identifier))
+            arguments: (arguments
+              (function_expression
+                parameters: (formal_parameter_list
+                  (formal_parameter
+                    (identifier)))
+                body: (function_expression_body
+                  (call_expression
+                    function: (member_expression
+                      object: (identifier)
+                      property: (identifier))
+                    arguments: (arguments
+                      (string_literal
+                        (string_literal_single_quotes
+                          (template_chars_single_single))))))))))
+        (expression_statement
+          (call_expression
+            function: (member_expression
+              object: (identifier)
+              property: (identifier))
+            arguments: (arguments
+              (function_expression
+                parameters: (formal_parameter_list
+                  (formal_parameter
+                    (identifier)))
+                body: (function_expression_body
+                  (call_expression
+                    function: (identifier)
+                    arguments: (arguments
+                      (identifier))))))))
+        (expression_statement
+          (call_expression
+            function: (member_expression
+              object: (identifier)
+              property: (identifier))
+            arguments: (arguments
+              (function_expression
+                parameters: (formal_parameter_list
+                  (formal_parameter
+                    (identifier)))
+                body: (function_expression_body
+                  (call_expression
+                    function: (member_expression
+                      object: (identifier)
+                      property: (identifier))
+                    arguments: (arguments
+                      (identifier))))))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (function_expression
+                parameters: (formal_parameter_list
+                  (formal_parameter
+                    (identifier)))
+                body: (function_expression_body
+                  (member_expression
+                    object: (call_expression
+                      function: (identifier)
+                      arguments: (arguments
+                        (identifier)))
+                    property: (identifier)))))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (function_expression
+                parameters: (formal_parameter_list
+                  (formal_parameter
+                    (identifier)))
+                body: (function_expression_body
+                  (equality_expression
+                    (identifier)
+                    operator: (equality_operator)
+                    (call_expression
+                      function: (member_expression
+                        object: (identifier)
+                        property: (identifier))
+                      arguments: (arguments))))))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (function_expression
+                parameters: (formal_parameter_list
+                  (formal_parameter
+                    (identifier)))
+                body: (function_expression_body
+                  (unary_expression
+                    operator: (negation_operator)
+                    (call_expression
+                      function: (member_expression
+                        object: (identifier)
+                        property: (identifier))
+                      arguments: (arguments))))))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (function_expression
+                parameters: (formal_parameter_list
+                  (formal_parameter
+                    (identifier)))
+                body: (function_expression_body
+                  (logical_and_expression
+                    (relational_expression
+                      (identifier)
+                      operator: (relational_operator)
+                      (decimal_integer_literal))
+                    (call_expression
+                      function: (member_expression
+                        object: (identifier)
+                        property: (identifier))
+                      arguments: (arguments))))))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (function_expression
+                parameters: (formal_parameter_list
+                  (formal_parameter
+                    (identifier)))
+                body: (function_expression_body
+                  (call_expression
+                    function: (member_expression
+                      object: (call_expression
+                        function: (member_expression
+                          object: (identifier)
+                          property: (identifier))
+                        arguments: (arguments))
+                      property: (identifier))
+                    arguments: (arguments)))))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (function_expression
+                parameters: (formal_parameter_list
+                  (formal_parameter
+                    (identifier)))
+                body: (function_expression_body
+                  (function_expression
+                    parameters: (formal_parameter_list
+                      (formal_parameter
+                        (identifier)))
+                    body: (function_expression_body
+                      (member_expression
+                        object: (identifier)
+                        property: (identifier)))))))))
+        (expression_statement
+          (cascade
+            (identifier)
+            (cascade_section
+              (cascade_selector
+                (identifier))
+              (function_expression
+                parameters: (formal_parameter_list
+                  (formal_parameter
+                    (identifier)))
+                body: (function_expression_body
+                  (call_expression
+                    function: (member_expression
+                      object: (identifier)
+                      property: (identifier))
+                    arguments: (arguments)))))))))))
+
+================================================================================
+Arrow function body in a cascade assignment takes the following cascade
+================================================================================
+
+var o = Obj()..cb = (x) => x.y..z();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (cascade
+          (call_expression
+            function: (identifier)
+            arguments: (arguments))
+          (cascade_section
+            (cascade_selector
+              (identifier))
+            (function_expression
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (identifier)))
+              body: (function_expression_body
+                (cascade
+                  (member_expression
+                    object: (identifier)
+                    property: (identifier))
+                  (cascade_section
+                    (cascade_call_expression
+                      property: (identifier)
+                      arguments: (arguments))))))))))))
+
+================================================================================
+Arrow functions as operands
+================================================================================
+
+var a = filter ?? (_) => true;
+var b = c ? (x) => x.y : (x) => x.z;
+var d = -(x) => 1;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (if_null_expression
+          (identifier)
+          (function_expression
+            parameters: (formal_parameter_list
+              (formal_parameter
+                (identifier)))
+            body: (function_expression_body
+              (true)))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (conditional_expression
+          (identifier)
+          consequence: (function_expression
+            parameters: (formal_parameter_list
+              (formal_parameter
+                (identifier)))
+            body: (function_expression_body
+              (member_expression
+                object: (identifier)
+                property: (identifier))))
+          alternative: (function_expression
+            parameters: (formal_parameter_list
+              (formal_parameter
+                (identifier)))
+            body: (function_expression_body
+              (member_expression
+                object: (identifier)
+                property: (identifier))))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (unary_expression
+          operator: (prefix_operator)
+          (function_expression
+            parameters: (formal_parameter_list
+              (formal_parameter
+                (identifier)))
+            body: (function_expression_body
+              (decimal_integer_literal))))))))
+
+================================================================================
+Block function invoked in place
+================================================================================
+
+var v = () { return 1; }();
+var w = (() => 2)();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (call_expression
+          function: (function_expression
+            parameters: (formal_parameter_list)
+            body: (function_expression_body
+              (block
+                (return_statement
+                  (decimal_integer_literal)))))
+          arguments: (arguments)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (call_expression
+          function: (parenthesized_expression
+            (function_expression
+              parameters: (formal_parameter_list)
+              body: (function_expression_body
+                (decimal_integer_literal))))
+          arguments: (arguments))))))

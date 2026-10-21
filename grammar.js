@@ -226,9 +226,6 @@ module.exports = grammar({
     [$._primary, $.labeled_statement],
     // Assignable-vs-wrapper: the same chain reduces under either name, and
     // lookahead picks.
-    [$.assignable_expression, $.member_expression, $._unary_expression],
-    [$.assignable_expression, $.index_expression, $._unary_expression],
-    [$.assignable_expression, $.null_aware_member_expression, $._unary_expression],
     [$.assignable_expression, $.null_aware_index_expression, $._unary_expression],
     // Type name ambiguities
     [$._type_name],
@@ -286,7 +283,6 @@ module.exports = grammar({
     [$.type_arguments, $.relational_operator, $.type_parameters],
     // Generic call/instantiation vs comparisons (TS-style GLR fork on `<`)
     [$._unary_expression, $.instantiation_expression],
-    [$._unary_expression, $.call_expression],
     // Record literal vs record field / record type
     [$._record_literal_no_const, $.record_field],
     [$.record_type, $._record_literal_no_const],
@@ -1295,7 +1291,7 @@ module.exports = grammar({
     _unary_expression: ($) =>
       prec(
         PREC.UNARY_PREFIX,
-        choice($._postfix_expression, $.unary_expression),
+        choice($._postfix_expression, $.unary_expression, $.function_expression),
       ),
 
     unary_expression: ($) =>
@@ -1431,7 +1427,7 @@ module.exports = grammar({
       choice(
         $._literal,
         $.identifier,
-        $.function_expression,
+        alias($._function_primary, $.function_expression),
         $._instantiation,
         $.parenthesized_expression,
         "this",
@@ -1443,17 +1439,25 @@ module.exports = grammar({
 
     parenthesized_expression: ($) => seq("(", $._expression, ")"),
 
+    // An operand, not a primary, so a selector after the body belongs to the
+    // body. Pinned by the "Arrow function" tests in expressions.txt.
     function_expression: ($) =>
       seq(
         field("parameters", $._formal_parameter_part),
         field("body", $.function_expression_body),
       ),
 
-    function_expression_body: ($) =>
-      choice(
-        seq(optional("async"), "=>", $._expression),
-        seq(optional(choice("async", "async*", "sync*")), $.block),
+    function_expression_body: ($) => seq(optional("async"), "=>", $._expression),
+
+    // Spec: functionPrimary.
+    _function_primary: ($) =>
+      seq(
+        field("parameters", $._formal_parameter_part),
+        field("body", alias($._function_primary_body, $.function_expression_body)),
       ),
+
+    _function_primary_body: ($) =>
+      seq(optional(choice("async", "async*", "sync*")), $.block),
 
     // Hidden supertype: any expression that constructs an instance. Lets
     // queries address the three forms (new/const/implicit) uniformly via
