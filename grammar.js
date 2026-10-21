@@ -1196,13 +1196,13 @@ module.exports = grammar({
     // --- Relational ---
 
     relational_expression: ($) =>
-      prec.left(
+      prec.dynamic(-1, prec.left(
         PREC.RELATIONAL,
         choice(
           seq($._real_expression, field("operator", $.relational_operator), $._real_expression),
           seq("super", field("operator", $.relational_operator), $._real_expression),
         ),
-      ),
+      )),
 
     relational_operator: (_) => choice("<", ">", "<=", ">="),
 

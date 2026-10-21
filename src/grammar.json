@@ -4438,54 +4438,58 @@
       ]
     },
     "relational_expression": {
-      "type": "PREC_LEFT",
-      "value": 9,
+      "type": "PREC_DYNAMIC",
+      "value": -1,
       "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_real_expression"
-              },
-              {
-                "type": "FIELD",
-                "name": "operator",
-                "content": {
+        "type": "PREC_LEFT",
+        "value": 9,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
                   "type": "SYMBOL",
-                  "name": "relational_operator"
-                }
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_real_expression"
-              }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "super"
-              },
-              {
-                "type": "FIELD",
-                "name": "operator",
-                "content": {
+                  "name": "_real_expression"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "operator",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "relational_operator"
+                  }
+                },
+                {
                   "type": "SYMBOL",
-                  "name": "relational_operator"
+                  "name": "_real_expression"
                 }
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_real_expression"
-              }
-            ]
-          }
-        ]
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "super"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "operator",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "relational_operator"
+                  }
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_real_expression"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     "relational_operator": {
