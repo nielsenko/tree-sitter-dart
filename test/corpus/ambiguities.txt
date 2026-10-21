@@ -1199,3 +1199,159 @@ void main() {
             (identifier)
             (arguments
               (identifier))))))))
+
+================================================================================
+Cast and type test to a function type with a generic return type
+================================================================================
+
+var a = handler as Future<void> Function();
+var b = handler is FutureOr<String> Function(int);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (type_cast_expression
+          (identifier)
+          (type_cast
+            (type
+              (function_type
+                (type
+                  (type_identifier)
+                  (type_arguments
+                    (type
+                      (void_type))))
+                (parameter_type_list))))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (type_test_expression
+          (identifier)
+          (type_test
+            (is_operator)
+            (type
+              (function_type
+                (type
+                  (type_identifier)
+                  (type_arguments
+                    (type
+                      (type_identifier))))
+                (parameter_type_list
+                  (normal_parameter_type
+                    (type
+                      (type_identifier))))))))))))
+
+================================================================================
+Function type with a generic return type in type arguments
+================================================================================
+
+final lookup = lib.lookup<NativeFunction<Pointer<Char> Function()>>('name');
+final call = lookup.asFunction<Pointer<Char> Function()>();
+List<Future<int> Function()> tasks = [];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (static_final_declaration_list
+      (static_final_declaration
+        name: (identifier)
+        value: (call_expression
+          function: (instantiation_expression
+            function: (member_expression
+              object: (identifier)
+              property: (identifier))
+            type_arguments: (type_arguments
+              (type
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (function_type
+                      (type
+                        (type_identifier)
+                        (type_arguments
+                          (type
+                            (type_identifier))))
+                      (parameter_type_list)))))))
+          arguments: (arguments
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single))))))))
+  (top_level_variable_declaration
+    (static_final_declaration_list
+      (static_final_declaration
+        name: (identifier)
+        value: (call_expression
+          function: (instantiation_expression
+            function: (member_expression
+              object: (identifier)
+              property: (identifier))
+            type_arguments: (type_arguments
+              (type
+                (function_type
+                  (type
+                    (type_identifier)
+                    (type_arguments
+                      (type
+                        (type_identifier))))
+                  (parameter_type_list)))))
+          arguments: (arguments)))))
+  (top_level_variable_declaration
+    (type
+      (type_identifier)
+      (type_arguments
+        (type
+          (function_type
+            (type
+              (type_identifier)
+              (type_arguments
+                (type
+                  (type_identifier))))
+            (parameter_type_list)))))
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (list_literal)))))
+
+================================================================================
+Typedef of a function type with a generic return type
+================================================================================
+
+typedef Loader = Future<String> Function(Uri uri);
+typedef JsonDecodeCallback = FutureOr<dynamic> Function(String);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (type_identifier)
+    (type
+      (function_type
+        (type
+          (type_identifier)
+          (type_arguments
+            (type
+              (type_identifier))))
+        (parameter_type_list
+          (normal_parameter_type
+            (typed_identifier
+              type: (type
+                (type_identifier))
+              name: (identifier)))))))
+  (type_alias
+    (type_identifier)
+    (type
+      (function_type
+        (type
+          (type_identifier)
+          (type_arguments
+            (type
+              (type_identifier))))
+        (parameter_type_list
+          (normal_parameter_type
+            (type
+              (type_identifier))))))))

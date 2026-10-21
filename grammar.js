@@ -591,12 +591,12 @@ module.exports = grammar({
     // branch that must shift the trailing `?` at the nullable() level.
     // Pinned in ambiguities.txt. Moving it regressed 4 pub.dev files.
     _function_type_tail: ($) =>
-      seq(
+      prec.dynamic(3, seq(
         "Function",
         optional($.type_parameters),
         $.parameter_type_list,
         optional("?"),
-      ),
+      )),
 
     parameter_type_list: ($) =>
       seq(
