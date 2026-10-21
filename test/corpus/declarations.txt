@@ -1010,9 +1010,8 @@ external set debug(bool value);
         (type_identifier))
       (identifier)))
   (external_setter_declaration
+    (external)
     (setter_signature
-      (type
-        (type_identifier))
       (identifier)
       (formal_parameter_list
         (formal_parameter
@@ -3325,3 +3324,75 @@ class C<T extends (int, int)> {}
                 (decimal_integer_literal))))
           (record_field
             (decimal_integer_literal)))))))
+
+================================================================================
+Modifiers before a bare function type are not its return type
+================================================================================
+
+class C {
+  static Function()? onLog;
+  static Function(int) handler = print;
+  covariant Function()? callback;
+  external Function()? native;
+  late Function()? deferred;
+  static late Function()? lazy;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (member_declaration
+        (declaration
+          (type
+            (function_type
+              (parameter_type_list)))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)))))
+      (member_declaration
+        (declaration
+          (type
+            (function_type
+              (parameter_type_list
+                (normal_parameter_type
+                  (type
+                    (type_identifier))))))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)
+              value: (identifier)))))
+      (member_declaration
+        (declaration
+          (type
+            (function_type
+              (parameter_type_list)))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)))))
+      (member_declaration
+        (declaration
+          (external)
+          (type
+            (function_type
+              (parameter_type_list)))
+          (identifier_list
+            (identifier))))
+      (member_declaration
+        (declaration
+          (type
+            (function_type
+              (parameter_type_list)))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)))))
+      (member_declaration
+        (declaration
+          (type
+            (function_type
+              (parameter_type_list)))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier))))))))

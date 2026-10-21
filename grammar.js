@@ -2625,7 +2625,10 @@ module.exports = grammar({
     identifier: ($) =>
       choice(
         $._name,
-        $._built_in_identifier,
+        // Spec: built-in identifiers are not type names. Losing ties to the
+        // keyword reading keeps `static Function()? f;` and
+        // `external set x(v);` from taking the keyword as a type.
+        prec.dynamic(-1, $._built_in_identifier),
         // Contextual keywords: legal identifiers outside async/generator
         // bodies. The analyzer accepts them, and await_expression/yield win
         // via dynamic precedence when both parses are viable.
