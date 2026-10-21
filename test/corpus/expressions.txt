@@ -2721,3 +2721,480 @@ var w = (() => 2)();
               body: (function_expression_body
                 (decimal_integer_literal))))
           arguments: (arguments))))))
+
+================================================================================
+Argument list element kinds
+================================================================================
+
+class C {
+  void m() {
+    call('a' 'b', x = 1, true, c ? 1 : 2, null, i++, -n, this);
+    g(name: v, cb: () => 0, items: [1], call: a.b(), field: a.b, shorthand: .zero);
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (void_type))
+              name: (identifier)
+              parameters: (formal_parameter_list)))
+          body: (function_body
+            (block
+              (expression_statement
+                (call_expression
+                  function: (identifier)
+                  arguments: (arguments
+                    (string_literal
+                      (string_literal_single_quotes
+                        (template_chars_single_single))
+                      (string_literal_single_quotes
+                        (template_chars_single_single)))
+                    (assignment_expression
+                      left: (assignable_expression
+                        (identifier))
+                      right: (decimal_integer_literal))
+                    (true)
+                    (conditional_expression
+                      (identifier)
+                      consequence: (decimal_integer_literal)
+                      alternative: (decimal_integer_literal))
+                    (null_literal)
+                    (postfix_expression
+                      argument: (assignable_expression
+                        (identifier))
+                      operator: (increment_operator))
+                    (unary_expression
+                      operator: (prefix_operator)
+                      (identifier)))))
+              (expression_statement
+                (call_expression
+                  function: (identifier)
+                  arguments: (arguments
+                    (named_argument
+                      (label
+                        (identifier))
+                      (identifier))
+                    (named_argument
+                      (label
+                        (identifier))
+                      (function_expression
+                        parameters: (formal_parameter_list)
+                        body: (function_expression_body
+                          (decimal_integer_literal))))
+                    (named_argument
+                      (label
+                        (identifier))
+                      (list_literal
+                        (decimal_integer_literal)))
+                    (named_argument
+                      (label
+                        (identifier))
+                      (call_expression
+                        function: (member_expression
+                          object: (identifier)
+                          property: (identifier))
+                        arguments: (arguments)))
+                    (named_argument
+                      (label
+                        (identifier))
+                      (member_expression
+                        object: (identifier)
+                        property: (identifier)))
+                    (named_argument
+                      (label
+                        (identifier))
+                      (static_member_shorthand
+                        (identifier)))))))))))))
+
+================================================================================
+Assignment right-hand side kinds
+================================================================================
+
+void f() {
+  done = true;
+  cache = {};
+  int? none = null;
+  Color pick = .new();
+  Box<int> box = .of<int>(1);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (expression_statement
+          (assignment_expression
+            left: (assignable_expression
+              (identifier))
+            right: (true)))
+        (expression_statement
+          (assignment_expression
+            left: (assignable_expression
+              (identifier))
+            right: (set_or_map_literal)))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (type
+              (type_identifier))
+            name: (identifier)
+            value: (null_literal)))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (type
+              (type_identifier))
+            name: (identifier)
+            value: (call_expression
+              function: (static_member_shorthand)
+              arguments: (arguments))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (type
+              (type_identifier)
+              (type_arguments
+                (type
+                  (type_identifier))))
+            name: (identifier)
+            value: (call_expression
+              function: (instantiation_expression
+                function: (static_member_shorthand
+                  (identifier))
+                type_arguments: (type_arguments
+                  (type
+                    (type_identifier))))
+              arguments: (arguments
+                (decimal_integer_literal)))))))))
+
+================================================================================
+Binary operand kinds
+================================================================================
+
+var a = x as num == y;
+var b = 1.5 * 2;
+var c = s.length + 1;
+var d = 'a' + 'b';
+var e = '$p' + q;
+var f = color == .red;
+var g = size == .of(1);
+var h = list.indexOf(x) + 1;
+var i = .zero.abs();
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (equality_expression
+          (type_cast_expression
+            (identifier)
+            (type_cast
+              (type
+                (type_identifier))))
+          operator: (equality_operator)
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (multiplicative_expression
+          (decimal_floating_point_literal)
+          operator: (multiplicative_operator)
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (additive_expression
+          (member_expression
+            object: (identifier)
+            property: (identifier))
+          operator: (additive_operator)
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (additive_expression
+          (string_literal
+            (string_literal_single_quotes
+              (template_chars_single_single)))
+          operator: (additive_operator)
+          (string_literal
+            (string_literal_single_quotes
+              (template_chars_single_single)))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (additive_expression
+          (string_literal
+            (string_literal_single_quotes
+              (template_substitution
+                (identifier_dollar_escaped))))
+          operator: (additive_operator)
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (equality_expression
+          (identifier)
+          operator: (equality_operator)
+          (static_member_shorthand
+            (identifier))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (equality_expression
+          (identifier)
+          operator: (equality_operator)
+          (call_expression
+            function: (static_member_shorthand
+              (identifier))
+            arguments: (arguments
+              (decimal_integer_literal)))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (additive_expression
+          (call_expression
+            function: (member_expression
+              object: (identifier)
+              property: (identifier))
+            arguments: (arguments
+              (identifier)))
+          operator: (additive_operator)
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (call_expression
+          function: (member_expression
+            object: (static_member_shorthand
+              (identifier))
+            property: (identifier))
+          arguments: (arguments))))))
+
+================================================================================
+Expression body kinds
+================================================================================
+
+Color make() => .new();
+List<int> ones() => [1];
+String name() => 'x';
+String greet(String n) => 'hi $n';
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (type_identifier))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (call_expression
+        function: (static_member_shorthand)
+        arguments: (arguments))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (type_identifier))))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (list_literal
+        (decimal_integer_literal))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (type_identifier))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (string_literal
+        (string_literal_single_quotes
+          (template_chars_single_single)))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (type_identifier))
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))
+    body: (function_body
+      (string_literal
+        (string_literal_single_quotes
+          (template_chars_single_single)
+          (template_substitution
+            (identifier_dollar_escaped)))))))
+
+================================================================================
+Generic function expressions and immediate calls
+================================================================================
+
+class C {
+  void m() {
+    var id = <T>(T x) => x;
+    this();
+    assert(check()(1));
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (void_type))
+              name: (identifier)
+              parameters: (formal_parameter_list)))
+          body: (function_body
+            (block
+              (local_variable_declaration
+                (initialized_variable_declaration
+                  name: (identifier)
+                  value: (function_expression
+                    parameters: (type_parameters
+                      (type_parameter
+                        name: (type_identifier)))
+                    parameters: (formal_parameter_list
+                      (formal_parameter
+                        (type
+                          (type_identifier))
+                        name: (identifier)))
+                    body: (function_expression_body
+                      (identifier)))))
+              (expression_statement
+                (call_expression
+                  arguments: (arguments)))
+              (assert_statement
+                (assertion
+                  (call_expression
+                    function: (call_expression
+                      function: (identifier)
+                      arguments: (arguments))
+                    arguments: (arguments
+                      (decimal_integer_literal))))))))))))
+
+================================================================================
+Postfix and parenthesized receivers
+================================================================================
+
+void f() {
+  a.b!;
+  a.b!.c;
+  (a).b();
+  a.b.c();
+  var x = (y as int);
+  var z = (y);
+  var t = c ? x as int : (y);
+  var u = c ? 'a' : b;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (expression_statement
+          (null_assertion_expression
+            value: (member_expression
+              object: (identifier)
+              property: (identifier))))
+        (expression_statement
+          (member_expression
+            object: (null_assertion_expression
+              value: (member_expression
+                object: (identifier)
+                property: (identifier)))
+            property: (identifier)))
+        (expression_statement
+          (call_expression
+            function: (member_expression
+              object: (parenthesized_expression
+                (identifier))
+              property: (identifier))
+            arguments: (arguments)))
+        (expression_statement
+          (call_expression
+            function: (member_expression
+              object: (member_expression
+                object: (identifier)
+                property: (identifier))
+              property: (identifier))
+            arguments: (arguments)))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            name: (identifier)
+            value: (parenthesized_expression
+              (type_cast_expression
+                (identifier)
+                (type_cast
+                  (type
+                    (type_identifier)))))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            name: (identifier)
+            value: (parenthesized_expression
+              (identifier))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            name: (identifier)
+            value: (conditional_expression
+              (identifier)
+              consequence: (type_cast_expression
+                (identifier)
+                (type_cast
+                  (type
+                    (type_identifier))))
+              alternative: (parenthesized_expression
+                (identifier)))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            name: (identifier)
+            value: (conditional_expression
+              (identifier)
+              consequence: (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single)))
+              alternative: (identifier))))))))

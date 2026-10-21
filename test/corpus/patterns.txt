@@ -1068,3 +1068,145 @@ void f(Object o) {
                 (constant_pattern
                   (identifier))
                 (decimal_integer_literal)))))))))
+
+================================================================================
+Known limitation: identifiers in declaration patterns parse as constant_pattern
+================================================================================
+
+void f() {
+  for (var Point(:x) in points) {}
+  for (var (k, v) in map.entries) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (for_statement
+          (object_pattern
+            (type_identifier)
+            (constant_pattern
+              (identifier)))
+          value: (identifier)
+          body: (block))
+        (for_statement
+          (record_pattern
+            (constant_pattern
+              (identifier))
+            (constant_pattern
+              (identifier)))
+          value: (member_expression
+            object: (identifier)
+            property: (identifier))
+          body: (block))))))
+
+================================================================================
+Pattern field and relational operand kinds
+================================================================================
+
+void f(Object o) {
+  switch (o) {
+    case Point(x: var a as int, y: 0):
+      return;
+    case Color.red:
+      var r = 1;
+    case > limit:
+      break;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))
+    body: (function_body
+      (block
+        (switch_statement
+          condition: (parenthesized_expression
+            (identifier))
+          body: (switch_block
+            (switch_statement_case
+              (object_pattern
+                (type_identifier)
+                (label
+                  (identifier))
+                (cast_pattern
+                  (variable_pattern
+                    name: (identifier))
+                  type: (type
+                    (type_identifier)))
+                (label
+                  (identifier))
+                (constant_pattern
+                  (decimal_integer_literal)))
+              (return_statement))
+            (switch_statement_case
+              (constant_pattern
+                (identifier)
+                (identifier))
+              (local_variable_declaration
+                (initialized_variable_declaration
+                  name: (identifier)
+                  value: (decimal_integer_literal))))
+            (switch_statement_case
+              (relational_operator)
+              (identifier)
+              (break_statement))))))))
+
+================================================================================
+Switch expression case bodies
+================================================================================
+
+Color f(Object o) => switch (o) {
+  1 => .red,
+  _ => throw StateError('no'),
+};
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (type_identifier))
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))
+    body: (function_body
+      (switch_expression
+        condition: (parenthesized_expression
+          (identifier))
+        body: (switch_expression_case
+          (constant_pattern
+            (decimal_integer_literal))
+          (static_member_shorthand
+            (identifier)))
+        body: (switch_expression_case
+          (constant_pattern
+            (identifier))
+          (throw_expression
+            value: (call_expression
+              function: (identifier)
+              arguments: (arguments
+                (string_literal
+                  (string_literal_single_quotes
+                    (template_chars_single_single)))))))))))

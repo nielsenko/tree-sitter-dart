@@ -1145,3 +1145,329 @@ void f() {
       parameters: (formal_parameter_list))
     body: (function_body
       (decimal_integer_literal))))
+
+================================================================================
+Expression statement kinds
+================================================================================
+
+void f() {
+  a[0];
+  Foo();
+  new Foo();
+  x;
+  if (!ok) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (expression_statement
+          (index_expression
+            object: (identifier)
+            index: (decimal_integer_literal)))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments)))
+        (expression_statement
+          (new_expression
+            type: (type
+              (type_identifier))
+            arguments: (arguments)))
+        (expression_statement
+          (identifier))
+        (if_statement
+          condition: (unary_expression
+            operator: (negation_operator)
+            (identifier))
+          consequence: (block))))))
+
+================================================================================
+For loop with an expression initializer
+================================================================================
+
+void f() {
+  for (i = 0; i < n; i.inc()) {}
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (for_statement
+          init: (assignment_expression
+            left: (assignable_expression
+              (identifier))
+            right: (decimal_integer_literal))
+          condition: (relational_expression
+            (identifier)
+            operator: (relational_operator)
+            (identifier))
+          update: (call_expression
+            function: (member_expression
+              object: (identifier)
+              property: (identifier))
+            arguments: (arguments))
+          body: (block))))))
+
+================================================================================
+Labeled while loop
+================================================================================
+
+void f() {
+  outer:
+  while (x) {
+    break outer;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (labeled_statement
+          (identifier)
+          (while_statement
+            condition: (parenthesized_expression
+              (identifier))
+            body: (block
+              (break_statement
+                (identifier)))))))))
+
+================================================================================
+Return statement kinds
+================================================================================
+
+bool t() {
+  return true;
+}
+int u(Object o) {
+  return switch (o) { int i => i, _ => 0 };
+}
+Object v() {
+  return a.b();
+}
+Object w() {
+  return x;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (type_identifier))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (return_statement
+          (true)))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (type_identifier))
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))
+    body: (function_body
+      (block
+        (return_statement
+          (switch_expression
+            condition: (parenthesized_expression
+              (identifier))
+            body: (switch_expression_case
+              (variable_pattern
+                (type
+                  (type_identifier))
+                name: (identifier))
+              (identifier))
+            body: (switch_expression_case
+              (constant_pattern
+                (identifier))
+              (decimal_integer_literal)))))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (type_identifier))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (return_statement
+          (call_expression
+            function: (member_expression
+              object: (identifier)
+              property: (identifier))
+            arguments: (arguments))))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (type_identifier))
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (return_statement
+          (identifier))))))
+
+================================================================================
+Return, loop and switch operand kinds
+================================================================================
+
+Object f(Object x, List<int> xs) {
+  use({1});
+  x = new Foo();
+  for (var i in [1, 2]) {
+    if (i is int) {
+      continue;
+    }
+  }
+  o..length;
+  a.b;
+  a.b()!;
+  var t = 1 is int;
+  switch (true) {
+    case true:
+      return new Foo();
+    case false:
+      return [];
+  }
+  if (xs.isEmpty) return a.b;
+  return a.b.c;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (type_identifier))
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))
+        (formal_parameter
+          (type
+            (type_identifier)
+            (type_arguments
+              (type
+                (type_identifier))))
+          name: (identifier))))
+    body: (function_body
+      (block
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (set_or_map_literal
+                (decimal_integer_literal)))))
+        (expression_statement
+          (assignment_expression
+            left: (assignable_expression
+              (identifier))
+            right: (new_expression
+              type: (type
+                (type_identifier))
+              arguments: (arguments))))
+        (for_statement
+          name: (identifier)
+          value: (list_literal
+            (decimal_integer_literal)
+            (decimal_integer_literal))
+          body: (block
+            (if_statement
+              condition: (type_test_expression
+                (identifier)
+                (type_test
+                  (is_operator)
+                  (type
+                    (type_identifier))))
+              consequence: (block
+                (continue_statement)))))
+        (expression_statement
+          (cascade
+            (identifier)
+            (cascade_section
+              (cascade_selector
+                (identifier)))))
+        (expression_statement
+          (member_expression
+            object: (identifier)
+            property: (identifier)))
+        (expression_statement
+          (null_assertion_expression
+            value: (call_expression
+              function: (member_expression
+                object: (identifier)
+                property: (identifier))
+              arguments: (arguments))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            name: (identifier)
+            value: (type_test_expression
+              (decimal_integer_literal)
+              (type_test
+                (is_operator)
+                (type
+                  (type_identifier))))))
+        (switch_statement
+          condition: (parenthesized_expression
+            (true))
+          body: (switch_block
+            (switch_statement_case
+              (constant_pattern
+                (true))
+              (return_statement
+                (new_expression
+                  type: (type
+                    (type_identifier))
+                  arguments: (arguments))))
+            (switch_statement_case
+              (constant_pattern
+                (false))
+              (return_statement
+                (list_literal)))))
+        (if_statement
+          condition: (member_expression
+            object: (identifier)
+            property: (identifier))
+          consequence: (return_statement
+            (member_expression
+              object: (identifier)
+              property: (identifier))))
+        (return_statement
+          (member_expression
+            object: (member_expression
+              object: (identifier)
+              property: (identifier))
+            property: (identifier)))))))

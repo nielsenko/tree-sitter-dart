@@ -3106,3 +3106,222 @@ void m<inout>() {}
       (formal_parameter_list))
     (function_body
       (block))))
+
+================================================================================
+Constructor initializer and body kinds
+================================================================================
+
+class C extends B {
+  final int y;
+  C(int x) : y = x + 1, super.named(x) {
+    init();
+  }
+  (C, int) pair() => (this, y);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    superclass: (superclass
+      type: (type
+        (type_identifier)))
+    body: (class_body
+      (member_declaration
+        (declaration
+          (type
+            (type_identifier))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (constructor_signature
+              name: (identifier)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier))))
+            (initializers
+              (initializer_list_entry
+                (field_initializer
+                  name: (identifier)
+                  value: (additive_expression
+                    (identifier)
+                    operator: (additive_operator)
+                    (decimal_integer_literal))))
+              (initializer_list_entry
+                (identifier)
+                (arguments
+                  (identifier)))))
+          body: (function_body
+            (block
+              (expression_statement
+                (call_expression
+                  function: (identifier)
+                  arguments: (arguments)))))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (record_type
+                  (record_type_field
+                    type: (type
+                      (type_identifier)))
+                  (record_type_field
+                    type: (type
+                      (type_identifier)))))
+              name: (identifier)
+              parameters: (formal_parameter_list)))
+          body: (function_body
+            (record_literal
+              (record_field)
+              (record_field
+                (identifier)))))))))
+
+================================================================================
+Documented and annotated declarations
+================================================================================
+
+/// A documented class.
+class A {}
+
+@deprecated
+var old = 1;
+
+void f({String s = 'x'}) {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (documentation_comment)
+  (class_declaration
+    name: (identifier)
+    body: (class_body))
+  (top_level_variable_declaration
+    (annotation
+      name: (identifier))
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (decimal_integer_literal))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (optional_formal_parameters
+          (formal_parameter
+            (type
+              (type_identifier))
+            name: (identifier))
+          default_value: (string_literal
+            (string_literal_single_quotes
+              (template_chars_single_single))))))
+    body: (function_body
+      (block))))
+
+================================================================================
+Record types in aliases, parameters and bounds
+================================================================================
+
+typedef Pair = (int, String);
+typedef (int, int) Swap((int, int) r);
+void take((int, int) p) {}
+class C<T extends (int, int)> {}
+(int Function(), int) fs = (() => 0, 1);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (type_identifier)
+    (type
+      (record_type
+        (record_type_field
+          type: (type
+            (type_identifier)))
+        (record_type_field
+          type: (type
+            (type_identifier))))))
+  (type_alias
+    (type
+      (record_type
+        (record_type_field
+          type: (type
+            (type_identifier)))
+        (record_type_field
+          type: (type
+            (type_identifier)))))
+    (type_identifier)
+    (formal_parameter_list
+      (formal_parameter
+        (type
+          (record_type
+            (record_type_field
+              type: (type
+                (type_identifier)))
+            (record_type_field
+              type: (type
+                (type_identifier)))))
+        name: (identifier))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (void_type))
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (record_type
+              (record_type_field
+                type: (type
+                  (type_identifier)))
+              (record_type_field
+                type: (type
+                  (type_identifier)))))
+          name: (identifier))))
+    body: (function_body
+      (block)))
+  (class_declaration
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier)
+        bound: (type
+          (record_type
+            (record_type_field
+              type: (type
+                (type_identifier)))
+            (record_type_field
+              type: (type
+                (type_identifier)))))))
+    body: (class_body))
+  (top_level_variable_declaration
+    (type
+      (record_type
+        (record_type_field
+          type: (type
+            (function_type
+              (type
+                (type_identifier))
+              (parameter_type_list))))
+        (record_type_field
+          type: (type
+            (type_identifier)))))
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (record_literal
+          (record_field
+            (function_expression
+              parameters: (formal_parameter_list)
+              body: (function_expression_body
+                (decimal_integer_literal))))
+          (record_field
+            (decimal_integer_literal)))))))

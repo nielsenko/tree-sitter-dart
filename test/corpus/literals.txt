@@ -229,75 +229,73 @@ void main() {
 Set or map literal
 ================================================================================
 
-void main() {
-  {1, 2};
-  {'a': 1};
-}
+var s = {1, 2};
+var m = {'a': 1};
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (function_declaration
-    signature: (function_signature
-      return_type: (type
-        (void_type))
-      name: (identifier)
-      parameters: (formal_parameter_list))
-    body: (function_body
-      (block
-        (expression_statement
-          (set_or_map_literal
-            (decimal_integer_literal)
-            (decimal_integer_literal)))
-        (expression_statement
-          (set_or_map_literal
-            (map_element
-              key: (string_literal
-                (string_literal_single_quotes
-                  (template_chars_single_single)))
-              value: (decimal_integer_literal))))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (set_or_map_literal
+          (decimal_integer_literal)
+          (decimal_integer_literal)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (set_or_map_literal
+          (map_element
+            key: (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single)))
+            value: (decimal_integer_literal)))))))
 
 ================================================================================
 Null-aware elements
 ================================================================================
 
-void main() {
-  [?a];
-  {?key: value};
-  {key: ?value};
-  {?key: ?value};
-}
+var l = [?a];
+var m1 = {?key: value};
+var m2 = {key: ?value};
+var m3 = {?key: ?value};
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (function_declaration
-    signature: (function_signature
-      return_type: (type
-        (void_type))
-      name: (identifier)
-      parameters: (formal_parameter_list))
-    body: (function_body
-      (block
-        (expression_statement
-          (list_literal
-            (null_aware_expression_element
-              (identifier))))
-        (expression_statement
-          (set_or_map_literal
-            (null_aware_map_element
-              key: (identifier)
-              value: (identifier))))
-        (expression_statement
-          (set_or_map_literal
-            (null_aware_map_element
-              key: (identifier)
-              value: (identifier))))
-        (expression_statement
-          (set_or_map_literal
-            (null_aware_map_element
-              key: (identifier)
-              value: (identifier))))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (list_literal
+          (null_aware_expression_element
+            (identifier))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (set_or_map_literal
+          (null_aware_map_element
+            key: (identifier)
+            value: (identifier))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (set_or_map_literal
+          (null_aware_map_element
+            key: (identifier)
+            value: (identifier))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (set_or_map_literal
+          (null_aware_map_element
+            key: (identifier)
+            value: (identifier)))))))
 
 ================================================================================
 Raw strings
@@ -972,3 +970,103 @@ Shebang line ends at a lone carriage return
       (initialized_identifier
         name: (identifier)
         value: (decimal_integer_literal)))))
+
+================================================================================
+Collection element kinds
+================================================================================
+
+var m = {'k': true, 'c': a.b(), 'p': p.q, 'v': v, if (c) 'i': 1};
+var l = [if (c) a.b(), ...a.items(), ?maybe, ?p.q];
+var s = {x, 'y'};
+var r = (1.5, this.x, label: 's');
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (set_or_map_literal
+          (map_element
+            key: (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single)))
+            value: (true))
+          (map_element
+            key: (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single)))
+            value: (call_expression
+              function: (member_expression
+                object: (identifier)
+                property: (identifier))
+              arguments: (arguments)))
+          (map_element
+            key: (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single)))
+            value: (member_expression
+              object: (identifier)
+              property: (identifier)))
+          (map_element
+            key: (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single)))
+            value: (identifier))
+          (if_element
+            condition: (identifier)
+            consequence: (map_element
+              key: (string_literal
+                (string_literal_single_quotes
+                  (template_chars_single_single)))
+              value: (decimal_integer_literal)))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (list_literal
+          (if_element
+            condition: (identifier)
+            consequence: (call_expression
+              function: (member_expression
+                object: (identifier)
+                property: (identifier))
+              arguments: (arguments)))
+          (spread_element
+            value: (call_expression
+              function: (member_expression
+                object: (identifier)
+                property: (identifier))
+              arguments: (arguments)))
+          (null_aware_expression_element
+            (identifier))
+          (null_aware_expression_element
+            (member_expression
+              object: (identifier)
+              property: (identifier)))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (set_or_map_literal
+          (identifier)
+          (string_literal
+            (string_literal_single_quotes
+              (template_chars_single_single)))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (record_literal
+          (record_field
+            (decimal_floating_point_literal))
+          (record_field
+            (member_expression
+              property: (identifier)))
+          (record_field
+            (label
+              (identifier))
+            (string_literal
+              (string_literal_single_quotes
+                (template_chars_single_single)))))))))

@@ -810,3 +810,43 @@ extension type JSExportedDartFunction<T extends Function>._(
           (type
             (type_identifier)))))
     body: (class_body)))
+
+================================================================================
+Enum primary constructor body part
+================================================================================
+
+enum const E(final int x) {
+  a(1), b(2);
+  this : assert(x > 0);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enum_declaration
+    name: (identifier)
+    (primary_constructor
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))
+    body: (enum_body
+      (enum_entry
+        name: (identifier)
+        (arguments
+          (decimal_integer_literal)))
+      (enum_entry
+        name: (identifier)
+        (arguments
+          (decimal_integer_literal)))
+      (member_declaration
+        (declaration
+          (primary_constructor_body_signature
+            (initializers
+              (initializer_list_entry
+                (assertion
+                  (relational_expression
+                    (identifier)
+                    operator: (relational_operator)
+                    (decimal_integer_literal)))))))))))
