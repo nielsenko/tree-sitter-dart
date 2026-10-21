@@ -189,16 +189,11 @@ module.exports = grammar({
   ],
 
   conflicts: ($) => [
-    // Type vs expression ambiguity: `x<y>` could be type args or relational
-    // [$.type_arguments, $.relational_expression], -- unnecessary
     // Identifier could be type_identifier or expression
     [$._type_name, $._primary],
     [$._type_name, $._primary, $._function_name],
-    // [$._type_name, $._primary, $.function_signature], -- covered by _function_name conflicts
     [$._primary, $._simple_formal_parameter],
     [$._primary, $._simple_formal_parameter, $.constant_pattern],
-    // Constructor signature shares prefix with function_signature
-    // [$.constructor_signature, $._formal_parameter_part], -- covered by _function_name conflicts
     // Declaration ambiguity with external/static
     [$.declaration, $._external_and_static],
     // Type ambiguities
@@ -236,10 +231,6 @@ module.exports = grammar({
     [$.assignable_expression, $.null_aware_index_expression, $._unary_expression],
     // Type name ambiguities
     [$._type_name],
-    // [$._type_name, $._simple_formal_parameter], -- subsumed
-    // [$._type_name, $._function_formal_parameter], -- subsumed
-    // [$._type_name, $.function_signature], -- covered by _function_name conflicts
-    // [$._type_name, $._primary, $.assignable_expression], -- subsumed
     // Parameter ambiguities
     [$._normal_formal_parameters],
     [$._normal_formal_parameter],
@@ -277,13 +268,8 @@ module.exports = grammar({
     // Pattern ambiguities
     [$.set_or_map_literal, $.map_pattern],
     [$.list_literal, $.list_pattern],
-    // [$.static_member_shorthand, $.constant_pattern], -- subsumed (constant_pattern now embeds the rule)
-    // [$.constant_pattern, $._type_name], -- subsumed
     [$._primary, $.constant_pattern],
     [$._instantiation, $.constant_pattern],
-    // [$._primary, $.constant_pattern, $._type_name], -- subsumed
-    // [$._primary, $.constant_pattern, $._simple_formal_parameter], -- subsumed
-    // [$._primary, $.constant_pattern, $._type_name, $._simple_formal_parameter], -- subsumed
     [$._literal, $.constant_pattern],
     [$.prefix_operator, $.constant_pattern],
     [$._parenthesized_pattern, $._pattern_field],
@@ -292,12 +278,10 @@ module.exports = grammar({
     [$.record_literal, $.constant_pattern],
     // Constructor tearoff vs primary
     [$.constructor_tearoff, $._identifier_or_new],
-    // [$._simple_formal_parameter, $.assignable_expression], -- unnecessary
     // Declaration external
     [$.declaration, $.external],
     // Type arguments vs type parameters vs relational
     [$.type_arguments, $.relational_operator],
-    // [$.relational_operator, $.type_parameters], -- unnecessary
     [$.type_arguments, $.relational_operator, $.type_parameters],
     // Generic call/instantiation vs comparisons (TS-style GLR fork on `<`)
     [$._unary_expression, $.instantiation_expression],
@@ -321,9 +305,6 @@ module.exports = grammar({
     [$._type_name, $._function_formal_parameter],
     [$._type_name, $.constant_pattern],
     [$._type_name, $._simple_formal_parameter],
-    // [$._type_name, $._function_name], -- subsumed
-    // [$._type_name, $._function_name, $._primary], -- subsumed
-    // [$._function_name, $.constructor_signature], -- subsumed
     // Built-in identifier conflicts
     // Top-level wrapper rules competing with `_built_in_identifier` for the
     // `augment` lookahead. Each top-level form needs to keep itself alive when
