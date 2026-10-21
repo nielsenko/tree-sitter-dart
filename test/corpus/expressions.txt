@@ -3366,3 +3366,108 @@ class C extends B {
                 (identifier))
               operator: (multiplicative_operator)
               (identifier))))))))
+
+================================================================================
+Arrow function body takes every cascade section
+================================================================================
+
+var a = f((b) => b..url = url..symbol = symbol);
+var c = f((b) => b..a()..b());
+var d = f((m) => m..parameters.add(p)..body = code);
+var e = flag ? (t) => t..x = 1..y = 2 : null;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (call_expression
+          function: (identifier)
+          arguments: (arguments
+            (function_expression
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (identifier)))
+              body: (function_expression_body
+                (cascade
+                  (identifier)
+                  (cascade_section
+                    (cascade_selector
+                      (identifier))
+                    (identifier))
+                  (cascade_section
+                    (cascade_selector
+                      (identifier))
+                    (identifier))))))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (call_expression
+          function: (identifier)
+          arguments: (arguments
+            (function_expression
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (identifier)))
+              body: (function_expression_body
+                (cascade
+                  (identifier)
+                  (cascade_section
+                    (cascade_call_expression
+                      property: (identifier)
+                      arguments: (arguments)))
+                  (cascade_section
+                    (cascade_call_expression
+                      property: (identifier)
+                      arguments: (arguments)))))))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (call_expression
+          function: (identifier)
+          arguments: (arguments
+            (function_expression
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (identifier)))
+              body: (function_expression_body
+                (cascade
+                  (identifier)
+                  (cascade_section
+                    (cascade_call_expression
+                      function: (cascade_member_expression
+                        object: (cascade_selector
+                          (identifier))
+                        property: (identifier))
+                      arguments: (arguments
+                        (identifier))))
+                  (cascade_section
+                    (cascade_selector
+                      (identifier))
+                    (identifier))))))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (conditional_expression
+          (identifier)
+          consequence: (function_expression
+            parameters: (formal_parameter_list
+              (formal_parameter
+                (identifier)))
+            body: (function_expression_body
+              (cascade
+                (identifier)
+                (cascade_section
+                  (cascade_selector
+                    (identifier))
+                  (decimal_integer_literal))
+                (cascade_section
+                  (cascade_selector
+                    (identifier))
+                  (decimal_integer_literal)))))
+          alternative: (null_literal))))))

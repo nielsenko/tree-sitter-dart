@@ -3855,11 +3855,33 @@
             "name": "_real_expression"
           },
           {
-            "type": "REPEAT1",
-            "content": {
-              "type": "SYMBOL",
-              "name": "cascade_section"
-            }
+            "type": "SYMBOL",
+            "name": "_cascade_sections"
+          }
+        ]
+      }
+    },
+    "_cascade_sections": {
+      "type": "PREC_RIGHT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "cascade_section"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_cascade_sections"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }

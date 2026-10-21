@@ -1053,7 +1053,12 @@ module.exports = grammar({
     // Spec: cascade. A receiver expression followed by one or more
     // cascade sections (`..` / `?..`).
     cascade: ($) =>
-      prec.right(1, seq($._real_expression, repeat1($.cascade_section))),
+      prec.right(1, seq($._real_expression, $._cascade_sections)),
+
+    // Not repeat1: with it, a cascade in an arrow function body ends after
+    // its first section.
+    _cascade_sections: ($) =>
+      prec.right(1, seq($.cascade_section, optional($._cascade_sections))),
 
     // Spec: expressionWithoutCascade. Its assignment RHS and throw value
     // recurse into expressionWithoutCascade (NOT expression), so a
