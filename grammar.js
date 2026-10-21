@@ -2282,8 +2282,24 @@ module.exports = grammar({
         optional(seq(".", $._identifier_or_new)),
       ),
 
+    // Spec: primary constructors (Dart 3.13). The representation is a
+    // declaring parameter, so its type is optional and it may be optional or
+    // named.
     extension_type_representation: ($) =>
-      seq("(", optional($._metadata), optional("final"), field("type", $.type), field("name", $.identifier), ")"),
+      seq(
+        "(",
+        choice(
+          seq(
+            optional($._metadata),
+            optional("final"),
+            optional(field("type", $.type)),
+            field("name", $.identifier),
+            optional(","),
+          ),
+          $.optional_formal_parameters,
+        ),
+        ")",
+      ),
 
     // --- Enums (enhanced, Dart 2.17) ---
 

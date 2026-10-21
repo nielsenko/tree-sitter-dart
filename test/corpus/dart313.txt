@@ -718,3 +718,95 @@ Comment-poisoned annotation paren does not leak into a later annotation at the s
       parameters: (formal_parameter_list))
     body: (function_body
       (decimal_integer_literal))))
+
+================================================================================
+Extension type representation without a type
+================================================================================
+
+extension type ET3(i);
+extension type ET4(final i);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_type_declaration
+    name: (extension_type_name
+      (identifier))
+    representation: (extension_type_representation
+      name: (identifier)))
+  (extension_type_declaration
+    name: (extension_type_name
+      (identifier))
+    representation: (extension_type_representation
+      name: (identifier))))
+
+================================================================================
+Extension type representation with optional or named parameter
+================================================================================
+
+extension type ET5({required int i});
+extension type ET6({int i = 0});
+extension type ET8([int? i]);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_type_declaration
+    name: (extension_type_name
+      (identifier))
+    representation: (extension_type_representation
+      (optional_formal_parameters
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier)))))
+  (extension_type_declaration
+    name: (extension_type_name
+      (identifier))
+    representation: (extension_type_representation
+      (optional_formal_parameters
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))
+        default_value: (decimal_integer_literal))))
+  (extension_type_declaration
+    name: (extension_type_name
+      (identifier))
+    representation: (extension_type_representation
+      (optional_formal_parameters
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))))
+
+================================================================================
+Extension type representation with a trailing comma
+================================================================================
+
+extension type JSExportedDartFunction<T extends Function>._(
+  JSExportedDartFunctionType _jsExportedDartFunction,
+) implements JSFunction<T> {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_type_declaration
+    name: (extension_type_name
+      (identifier)
+      (type_parameters
+        (type_parameter
+          name: (type_identifier)
+          bound: (type)))
+      (identifier))
+    representation: (extension_type_representation
+      type: (type
+        (type_identifier))
+      name: (identifier))
+    interfaces: (interfaces
+      (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (type_identifier)))))
+    body: (class_body)))
