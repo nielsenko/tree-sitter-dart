@@ -1,0 +1,6 @@
+# Crossings between this grammar's tree and the Dart analyzer's AST in the
+# analyzer-valid corpus, one line per file and kind pair:
+# path<TAB>AnalyzerKind x grammar_kind<TAB>count. Paths are relative to
+# download/. report.dart fails when a crossing is not listed with the same
+# count, and when a listed one no longer occurs. --update-ast-pins rewrites
+# the lines below this header.

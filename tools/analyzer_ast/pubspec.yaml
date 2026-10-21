@@ -7,3 +7,4 @@ dependencies:
   analyzer: ^14.6.0
   args: ^2.6.0
   path: ^1.9.1
+  pub_semver: ^2.1.4

@@ -2,7 +2,8 @@
 ///
 /// Usage:
 ///   dart run bin/report.dart [--no-filter-valid] [--recheck-syntax]
-///                            [--details] [--no-zero-width]
+///                            [--details] [--no-zero-width] [--no-ast]
+///                            [--update-ast-pins]
 ///
 /// By default, files the Dart analyzer rejects as syntactically invalid are
 /// excluded (mustache templates, parse-error fixtures, broken codegen), so
@@ -27,6 +28,15 @@
 ///                      so parse-rate acceptance alone cannot see the class.
 ///                      Reported separately, so the pass/fail baseline above
 ///                      stays comparable across runs.
+///   --no-ast           Skip the analyzer AST check. It runs by default on the
+///                      files that parse and compares the grammar's tree with
+///                      the Dart analyzer's AST (tools/analyzer_ast). A
+///                      crossing, a node of one tree that starts inside a
+///                      node of the other and ends outside it, is a silent
+///                      misparse that parse rate cannot see. Crossings are
+///                      compared by identity against known_ast_crossings.txt.
+///   --update-ast-pins  Rewrite the entries of known_ast_crossings.txt from
+///                      this run, keeping its comment header.
 import 'dart:io';
 
 void main(List<String> args) async {
@@ -34,6 +44,8 @@ void main(List<String> args) async {
   var recheckSyntax = args.contains('--recheck-syntax');
   var showDetails = args.contains('--details');
   var checkZeroWidth = !args.contains('--no-zero-width');
+  var checkAst = !args.contains('--no-ast');
+  var updateAstPins = args.contains('--update-ast-pins');
 
   // Find the tree-sitter-dart root (2 levels up from this package root).
   var scriptDir = Directory.current.path;
@@ -134,6 +146,7 @@ void main(List<String> args) async {
   var totalPassed = 0;
   var totalFailed = 0;
   var allFailures = <String>[];
+  var allPassed = <String>[];
 
   for (var entry in corpora.entries) {
     var name = entry.key;
@@ -215,19 +228,21 @@ void main(List<String> args) async {
         );
       }
 
+      var failedPaths = failureLines
+          .map((line) => line.split(RegExp(r'\s+Parse:')).first.trim())
+          .toSet();
+      var passedFiles =
+          files.where((f) => !failedPaths.contains(f)).toList();
+      allPassed.addAll(passedFiles);
+
       if (checkZeroWidth) {
         // Scan only the files that PASSED: check_zero_width flags ERROR and
         // MISSING nodes too, so feeding it the failures would just re-report
         // what the gate above already caught. What is wanted here is the
         // opposite - defects the parse rate cannot see - so a non-zero count
         // below always means a file that was accepted but should not be.
-        var failedPaths = failureLines
-            .map((line) => line.split(RegExp(r'\s+Parse:')).first.trim())
-            .toSet();
         var passedFile = File('${tempDir.path}/corpus-passed-$name.txt');
-        passedFile.writeAsStringSync(
-          files.where((f) => !failedPaths.contains(f)).join('\n'),
-        );
+        passedFile.writeAsStringSync(passedFiles.join('\n'));
         var zwResult = await Process.run('node', [
           'tools/check_zero_width.mjs',
           '--config-path',
@@ -275,6 +290,18 @@ void main(List<String> args) async {
   // Identity gate: every failure must be a known one, every known one must
   // still fail. Only meaningful when analyzer-invalid files are excluded.
   var exitCode = 0;
+  if (checkAst && filterValid) {
+    var agrees = await _checkAstCrossings(
+      repoRoot: repoRoot,
+      pinsFile: File('$scriptDir/known_ast_crossings.txt'),
+      downloadDir: downloadDir,
+      tempDir: tempDir.path,
+      files: allPassed,
+      update: updateAstPins,
+      showDetails: showDetails,
+    );
+    if (!agrees) exitCode = 1;
+  }
   if (filterValid) {
     var failureSet = allFailures.toSet();
     var newFailures = failureSet.difference(knownFailures).toList()..sort();
@@ -384,4 +411,125 @@ Future<Set<String>> _runSyntaxCheck(
     );
   }
   return invalid;
+}
+
+/// Runs the analyzer AST crossing check on [files] and compares the result
+/// with [pinsFile], or rewrites its entries when [update] is set. Returns
+/// whether the crossings match the pins.
+Future<bool> _checkAstCrossings({
+  required String repoRoot,
+  required File pinsFile,
+  required String downloadDir,
+  required String tempDir,
+  required List<String> files,
+  required bool update,
+  required bool showDetails,
+}) async {
+  var listFile = File('$tempDir/ast-files.txt')
+    ..writeAsStringSync(files.join('\n'));
+  var result = await Process.run(
+      'dart',
+      [
+        'run',
+        'bin/analyzer_ast.dart',
+        'crossings',
+        '--paths',
+        listFile.path,
+      ],
+      workingDirectory: '$repoRoot/tools/analyzer_ast');
+  if (result.exitCode != 0) {
+    stderr.writeln('analyzer AST check failed to run:\n${result.stderr}');
+    return false;
+  }
+
+  // Entries are `path<TAB>AnalyzerKind x grammar_kind<TAB>count`.
+  var found = <String, int>{};
+  var skipped = <String>[];
+  var summary = <String>[];
+  for (var line in (result.stdout as String).split('\n')) {
+    switch (line.split('\t')) {
+      case ['crossing', var path, var kinds, var count]:
+        found['${_relativeToDownload(path, downloadDir)}\t$kinds'] =
+            int.parse(count);
+      case ['skipped', var path, var reason]:
+        skipped.add('${_relativeToDownload(path, downloadDir)}: $reason');
+      case ['summary', ...var fields]:
+        summary = fields;
+    }
+  }
+  if (summary
+      case [
+        var checked,
+        _,
+        var crossingFiles,
+        var crossings,
+        var matched,
+        var nonLeaf,
+      ]) {
+    var rate = int.parse(matched) / int.parse(nonLeaf) * 100;
+    stderr.writeln(
+      'analyzer AST         ${checked.padLeft(8)} files  '
+      '${skipped.length} skipped  $crossings crossings in $crossingFiles '
+      'files  (${rate.toStringAsFixed(1)}% of non-leaf nodes span-equal)',
+    );
+  }
+  if (showDetails) {
+    for (var s in skipped) {
+      stderr.writeln('  skipped $s');
+    }
+  }
+
+  var header = <String>[];
+  var pinned = <String, int>{};
+  if (pinsFile.existsSync()) {
+    for (var line in pinsFile.readAsLinesSync()) {
+      if (line.startsWith('#') || line.trim().isEmpty) {
+        if (pinned.isEmpty) header.add(line);
+        continue;
+      }
+      var fields = line.split('\t');
+      pinned['${fields[0]}\t${fields[1]}'] = int.parse(fields[2]);
+    }
+  }
+
+  if (update) {
+    var entries = [
+      for (var MapEntry(key: key, value: count) in found.entries)
+        '$key\t$count',
+    ]..sort();
+    pinsFile.writeAsStringSync('${[...header, ...entries].join('\n')}\n');
+    stderr.writeln(
+      'Wrote ${entries.length} entries to ${pinsFile.path.split('/').last}.',
+    );
+    return true;
+  }
+
+  var added = [
+    for (var MapEntry(key: key, value: count) in found.entries)
+      if (pinned[key] != count) '$key\t$count',
+  ]..sort();
+  var gone = [
+    for (var MapEntry(key: key, value: count) in pinned.entries)
+      if (found[key] != count) '$key\t$count',
+  ]..sort();
+  if (added.isEmpty && gone.isEmpty) {
+    stderr.writeln('All crossings match known_ast_crossings.txt.');
+    return true;
+  }
+  if (added.isNotEmpty) {
+    stderr.writeln('NEW crossings (not in known_ast_crossings.txt):');
+    for (var entry in added) {
+      stderr.writeln('  $entry');
+    }
+  }
+  if (gone.isNotEmpty) {
+    stderr.writeln(
+      'Pinned crossings that changed or no longer occur '
+      '(update known_ast_crossings.txt):',
+    );
+    for (var entry in gone) {
+      stderr.writeln('  $entry');
+    }
+  }
+  return false;
 }

@@ -14,6 +14,10 @@ dart run bin/report.dart --details    # also list failing file paths
 
 `report.dart` clears the tree-sitter cache and writes a parser-directories
 config pointing at this repository, so it always tests the local grammar.
+It also compares each tree that parses with the Dart analyzer's AST through
+`../analyzer_ast`, and fails on crossings not pinned in
+`known_ast_crossings.txt` (`--no-ast` skips this, `--update-ast-pins`
+rewrites the pins).
 `check_syntax.dart` filters files that the Dart analyzer itself rejects
 (reads paths from stdin). The `download/` and `out/` directories are
 git-ignored.
