@@ -6232,7 +6232,7 @@
     "named": true,
     "fields": {
       "operator": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -6280,6 +6280,10 @@
         },
         {
           "type": "member_expression",
+          "named": true
+        },
+        {
+          "type": "multiplicative_expression",
           "named": true
         },
         {

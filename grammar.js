@@ -1275,12 +1275,10 @@ module.exports = grammar({
     multiplicative_expression: ($) =>
       prec.left(
         PREC.MULTIPLICATIVE,
-        choice(
-          seq(
-            $._unary_expression,
-            repeat1(seq(field("operator", $.multiplicative_operator), $._unary_expression)),
-          ),
-          seq("super", repeat1(seq(field("operator", $.multiplicative_operator), $._unary_expression))),
+        seq(
+          choice($._unary_expression, $.multiplicative_expression, "super"),
+          field("operator", $.multiplicative_operator),
+          $._unary_expression,
         ),
       ),
 

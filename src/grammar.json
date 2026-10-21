@@ -4923,65 +4923,36 @@
       "type": "PREC_LEFT",
       "value": 15,
       "content": {
-        "type": "CHOICE",
+        "type": "SEQ",
         "members": [
           {
-            "type": "SEQ",
+            "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
                 "name": "_unary_expression"
               },
               {
-                "type": "REPEAT1",
-                "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "FIELD",
-                      "name": "operator",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "multiplicative_operator"
-                      }
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_unary_expression"
-                    }
-                  ]
-                }
+                "type": "SYMBOL",
+                "name": "multiplicative_expression"
+              },
+              {
+                "type": "STRING",
+                "value": "super"
               }
             ]
           },
           {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "super"
-              },
-              {
-                "type": "REPEAT1",
-                "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "FIELD",
-                      "name": "operator",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "multiplicative_operator"
-                      }
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_unary_expression"
-                    }
-                  ]
-                }
-              }
-            ]
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "SYMBOL",
+              "name": "multiplicative_operator"
+            }
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_unary_expression"
           }
         ]
       }

@@ -3198,3 +3198,171 @@ void f() {
                 (string_literal_single_quotes
                   (template_chars_single_single)))
               alternative: (identifier))))))))
+
+================================================================================
+Arrow function body takes a multiplicative chain
+================================================================================
+
+var angles = List.generate(8, (i) => i * tau / 8);
+var f = (n) => -2 * n / (n + 1);
+bool same(List<int> xs) => xs.every((x) => x == 5 * 1024 * 1024);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (call_expression
+          function: (member_expression
+            object: (identifier)
+            property: (identifier))
+          arguments: (arguments
+            (decimal_integer_literal)
+            (function_expression
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (identifier)))
+              body: (function_expression_body
+                (multiplicative_expression
+                  (multiplicative_expression
+                    (identifier)
+                    operator: (multiplicative_operator)
+                    (identifier))
+                  operator: (multiplicative_operator)
+                  (decimal_integer_literal)))))))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (function_expression
+          parameters: (formal_parameter_list
+            (formal_parameter
+              (identifier)))
+          body: (function_expression_body
+            (multiplicative_expression
+              (multiplicative_expression
+                (unary_expression
+                  operator: (prefix_operator)
+                  (decimal_integer_literal))
+                operator: (multiplicative_operator)
+                (identifier))
+              operator: (multiplicative_operator)
+              (parenthesized_expression
+                (additive_expression
+                  (identifier)
+                  operator: (additive_operator)
+                  (decimal_integer_literal)))))))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (type_identifier))
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier)
+            (type_arguments
+              (type
+                (type_identifier))))
+          name: (identifier))))
+    body: (function_body
+      (call_expression
+        function: (member_expression
+          object: (identifier)
+          property: (identifier))
+        arguments: (arguments
+          (function_expression
+            parameters: (formal_parameter_list
+              (formal_parameter
+                (identifier)))
+            body: (function_expression_body
+              (equality_expression
+                (identifier)
+                operator: (equality_operator)
+                (multiplicative_expression
+                  (multiplicative_expression
+                    (decimal_integer_literal)
+                    operator: (multiplicative_operator)
+                    (decimal_integer_literal))
+                  operator: (multiplicative_operator)
+                  (decimal_integer_literal))))))))))
+
+================================================================================
+Multiplicative chains nest to the left
+================================================================================
+
+var a = x * y / z;
+var b = x % y ~/ z * w;
+var c = s + x * y * z;
+
+class C extends B {
+  operator *(C o) => super * o * o;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (multiplicative_expression
+          (multiplicative_expression
+            (identifier)
+            operator: (multiplicative_operator)
+            (identifier))
+          operator: (multiplicative_operator)
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (multiplicative_expression
+          (multiplicative_expression
+            (multiplicative_expression
+              (identifier)
+              operator: (multiplicative_operator)
+              (identifier))
+            operator: (multiplicative_operator)
+            (identifier))
+          operator: (multiplicative_operator)
+          (identifier)))))
+  (top_level_variable_declaration
+    (initialized_identifier_list
+      (initialized_identifier
+        name: (identifier)
+        value: (additive_expression
+          (identifier)
+          operator: (additive_operator)
+          (multiplicative_expression
+            (multiplicative_expression
+              (identifier)
+              operator: (multiplicative_operator)
+              (identifier))
+            operator: (multiplicative_operator)
+            (identifier))))))
+  (class_declaration
+    name: (identifier)
+    superclass: (superclass
+      type: (type
+        (type_identifier)))
+    body: (class_body
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (operator_signature
+              operator: (binary_operator)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier)))))
+          body: (function_body
+            (multiplicative_expression
+              (multiplicative_expression
+                operator: (multiplicative_operator)
+                (identifier))
+              operator: (multiplicative_operator)
+              (identifier))))))))
