@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.13)
 
 project(tree-sitter-dart
-        VERSION "0.1.0"
+        VERSION "0.3.0"
         DESCRIPTION "Dart grammar for tree-sitter"
-        HOMEPAGE_URL "https://github.com/tree-sitter/tree-sitter-dart"
+        HOMEPAGE_URL "https://github.com/nielsenko/tree-sitter-dart"
         LANGUAGES C)
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
