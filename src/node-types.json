@@ -9910,11 +9910,6 @@
     "fields": {}
   },
   {
-    "type": "void_type",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "while_statement",
     "named": true,
     "fields": {
@@ -10551,8 +10546,8 @@
     "named": false
   },
   {
-    "type": "void",
-    "named": false
+    "type": "void_type",
+    "named": true
   },
   {
     "type": "when",

@@ -3186,8 +3186,13 @@
                 ]
               },
               {
-                "type": "STRING",
-                "value": "void"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "void_type"
+                },
+                "named": true,
+                "value": "identifier"
               },
               {
                 "type": "STRING",

@@ -902,7 +902,8 @@ var d = #[]=;
     (initialized_identifier_list
       (initialized_identifier
         (identifier)
-        (symbol_literal))))
+        (symbol_literal
+          (identifier)))))
   (top_level_variable_declaration
     (initialized_identifier_list
       (initialized_identifier

@@ -935,7 +935,9 @@ module.exports = grammar({
           "#",
           choice(
             seq($.identifier, repeat(seq(".", $.identifier))),
-            "void",
+            // Not the string "void": a second use of the token makes
+            // void_type wrap it. Pinned by keyword_nodes_are_leaves.
+            alias($.void_type, $.identifier),
             "~",
             $.binary_operator,
             "[]",

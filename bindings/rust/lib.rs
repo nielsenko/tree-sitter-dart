@@ -140,6 +140,35 @@ mod tests {
         );
     }
 
+    /// difftastic turns each leaf into an atom and highlights the atom by the
+    /// capture on that node. A keyword node wrapping an anonymous token of the
+    /// same text hides `(void_type) @type.builtin` from it.
+    #[test]
+    fn keyword_nodes_are_leaves() {
+        let source = "void f() { var s = #void; var b = null ?? true ?? false; }";
+        let tree = parser().parse(source, None).unwrap();
+        assert!(!tree.root_node().has_error(), "{source} should parse clean");
+        for kind in ["void_type", "null_literal", "true", "false"] {
+            let mut cursor = tree.walk();
+            let mut seen = false;
+            loop {
+                let node = cursor.node();
+                if node.kind() == kind {
+                    seen = true;
+                    assert_eq!(node.child_count(), 0, "{kind} wraps a token");
+                }
+                if cursor.goto_first_child() || cursor.goto_next_sibling() {
+                    continue;
+                }
+                while cursor.goto_parent() && !cursor.goto_next_sibling() {}
+                if cursor.node() == tree.root_node() {
+                    break;
+                }
+            }
+            assert!(seen, "{source} has no {kind}");
+        }
+    }
+
     /// tree-sitter records a token's column dependency only for scans that
     /// emit, so a vetoed annotation paren has to be emitted (as the
     /// record-type variant) rather than declined - otherwise re-indenting
