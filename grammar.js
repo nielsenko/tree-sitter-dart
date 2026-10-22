@@ -224,7 +224,8 @@ module.exports = grammar({
     // Expression ambiguities
     [$._primary, $.assignable_expression],
     [$._primary, $.labeled_statement],
-    // Assignable-vs-wrapper: same chain reduces under either name; lookahead picks
+    // Assignable-vs-wrapper: the same chain reduces under either name, and
+    // lookahead picks.
     [$.assignable_expression, $.member_expression, $._unary_expression],
     [$.assignable_expression, $.index_expression, $._unary_expression],
     [$.assignable_expression, $.null_aware_member_expression, $._unary_expression],
@@ -2383,9 +2384,9 @@ module.exports = grammar({
         field("body", $.function_body),
       ),
 
-    // `external` is optional to accept the (technically-invalid-at-top-level)
-    // bodyless `void f();` form the previous grammar permitted; in practice
-    // top-level bodyless functions are external.
+    // `external` is optional, so a bodyless `void f();` parses although Dart
+    // requires the modifier at the top level. Bodyless top-level functions
+    // are external in practice.
     external_function_declaration: ($) =>
       seq(
         optional($._metadata),
