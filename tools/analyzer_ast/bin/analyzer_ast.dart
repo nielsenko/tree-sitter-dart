@@ -6,6 +6,8 @@
 ///       [--misses] [--kind <Kind>]... (<file.dart>... | --paths <list>)
 ///   dart run bin/analyzer_ast.dart crossings [--grammar <dir>] [--jobs <n>]
 ///       (<file.dart>... | --paths <list>)
+///   dart run bin/analyzer_ast.dart recovery [--grammar <dir>] [--files <n>]
+///       [--edits <n>] [--seed <n>] (<file.dart>... | --paths <list>)
 ///
 /// `dump` prints the analyzer AST as an S-expression with tree-sitter-style
 /// 0-based `[row, column]` ranges (columns in UTF-8 bytes), so it can be read
@@ -27,13 +29,25 @@
 /// `summary` line, for the corpus gate in tools/corpus/bin/report.dart.
 /// `--locations` adds an `at` line with the start of each crossing.
 ///
+/// `recovery` measures how far a syntax error spreads. It breaks a random
+/// sample of files with one edit at a time (see [sampleEdits]) and keeps the
+/// edits that leave the file invalid Dart. The reference is the non-leaf
+/// analyzer nodes outside the edit that the grammar matched exactly in the
+/// intact file, so a grammar is only measured on structure it has. An edit
+/// keeps a node when the broken tree has a node of the same kind at the
+/// shifted span. The report gives the share kept before and after the edit,
+/// how many rows away the farthest lost node reaches, and the contexts that
+/// lose the most nodes.
+///
 /// `--grammar` takes a grammar directory (default: this repository). For
 /// `compare` it may be repeated to compare several grammars side by side.
 library;
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:analyzer/dart/analysis/features.dart';
@@ -81,10 +95,24 @@ Future<void> main(List<String> args) async {
       defaultsTo: '${Platform.numberOfProcessors}',
       help: 'Parallel tree-sitter processes.',
     );
+  final recoveryParser = ArgParser()
+    ..addOption('grammar', help: 'Grammar directory.')
+    ..addOption('paths', help: 'File listing the Dart files to sample.')
+    ..addOption('files', defaultsTo: '2000', help: 'Files to sample.')
+    ..addOption('edits', defaultsTo: '3', help: 'Edits of each kind per file.')
+    ..addOption('seed', defaultsTo: '1', help: 'Seed for the sample.')
+    ..addOption('max-bytes', defaultsTo: '100000', help: 'Skip larger files.')
+    ..addOption('worst', defaultsTo: '30', help: 'Worst edits to list.')
+    ..addOption(
+      'jobs',
+      defaultsTo: '${Platform.numberOfProcessors}',
+      help: 'Parallel tree-sitter processes.',
+    );
   final parser = ArgParser()
     ..addCommand('dump')
     ..addCommand('compare', compareParser)
-    ..addCommand('crossings', crossingsParser);
+    ..addCommand('crossings', crossingsParser)
+    ..addCommand('recovery', recoveryParser);
   final results = parser.parse(args);
   switch (results.command) {
     case ArgResults(name: 'dump', rest: [final path]):
@@ -93,13 +121,17 @@ Future<void> main(List<String> args) async {
       await compare(command);
     case final ArgResults command? when command.name == 'crossings':
       await crossings(command);
+    case final ArgResults command? when command.name == 'recovery':
+      await recovery(command);
     default:
       stderr.writeln(
         'usage: analyzer_ast dump <file.dart>\n'
         '       analyzer_ast compare [options] <file.dart>...\n'
         '${compareParser.usage}\n'
         '       analyzer_ast crossings [options] <file.dart>...\n'
-        '${crossingsParser.usage}',
+        '${crossingsParser.usage}\n'
+        '       analyzer_ast recovery [options] <file.dart>...\n'
+        '${recoveryParser.usage}',
       );
       exit(64);
   }
@@ -115,6 +147,15 @@ AnalyzedFile? analyze(String path) {
       bytes[1] == 0xBB &&
       bytes[2] == 0xBF;
   final source = utf8.decode(bom ? bytes.sublist(3) : bytes);
+  return switch (parseValid(source)) {
+    final unit? => AnalyzedFile(path, source, unit, bomBytes: bom ? 3 : 0),
+    null => null,
+  };
+}
+
+/// The analyzer's AST of [source] at the newest language version that
+/// accepts it, or null when none does.
+CompilationUnit? parseValid(String source) {
   for (final featureSet in _featureSets) {
     final result = parseString(
       content: source,
@@ -124,7 +165,7 @@ AnalyzedFile? analyze(String path) {
     if (!result.errors.any(
       (e) => e.diagnosticCode.type == DiagnosticType.SYNTACTIC_ERROR,
     )) {
-      return AnalyzedFile(path, source, result.unit, bomBytes: bom ? 3 : 0);
+      return result.unit;
     }
   }
   return null;
@@ -137,8 +178,16 @@ final _featureSets = [
   FeatureSet.latestLanguageVersion().restrictToVersion(Version(3, 12, 0)),
 ];
 
-class AnalyzedFile {
-  AnalyzedFile(this.path, this.source, this.unit, {required this.bomBytes}) {
+class AnalyzedFile extends Lines {
+  AnalyzedFile(this.path, super.source, this.unit, {required super.bomBytes});
+
+  final String path;
+  final CompilationUnit unit;
+}
+
+/// Tree-sitter points of the UTF-16 offsets into [source].
+class Lines {
+  Lines(this.source, {this.bomBytes = 0}) {
     var ascii = true;
     for (var i = 0; i < source.length; i++) {
       final c = source.codeUnitAt(i);
@@ -153,9 +202,7 @@ class AnalyzedFile {
     _asciiLines.add(ascii);
   }
 
-  final String path;
   final String source;
-  final CompilationUnit unit;
 
   /// The length of the byte order mark the file starts with, which [source]
   /// leaves out and tree-sitter columns count.
@@ -275,20 +322,29 @@ class _ExpectedCollector extends GeneralizingAstVisitor<void> {
   @override
   void visitNode(AstNode node) {
     if (node.length > 0) {
-      final starts = {file.point(node.offset)};
-      if (node is AnnotatedNode) {
-        starts.add(file.point(node.firstTokenAfterCommentAndMetadata.offset));
-        if (node.metadata.isNotEmpty) {
-          starts.add(file.point(node.metadata.first.offset));
-        }
-      }
       nodes.add(
-        Expected(kindOf(node), starts, file.point(node.end), node.offset),
+        Expected(
+          kindOf(node),
+          {for (final s in startOffsets(node)) file.point(s)},
+          file.point(node.end),
+          node.offset,
+        ),
       );
     }
     super.visitNode(node);
   }
 }
+
+/// Every offset a grammar node matching [node] may start at. A declaration
+/// also matches when the grammar's node starts at its annotations or at its
+/// name instead of at its doc comment.
+Set<int> startOffsets(AstNode node) => {
+  node.offset,
+  if (node is AnnotatedNode) ...[
+    node.firstTokenAfterCommentAndMetadata.offset,
+    if (node.metadata.isNotEmpty) node.metadata.first.offset,
+  ],
+};
 
 typedef Span = (int, int, int, int);
 
@@ -598,14 +654,8 @@ FileResult checkFile(
     ));
     if (leafKinds.contains(kind)) continue;
     nonLeaf++;
-    final starts = {
-      node.offset,
-      if (node is AnnotatedNode) ...[
-        node.firstTokenAfterCommentAndMetadata.offset,
-        if (node.metadata.isNotEmpty) node.metadata.first.offset,
-      ],
-    };
-    if (starts.any((s) => spans.contains((position(file.point(s)), end)))) {
+    if (startOffsets(node)
+        .any((s) => spans.contains((position(file.point(s)), end)))) {
       matched++;
     }
   }
@@ -657,24 +707,16 @@ Future<List<FileResult>> checkShard(
   })
   job,
 ) async {
-  File(job.list).writeAsStringSync(job.files.join('\n'));
-  final process = await Process.start(job.cli, [
-    'parse',
-    '--lib-path',
-    job.grammar.lib,
-    '--lang-name',
-    job.grammar.language,
-    '--paths',
-    job.list,
-  ]);
-  final errors = process.stderr.transform(utf8.decoder).join();
   final results = <FileResult>[];
-  List<Node>? tree;
-  var failed = false;
-  void finish() {
+  await for (final tree in parseTrees(
+    job.cli,
+    job.grammar,
+    job.files,
+    job.list,
+  )) {
     final path = job.files[results.length];
     results.add(
-      failed
+      tree.failed
           ? (
               path: path,
               crossings: const {},
@@ -683,41 +725,82 @@ Future<List<FileResult>> checkShard(
               nonLeaf: 0,
               skipped: 'tree-sitter ERROR or MISSING',
             )
-          : checkFile(path, tree!, locations: job.locations),
+          : checkFile(path, tree.nodes, locations: job.locations),
     );
   }
+  return results;
+}
 
+/// One file's tree from `tree-sitter parse`.
+class Tree {
+  /// The named nodes other than ERROR and MISSING, leaving out zero-width
+  /// ones.
+  final nodes = <Node>[];
+  final errors = <Node>[];
+  var missing = 0;
+
+  bool get failed => errors.isNotEmpty || missing > 0;
+}
+
+/// The tree of each of [files], in order, from one `tree-sitter parse`.
+Stream<Tree> parseTrees(
+  String cli,
+  Grammar grammar,
+  List<String> files,
+  String list,
+) async* {
+  File(list).writeAsStringSync(files.join('\n'));
+  final process = await Process.start(cli, [
+    'parse',
+    '--lib-path',
+    grammar.lib,
+    '--lang-name',
+    grammar.language,
+    '--paths',
+    list,
+  ]);
+  final errors = process.stderr.transform(utf8.decoder).join();
+  var count = 0;
+  Tree? tree;
   await for (final line
       in process.stdout
           .transform(utf8.decoder)
           .transform(const LineSplitter())) {
     if (line.startsWith('(')) {
-      if (tree != null) finish();
-      tree = [];
-      failed = false;
+      if (tree != null) {
+        count++;
+        yield tree;
+      }
+      tree = Tree();
     } else if (tree == null || !line.startsWith(' ')) {
       continue;
     }
     for (final m in _nodePattern.allMatches(line)) {
       final name = m[1]!;
-      if (name == 'ERROR' || name.startsWith('MISSING')) {
-        failed = true;
+      if (name.startsWith('MISSING')) {
+        tree.missing++;
         continue;
       }
       final start = position((int.parse(m[2]!), int.parse(m[3]!)));
       final end = position((int.parse(m[4]!), int.parse(m[5]!)));
-      if (start != end) tree.add((start: start, end: end, kind: name));
+      final node = (start: start, end: end, kind: name);
+      if (name == 'ERROR') {
+        tree.errors.add(node);
+      } else if (start != end) {
+        tree.nodes.add(node);
+      }
     }
   }
-  if (tree != null) finish();
+  if (tree != null) {
+    count++;
+    yield tree;
+  }
   await process.exitCode;
-  if (results.length != job.files.length) {
+  if (count != files.length) {
     throw StateError(
-      'expected ${job.files.length} trees, got ${results.length}: '
-      '${await errors}',
+      'expected ${files.length} trees, got $count: ${await errors}',
     );
   }
-  return results;
 }
 
 Future<void> crossings(ArgResults args) async {
@@ -781,5 +864,430 @@ Future<void> crossings(ArgResults args) async {
     );
   } finally {
     temp.deleteSync(recursive: true);
+  }
+}
+
+/// A replacement of [length] UTF-16 code units at [offset] by [insert], and
+/// the token and node it hits.
+typedef Edit = ({
+  String kind,
+  int offset,
+  int length,
+  String insert,
+  String context,
+});
+
+/// What one edit left intact of the nodes before and after it.
+typedef EditResult = ({
+  String path,
+  Edit edit,
+  (int, int) at,
+  int before,
+  int keptBefore,
+  int after,
+  int keptAfter,
+  int reach,
+  int errorRows,
+});
+
+/// A reference node as UTF-16 offsets into the intact source, with the kind
+/// the grammar gave it there.
+typedef Reference = ({int start, int end, String kind});
+
+const editKinds = ['truncate', 'close', 'drop', 'insert'];
+
+const _closingTokens = {
+  TokenType.CLOSE_PAREN,
+  TokenType.CLOSE_SQUARE_BRACKET,
+  TokenType.CLOSE_CURLY_BRACKET,
+  TokenType.SEMICOLON,
+  TokenType.GT,
+};
+
+const _numberTokens = {
+  TokenType.INT,
+  TokenType.INT_WITH_SEPARATORS,
+  TokenType.DOUBLE,
+  TokenType.DOUBLE_WITH_SEPARATORS,
+  TokenType.HEXADECIMAL,
+  TokenType.HEXADECIMAL_WITH_SEPARATORS,
+};
+
+String describe(Token token) => switch (token.type) {
+  TokenType.IDENTIFIER => 'identifier',
+  TokenType.STRING => 'string',
+  final type when _numberTokens.contains(type) => 'number',
+  _ => '`${token.lexeme}`',
+};
+
+/// The innermost node of [root] around [offset] that is not a leaf.
+AstNode enclosing(AstNode root, int offset) {
+  var node = root;
+  while (true) {
+    final children = <AstNode>[];
+    node.visitChildren(_Collector(children));
+    final inner = children.where(
+      (c) =>
+          c.offset <= offset &&
+          offset < c.end &&
+          !leafKinds.contains(kindOf(c)),
+    );
+    if (inner.isEmpty) return node;
+    node = inner.first;
+  }
+}
+
+/// Whether a half-typed [node] would end where the cursor is: a statement
+/// other than a block, a class member, a top-level declaration or directive.
+bool _isTypedUnit(AstNode node) =>
+    (node is Statement && node is! Block) ||
+    node is ClassMember ||
+    node is CompilationUnitMember ||
+    node is Directive ||
+    node is EnumConstantDeclaration;
+
+/// Up to [perKind] edits of each of [editKinds] at random tokens of [unit].
+///
+/// - `truncate` deletes from a token to the end of its statement or member,
+///   the way a half-typed line looks.
+/// - `close` deletes one `)`, `]`, `}`, `;` or `>`.
+/// - `drop` deletes any one token.
+/// - `insert` puts an identifier before a token.
+List<Edit> sampleEdits(CompilationUnit unit, Random random, int perKind) {
+  final tokens = [
+    for (Token? t = unit.beginToken; t != null && !t.isEof; t = t.next) t,
+  ];
+  final closing = [
+    for (final t in tokens)
+      if (_closingTokens.contains(t.type)) t,
+  ];
+  final edits = <Edit>[];
+  for (final kind in editKinds) {
+    final pool = kind == 'close' ? closing : tokens;
+    if (pool.isEmpty) continue;
+    var made = 0;
+    for (var tries = 0; made < perKind && tries < perKind * 10; tries++) {
+      final token = pool[random.nextInt(pool.length)];
+      final at = enclosing(unit, token.offset);
+      final where = '${describe(token)} in ${kindOf(at)}';
+      final Edit edit;
+      switch (kind) {
+        case 'truncate':
+          final cut = at.thisOrAncestorMatching(_isTypedUnit);
+          final first = switch (cut) {
+            AnnotatedNode() => cut.firstTokenAfterCommentAndMetadata,
+            _ => cut?.beginToken,
+          };
+          if (cut == null || first == token) continue;
+          edit = (
+            kind: kind,
+            offset: token.offset,
+            length: cut.end - token.offset,
+            insert: '',
+            context: 'truncate ${kindOf(cut)} at $where',
+          );
+        case 'insert':
+          edit = (
+            kind: kind,
+            offset: token.offset,
+            length: 0,
+            insert: 'x ',
+            context: 'insert before $where',
+          );
+        default:
+          edit = (
+            kind: kind,
+            offset: token.offset,
+            length: token.length,
+            insert: '',
+            context: 'drop $where',
+          );
+      }
+      edits.add(edit);
+      made++;
+    }
+  }
+  return edits;
+}
+
+String applyEdit(String source, Edit edit) =>
+    source.replaceRange(edit.offset, edit.offset + edit.length, edit.insert);
+
+/// The non-leaf analyzer nodes that [tree] has a node for with the same span.
+Set<Reference> referenceNodes(AnalyzedFile file, Tree tree) {
+  final kinds = <(int, int), List<String>>{};
+  for (final n in tree.nodes) {
+    (kinds[(n.start, n.end)] ??= []).add(n.kind);
+  }
+  final reference = <Reference>{};
+  for (final node in _allNodes(file.unit)) {
+    if (node.length == 0 || leafKinds.contains(kindOf(node))) continue;
+    final end = position(file.point(node.end));
+    for (final start in startOffsets(node)) {
+      for (final kind in kinds[(position(file.point(start)), end)] ?? []) {
+        reference.add((start: start, end: node.end, kind: kind));
+      }
+    }
+  }
+  return reference;
+}
+
+/// The rows that ERROR nodes of [tree] cover.
+int errorRows(Tree tree) {
+  final spans = [for (final e in tree.errors) (e.start >> 32, e.end >> 32)]
+    ..sort((a, b) => a.$1.compareTo(b.$1));
+  var rows = 0, until = -1;
+  for (final (start, end) in spans) {
+    if (end <= until) continue;
+    rows += end - max<int>(start, until + 1) + 1;
+    until = end;
+  }
+  return rows;
+}
+
+/// How many [reference] nodes before and after [edit] the [broken] tree still
+/// has with the same kind and the shifted span. A node around the edit has
+/// to change, so it does not count.
+EditResult score(
+  AnalyzedFile file,
+  Set<Reference> reference,
+  Edit edit,
+  Tree broken,
+) {
+  final lines = Lines(applyEdit(file.source, edit));
+  final have = {for (final n in broken.nodes) (n.start, n.end, n.kind)};
+  final editEnd = edit.offset + edit.length;
+  final shift = edit.insert.length - edit.length;
+  final (editRow, _) = lines.point(edit.offset);
+  var before = 0, keptBefore = 0, after = 0, keptAfter = 0, reach = 0;
+  for (final r in reference) {
+    final isBefore = r.end <= edit.offset;
+    if (!isBefore && r.start < editEnd) continue;
+    final s = lines.point(isBefore ? r.start : r.start + shift);
+    final e = lines.point(isBefore ? r.end : r.end + shift);
+    final kept = have.contains((position(s), position(e), r.kind));
+    if (isBefore) {
+      before++;
+      if (kept) keptBefore++;
+    } else {
+      after++;
+      if (kept) keptAfter++;
+    }
+    if (!kept) {
+      reach = max(reach, isBefore ? editRow - s.$1 : e.$1 - editRow);
+    }
+  }
+  return (
+    path: file.path,
+    edit: edit,
+    at: file.point(edit.offset),
+    before: before,
+    keptBefore: keptBefore,
+    after: after,
+    keptAfter: keptAfter,
+    reach: reach,
+    errorRows: errorRows(broken),
+  );
+}
+
+/// Breaks each of [job.files] [job.perKind] times per edit kind, parses the
+/// intact and broken files, and scores each edit that leaves the file
+/// invalid Dart. Works through the files in batches to bound memory and disk.
+Future<({List<EditResult> results, int valid})> recoverShard(
+  ({
+    String cli,
+    Grammar grammar,
+    List<(int, String)> files,
+    String dir,
+    int perKind,
+    int seed,
+  })
+  job,
+) async {
+  Directory(job.dir).createSync();
+  final results = <EditResult>[];
+  var valid = 0;
+  for (var from = 0; from < job.files.length; from += 100) {
+    final planned = <(AnalyzedFile, List<Edit>)>[];
+    final paths = <String>[];
+    for (final (index, path) in job.files.skip(from).take(100)) {
+      final file = analyze(path);
+      if (file == null || file.bomBytes > 0) continue;
+      final edits = <Edit>[];
+      paths.add(path);
+      for (final edit in sampleEdits(
+        file.unit,
+        Random(job.seed + index),
+        job.perKind,
+      )) {
+        final broken = applyEdit(file.source, edit);
+        if (parseValid(broken) != null) {
+          valid++;
+          continue;
+        }
+        final out = p.join(job.dir, '$index-${edits.length}.dart');
+        File(out).writeAsStringSync(broken);
+        paths.add(out);
+        edits.add(edit);
+      }
+      planned.add((file, edits));
+    }
+    final trees = StreamIterator(
+      parseTrees(job.cli, job.grammar, paths, p.join(job.dir, 'paths.txt')),
+    );
+    Future<Tree> next() async {
+      await trees.moveNext();
+      return trees.current;
+    }
+
+    for (final (file, edits) in planned) {
+      final intact = await next();
+      final reference = intact.failed ? null : referenceNodes(file, intact);
+      for (final edit in edits) {
+        final broken = await next();
+        if (reference != null) {
+          results.add(score(file, reference, edit, broken));
+        }
+      }
+    }
+    await trees.cancel();
+    for (final path in paths.where((f) => p.isWithin(job.dir, f))) {
+      File(path).deleteSync();
+    }
+  }
+  return (results: results, valid: valid);
+}
+
+Future<void> recovery(ArgResults args) async {
+  final grammarDir = switch (args['grammar']) {
+    final String g => p.normalize(p.absolute(g)),
+    _ => repoRoot,
+  };
+  final jobs = int.parse(args['jobs'] as String);
+  final count = int.parse(args['files'] as String);
+  final perKind = int.parse(args['edits'] as String);
+  final seed = int.parse(args['seed'] as String);
+  final maxBytes = int.parse(args['max-bytes'] as String);
+  final worst = int.parse(args['worst'] as String);
+  final files = [
+    ...args.rest,
+    if (args['paths'] case final String list)
+      ...File(list).readAsLinesSync().where((l) => l.trim().isNotEmpty),
+  ]..shuffle(Random(seed));
+  final sample = files
+      .where((f) => File(f).lengthSync() <= maxBytes)
+      .take(count)
+      .toList()
+      .indexed
+      .toList();
+  final temp = Directory.systemTemp.createTempSync('analyzer_ast');
+  try {
+    final grammar = await buildGrammar(grammarDir, temp);
+    final cli = treeSitterCli();
+    final shards = [
+      for (var j = 0; j < jobs; j++)
+        [for (var i = j; i < sample.length; i += jobs) sample[i]],
+    ].where((shard) => shard.isNotEmpty).toList();
+    final outcomes = await Future.wait([
+      for (final (j, shard) in shards.indexed)
+        Isolate.run(
+          () => recoverShard((
+            cli: cli,
+            grammar: grammar,
+            files: shard,
+            dir: p.join(temp.path, 'shard-$j'),
+            perKind: perKind,
+            seed: seed,
+          )),
+        ),
+    ]);
+    final results = [for (final o in outcomes) ...o.results];
+    final valid = outcomes.fold(0, (n, o) => n + o.valid);
+    stdout.writeln(
+      '${sample.length} files, ${results.length} edits scored, $valid more '
+      'left the file valid Dart',
+    );
+    _recoveryReport(results, worst);
+  } finally {
+    temp.deleteSync(recursive: true);
+  }
+}
+
+int _lost(EditResult r) => r.before - r.keptBefore + r.after - r.keptAfter;
+
+int _percentile(List<int> values, double q) {
+  if (values.isEmpty) return 0;
+  final sorted = [...values]..sort();
+  return sorted[((sorted.length - 1) * q).round()];
+}
+
+String _pct(int part, int whole) =>
+    whole == 0 ? '-' : '${(100 * part / whole).toStringAsFixed(1)}%';
+
+void _recoveryReport(List<EditResult> results, int worst) {
+  stdout
+    ..writeln()
+    ..writeln(
+      '${'kind'.padRight(10)}${'edits'.padLeft(7)}'
+      '${'kept before'.padLeft(13)}${'kept after'.padLeft(12)}'
+      '${'lossless'.padLeft(10)}${'reach p50/p90/max'.padLeft(19)}'
+      '${'ERROR rows p50/p90'.padLeft(20)}',
+    );
+  for (final kind in [...editKinds, 'all']) {
+    final rs = [
+      for (final r in results)
+        if (kind == 'all' || r.edit.kind == kind) r,
+    ];
+    final reach = [for (final r in rs) r.reach];
+    final rows = [for (final r in rs) r.errorRows];
+    stdout.writeln(
+      '${kind.padRight(10)}${'${rs.length}'.padLeft(7)}'
+      '${_pct(rs.fold(0, (n, r) => n + r.keptBefore), rs.fold(0, (n, r) => n + r.before)).padLeft(13)}'
+      '${_pct(rs.fold(0, (n, r) => n + r.keptAfter), rs.fold(0, (n, r) => n + r.after)).padLeft(12)}'
+      '${_pct(rs.where((r) => _lost(r) == 0).length, rs.length).padLeft(10)}'
+      '${'${_percentile(reach, .5)}/${_percentile(reach, .9)}/${_percentile(reach, 1)}'.padLeft(19)}'
+      '${'${_percentile(rows, .5)}/${_percentile(rows, .9)}'.padLeft(20)}',
+    );
+  }
+
+  final byContext = <String, List<EditResult>>{};
+  for (final r in results) {
+    (byContext[r.edit.context] ??= []).add(r);
+  }
+  final contexts = byContext.entries.toList()
+    ..sort(
+      (a, b) =>
+          b.value.fold(0, (n, r) => n + _lost(r)) -
+          a.value.fold(0, (n, r) => n + _lost(r)),
+    );
+  stdout
+    ..writeln()
+    ..writeln('contexts by nodes lost')
+    ..writeln(
+      '${'lost'.padLeft(8)}${'edits'.padLeft(7)}${'lossless'.padLeft(10)}'
+      '${'reach p90'.padLeft(11)}  context',
+    );
+  for (final MapEntry(key: context, value: rs) in contexts.take(40)) {
+    stdout.writeln(
+      '${'${rs.fold(0, (n, r) => n + _lost(r))}'.padLeft(8)}'
+      '${'${rs.length}'.padLeft(7)}'
+      '${_pct(rs.where((r) => _lost(r) == 0).length, rs.length).padLeft(10)}'
+      '${'${_percentile([for (final r in rs) r.reach], .9)}'.padLeft(11)}'
+      '  $context',
+    );
+  }
+
+  stdout
+    ..writeln()
+    ..writeln('edits that lose the most nodes');
+  for (final r in ([
+    ...results,
+  ]..sort((a, b) => _lost(b) - _lost(a))).take(worst)) {
+    final (row, column) = r.at;
+    stdout.writeln(
+      '${_lost(r)}/${r.before + r.after}\treach ${r.reach}\t'
+      '${r.path}:${row + 1}:${column + 1}\t${r.edit.context}\t'
+      'length ${r.edit.length}',
+    );
   }
 }
