@@ -344,10 +344,10 @@ void f(x) {
           (annotation
             name: (identifier))
           (record_pattern
-            (constant_pattern
-              (identifier))
-            (constant_pattern
-              (identifier)))
+            (variable_pattern
+              name: (identifier))
+            (variable_pattern
+              name: (identifier)))
           value: (identifier)
           body: (block))))))
 

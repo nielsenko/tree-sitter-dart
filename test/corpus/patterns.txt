@@ -89,10 +89,10 @@ void main() {
         (local_variable_declaration
           (pattern_variable_declaration
             (record_pattern
-              (constant_pattern
-                (identifier))
-              (constant_pattern
-                (identifier)))
+              (variable_pattern
+                name: (identifier))
+              (variable_pattern
+                name: (identifier)))
             (record_literal
               (record_field
                 (decimal_integer_literal))
@@ -553,20 +553,20 @@ void f() {
         (local_variable_declaration
           (pattern_variable_declaration
             (record_pattern
-              (constant_pattern
+              (variable_pattern
                 (identifier))
-              (constant_pattern
+              (variable_pattern
                 (identifier)))
             (identifier)))
         (local_variable_declaration
           (pattern_variable_declaration
             (list_pattern
-              (constant_pattern
+              (variable_pattern
                 (identifier))
-              (constant_pattern
+              (variable_pattern
                 (identifier))
               (rest_pattern
-                (constant_pattern
+                (variable_pattern
                   (identifier))))
             (identifier)))
         (local_variable_declaration
@@ -575,7 +575,7 @@ void f() {
               (string_literal
                 (string_literal_single_quotes
                   (template_chars_single_single)))
-              (constant_pattern
+              (variable_pattern
                 (identifier)))
             (identifier)))
         (expression_statement
@@ -594,11 +594,11 @@ void f() {
           (pattern_variable_declaration
             (object_pattern
               (type_identifier)
-              (constant_pattern
+              (variable_pattern
                 (identifier))
               (label
                 (identifier))
-              (constant_pattern
+              (variable_pattern
                 (identifier)))
             (identifier)))))))
 
@@ -638,9 +638,9 @@ void f(List<(String, int)> entries) {
       (block
         (for_statement
           (record_pattern
-            (constant_pattern
+            (variable_pattern
               (identifier))
-            (constant_pattern
+            (variable_pattern
               (identifier)))
           (identifier)
           (block
@@ -1070,7 +1070,7 @@ void f(Object o) {
                 (decimal_integer_literal)))))))))
 
 ================================================================================
-Known limitation: identifiers in declaration patterns parse as constant_pattern
+Identifiers in declaration patterns are variable patterns
 ================================================================================
 
 void f() {
@@ -1092,16 +1092,16 @@ void f() {
         (for_statement
           (object_pattern
             (type_identifier)
-            (constant_pattern
-              (identifier)))
+            (variable_pattern
+              name: (identifier)))
           value: (identifier)
           body: (block))
         (for_statement
           (record_pattern
-            (constant_pattern
-              (identifier))
-            (constant_pattern
-              (identifier)))
+            (variable_pattern
+              name: (identifier))
+            (variable_pattern
+              name: (identifier)))
           value: (member_expression
             object: (identifier)
             property: (identifier))
