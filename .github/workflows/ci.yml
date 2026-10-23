@@ -20,7 +20,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "26"
 
       - name: Cache npm
         uses: actions/cache@v4
@@ -47,8 +47,8 @@ jobs:
 
       - name: Test Node binding
         run: |
-          npm install --no-save tree-sitter@^0.25.0
-          npm test
+          npm install --prefix "$RUNNER_TEMP/ts" tree-sitter@^0.25.0
+          NODE_PATH="$RUNNER_TEMP/ts/node_modules" npm test
 
       - name: Build Rust crate
         run: cargo build --release
