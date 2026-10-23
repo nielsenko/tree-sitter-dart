@@ -850,3 +850,176 @@ enum const E(final int x) {
                     (identifier)
                     operator: (relational_operator)
                     (decimal_integer_literal)))))))))))
+
+================================================================================
+Abbreviated constructor declarations, every form
+================================================================================
+
+class LongClassName {
+  new() {}
+  new name() {}
+  const new();
+  const new name();
+  new(): this.other();
+  new name(): this();
+  const new(): this.other();
+  const new name(): this();
+  factory() { return D(); }
+  factory name() { return D(); }
+  factory() = D;
+  factory name() = D;
+  const factory() = D;
+  const factory name() = D;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (class_body
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (constructor_signature
+              (formal_parameter_list)))
+          (function_body
+            (block))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (constructor_signature
+              (identifier)
+              (formal_parameter_list)))
+          (function_body
+            (block))))
+      (member_declaration
+        (declaration
+          (constant_constructor_signature
+            (formal_parameter_list))))
+      (member_declaration
+        (declaration
+          (constant_constructor_signature
+            (identifier)
+            (formal_parameter_list))))
+      (member_declaration
+        (declaration
+          (constructor_signature
+            (formal_parameter_list))
+          (redirection
+            (identifier)
+            (arguments))))
+      (member_declaration
+        (declaration
+          (constructor_signature
+            (identifier)
+            (formal_parameter_list))
+          (redirection
+            (arguments))))
+      (member_declaration
+        (declaration
+          (constant_constructor_signature
+            (formal_parameter_list))
+          (redirection
+            (identifier)
+            (arguments))))
+      (member_declaration
+        (declaration
+          (constant_constructor_signature
+            (identifier)
+            (formal_parameter_list))
+          (redirection
+            (arguments))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (factory_constructor_signature
+              (formal_parameter_list)))
+          (function_body
+            (block
+              (return_statement
+                (call_expression
+                  (identifier)
+                  (arguments)))))))
+      (member_declaration
+        (method_declaration
+          (method_signature
+            (factory_constructor_signature
+              (identifier)
+              (formal_parameter_list)))
+          (function_body
+            (block
+              (return_statement
+                (call_expression
+                  (identifier)
+                  (arguments)))))))
+      (member_declaration
+        (declaration
+          (redirecting_factory_constructor_signature
+            (formal_parameter_list)
+            (type
+              (type_identifier)))))
+      (member_declaration
+        (declaration
+          (redirecting_factory_constructor_signature
+            (identifier)
+            (formal_parameter_list)
+            (type
+              (type_identifier)))))
+      (member_declaration
+        (declaration
+          (redirecting_factory_constructor_signature
+            (formal_parameter_list)
+            (type
+              (type_identifier)))))
+      (member_declaration
+        (declaration
+          (redirecting_factory_constructor_signature
+            (identifier)
+            (formal_parameter_list)
+            (type
+              (type_identifier))))))))
+
+================================================================================
+Nullable function-typed super and this parameters
+================================================================================
+
+class C extends B {
+  C(super.f()?, this.g()?);
+}
+
+class D(super.f()?) extends B;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    (identifier)
+    (superclass
+      (type
+        (type_identifier)))
+    (class_body
+      (member_declaration
+        (declaration
+          (constructor_signature
+            (identifier)
+            (formal_parameter_list
+              (formal_parameter
+                (super_formal_parameter
+                  (identifier)
+                  (formal_parameter_list)))
+              (formal_parameter
+                (field_formal_parameter
+                  (identifier)
+                  (formal_parameter_list)))))))))
+  (class_declaration
+    (identifier)
+    (primary_constructor
+      (formal_parameter_list
+        (formal_parameter
+          (super_formal_parameter
+            (identifier)
+            (formal_parameter_list)))))
+    (superclass
+      (type
+        (type_identifier)))))
