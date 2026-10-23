@@ -18,6 +18,14 @@ It also compares each tree that parses with the Dart analyzer's AST through
 `../analyzer_ast`, and fails on crossings not pinned in
 `known_ast_crossings.txt` (`--no-ast` skips this, `--update-ast-pins`
 rewrites the pins).
+
+By default `report.dart` skips files the analyzer rejects as syntactically
+invalid. It caches that verdict in `download/.analyzer-invalid.txt` and
+rebuilds it when the corpus changes or with `--recheck-syntax`. It compares
+the remaining failures by identity against `known_failures.txt` and exits
+non-zero if a new file fails or a known failure starts passing.
+`--no-filter-valid` reports raw numbers over the whole corpus.
+
 `check_syntax.dart` filters files that the Dart analyzer itself rejects
 (reads paths from stdin). The `download/` and `out/` directories are
 git-ignored.
