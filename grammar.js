@@ -314,7 +314,7 @@ module.exports = grammar({
       ),
 
     // ========================================================================
-    // Library structure (Phase 9)
+    // Library structure
     // ========================================================================
 
     script_tag: (_) => seq("#!", /[^\n]*/, "\n"),
@@ -401,7 +401,7 @@ module.exports = grammar({
     dotted_identifier_list: ($) => seq($.identifier, repeat(seq(".", $.identifier))),
 
     // ========================================================================
-    // Metadata / Annotations (Phase 9)
+    // Metadata / Annotations
     // ========================================================================
 
     _metadata: ($) => repeat1($._annotation),
@@ -433,7 +433,7 @@ module.exports = grammar({
       ),
 
     // ========================================================================
-    // Types (Phase 2)
+    // Types
     // ========================================================================
 
     // Public wrapper: every type-labeled position emits exactly one `type`
@@ -587,7 +587,7 @@ module.exports = grammar({
       seq(optional($._metadata), $.typed_identifier),
 
     // ========================================================================
-    // Literals (Phase 3)
+    // Literals
     // ========================================================================
 
     _literal: ($) =>
@@ -920,7 +920,7 @@ module.exports = grammar({
     record_field: ($) => seq(optional($.label), $._expression),
 
     // ========================================================================
-    // Expressions (Phase 4)
+    // Expressions
     // ========================================================================
 
     _expression: ($) =>
@@ -1343,7 +1343,7 @@ module.exports = grammar({
     named_argument: ($) => seq($.label, $._expression),
 
     // ========================================================================
-    // Formal Parameters (Phase 5)
+    // Formal Parameters
     // ========================================================================
 
     _formal_parameter_part: ($) =>
@@ -1436,7 +1436,7 @@ module.exports = grammar({
       ),
 
     // ========================================================================
-    // Statements (Phase 6)
+    // Statements
     // ========================================================================
 
     _statement: ($) =>
@@ -1654,7 +1654,7 @@ module.exports = grammar({
       seq("assert", "(", $._expression, optional(seq(",", $._expression)), optional(","), ")"),
 
     // ========================================================================
-    // Function signatures and bodies (Phase 7)
+    // Function signatures and bodies
     // ========================================================================
 
     function_signature: ($) =>
@@ -1683,7 +1683,7 @@ module.exports = grammar({
     native: ($) => seq("native", optional($.string_literal), ";"),
 
     // ========================================================================
-    // Declarations and class members (Phase 7)
+    // Declarations and class members
     // ========================================================================
 
     _declaration: ($) =>
@@ -1891,7 +1891,7 @@ module.exports = grammar({
     identifier_list: ($) => commaSep1($.identifier),
 
     // ========================================================================
-    // Top-level declarations (Phase 8)
+    // Top-level declarations
     // ========================================================================
 
     // --- Classes ---
@@ -2212,7 +2212,7 @@ module.exports = grammar({
       ),
 
     // ========================================================================
-    // Patterns (Phase 10 - Dart 3.0)
+    // Patterns
     // ========================================================================
 
     _guarded_pattern: ($) =>
