@@ -197,6 +197,9 @@ module.exports = grammar({
     // only with an emitted token, and the column the decision read is
     // recorded as that token's dependency for incremental reparse.
     $._comment_separated_open_paren,
+    // The `>` that closes an instantiation's type arguments. The scanner
+    // emits it only before a token the spec lets follow type arguments.
+    $._instantiation_close,
     // Never emitted. It is only valid during error recovery, which lets
     // the scanner detect recovery exactly. Must stay last.
     $._error_sentinel,
@@ -1412,9 +1415,15 @@ module.exports = grammar({
       prec.dynamic(-1, prec("instantiation",
         seq(
           field("function", $._postfix_expression),
-          field("type_arguments", $.type_arguments),
+          field(
+            "type_arguments",
+            alias($._instantiation_type_arguments, $.type_arguments),
+          ),
         ),
       )),
+
+    _instantiation_type_arguments: ($) =>
+      seq("<", commaSep1($.type), alias($._instantiation_close, ">")),
 
     ...postfixChainWrappers("_postfix_expression", ""),
 

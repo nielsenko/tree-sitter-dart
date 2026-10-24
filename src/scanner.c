@@ -13,6 +13,7 @@ enum TokenType {
   DOCUMENTATION_BLOCK_COMMENT,
   ANNOTATION_OPEN_PAREN,
   COMMENT_SEPARATED_OPEN_PAREN,
+  INSTANTIATION_CLOSE,
   // Never emitted: valid only while the parser is in error recovery
   // (recovery marks every symbol valid), so testing it alone detects
   // recovery exactly. Must stay last in the grammar's externals list.
@@ -47,6 +48,10 @@ void tree_sitter_dart_external_scanner_reset(void *p) {
 }
 unsigned tree_sitter_dart_external_scanner_serialize(void *p, char *buffer) {
   Scanner *scanner = (Scanner *)p;
+  // An unarmed veto serializes as no state at all. Tree-sitter merges two
+  // parse versions only when their last external tokens carry equal state,
+  // and a version that has emitted no external token has an empty one.
+  if (!scanner->veto_annotation_paren) return 0;
   buffer[0] = (char)scanner->veto_annotation_paren;
   memcpy(&buffer[1], &scanner->veto_column, sizeof(uint32_t));
   return 1 + sizeof(uint32_t);
@@ -206,6 +211,78 @@ static bool scan_templates(Scanner *scanner, TSLexer *lexer,
 
 
 
+// Moves past whitespace and comments without making them part of the token.
+// Returns false at a `/` that starts no comment: that `/` is the next token.
+static bool skip_trivia(TSLexer *lexer) {
+  for (;;) {
+    if (is_whitespace(lexer->lookahead)) {
+      advance(lexer);
+    } else if (lexer->lookahead == '/') {
+      advance(lexer);
+      if (lexer->lookahead == '/') {
+        while (!lexer->eof(lexer) && lexer->lookahead != '\n' &&
+               lexer->lookahead != '\r') {
+          advance(lexer);
+        }
+      } else if (lexer->lookahead == '*') {
+        advance(lexer);
+        unsigned depth = 1;
+        while (depth > 0 && !lexer->eof(lexer)) {
+          if (lexer->lookahead == '*') {
+            advance(lexer);
+            if (lexer->lookahead == '/') {
+              advance(lexer);
+              depth--;
+            }
+          } else if (lexer->lookahead == '/') {
+            advance(lexer);
+            if (lexer->lookahead == '*') {
+              advance(lexer);
+              depth++;
+            }
+          } else {
+            advance(lexer);
+          }
+        }
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+}
+
+// Spec, constructor tear-offs: `<...>` after an expression is a type
+// argument list only when the token after the `>` is one of
+// `( . == != ) ] } ; : ,` or the end of input. Otherwise the `<` and `>`
+// are relational operators, as in `f(a < b, c > -x)`.
+static bool scan_instantiation_close(TSLexer *lexer) {
+  advance(lexer);
+  lexer->mark_end(lexer);
+  lexer->result_symbol = INSTANTIATION_CLOSE;
+  if (!skip_trivia(lexer)) return false;
+  switch (lexer->lookahead) {
+    case '(':
+    case ')':
+    case ']':
+    case '}':
+    case ';':
+    case ':':
+    case ',':
+      return true;
+    case '.':
+      advance(lexer);
+      return lexer->lookahead != '.';
+    case '=':
+    case '!':
+      advance(lexer);
+      return lexer->lookahead == '=';
+    default:
+      return lexer->eof(lexer);
+  }
+}
+
 bool tree_sitter_dart_external_scanner_scan(void *payload, TSLexer *lexer,
                                                   const bool *valid_symbols) {
   Scanner *scanner = (Scanner *)payload;
@@ -258,6 +335,11 @@ bool tree_sitter_dart_external_scanner_scan(void *payload, TSLexer *lexer,
   }
 
   while (is_whitespace(lexer->lookahead)) lexer->advance(lexer, true);
+
+  if (valid_symbols[INSTANTIATION_CLOSE] && !valid_symbols[ERROR_SENTINEL] &&
+      lexer->lookahead == '>') {
+    return scan_instantiation_close(lexer);
+  }
 
   if (lexer->lookahead == '/') {
     return scan_multiline_comments(scanner, lexer, valid_symbols);

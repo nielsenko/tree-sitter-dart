@@ -1436,11 +1436,16 @@ void f() {
                 (null_literal)))))))))
 
 ================================================================================
-Known limitation: a < b, c > -x in arguments parses as an instantiation minus x
+Type arguments need one of ( . == != ) ] } ; : , after the >, past whitespace and comments
 ================================================================================
 
 void m() {
   f(a < b, c > -x);
+  f(a < b, c > [1]);
+  f(a<b, c> ());
+  f(a<b, c> /* x */ ());
+  f(a<b, c>/*c*/());
+  f(a<b, c>/*c*/-x);
 }
 
 --------------------------------------------------------------------------------
@@ -1458,13 +1463,85 @@ void m() {
           (call_expression
             function: (identifier)
             arguments: (arguments
-              (additive_expression
-                (instantiation_expression
+              (relational_expression
+                (identifier)
+                operator: (relational_operator)
+                (identifier))
+              (relational_expression
+                (identifier)
+                operator: (relational_operator)
+                (unary_expression
+                  operator: (prefix_operator)
+                  (identifier))))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (relational_expression
+                (identifier)
+                operator: (relational_operator)
+                (identifier))
+              (relational_expression
+                (identifier)
+                operator: (relational_operator)
+                (list_literal
+                  (decimal_integer_literal))))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (call_expression
+                function: (instantiation_expression
                   function: (identifier)
                   type_arguments: (type_arguments
                     (type
                       (type_identifier))
                     (type
                       (type_identifier))))
-                operator: (additive_operator)
-                (identifier)))))))))
+                arguments: (arguments)))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (call_expression
+                function: (instantiation_expression
+                  function: (identifier)
+                  type_arguments: (type_arguments
+                    (type
+                      (type_identifier))
+                    (type
+                      (type_identifier))))
+                (comment
+                  (block_comment))
+                arguments: (arguments)))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (call_expression
+                function: (instantiation_expression
+                  function: (identifier)
+                  type_arguments: (type_arguments
+                    (type
+                      (type_identifier))
+                    (type
+                      (type_identifier))))
+                (comment
+                  (block_comment))
+                arguments: (arguments)))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (arguments
+              (relational_expression
+                (identifier)
+                operator: (relational_operator)
+                (identifier))
+              (relational_expression
+                (identifier)
+                operator: (relational_operator)
+                (comment
+                  (block_comment))
+                (unary_expression
+                  operator: (prefix_operator)
+                  (identifier))))))))))
