@@ -4443,58 +4443,54 @@
       ]
     },
     "relational_expression": {
-      "type": "PREC_DYNAMIC",
-      "value": -1,
+      "type": "PREC_LEFT",
+      "value": 9,
       "content": {
-        "type": "PREC_LEFT",
-        "value": 9,
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_real_expression"
+              },
+              {
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
                   "type": "SYMBOL",
-                  "name": "_real_expression"
-                },
-                {
-                  "type": "FIELD",
-                  "name": "operator",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "relational_operator"
-                  }
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_real_expression"
+                  "name": "relational_operator"
                 }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "super"
-                },
-                {
-                  "type": "FIELD",
-                  "name": "operator",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "relational_operator"
-                  }
-                },
-                {
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_real_expression"
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "super"
+              },
+              {
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
                   "type": "SYMBOL",
-                  "name": "_real_expression"
+                  "name": "relational_operator"
                 }
-              ]
-            }
-          ]
-        }
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_real_expression"
+              }
+            ]
+          }
+        ]
       }
     },
     "relational_operator": {
@@ -5273,37 +5269,33 @@
       }
     },
     "instantiation_expression": {
-      "type": "PREC_DYNAMIC",
-      "value": -1,
+      "type": "PREC",
+      "value": "instantiation",
       "content": {
-        "type": "PREC",
-        "value": "instantiation",
-        "content": {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "function",
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "function",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_postfix_expression"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "type_arguments",
+            "content": {
+              "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
-                "name": "_postfix_expression"
-              }
-            },
-            {
-              "type": "FIELD",
-              "name": "type_arguments",
-              "content": {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_instantiation_type_arguments"
-                },
-                "named": true,
-                "value": "type_arguments"
-              }
+                "name": "_instantiation_type_arguments"
+              },
+              "named": true,
+              "value": "type_arguments"
             }
-          ]
-        }
+          }
+        ]
       }
     },
     "_instantiation_type_arguments": {
@@ -6260,7 +6252,7 @@
     },
     "static_member_shorthand": {
       "type": "PREC_DYNAMIC",
-      "value": -2,
+      "value": -1,
       "content": {
         "type": "CHOICE",
         "members": [

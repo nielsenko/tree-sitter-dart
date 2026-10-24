@@ -1251,13 +1251,13 @@ module.exports = grammar({
     // --- Relational ---
 
     relational_expression: ($) =>
-      prec.dynamic(-1, prec.left(
+      prec.left(
         PREC.RELATIONAL,
         choice(
           seq($._real_expression, field("operator", $.relational_operator), $._real_expression),
           seq("super", field("operator", $.relational_operator), $._real_expression),
         ),
-      )),
+      ),
 
     relational_operator: (_) => choice("<", ">", "<=", ">="),
 
@@ -1408,11 +1408,7 @@ module.exports = grammar({
     // Named prec required so the `<` ambiguity (call/instantiation/relational)
     // falls through to GLR conflict declarations rather than being auto-resolved.
     instantiation_expression: ($) =>
-      // Negative dynamic precedence: a *bare* `a<b>` only wins when it is
-      // genuinely an instantiation (a following call/member raises the total
-      // via call_expression's +2). Otherwise `a < b >> c` must parse as
-      // relational/shift, matching the spec's continuation-token rule.
-      prec.dynamic(-1, prec("instantiation",
+      prec("instantiation",
         seq(
           field("function", $._postfix_expression),
           field(
@@ -1420,7 +1416,7 @@ module.exports = grammar({
             alias($._instantiation_type_arguments, $.type_arguments),
           ),
         ),
-      )),
+      ),
 
     _instantiation_type_arguments: ($) =>
       seq("<", commaSep1($.type), alias($._instantiation_close, ">")),
@@ -1555,11 +1551,11 @@ module.exports = grammar({
 
     // Dot shorthand syntax (Dart 3.10+)
     static_member_shorthand: ($) =>
-      // -2, strictly below instantiation_expression's -1: `List<int>.filled`
-      // must parse as member-over-instantiation, not as a relational chain
-      // ending in a shorthand. Genuine shorthands have no competing parse,
+      // `.` may follow type arguments, so `List<int>.filled` also reads as
+      // `List < int > .filled`. The negative precedence keeps it a member
+      // of the instantiation. Genuine shorthands have no competing parse,
       // so they are unaffected.
-      prec.dynamic(-2,
+      prec.dynamic(-1,
         choice(
           seq(".", $.identifier),
           seq(".", "new"),
