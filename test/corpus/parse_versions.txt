@@ -1,0 +1,1616 @@
+================================================================================
+Parse version limit: Generic call with a member access in a nested call
+================================================================================
+
+f() {
+  return A<R>(g(x.y));
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (return_statement
+          (call_expression
+            function: (instantiation_expression
+              function: (identifier)
+              type_arguments: (type_arguments
+                (type
+                  (type_identifier))))
+            arguments: (arguments
+              (call_expression
+                function: (identifier)
+                arguments: (arguments
+                  (member_expression
+                    object: (identifier)
+                    property: (identifier)))))))))))
+
+================================================================================
+Parse version limit: Generic named constructors around a closure
+================================================================================
+
+f(List<Map<String, Object>> pipeline) {
+  final p = List<Map<String, Object>>.from(
+    pipeline.map((stage) => Map<String, Object>.from(stage)),
+  );
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier)
+            (type_arguments
+              (type
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (type_identifier))
+                  (type
+                    (type_identifier))))))
+          name: (identifier))))
+    body: (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_declaration
+            name: (identifier)
+            value: (constructor_invocation
+              type: (type_identifier)
+              (type_arguments
+                (type
+                  (type_identifier)
+                  (type_arguments
+                    (type
+                      (type_identifier))
+                    (type
+                      (type_identifier)))))
+              constructor: (identifier)
+              arguments: (arguments
+                (call_expression
+                  function: (member_expression
+                    object: (identifier)
+                    property: (identifier))
+                  arguments: (arguments
+                    (function_expression
+                      parameters: (formal_parameter_list
+                        (formal_parameter
+                          (identifier)))
+                      body: (function_expression_body
+                        (constructor_invocation
+                          type: (type_identifier)
+                          (type_arguments
+                            (type
+                              (type_identifier))
+                            (type
+                              (type_identifier)))
+                          constructor: (identifier)
+                          arguments: (arguments
+                            (identifier)))))))))))))))
+
+================================================================================
+Parse version limit: Generic named constructor over a where closure
+================================================================================
+
+extension E<K, V> on Map<K, V> {
+  Map<K, V> where(bool Function(K key, V value) f) => Map<K, V>.fromEntries(
+        entries.where((entry) => f(entry.key, entry.value)),
+      );
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_declaration
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier))
+      (type_parameter
+        name: (type_identifier)))
+    class: (type
+      (type_identifier)
+      (type_arguments
+        (type
+          (type_identifier))
+        (type
+          (type_identifier))))
+    body: (extension_body
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (type_identifier))
+                  (type
+                    (type_identifier))))
+              name: (identifier)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (function_type
+                      (type
+                        (type_identifier))
+                      (parameter_type_list
+                        (normal_parameter_type
+                          (typed_identifier
+                            type: (type
+                              (type_identifier))
+                            name: (identifier)))
+                        (normal_parameter_type
+                          (typed_identifier
+                            type: (type
+                              (type_identifier))
+                            name: (identifier))))))
+                  name: (identifier)))))
+          body: (function_body
+            (constructor_invocation
+              type: (type_identifier)
+              (type_arguments
+                (type
+                  (type_identifier))
+                (type
+                  (type_identifier)))
+              constructor: (identifier)
+              arguments: (arguments
+                (call_expression
+                  function: (member_expression
+                    object: (identifier)
+                    property: (identifier))
+                  arguments: (arguments
+                    (function_expression
+                      parameters: (formal_parameter_list
+                        (formal_parameter
+                          (identifier)))
+                      body: (function_expression_body
+                        (call_expression
+                          function: (identifier)
+                          arguments: (arguments
+                            (member_expression
+                              object: (identifier)
+                              property: (identifier))
+                            (member_expression
+                              object: (identifier)
+                              property: (identifier))))))))))))))))
+
+================================================================================
+Parse version limit: Generic call with a casting closure, nested in a call
+================================================================================
+
+f() {
+  _steps.add(
+    _Step<S>(
+      source,
+      (output) => map(output as Output<O>),
+    ),
+  );
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (block
+        (expression_statement
+          (call_expression
+            function: (member_expression
+              object: (identifier)
+              property: (identifier))
+            arguments: (arguments
+              (call_expression
+                function: (instantiation_expression
+                  function: (identifier)
+                  type_arguments: (type_arguments
+                    (type
+                      (type_identifier))))
+                arguments: (arguments
+                  (identifier)
+                  (function_expression
+                    parameters: (formal_parameter_list
+                      (formal_parameter
+                        (identifier)))
+                    body: (function_expression_body
+                      (call_expression
+                        function: (identifier)
+                        arguments: (arguments
+                          (type_cast_expression
+                            (identifier)
+                            (type_cast
+                              (type
+                                (type_identifier)
+                                (type_arguments
+                                  (type
+                                    (type_identifier)))))))))))))))))))
+
+================================================================================
+Parse version limit: Generic call with a casting closure
+================================================================================
+
+f() => _Step<S>(source, (o) => o as O);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      name: (identifier)
+      parameters: (formal_parameter_list))
+    body: (function_body
+      (call_expression
+        function: (instantiation_expression
+          function: (identifier)
+          type_arguments: (type_arguments
+            (type
+              (type_identifier))))
+        arguments: (arguments
+          (identifier)
+          (function_expression
+            parameters: (formal_parameter_list
+              (formal_parameter
+                (identifier)))
+            body: (function_expression_body
+              (type_cast_expression
+                (identifier)
+                (type_cast
+                  (type
+                    (type_identifier)))))))))))
+
+================================================================================
+Parse version limit: Closure with nullable typed parameters after an is test
+================================================================================
+
+typedef EvalJson = Map<String, Object?>;
+EvalJson asEvalJson(Object? value) {
+  if (value is Map) {
+    return value.map((Object? key, Object? item) {
+    });
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias
+    (type_identifier)
+    (type
+      (type_identifier)
+      (type_arguments
+        (type
+          (type_identifier))
+        (type
+          (type_identifier)))))
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (type_identifier))
+      name: (identifier)
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (type_identifier))
+          name: (identifier))))
+    body: (function_body
+      (block
+        (if_statement
+          condition: (type_test_expression
+            (identifier)
+            (type_test
+              (is_operator)
+              (type
+                (type_identifier))))
+          consequence: (block
+            (return_statement
+              (call_expression
+                function: (member_expression
+                  object: (identifier)
+                  property: (identifier))
+                arguments: (arguments
+                  (function_expression
+                    parameters: (formal_parameter_list
+                      (formal_parameter
+                        (type
+                          (type_identifier))
+                        name: (identifier))
+                      (formal_parameter
+                        (type
+                          (type_identifier))
+                        name: (identifier)))
+                    body: (function_expression_body
+                      (block))))))))))))
+
+================================================================================
+Parse version limit: Generic calls in an operator and a method body
+================================================================================
+
+class Ref<T> {
+  pointer_view<T> operator +(int offset) =>
+      pointer_view<T>(_list, _pos + offset);
+  pointer_view<T> clone() => pointer_view<T>(_list.sublist(_pos), 0);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier)))
+    body: (class_body
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (operator_signature
+              return_type: (type
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (type_identifier))))
+              operator: (binary_operator)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier)))))
+          body: (function_body
+            (call_expression
+              function: (instantiation_expression
+                function: (identifier)
+                type_arguments: (type_arguments
+                  (type
+                    (type_identifier))))
+              arguments: (arguments
+                (identifier)
+                (additive_expression
+                  (identifier)
+                  operator: (additive_operator)
+                  (identifier)))))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (type_identifier))))
+              name: (identifier)
+              parameters: (formal_parameter_list)))
+          body: (function_body
+            (call_expression
+              function: (instantiation_expression
+                function: (identifier)
+                type_arguments: (type_arguments
+                  (type
+                    (type_identifier))))
+              arguments: (arguments
+                (call_expression
+                  function: (member_expression
+                    object: (identifier)
+                    property: (identifier))
+                  arguments: (arguments
+                    (identifier)))
+                (decimal_integer_literal)))))))))
+
+================================================================================
+Parse version limit: Closure with try and catch in a generic extension
+================================================================================
+
+extension FilterMap<K, V> on Map<K, V> {
+  Map<K2, V2> filterMap<K2, V2>(MapEntry<K2, V2>? Function(K, V) f) =>
+      Map.fromEntries(
+        entries.map((e) => f(e.key, e.value)).whereType<MapEntry<K2, V2>>(),
+      );
+  Map<K2, V2> catchMap<K2, V2>(MapEntry<K2, V2> Function(K, V) f) =>
+      filterMap((k, v) {
+        try {
+          return f(k, v);
+        } catch (_) {
+          return null;
+        }
+      });
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_declaration
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier))
+      (type_parameter
+        name: (type_identifier)))
+    class: (type
+      (type_identifier)
+      (type_arguments
+        (type
+          (type_identifier))
+        (type
+          (type_identifier))))
+    body: (extension_body
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (type_identifier))
+                  (type
+                    (type_identifier))))
+              name: (identifier)
+              parameters: (type_parameters
+                (type_parameter
+                  name: (type_identifier))
+                (type_parameter
+                  name: (type_identifier)))
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (function_type
+                      (type
+                        (type_identifier)
+                        (type_arguments
+                          (type
+                            (type_identifier))
+                          (type
+                            (type_identifier))))
+                      (parameter_type_list
+                        (normal_parameter_type
+                          (type
+                            (type_identifier)))
+                        (normal_parameter_type
+                          (type
+                            (type_identifier))))))
+                  name: (identifier)))))
+          body: (function_body
+            (call_expression
+              function: (member_expression
+                object: (identifier)
+                property: (identifier))
+              arguments: (arguments
+                (call_expression
+                  function: (instantiation_expression
+                    function: (member_expression
+                      object: (call_expression
+                        function: (member_expression
+                          object: (identifier)
+                          property: (identifier))
+                        arguments: (arguments
+                          (function_expression
+                            parameters: (formal_parameter_list
+                              (formal_parameter
+                                (identifier)))
+                            body: (function_expression_body
+                              (call_expression
+                                function: (identifier)
+                                arguments: (arguments
+                                  (member_expression
+                                    object: (identifier)
+                                    property: (identifier))
+                                  (member_expression
+                                    object: (identifier)
+                                    property: (identifier))))))))
+                      property: (identifier))
+                    type_arguments: (type_arguments
+                      (type
+                        (type_identifier)
+                        (type_arguments
+                          (type
+                            (type_identifier))
+                          (type
+                            (type_identifier))))))
+                  arguments: (arguments)))))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (type_identifier))
+                  (type
+                    (type_identifier))))
+              name: (identifier)
+              parameters: (type_parameters
+                (type_parameter
+                  name: (type_identifier))
+                (type_parameter
+                  name: (type_identifier)))
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (function_type
+                      (type
+                        (type_identifier)
+                        (type_arguments
+                          (type
+                            (type_identifier))
+                          (type
+                            (type_identifier))))
+                      (parameter_type_list
+                        (normal_parameter_type
+                          (type
+                            (type_identifier)))
+                        (normal_parameter_type
+                          (type
+                            (type_identifier))))))
+                  name: (identifier)))))
+          body: (function_body
+            (call_expression
+              function: (identifier)
+              arguments: (arguments
+                (function_expression
+                  parameters: (formal_parameter_list
+                    (formal_parameter
+                      (identifier))
+                    (formal_parameter
+                      (identifier)))
+                  body: (function_expression_body
+                    (block
+                      (try_statement
+                        body: (block
+                          (return_statement
+                            (call_expression
+                              function: (identifier)
+                              arguments: (arguments
+                                (identifier)
+                                (identifier)))))
+                        (catch_clause
+                          exception: (identifier))
+                        (block
+                          (return_statement
+                            (null_literal)))))))))))))))
+
+================================================================================
+Parse version limit: Generic constructor call in a late field of a generic class
+================================================================================
+
+abstract class WithFinalizer<K extends Object, V extends Object,
+    W extends FinalizerValueWrapper<V>> {
+  late final Finalizer<W> _finalizer = Finalizer<W>(_onFinalize);
+  void _onFinalize(W wrapper) {
+    try {
+      onFinalize(wrapper.value);
+    } catch (e) {}
+  }
+  void put(K key, V value) {
+    if (previousWrapper != null) {
+    }
+  }
+}
+class AttachOnlyFinalizer<K extends Object, V extends Object>
+    extends WithFinalizer<K, V, SimpleFinalizerWrapper<V>> {
+}
+class ExpandoWithFinalizer<K extends Object, V extends Object>
+    extends WithFinalizer<K, V, ExpandoValueWrapper<V>> {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier)
+        bound: (type
+          (type_identifier)))
+      (type_parameter
+        name: (type_identifier)
+        bound: (type
+          (type_identifier)))
+      (type_parameter
+        name: (type_identifier)
+        bound: (type
+          (type_identifier)
+          (type_arguments
+            (type
+              (type_identifier))))))
+    body: (class_body
+      (member_declaration
+        (declaration
+          (type
+            (type_identifier)
+            (type_arguments
+              (type
+                (type_identifier))))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)
+              value: (call_expression
+                function: (instantiation_expression
+                  function: (identifier)
+                  type_arguments: (type_arguments
+                    (type
+                      (type_identifier))))
+                arguments: (arguments
+                  (identifier)))))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (void_type))
+              name: (identifier)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier)))))
+          body: (function_body
+            (block
+              (try_statement
+                body: (block
+                  (expression_statement
+                    (call_expression
+                      function: (identifier)
+                      arguments: (arguments
+                        (member_expression
+                          object: (identifier)
+                          property: (identifier))))))
+                (catch_clause
+                  exception: (identifier))
+                (block))))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (void_type))
+              name: (identifier)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier))
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier)))))
+          body: (function_body
+            (block
+              (if_statement
+                condition: (equality_expression
+                  (identifier)
+                  operator: (equality_operator)
+                  (null_literal))
+                consequence: (block))))))))
+  (class_declaration
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier)
+        bound: (type
+          (type_identifier)))
+      (type_parameter
+        name: (type_identifier)
+        bound: (type
+          (type_identifier))))
+    superclass: (superclass
+      type: (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (type_identifier))
+          (type
+            (type_identifier))
+          (type
+            (type_identifier)
+            (type_arguments
+              (type
+                (type_identifier)))))))
+    body: (class_body))
+  (class_declaration
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier)
+        bound: (type
+          (type_identifier)))
+      (type_parameter
+        name: (type_identifier)
+        bound: (type
+          (type_identifier))))
+    superclass: (superclass
+      type: (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (type_identifier))
+          (type
+            (type_identifier))
+          (type
+            (type_identifier)
+            (type_arguments
+              (type
+                (type_identifier)))))))
+    body: (class_body)))
+
+================================================================================
+Parse version limit: Generic named constructor and closures in a nullable map extension
+================================================================================
+
+extension MapExtensions<K, V> on Map<K, V>? {
+  Map<K, V> mergeWith(Map<K, V> other, V Function(V a, V b) resolve) {
+    final result = Map<K, V>.from(this!);
+    other.forEach((key, value) {
+      result[key] = result.containsKey(key)
+          ? resolve(result[key] as V, value)
+          : value;
+    });
+  }
+  List<R> toList<R>(R Function(K key, V value) transform) =>
+      this?.entries.map((e) => transform(e.key, e.value)).toList() ?? [];
+  Map<String, dynamic> get compactStrings {
+    return {};
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (extension_declaration
+    name: (identifier)
+    type_parameters: (type_parameters
+      (type_parameter
+        name: (type_identifier))
+      (type_parameter
+        name: (type_identifier)))
+    class: (type
+      (type_identifier)
+      (type_arguments
+        (type
+          (type_identifier))
+        (type
+          (type_identifier))))
+    body: (extension_body
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (type_identifier))
+                  (type
+                    (type_identifier))))
+              name: (identifier)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier)
+                    (type_arguments
+                      (type
+                        (type_identifier))
+                      (type
+                        (type_identifier))))
+                  name: (identifier))
+                (formal_parameter
+                  (type
+                    (function_type
+                      (type
+                        (type_identifier))
+                      (parameter_type_list
+                        (normal_parameter_type
+                          (typed_identifier
+                            type: (type
+                              (type_identifier))
+                            name: (identifier)))
+                        (normal_parameter_type
+                          (typed_identifier
+                            type: (type
+                              (type_identifier))
+                            name: (identifier))))))
+                  name: (identifier)))))
+          body: (function_body
+            (block
+              (local_variable_declaration
+                (initialized_variable_declaration
+                  name: (identifier)
+                  value: (constructor_invocation
+                    type: (type_identifier)
+                    (type_arguments
+                      (type
+                        (type_identifier))
+                      (type
+                        (type_identifier)))
+                    constructor: (identifier)
+                    arguments: (arguments
+                      (null_assertion_expression)))))
+              (expression_statement
+                (call_expression
+                  function: (member_expression
+                    object: (identifier)
+                    property: (identifier))
+                  arguments: (arguments
+                    (function_expression
+                      parameters: (formal_parameter_list
+                        (formal_parameter
+                          (identifier))
+                        (formal_parameter
+                          (identifier)))
+                      body: (function_expression_body
+                        (block
+                          (expression_statement
+                            (assignment_expression
+                              left: (assignable_expression
+                                object: (identifier)
+                                index: (identifier))
+                              right: (conditional_expression
+                                (call_expression
+                                  function: (member_expression
+                                    object: (identifier)
+                                    property: (identifier))
+                                  arguments: (arguments
+                                    (identifier)))
+                                consequence: (call_expression
+                                  function: (identifier)
+                                  arguments: (arguments
+                                    (type_cast_expression
+                                      (index_expression
+                                        object: (identifier)
+                                        index: (identifier))
+                                      (type_cast
+                                        (type
+                                          (type_identifier))))
+                                    (identifier)))
+                                alternative: (identifier))))))))))))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (type_identifier))))
+              name: (identifier)
+              parameters: (type_parameters
+                (type_parameter
+                  name: (type_identifier)))
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (function_type
+                      (type
+                        (type_identifier))
+                      (parameter_type_list
+                        (normal_parameter_type
+                          (typed_identifier
+                            type: (type
+                              (type_identifier))
+                            name: (identifier)))
+                        (normal_parameter_type
+                          (typed_identifier
+                            type: (type
+                              (type_identifier))
+                            name: (identifier))))))
+                  name: (identifier)))))
+          body: (function_body
+            (if_null_expression
+              (call_expression
+                function: (member_expression
+                  object: (call_expression
+                    function: (member_expression
+                      object: (null_aware_member_expression
+                        property: (identifier))
+                      property: (identifier))
+                    arguments: (arguments
+                      (function_expression
+                        parameters: (formal_parameter_list
+                          (formal_parameter
+                            (identifier)))
+                        body: (function_expression_body
+                          (call_expression
+                            function: (identifier)
+                            arguments: (arguments
+                              (member_expression
+                                object: (identifier)
+                                property: (identifier))
+                              (member_expression
+                                object: (identifier)
+                                property: (identifier))))))))
+                  property: (identifier))
+                arguments: (arguments))
+              (list_literal)))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (getter_signature
+              return_type: (type
+                (type_identifier)
+                (type_arguments
+                  (type
+                    (type_identifier))
+                  (type
+                    (type_identifier))))
+              name: (identifier)))
+          body: (function_body
+            (block
+              (return_statement
+                (set_or_map_literal)))))))))
+
+================================================================================
+Parse version limit: Type tests and a closure among generic methods
+================================================================================
+
+class ZenContainer {
+  void registerInstance<T>(T instance, String? tag) {
+  }
+  T? findByTag<T>(String tag) {
+    for (final entry in _instances.entries) {
+      if (typeMap.containsKey(tag)) {
+        if (instance is T) {
+        }
+      }
+    }
+  }
+  bool removeInstanceByTypeAndTag(Type type, String? tag) {
+    if (_instances[type]?.isEmpty ?? false) {
+    }
+    if (_instances.containsKey(T)) {
+      result.addAll(_instances[T]!.values.cast<T>());
+    }
+    for (final typeMap in _instances.values) {
+      for (final instance in typeMap.values) {
+        if (instance is T && !result.contains(instance)) {
+        }
+      }
+    }
+  }
+  void registerFactory(dynamic key, Function factory) {
+  }
+  Function? getFactory(dynamic key) {
+  }
+  void removeFactoriesByType(Type type) {
+    _factories.removeWhere((key, _) {
+    });
+  }
+  void clear() {
+  }
+  bool hasInstance<T>(String? tag) {
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (void_type))
+              name: (identifier)
+              parameters: (type_parameters
+                (type_parameter
+                  name: (type_identifier)))
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier))
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier)))))
+          body: (function_body
+            (block))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (type_identifier))
+              name: (identifier)
+              parameters: (type_parameters
+                (type_parameter
+                  name: (type_identifier)))
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier)))))
+          body: (function_body
+            (block
+              (for_statement
+                name: (identifier)
+                value: (member_expression
+                  object: (identifier)
+                  property: (identifier))
+                body: (block
+                  (if_statement
+                    condition: (call_expression
+                      function: (member_expression
+                        object: (identifier)
+                        property: (identifier))
+                      arguments: (arguments
+                        (identifier)))
+                    consequence: (block
+                      (if_statement
+                        condition: (type_test_expression
+                          (identifier)
+                          (type_test
+                            (is_operator)
+                            (type
+                              (type_identifier))))
+                        consequence: (block))))))))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (type_identifier))
+              name: (identifier)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier))
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier)))))
+          body: (function_body
+            (block
+              (if_statement
+                condition: (if_null_expression
+                  (null_aware_member_expression
+                    object: (index_expression
+                      object: (identifier)
+                      index: (identifier))
+                    property: (identifier))
+                  (false))
+                consequence: (block))
+              (if_statement
+                condition: (call_expression
+                  function: (member_expression
+                    object: (identifier)
+                    property: (identifier))
+                  arguments: (arguments
+                    (identifier)))
+                consequence: (block
+                  (expression_statement
+                    (call_expression
+                      function: (member_expression
+                        object: (identifier)
+                        property: (identifier))
+                      arguments: (arguments
+                        (call_expression
+                          function: (instantiation_expression
+                            function: (member_expression
+                              object: (member_expression
+                                object: (null_assertion_expression
+                                  value: (index_expression
+                                    object: (identifier)
+                                    index: (identifier)))
+                                property: (identifier))
+                              property: (identifier))
+                            type_arguments: (type_arguments
+                              (type
+                                (type_identifier))))
+                          arguments: (arguments)))))))
+              (for_statement
+                name: (identifier)
+                value: (member_expression
+                  object: (identifier)
+                  property: (identifier))
+                body: (block
+                  (for_statement
+                    name: (identifier)
+                    value: (member_expression
+                      object: (identifier)
+                      property: (identifier))
+                    body: (block
+                      (if_statement
+                        condition: (logical_and_expression
+                          (type_test_expression
+                            (identifier)
+                            (type_test
+                              (is_operator)
+                              (type
+                                (type_identifier))))
+                          (unary_expression
+                            operator: (negation_operator)
+                            (call_expression
+                              function: (member_expression
+                                object: (identifier)
+                                property: (identifier))
+                              arguments: (arguments
+                                (identifier)))))
+                        consequence: (block))))))))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (void_type))
+              name: (identifier)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier))
+                (formal_parameter
+                  (type)
+                  name: (identifier)))))
+          body: (function_body
+            (block))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type)
+              name: (identifier)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier)))))
+          body: (function_body
+            (block))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (void_type))
+              name: (identifier)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier)))))
+          body: (function_body
+            (block
+              (expression_statement
+                (call_expression
+                  function: (member_expression
+                    object: (identifier)
+                    property: (identifier))
+                  arguments: (arguments
+                    (function_expression
+                      parameters: (formal_parameter_list
+                        (formal_parameter
+                          (identifier))
+                        (formal_parameter
+                          (identifier)))
+                      body: (function_expression_body
+                        (block))))))))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (void_type))
+              name: (identifier)
+              parameters: (formal_parameter_list)))
+          body: (function_body
+            (block))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (type_identifier))
+              name: (identifier)
+              parameters: (type_parameters
+                (type_parameter
+                  name: (type_identifier)))
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier)))))
+          body: (function_body
+            (block)))))))
+
+================================================================================
+Parse version limit: Generic constructor calls in a class with named constructors
+================================================================================
+
+class Sheet {
+  FastList<String> _spannedItems = FastList<String>();
+  Sheet._clone(Excel excel, String sheetName, Sheet oldSheetObject)
+      : this._(excel, sheetName,
+            charts: oldSheetObject._charts);
+  Sheet._(this._excel, this._sheet,
+      {Map<int, Map<int, Data>>? sh,
+      List<Chart>? charts}) {
+  }
+  Data cell(CellIndex cellIndex) {
+    _checkMaxRow(cellIndex.rowIndex);
+    if (cellIndex.columnIndex < 0 || cellIndex.rowIndex < 0) {
+      _damagedExcel(
+              '${cellIndex.columnIndex < 0 ? "Column" : "Row"} Index: ${cellIndex.columnIndex < 0 ? cellIndex.columnIndex : cellIndex.rowIndex} Negative index does not exist.');
+    }
+    if (_sheetData[cellIndex.rowIndex] != null) {
+      if (_sheetData[cellIndex.rowIndex]![cellIndex.columnIndex] == null) {
+      }
+      _sheetData[cellIndex.rowIndex] = {
+      };
+    }
+    if (currentStyle == null) {
+      if (defaultFormat != NumFormat.standard_0) {
+      }
+      switch (value) {
+      }
+    }
+  }
+  void _checkMaxColumn(int columnIndex) {
+    if (_maxColumns >= 16384 || columnIndex >= 16384) {
+    }
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (member_declaration
+        (declaration
+          (type
+            (type_identifier)
+            (type_arguments
+              (type
+                (type_identifier))))
+          (initialized_identifier_list
+            (initialized_identifier
+              name: (identifier)
+              value: (call_expression
+                function: (instantiation_expression
+                  function: (identifier)
+                  type_arguments: (type_arguments
+                    (type
+                      (type_identifier))))
+                arguments: (arguments))))))
+      (member_declaration
+        (declaration
+          (constructor_signature
+            name: (identifier)
+            name: (identifier)
+            parameters: (formal_parameter_list
+              (formal_parameter
+                (type
+                  (type_identifier))
+                name: (identifier))
+              (formal_parameter
+                (type
+                  (type_identifier))
+                name: (identifier))
+              (formal_parameter
+                (type
+                  (type_identifier))
+                name: (identifier))))
+          (redirection
+            (identifier)
+            (arguments
+              (identifier)
+              (identifier)
+              (named_argument
+                (label
+                  (identifier))
+                (member_expression
+                  object: (identifier)
+                  property: (identifier)))))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (constructor_signature
+              name: (identifier)
+              name: (identifier)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (field_formal_parameter
+                    name: (identifier)))
+                (formal_parameter
+                  (field_formal_parameter
+                    name: (identifier)))
+                (optional_formal_parameters
+                  (formal_parameter
+                    (type
+                      (type_identifier)
+                      (type_arguments
+                        (type
+                          (type_identifier))
+                        (type
+                          (type_identifier)
+                          (type_arguments
+                            (type
+                              (type_identifier))
+                            (type
+                              (type_identifier))))))
+                    name: (identifier))
+                  (formal_parameter
+                    (type
+                      (type_identifier)
+                      (type_arguments
+                        (type
+                          (type_identifier))))
+                    name: (identifier))))))
+          body: (function_body
+            (block))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (type_identifier))
+              name: (identifier)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier)))))
+          body: (function_body
+            (block
+              (expression_statement
+                (call_expression
+                  function: (identifier)
+                  arguments: (arguments
+                    (member_expression
+                      object: (identifier)
+                      property: (identifier)))))
+              (if_statement
+                condition: (logical_or_expression
+                  (relational_expression
+                    (member_expression
+                      object: (identifier)
+                      property: (identifier))
+                    operator: (relational_operator)
+                    (decimal_integer_literal))
+                  (relational_expression
+                    (member_expression
+                      object: (identifier)
+                      property: (identifier))
+                    operator: (relational_operator)
+                    (decimal_integer_literal)))
+                consequence: (block
+                  (expression_statement
+                    (call_expression
+                      function: (identifier)
+                      arguments: (arguments
+                        (string_literal
+                          (string_literal_single_quotes
+                            (template_substitution
+                              (conditional_expression
+                                (relational_expression
+                                  (member_expression
+                                    object: (identifier)
+                                    property: (identifier))
+                                  operator: (relational_operator)
+                                  (decimal_integer_literal))
+                                consequence: (string_literal
+                                  (string_literal_double_quotes
+                                    (template_chars_double_single)))
+                                alternative: (string_literal
+                                  (string_literal_double_quotes
+                                    (template_chars_double_single)))))
+                            (template_chars_single_single)
+                            (template_substitution
+                              (conditional_expression
+                                (relational_expression
+                                  (member_expression
+                                    object: (identifier)
+                                    property: (identifier))
+                                  operator: (relational_operator)
+                                  (decimal_integer_literal))
+                                consequence: (member_expression
+                                  object: (identifier)
+                                  property: (identifier))
+                                alternative: (member_expression
+                                  object: (identifier)
+                                  property: (identifier))))
+                            (template_chars_single_single))))))))
+              (if_statement
+                condition: (equality_expression
+                  (index_expression
+                    object: (identifier)
+                    index: (member_expression
+                      object: (identifier)
+                      property: (identifier)))
+                  operator: (equality_operator)
+                  (null_literal))
+                consequence: (block
+                  (if_statement
+                    condition: (equality_expression
+                      (index_expression
+                        object: (null_assertion_expression
+                          value: (index_expression
+                            object: (identifier)
+                            index: (member_expression
+                              object: (identifier)
+                              property: (identifier))))
+                        index: (member_expression
+                          object: (identifier)
+                          property: (identifier)))
+                      operator: (equality_operator)
+                      (null_literal))
+                    consequence: (block))
+                  (expression_statement
+                    (assignment_expression
+                      left: (assignable_expression
+                        object: (identifier)
+                        index: (member_expression
+                          object: (identifier)
+                          property: (identifier)))
+                      right: (set_or_map_literal)))))
+              (if_statement
+                condition: (equality_expression
+                  (identifier)
+                  operator: (equality_operator)
+                  (null_literal))
+                consequence: (block
+                  (if_statement
+                    condition: (equality_expression
+                      (identifier)
+                      operator: (equality_operator)
+                      (member_expression
+                        object: (identifier)
+                        property: (identifier)))
+                    consequence: (block))
+                  (switch_statement
+                    condition: (parenthesized_expression
+                      (identifier))
+                    body: (switch_block))))))))
+      (member_declaration
+        (method_declaration
+          signature: (method_signature
+            (function_signature
+              return_type: (type
+                (void_type))
+              name: (identifier)
+              parameters: (formal_parameter_list
+                (formal_parameter
+                  (type
+                    (type_identifier))
+                  name: (identifier)))))
+          body: (function_body
+            (block
+              (if_statement
+                condition: (logical_or_expression
+                  (relational_expression
+                    (identifier)
+                    operator: (relational_operator)
+                    (decimal_integer_literal))
+                  (relational_expression
+                    (identifier)
+                    operator: (relational_operator)
+                    (decimal_integer_literal)))
+                consequence: (block)))))))))
+
+================================================================================
+Parse version limit: Closure with a nullable generic parameter after Completer<T>.sync()
+================================================================================
+
+Future<T> f<T>(String? Function(void Function(T? t)) callbacker) {
+  final Completer<T> completer = Completer<T>.sync();
+  final String? error = callbacker((T? t) {
+    if (t == null) {
+      completer.completeError(Exception());
+    } else {
+      completer.complete(t);
+    }
+  });
+  return completer.future;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_declaration
+    signature: (function_signature
+      return_type: (type
+        (type_identifier)
+        (type_arguments
+          (type
+            (type_identifier))))
+      name: (identifier)
+      parameters: (type_parameters
+        (type_parameter
+          name: (type_identifier)))
+      parameters: (formal_parameter_list
+        (formal_parameter
+          (type
+            (function_type
+              (type
+                (type_identifier))
+              (parameter_type_list
+                (normal_parameter_type
+                  (type
+                    (function_type
+                      (type
+                        (void_type))
+                      (parameter_type_list
+                        (normal_parameter_type
+                          (typed_identifier
+                            type: (type
+                              (type_identifier))
+                            name: (identifier))))))))))
+          name: (identifier))))
+    body: (function_body
+      (block
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (type
+              (type_identifier)
+              (type_arguments
+                (type
+                  (type_identifier))))
+            name: (identifier)
+            value: (constructor_invocation
+              type: (type_identifier)
+              (type_arguments
+                (type
+                  (type_identifier)))
+              constructor: (identifier)
+              arguments: (arguments))))
+        (local_variable_declaration
+          (initialized_variable_declaration
+            (type
+              (type_identifier))
+            name: (identifier)
+            value: (call_expression
+              function: (identifier)
+              arguments: (arguments
+                (function_expression
+                  parameters: (formal_parameter_list
+                    (formal_parameter
+                      (type
+                        (type_identifier))
+                      name: (identifier)))
+                  body: (function_expression_body
+                    (block
+                      (if_statement
+                        condition: (equality_expression
+                          (identifier)
+                          operator: (equality_operator)
+                          (null_literal))
+                        consequence: (block
+                          (expression_statement
+                            (call_expression
+                              function: (member_expression
+                                object: (identifier)
+                                property: (identifier))
+                              arguments: (arguments
+                                (call_expression
+                                  function: (identifier)
+                                  arguments: (arguments))))))
+                        alternative: (block
+                          (expression_statement
+                            (call_expression
+                              function: (member_expression
+                                object: (identifier)
+                                property: (identifier))
+                              arguments: (arguments
+                                (identifier)))))))))))))
+        (return_statement
+          (member_expression
+            object: (identifier)
+            property: (identifier)))))))
